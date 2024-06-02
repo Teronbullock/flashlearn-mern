@@ -5,7 +5,7 @@ import './Btn.scss';
 interface BtnProps {
   btnClass?: string;
   btnAriaLabel?: string;
-  btnURL: string;
+  btnURL?: string;
   children: React.ReactNode;
   btnDataType?: string;
   btnType?: 'anchor' | 'btn';
@@ -15,14 +15,14 @@ interface BtnProps {
 
 /**
  * 
- * @param btnClass -
- * @param btnAriaLabel
- * @param btnURL
- * @param children
- * @param btnDataType
- * @param btnType - anchor | btn
- * @param btnClick 
- * @param type
+ * @param btnClass [string] - class name for button
+ * @param btnAriaLabel [sting] - aria label for button
+ * @param btnURL [string] - url for button
+ * @param children [React.ReactNode] - children for button
+ * @param btnDataType [string] - data type for button
+ * @param btnType - [string] - anchor | btn - type of button
+ * @param btnClick [function] - function for button click 
+ * @param type [string] - type of button
  * @returns 
  */
 export default function Btn({ 
