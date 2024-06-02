@@ -27,7 +27,14 @@ const Users = db.define('fc_users', {
   
 });
 
-// authenticate input against database documents
+/**
+ * Authenticate input against database documents
+ * 
+ * @param {*} username  - The username
+ * @param {*} password - The password
+ * @param {*} callback - The callback function to call after completion
+ * @returns 
+ */
 Users.authenticate = async (username, password, callback) => {
     try {
       const user = await Users.findOne({ where: {user_name: username} }, { raw: true });

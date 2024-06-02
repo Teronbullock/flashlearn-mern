@@ -8,15 +8,14 @@ const router = Router();
 //  } = require('../middleware');
 
 import { 
-  getUserRegister,
   postUserRegister,
-  getUserLogin,
   postUserLogin,
   getUserLogOut,
   getUserHomeRedirect,
   getUserProfile,
   putEditProfile
 } from '../controllers/user-controller.js';
+
 
 // const {
 //   getAddCard,
@@ -45,11 +44,11 @@ const mainRoutes = router.get('/', (req, res) => {
 });
 
 // user route
-router.get('/register', getUserRegister);
-router.post('/register', postUserRegister);
-router.get('/login', getUserLogin);
+// router.get('/register', getUserRegister);
+// router.post('/register', postUserRegister);
+// router.get('/login', getUserLogin);
 router.post('/login', postUserLogin);
-router.get('/logout', getUserLogOut);
+// router.get('/logout', getUserLogOut);
 // router.get('/home', midCheckUsersAuth, getUserHomeRedirect);
 // router.get('/home/:userID', midCheckUsersAuth, midCheckUserAuthRedirect, getSets);
 // router.get('/profile/:userID', midCheckUsersAuth, midCheckUserAuthRedirect, getUserProfile);
