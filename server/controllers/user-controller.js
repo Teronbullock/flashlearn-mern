@@ -1,17 +1,15 @@
 import pkg from 'pg/lib/defaults.js';
-import { asyncHandler } from '../lib/utils.js';
+import { asyncHandler, authToken } from '../lib/utils.js';
 import Users from '../models/users-model.js';
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
+
 
 const { user } = pkg;
 
 
-// get user register
-export const getUserRegister = (req, res, next) => {
-  res.json({ message: `User register route ${req}` });
-};
-
-// post user register
+/**
+ * user register
+ */
 export const postUserRegister = asyncHandler(
   async (req, res, next) => {
     const formData = {
@@ -20,97 +18,86 @@ export const postUserRegister = asyncHandler(
       user_pass: req.body.user_pass,
     };
 
-    if (
-      Object.values(formData).every(value => value !== null && value !== undefined && value !== '')
-    ) {
-      // confirm that user typed same password twice
-      if (formData.user_pass !== req.body.user_confirm_pass) {  
-        let err = new Error('Passwords do not match.');
-        err.status = 400;
-        return next(err);
-      }
-
-      ( async () => {
-        // use schema method to insert document into PSQL 
-          await Users.create(formData);
-
-        // create a token
-        let token;
-        try {
-          token = jwt.sign({ 
-            userID: Users.ID,
-            userName: Users.user_name,
-            }, 
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' }
-          );
-        } catch (error) {
-          console.log('Error creating token: ', error);
-          return next(error);
-        }
-  
-          res.status(200).json({
-            message: 'User registered successfully.',
-            token: token,
-            userID: Users.ID,
-            userName: Users.user_name,
-          });
-
-          console.log('User registered successfully.');
-          return;
-
-      })();
-
-    } else {
+    // confirm that all fields are filled out
+    if ( Object.values(formData).some(value => value == null || value === '') ) {
       let err = new Error('All fields required.');
       err.status = 400;
       return next(err);
     }
+
+    // confirm that user typed same password twice
+    if (formData.user_pass !== req.body.user_confirm_pass) {  
+      let err = new Error('Passwords do not match.');
+      err.status = 400;
+      return next(err);
+    }
+
+    try {
+      // use schema method to insert document into PSQL 
+      const user = await Users.create(formData);
+
+      // create a token
+      try {
+        let token = authToken(user.ID, user.user_name);
+        
+        res.status(200).json({
+          message: 'User registered successfully.',
+          token: token,
+          userID: user.ID,
+          userName: user.user_name,
+        });
+
+      } catch (error) {
+        console.log('Error creating token: ', error);
+        return next(error);
+      }
+
+    } catch (error) {
+      console.log('Error registering user: ', error);
+      return next(error);
+    }
+
   }
 );
 
-// get user login
-export const getUserLogin = (req, res, next) => {
-  // res.render('login');
-};
 
-
-// post user login
+/**
+ * user login
+ */
 export const postUserLogin = asyncHandler( 
   async (req, res, next) => {
-console.log('req.body', req.body.user_name, req.body.user_pass);
-    if (req.body.user_name && req.body.user_pass) {
-      Users.authenticate(
-        req.body.user_name,
-        req.body.user_pass,
-        (error, user) => {
-
-          if (error || !user) {
-            const err = new Error('Wrong username or password.');
-            err.status = 401;
-            return next(err);
-          } else {
-            req.session.userID = user.ID;
-
-            req.session.save((err) => {
-              if (err) {
-                console.log('Error saving session: ', err);
-                return next(err);
-              }
-              console.log('User logged in successfully.');
-              return res.json({url: `/home/${user.ID}`});
-            });
-            
-          }
-        }
-      );
-    
-    } else {
+    if (!req.body.user_name || !req.body.user_pass) {
       let err = new Error('Email and password are required.');
       err.status = 401;
       return next(err);
     }
 
+    Users.authenticate(
+      req.body.user_name,
+      req.body.user_pass,
+      (error, user) => {
+        if (error || !user) {
+          const err = new Error('Wrong username or password.');
+          err.status = 401;
+          return next(err);
+        }
+        
+        // create a token
+        try {
+          let token = authToken(user.ID, user.user_name);
+
+          res.status(200).json({
+            message: 'User logged in successfully.',
+            token: token,
+            userID: user.ID,
+            userName: user.user_name,
+          });
+
+        } catch (error) {
+          return next(error);               
+        }
+      }
+    );
   },
   'Error logging in: ',
   401

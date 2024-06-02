@@ -1,9 +1,11 @@
-import SectionForm from '../components/SectionForm/SectionForm';
+import RegistrationForm from "../components/Forms/RegistrationForm/RegistrationForm";
 
-export default function Register(): JSX.Element {
+const Register = () => {
   return (
     <main className="main main--register">
-      <SectionForm formType='reg' />
+      <RegistrationForm />
     </main>
   );
 }
+
+export default Register;
