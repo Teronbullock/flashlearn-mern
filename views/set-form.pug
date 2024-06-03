@@ -2,7 +2,9 @@ extends layout/layout
 block content
   section.section-page-header.section-page-header--create-set( aria-label='Create Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person sits on padded chair while using MacBook during daytime. Photo by Christina @ wocintechchat on Unsplash.')
     .section-page-header__container.container.py-5.position-relative
+
       .section-page-header__content-create-set.position-absolute.w-50
+      
         if view === 'create'
           h1.section-page-header__title.mb-4.text-white Create Study Set
         else if view === 'edit'

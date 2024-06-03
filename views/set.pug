@@ -2,7 +2,9 @@ extends layout/layout
 block content
   section.section-page-header.section-page-header--set( aria-label='Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person with red hair studying, while facing forward and looking towards the camera. Photo by ThisisEngineering RAEng on Unsplash.')
     .section-page-header__container.container.py-5.position-relative
+
       .section-page-header__content.section-page-header__content--set.position-absolute.w-100.w-md-50
+      
         .section-page-header__actions.section-page-header__actions--set
           a.btn.btn--set-page.mr-3.mr-md-4(href=`/set/${set.ID}/edit`) Edit Set
           a.btn.btn--set-page.mr-3.mr-md-4(href=`/set/${set.ID}/card/add`) Add Card
