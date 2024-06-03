@@ -109,6 +109,6 @@ main {
   background-color: var.$color-light-gray;
 }
 
-main:not(.main--home) {
+main:not(.main--index) {
   border-top: 3px solid var.$color-dark-shade;
 }
