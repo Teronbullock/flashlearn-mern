@@ -2,7 +2,9 @@ extends layout/layout
 block content
   section.section-page-header.section-page-header--card-form( aria-label='Add Card Page Header. This section contains the title, description, and actions for the add card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.')
     .section-page-header__container.container.py-5.position-relative
+
       .section-page-header__content-create-set.position-absolute.w-50
+      
         if view === 'add'
           h1.section-page-header__title.mb-4.text-white Add Card
         else if view === 'edit'
