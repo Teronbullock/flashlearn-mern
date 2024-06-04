@@ -18,7 +18,11 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Allow importing JSON modules */
+    "resolveJsonModule": true,
+    "esModuleInterop": true 
   },
   "include": ["src"]
 }
