@@ -1,0 +1,107 @@
+{
+  "indexPage": {
+    "type": "index",
+    "mainClass": "main--index",
+    "hero": {
+      "heroClass": "page-header--index",
+      "ariaLabel": "Image of a person sitting on the floor with their back on a couch while using a laptop to study. Photo by Thought Catalog on Unsplash",
+      "img": "/assets/img/thought-catalog-Nv-vx3kUR2A-unsplash.jpg"
+    },
+    "header": {
+      "title": "Quick, Easy, Study in a Flash!",
+      "copy": "Studying made easy with FlashCard. Create your own flashcards and study them online."
+    }
+  },
+  "dashboardPage": {
+    "type": "dashboard",
+    "mainClass": "main--dashboard",
+    "hero": {
+      "heroClass": "page-header--dashboard",
+      "ariaLabel": "Dashboard Page Header. This section contains the title and description. The background image is of a person with a black shirt studying. Photo by Anthony Riera on Unsplash.",
+      "img": "/assets/img/anthony-riera-kylWNDQFd5A-unsplash.jpg"
+    },
+    "header": {
+      "title": "Dashboard",
+      "copy": "Welcome to your dashboard. Here you can view your card sets, create new ones, and study them. To get started create a Set."
+    }
+  },
+  "setPage": {
+    "type": "set",
+    "mainClass": "main--set",
+    "hero": {
+      "heroClass": "page-header--set",
+      "ariaLabel": "Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person with red hair studying, while facing forward and looking towards the camera. Photo by ThisisEngineering RAEng on Unsplash.",
+      "img": "/assets/img/thisisengineering-raeng-ccpOiDUmeo0-unsplash.jpg"
+    },
+    "header": {
+      "title": "Set",
+      "copy": "Welcome to your set. Here you can view your flashcards, create new ones, and study them."
+    }
+  },
+  "createSetPage": {
+    "type": "createSet",
+    "mainClass": "main--create-set",
+    "hero": {
+      "heroClass": "page-header--create-set",
+      "ariaLabel": "Create Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person sits on padded chair while using MacBook during daytime. Photo by Christina @ wocintechchat on Unsplash.",
+      "img": "/assets/img/christina-wocintechchat-com-vLwH8bWoi_8-unsplash.jpg"
+    },
+    "header": {
+      "title": "Create Set",
+      "copy": "Create a new set of flashcards. Add a title and description to get started."
+    }
+  },
+  "editSetPage": {
+    "type": "editSet",
+    "mainClass": "main--edit-set",
+    "hero": {
+      "heroClass": "page-header--edit-set",
+      "ariaLabel": "Edit Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person sits on padded chair while using MacBook during daytime. Photo by Christina @ wocintechchat on Unsplash.",
+      "img": "/assets/img/anthony-riera-kylWNDQFd5A-unsplash.jpg"
+    },
+    "header": {
+      "title": "Edit Set",
+      "copy": "Edit your set of flashcards. Add a title and description to get started."
+    }
+  },
+  "addCardPage": {
+    "type": "addCard",
+    "mainClass": "main--add-card",
+    "hero": {
+      "heroClass": "page-header--add-card",
+      "ariaLabel": "Add Card Page Header. This section contains the title, description, and actions for the add card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
+      "img": "/assets/img/lala-azizli-6ZwJvJXUJfM-unsplash.jpg"
+    },
+    "header": {
+      "title": "Add Card",
+      "copy": "Create a new flashcard. Add a question and answer to get started."
+    }
+  },
+  "editCardPage": {
+    "type": "editCard",
+    "mainClass": "main--edit-card",
+    "hero": {
+      "heroClass": "page-header--edit-card",
+      "ariaLabel": "Edit Card Page Header. This section contains the title, description, and actions for the edit card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
+      "img": "/assets/img/lala-azizli-6ZwJvJXUJfM-unsplash.jpg"
+    },
+    "header": {
+      "title": "Edit Card",
+      "copy": "Edit your flashcard. Add a question and answer to get started."
+    }
+  },
+  "viewCardsPage": {
+    "type": "viewCards",
+    "mainClass": "main--view-cards",
+    "hero": {
+      "heroClass": "page-header--view-cards",
+      "ariaLabel": "View Cards Page Header. This section contains the title, description, and actions for the view card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
+      "img": "/assets/img/lala-azizli-6ZwJvJXUJfM-unsplash.jpg"
+    },
+    "header": {
+      "title": "View Cards",
+      "copy": "View your flashcard. Add a question and answer to get started."
+    }
+  }
+
+}

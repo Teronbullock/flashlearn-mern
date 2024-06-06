@@ -2,36 +2,24 @@ import { PageHeroProps } from '../PageTemplateTypes';
 import './PageHero.scss';
 import Btn from '../../../components/Btn/Btn';
 
-const PageHero = ({ PageHeroData }: PageHeroProps) => {
+const PageHero = ({ heroData }: PageHeroProps) => {
   const {
-    isIndexPage = false, 
-    altSection,
+    type, 
     ariaLabel,
-    contentClass,
-    title,
-    subtitle,
-    copy,
     img,
-  } = PageHeroData;
+    title,
+    copy,
+  } = heroData;
 
   let {
     heroClass,
-    containerClass
-  } = PageHeroData;
+  } = heroData;
   
-  if (isIndexPage) {
-    heroClass += ' page-hero--mask min-h-[calc(100vh-4.37rem)]';
-    containerClass += ' h-full bottom-[15%] left-0 py-0 px-4';
+  if (type === 'index') {
+    heroClass += ' page-hero--half-mask h-[calc(100vh-4.37rem)]';
   } else {
-    heroClass += ' min-h-[calc(50vh-3.75rem)]';
-    containerClass += ' py-5  ';
+    heroClass += ' page-hero-mask h-[42vh]';
   }
-
-  if (altSection) {
-    containerClass += ' page-hero__container--alt';
-  }
-
-
 
   return (
     <section 
@@ -39,37 +27,26 @@ const PageHero = ({ PageHeroData }: PageHeroProps) => {
       aria-label={ariaLabel ? ariaLabel : undefined}
       style={{ backgroundImage: `url(${img})` }}  
     >
-      <div className={`page-hero__container container relative mx-auto ${containerClass}`}>
-
-        <div className="page-hero_content absolute left-0 bottom-[15%] sm:max-w-[250px] sm:bottom-[10%] md:max-w-[205px] lg:max-w-[375px] xl:max-w-[500px] xl:px-4">
-          <h1 className="page-hero_title text-white mb-6">{title}</h1>
-          <p className="page-hero__copy">{copy}</p>
-          <Btn 
-            btnClass='btn--primary btn--large'
-            btnURL='/register'
-            btnAriaLabel='Sign Up'
-          >
-            Sign Up
-          </Btn>
+      { type === 'index' ? (
+        <div className="page-hero__container container relative h-full">
+          <div className="page-hero_content text-white absolute left-0 bottom-[15%] sm:max-w-[250px] sm:bottom-[10%] md:max-w-[205px] lg:max-w-[375px] xl:max-w-[500px] xl:px-4">
+            <h1 className="page-hero__title mb-6">
+              {title}
+            </h1>
+            <p className="mb-6">
+              {copy}
+            </p>
+            <Btn 
+              className='btn--primary btn--large'
+              to='/register'
+              ariaLabel='Sign Up'
+            >
+              Sign Up
+            </Btn>
+          </div>
         </div>
-      </div>
+      ) : null }
     </section>
-
-
-
-        // <section 
-        //   className={`section-page-header ${PageHeroClass}`}
-        //   aria-label={ariaLabel ? ariaLabel : undefined}
-        //   style={{ backgroundImage: `url(${img})` }}
-        // >
-        //   <div className={`section-page-header__container container py-5 relative ${headerContainerClass}`}>
-        //     <div className={`section-page-header__content absolute ${contentClass}`}>
-        //       <h1>{title}</h1>
-        //       <h2>{subtitle}</h2>
-        //     </div>
-        //   </div>
-        // </section>
-
   );
 }
 
