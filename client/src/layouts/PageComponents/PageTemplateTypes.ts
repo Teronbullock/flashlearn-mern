@@ -1,25 +1,39 @@
-export interface PageHeroData {
-  isIndexPage?: boolean;
-  heroClass: string;
-  containerClass?: string;
+export interface HeroData {
+  type?: string;
+  heroClass?: string;
+  ariaLabel?: string;
+  img?: string;
+  title?: string;
+  copy?: string;
+}
+
+export interface HeaderData {
+  headerClass?: string;
   altSection?: boolean;
   ariaLabel?: string;
-  title: string;
-  subtitle?: string;
+  title?: string;
   copy?: string;
+  headerContainerClass?: string;
   contentClass?: string;
-  img?: string;
+  children?: React.ReactNode;
+}
+
+export interface PageHeaderProps {
+  headerData: HeaderData;
+  children: React.ReactNode;
 }
 
 export interface PageHeroProps {
-  PageHeroData: PageHeroData;
+  heroData: HeroData;
 }
-
 
 export interface PageTemplateProps {
   pageData: {
+    type: string;
     mainClass: string;
+    hero: HeroData;
+    header: HeaderData;
   };
-  PageHeroData: PageHeroData;
+
   children: React.ReactNode;
 }
