@@ -66,8 +66,8 @@ export default function nav() {
               </li>
               <li className='nav-desktop__item mr-0'>
                 <Btn
-                  btnURL='/login'
-                  btnClass='btn--primary p-3'
+                  to='/login'
+                  className='btn--primary p-3'
                 >Login</Btn>
               </li>
             </>

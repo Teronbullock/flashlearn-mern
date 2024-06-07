@@ -1,26 +1,13 @@
 import PageTemplate from '../layouts/PageComponents/PageTemplate/PageTemplate';
 import SectionFeat from '../components/SectionFeat/SectionFeat';
-
-interface HomeProps {
-  
-}
+import pageContent from '../data/page-content.json';
 
 export default function Home() {
 
   return (
     <>
       <PageTemplate
-        pageData={{
-          mainClass: 'main--index'
-        }}
-        PageHeroData={{
-          isIndexPage: true,
-          heroClass: 'page-header--index',
-          ariaLabel: 'Image of a person sitting on the floor with their back on a couch while using a laptop to study. Photo by Thought Catalog on Unsplash',
-          title: 'Quick, Easy, Study in a Flash!',
-          copy: 'Studying made easy with FlashCard. Create your own flashcards and study them online.',
-          img : '/assets/img/thought-catalog-Nv-vx3kUR2A-unsplash.jpg'
-        }}
+        pageData={pageContent.indexPage}
       >
           <SectionFeat 
         classObj={{
