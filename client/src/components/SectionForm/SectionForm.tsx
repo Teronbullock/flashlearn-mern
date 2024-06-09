@@ -110,8 +110,8 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
         {formType === 'reg' && userRegistered && (
           <div className='form__body mb-8'>
             <Btn
-              btnClass='btn--tertiary'
-              btnURL='/login'
+              className='btn--tertiary'
+              to='/login'
             > 
               Login
             </Btn>
@@ -189,11 +189,11 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
                 </div>
                 <div className='form__action mt-2 md:mt-8'>
                   <Btn
-                    btnClass='btn btn--large
+                    className='btn btn--large
                     btn--tertiary'
-                    btnType='btn'
+                    elementType='btn'
                     type='submit'
-                    btnURL=''
+                    to=''
                   >
                     Sign Up
                   </Btn>
@@ -234,10 +234,10 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
               </div>
               <div className='form__action mt-2 md:mt-8'>
                 <Btn
-                  btnClass='btn btn--large btn--tertiary'
-                  btnURL='/'
+                  className='btn btn--large btn--tertiary'
+                  to='/'
                   type='submit'
-                  btnType='btn'>Login</Btn>
+                  elementType='btn'>Login</Btn>
               </div>
               </>
             ) : formType === 'profile' && (
@@ -307,11 +307,11 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
                 </div>
                 <div className='form__action mt-2 md:mt-8'>
                   <Btn
-                    btnClass='btn btn--large
+                    className='btn btn--large
                     btn--tertiary'
-                    btnType='btn'
+                    elementType='btn'
                     type='submit'
-                    btnURL=''
+                    to=''
                   >
                     Update
                   </Btn>
