@@ -7,6 +7,9 @@ import Register from './routes/Register';
 import Login from './routes/Login';
 import Dashboard from './routes/Dashboard';
 import Profile from './routes/Profile';
+import Set from './routes/Set/Set';
+import CreateSet from './routes/Set/CreateSet';
+import EditSet from './routes/Set/EditSet';
 import { AuthContextProvider, AuthContext } from './context/auth-context';
 
 // import Card from './routes/Card';
@@ -58,6 +61,10 @@ const MainRoutes = () => {
           <>
             <Route path='/dashboard' element={<Dashboard /> } />
             <Route path='/profile' element={<Profile /> } />
+            <Route path='/set' element={<Set /> } />
+            <Route path='/set/:setNumber' element={<Set /> } />
+            <Route path='/create-set' element={<CreateSet />} />
+            <Route path='/set/:setNumber/edit' element={<EditSet /> } />
             <Route path="*" element={ <Navigate to="/dashboard" /> } />
           </>
         ) : (
