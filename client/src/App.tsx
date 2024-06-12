@@ -1,5 +1,6 @@
-import { useContext, useEffect, useCallback } from 'react';
+import { useContext, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
+import './App.scss';
 import Header from './layouts/Header/Header';
 import Footer from './layouts/Footer/Footer';
 import Index  from './routes/Index';
@@ -18,42 +19,35 @@ import { AuthContextProvider, AuthContext } from './context/auth-context';
 // import Set from './routes/Set';
 
 
-import './App.scss';
-
-export default function App() {
-
-  // useEffect(() => {
-
-  // }, []);
-
+const App = () => {
   return (
     <AuthContextProvider>
       <Header />
       <MainRoutes />
       <Footer />
     </AuthContextProvider>
-  )
+  );
 }
-
 
 const MainRoutes = () => {
   const { token, login } = useContext(AuthContext)!;
 
-  const handleLogin = useCallback(() => {
-    const storeDataString = localStorage.getItem('userData');
-    
-    if (storeDataString) {
-      const storedData = JSON.parse(storeDataString);
-    
-      if (storedData && storedData.token) {
-        login?.(storedData.userId, storedData.token);
-      }
-    }
-  }, [login]);
-  
   useEffect(() => {
-    handleLogin();
-  }, [token, handleLogin]);
+
+    const storeDataString = localStorage.getItem('flashlearn_userData');
+    
+    if (storeDataString ) {
+      const storedData = JSON.parse(storeDataString);
+      const { token, userId, expiration } = storedData;
+      const isExpirationValid = new Date(expiration) > new Date();
+
+      if (token && isExpirationValid) {
+        login?.(userId, token, new Date(expiration));
+      }
+      console.log('Token changed: ', token);
+    }
+  }, [token, login]);
+
 
   return (
     <Routes>
@@ -72,9 +66,12 @@ const MainRoutes = () => {
             <Route path='/' element={<Index />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login />} />
+            <Route path="*" element={ <Navigate to="/" /> } />
           </>
         )
       }
     </Routes>
   );
 };
+
+export default App;

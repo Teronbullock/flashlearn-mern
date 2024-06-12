@@ -48,8 +48,7 @@ const LoginForm = () => {
 
   return (
     <section className="container py-12 w-1/2 min-h-[calc(100vh-11rem)]">
-      <Card
-      >
+      <Card>
         <Form
           onSubmit={handleFormSubmit}
           formObj={{

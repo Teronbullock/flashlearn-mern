@@ -26,7 +26,7 @@ const PageTemplate = ({ pageData, children }: PageTemplateProps) => {
       ...hero,
     }
   }
-console.log(pageData)
+
   return (
     <main className={`main ${mainClass}`}>
       <PageHero heroData={heroData} />
