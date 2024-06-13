@@ -16,6 +16,8 @@ export const asyncHandler = (cb, errMsg, errStatus ) => {
     try {
       await cb(req, res, next);
     } catch (error) {
+
+   
       if (errMsg) {
         error.message = errMsg + error.message;
       }

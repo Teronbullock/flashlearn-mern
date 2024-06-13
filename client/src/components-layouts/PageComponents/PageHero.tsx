@@ -1,6 +1,6 @@
-import { PageHeroProps } from '../PageTemplateTypes';
-import './PageHero.scss';
-import Btn from '../../../components/Btn/Btn';
+import { PageHeroProps } from './PageTemplateTypes';
+import './PageComponents.scss';
+import Btn from '../../components/Btn/Btn';
 
 const PageHero = ({ heroData }: PageHeroProps) => {
   const {

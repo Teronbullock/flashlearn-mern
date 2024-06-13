@@ -36,6 +36,7 @@ const Users = db.define('fc_users', {
  * @returns 
  */
 Users.authenticate = async (username, password, callback) => {
+  
     try {
       const user = await Users.findOne({ where: {user_name: username} }, { raw: true });
 

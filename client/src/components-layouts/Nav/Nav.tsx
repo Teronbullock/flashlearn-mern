@@ -31,13 +31,13 @@ const Nav = () => {
     <nav data-js="nav">
       <div id="js-nav-mobile" className="nav-mobile">
         <ul className="nav-mobile__list nav-mobile--flex">
-          { currentUser ? (
+          { token ? (
             <>
               <li className="nav-mobile__item">
-                <Link className="nav-mobile__link" to="/home">Home</Link>
+                <Link className="nav-mobile__link" to="/dashboard">Home</Link>
               </li>
               <li className="nav-mobile__item">
-                <Link className="nav-mobile__link" to="/create-set">Create Set</Link>
+                <Link className="nav-mobile__link" to="/set/create">Create Set</Link>
               </li>
               <li className="nav-mobile__item">
                 <Link className="nav-mobile__link" to="/profile/">Profile</Link>
@@ -63,10 +63,10 @@ const Nav = () => {
       </div>
       <div className="nav-desktop">
         <ul className="nav-desktop__list nav-desktop--flex">
-          { currentUser ? (
+          { token ? (
             <>
               <li className="nav-desktop__item">
-                <Link to="/">Home</Link>
+                <Link to="/dashboard">Home</Link>
               </li>
               <li className="nav-desktop__item">
                 <Link to="/create-set">Create Set</Link>
@@ -85,6 +85,9 @@ const Nav = () => {
             </>
           ) : (
             <>
+              <li className="nav-desktop__item">
+                <Link to="/">Home</Link>
+              </li>
               <li className="nav-desktop__item">
               <Link className="nav__list-link" to="/register">Sign Up</Link>
               </li>

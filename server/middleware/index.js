@@ -14,13 +14,13 @@ module.exports.midCheckUsersAuth = (req, res, next) => {
 
 
 // Check if User has authorization to redirect
-module.exports.midCheckUserAuthRedirect = (req, res, next) => {
-  if (req.params.userID == req.session.userID ) {
+// module.exports.midCheckUserAuthRedirect = (req, res, next) => {
+//   if (req.params.userID == req.session.userID ) {
 
-    return next();
-  } else {
-    let err = new Error('You are not authorized to view this page.');
-    err.status = 403;
-    return next(err);
-  }
-}
+//     return next();
+//   } else {
+//     let err = new Error('You are not authorized to view this page.');
+//     err.status = 403;
+//     return next(err);
+//   }
+// }

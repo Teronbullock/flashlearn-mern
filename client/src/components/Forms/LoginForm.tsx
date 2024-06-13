@@ -34,15 +34,19 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = (await axios.post('api/login', state));
-      
-      if (!res) {
-        return;
+      const res = (await axios.post('api/users/login', state));
+      const { userID, token } = res.data;
+
+      if (userID && token) {
+        login?.(res.data.userID, res.data.token);
+        navigate(`/dashboard:${userID}`);
       }
-      login?.(res.data.userID, res.data.token);
-      navigate('/dashboard');
     } catch (error) {
       console.error(error);
+
+      if (typeof error.response.data.message == 'string') {
+        alert(error.response.data.message);
+      }
     }
   }
 

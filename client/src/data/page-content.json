@@ -1,6 +1,6 @@
 {
   "indexPage": {
-    "type": "index",
+    "pageType": "index",
     "mainClass": "main--index",
     "hero": {
       "heroClass": "page-header--index",
@@ -13,7 +13,7 @@
     }
   },
   "dashboardPage": {
-    "type": "dashboard",
+    "pageType": "dashboard",
     "mainClass": "main--dashboard",
     "hero": {
       "heroClass": "page-header--dashboard",
@@ -22,11 +22,19 @@
     },
     "header": {
       "title": "Dashboard",
-      "copy": "Welcome to your dashboard. Here you can view your card sets, create new ones, and study them. To get started create a Set."
+      "copy": "Welcome to your dashboard. Here you can view your card sets, create new ones, and study them. To get started create a Set.",
+      "headerNav": [
+        {
+          "className": "btn--tertiary",
+          "btnText": "Create Set",
+          "to": "/set/create",
+          "ariaLabel": "Create Set Button. Click to create a new set of flashcards."
+        }
+      ]
     }
   },
   "setPage": {
-    "type": "set",
+    "pageType": "set",
     "mainClass": "main--set",
     "hero": {
       "heroClass": "page-header--set",
@@ -35,11 +43,31 @@
     },
     "header": {
       "title": "Set",
-      "copy": "Welcome to your set. Here you can view your flashcards, create new ones, and study them."
+      "copy": "Welcome to your set. Here you can view your flashcards, create new ones, and study them.",
+      "headerNav": [
+        {
+          "className": "btn--outline-black",
+          "btnText": "Edit Set",
+          "to": "/set/4/edit",
+          "ariaLabel": "Edit Set Button. Click to edit the title and description of this set."
+        },
+        {
+          "className": "btn--outline-black",
+          "btnText": "Add Card",
+          "to": "/set/4/card/add",
+          "ariaLabel": "Add Card Button. Click to add a new flashcard to this set."
+        },
+        {
+          "className": "btn--outline-black",
+          "btnText": "View Cards",
+          "to": "/set/4/cards/?page=1",
+          "ariaLabel": "View Cards Button. Click to view all flashcards in this set."
+        }
+      ]
     }
   },
   "createSetPage": {
-    "type": "createSet",
+    "pageType": "createSet",
     "mainClass": "main--create-set",
     "hero": {
       "heroClass": "page-header--create-set",
@@ -52,12 +80,12 @@
     }
   },
   "editSetPage": {
-    "type": "editSet",
+    "pageType": "editSet",
     "mainClass": "main--edit-set",
     "hero": {
       "heroClass": "page-header--edit-set",
       "ariaLabel": "Edit Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person sits on padded chair while using MacBook during daytime. Photo by Christina @ wocintechchat on Unsplash.",
-      "img": "/assets/img/anthony-riera-kylWNDQFd5A-unsplash.jpg"
+      "img": "/assets/img/christina-wocintechchat-com-vLwH8bWoi_8-unsplash.jpg"
     },
     "header": {
       "title": "Edit Set",
@@ -65,7 +93,7 @@
     }
   },
   "addCardPage": {
-    "type": "addCard",
+    "pageType": "addCard",
     "mainClass": "main--add-card",
     "hero": {
       "heroClass": "page-header--add-card",
@@ -78,7 +106,7 @@
     }
   },
   "editCardPage": {
-    "type": "editCard",
+    "pageType": "editCard",
     "mainClass": "main--edit-card",
     "hero": {
       "heroClass": "page-header--edit-card",
@@ -91,7 +119,7 @@
     }
   },
   "viewCardsPage": {
-    "type": "viewCards",
+    "pageType": "viewCards",
     "mainClass": "main--view-cards",
     "hero": {
       "heroClass": "page-header--view-cards",

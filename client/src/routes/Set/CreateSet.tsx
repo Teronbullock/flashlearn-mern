@@ -1,4 +1,4 @@
-import PageTemplate from "../../layouts/PageComponents/PageTemplate/PageTemplate";
+import PageTemplate from "../../components-layouts/PageComponents/PageTemplate";
 import pageContent from "../../data/page-content.json";
 import Card from "../../components/Cards/Card";
 import Form from "../../components/Forms/Form";

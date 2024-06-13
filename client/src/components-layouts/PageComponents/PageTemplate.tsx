@@ -1,25 +1,30 @@
-import { PageTemplateProps } from '../PageTemplateTypes';
-import PageHero from '../PageHero/PageHero';
-import PageHeader from '../PageHeader/PageHeader';
+import { PageTemplateProps } from './PageTemplateTypes';
+import PageHero from './PageHero';
+import PageHeader from './PageHeader';
 import { Link } from 'react-router-dom';
-import Btn from '../../../components/Btn/Btn';
+import Btn from '../../components/Btn/Btn';
 
 
+/**
+ *  -- PageTemplate Component --
+ * @param {object} pageData - The data object for the page
+ * @param {string} pageData.pageType - The type of page
+ * @param {string} pageData.mainClass - The main class for the page
+ * @param {object} pageData.hero - The hero data object
+ * @param {object} pageData.header - The header data object
+ * 
+ * @param {ReactNode} children - The children components to render
+ * @returns 
+ */
 const PageTemplate = ({ pageData, children }: PageTemplateProps) => {
-  const { 
-    type,
-    mainClass,
-    hero,
-    header,
-  } = pageData;
-
+  const { pageType, mainClass, hero, header } = pageData;
   let heroData;
 
-  if (type === 'index') {
+  if (pageType === 'index') {
     heroData = {
       ...hero,
       ...header,
-      type
+      pageType
     }
   } else {
     heroData = {
@@ -30,21 +35,9 @@ const PageTemplate = ({ pageData, children }: PageTemplateProps) => {
   return (
     <main className={`main ${mainClass}`}>
       <PageHero heroData={heroData} />
-      {type === 'index' ? null : (
+      {pageType === 'index' ? null : (
         <PageHeader headerData={header}>
-          {type === 'dashboard' ? (
-            <>
-              <li className="page-header__nav-item">
-                <Btn
-                  elementType="anchor"
-                  className="btn btn--tertiary btn--large"
-                  to="/create-set"  
-                >
-                  Create Set
-                </Btn>
-              </li>
-            </>
-          ) : type === 'set' ? (
+          {pageType === 'set' ? (
             <>
               <li className="page-header__nav-item">
                 <Btn
@@ -74,11 +67,11 @@ const PageTemplate = ({ pageData, children }: PageTemplateProps) => {
                 </Btn>
               </li>
             </>
-          ) : type === 'set' ? (
+          ) : pageType === 'set' ? (
             <>
             
             </>
-          ) : type === 'set' ? (
+          ) : pageType === 'set' ? (
             <>
             
             </>

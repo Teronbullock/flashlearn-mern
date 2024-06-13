@@ -13,6 +13,8 @@ import https from 'https';
 import fs from 'fs';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import userRoutes from './routes/user-routes.js';
+import setRoutes from './routes/set-routes.js';
 
 
 const SequelizeStore = connectSessionSequelize(session.Store);
@@ -52,9 +54,9 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-import mainRoutes from './routes/main-routes.js';
+app.use('/users', userRoutes);
+app.use('/sets', setRoutes);
 // import { col } from 'sequelize';
-app.use('/', mainRoutes);
 
 // disable favicon requests
 app.use('/favicon.ico', (req, res, next) => {
@@ -72,20 +74,16 @@ app.use((req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
+  const status = err.status || 500;
+  const message = err.message || 'Internal Server Error';
 
-  console.log(err.status, err.message);
+  res.status(status);
+  res.json({
+    message: message,
+    status: status,
+  });
 
-  if (!err.message) {
-    res.locals.error = {
-      message: 'Internal Server Error',
-      status: 500,
-    };
-  } else {
-    res.locals.error = err;
-  }
-
-  res.render('error');
+  console.log(status, message);
 });
 
 
