@@ -1,20 +1,6 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-interface AuthContextValue {
-  userID?: string | null;
-  setUserID?: React.Dispatch<React.SetStateAction<string | null>>;
-  isLoggedIn?: boolean;
-  token?: string | null;
-  setToken?: React.Dispatch<React.SetStateAction<string | null>>;
-  login?: (userID: string, token: string, expirationDate?: Date | null) => void ;
-  logout?: () => void;
-  tokenExpiration?: Date | null;
-}
-
-interface AuthContextProviderProps {
-  children: React.ReactNode;
-}
+import { AuthContextValue, AuthContextProviderProps } from "./types";
 
 let logoutTimer: number | undefined;
 
@@ -44,6 +30,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
    */
   const login = useCallback((userID: string, token: string, expirationDate?: Date | null ) => {
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+
     setTokenExpiration(tokenExpirationDate);
     setToken(token);
     setUserID(userID);
@@ -53,6 +40,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
       token: token,
       expiration: tokenExpirationDate.toISOString()
     }));
+
   },[]);
 
   /**
@@ -79,18 +67,15 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
   };
 
   useEffect(() => {
-  // const handletimeout = useCallback(() => {
     if (token && tokenExpiration) {
       const remainingTime = tokenExpiration.getTime() - new Date().getTime();
 
       logoutTimer = setTimeout(logout, remainingTime);
-      console.log('timer: ', remainingTime / ( 1000 * 60 ));
     } else {
       clearTimeout(logoutTimer);
     }
   }, [token, logout, tokenExpiration]);
 
-  console.log('context: ', tokenExpiration);
   return (
     <AuthContext.Provider value={value}>
       {children}

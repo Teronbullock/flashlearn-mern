@@ -15,7 +15,16 @@ export interface HeaderData {
   copy?: string;
   headerContainerClass?: string;
   contentClass?: string;
-  children?: React.ReactNode;
+  headerNav?: [
+    {
+      className: string;
+      btnText: string;
+      to: string;
+      elementType: 'anchor' | 'btn';
+      ariaLabel: string;
+      dataType: string;
+    }
+  ];
 }
 
 export interface PageHeaderProps {
@@ -29,11 +38,20 @@ export interface PageHeroProps {
 
 export interface PageTemplateProps {
   pageData: {
-    type: string;
+    pageType: string;
     mainClass: string;
     hero: HeroData;
     header: HeaderData;
   };
 
   children: React.ReactNode;
+}
+
+export interface PageHeaderNavItem {
+  className: string;
+  btnText: string;
+  to: string;
+  elementType: 'anchor' | 'btn';
+  ariaLabel: string;
+  dataType: string;
 }

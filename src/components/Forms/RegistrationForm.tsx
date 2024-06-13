@@ -5,16 +5,10 @@ import FormInput from './FormInput';
 import Btn from '../Btn/Btn';
 import axios from 'axios';
 import { AuthContext } from '../../context/auth-context';
+import { RegFormState, RegFormAction } from './types';
 
 
-interface FormState {
-  user_name: string;
-  user_email: string;
-  user_pass: string;
-  user_pass_confirm: string;
-}
-
-const formReducer = (state: FormState, action: object ) => {
+const formReducer = (state: RegFormState, action: RegFormAction ) => {
   return {
     ...state,
     ...action,
@@ -23,7 +17,6 @@ const formReducer = (state: FormState, action: object ) => {
 
 const RegistrationForm = () => {
   const authContext = useContext(AuthContext);
-
   const [state, dispatch] = useReducer(formReducer, {
     user_name: '',
     user_email: '',
@@ -34,18 +27,26 @@ const RegistrationForm = () => {
   
   const navigate = useNavigate();
 
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-   
-      const res = await axios.post('api/register', state);
-      authContext.login(res.data.userID, res.data.token);
+      const res = await axios.post('api/users/register', state);
+      const { userID, token } = res.data;
 
+      if (userID && token && authContext.login) {
+        authContext.login(res.data.userID, res.data.token);
+        navigate('/dashboard');
+      } else {
+        const missingData = [];
+        if (!userID) { missingData.push('User ID');}
+        if (!token) {missingData.push('Token');}
+        if (!authContext.login) {missingData.push('Login function');}
+
+        throw new Error(`${missingData.join(', ')} not found`);
+      }
 
       console.log(res);
-      navigate('/dashboard');
     } catch (error) {
       console.error(error);
     }
