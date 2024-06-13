@@ -1,8 +1,7 @@
 import pkg from 'pg/lib/defaults.js';
 import { asyncHandler, authToken } from '../lib/utils.js';
 import Users from '../models/users-model.js';
-// import jwt from 'jsonwebtoken';
-
+import { validationResult } from 'express-validator';
 
 const { user } = pkg;
 
@@ -12,10 +11,20 @@ const { user } = pkg;
  */
 export const postUserRegister = asyncHandler(
   async (req, res, next) => {
+    let errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+      let err = new Error('All fields required.');
+      err.status = 400;
+      return next(err);
+    }
+
+    const {user_name,user_email,user_pass, user_confirm_pass} = req.body;
+
     const formData = {
-      user_name: req.body.user_name,
-      user_email: req.body.user_email,
-      user_pass: req.body.user_pass,
+      user_name,
+      user_email,
+      user_pass,
     };
 
     // confirm that all fields are filled out
@@ -26,7 +35,7 @@ export const postUserRegister = asyncHandler(
     }
 
     // confirm that user typed same password twice
-    if (formData.user_pass !== req.body.user_confirm_pass) {  
+    if (user_pass !== user_confirm_pass) {  
       let err = new Error('Passwords do not match.');
       err.status = 400;
       return next(err);
@@ -66,7 +75,9 @@ export const postUserRegister = asyncHandler(
  */
 export const postUserLogin = asyncHandler( 
   async (req, res, next) => {
-    if (!req.body.user_name || !req.body.user_pass) {
+    let errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
       let err = new Error('Email and password are required.');
       err.status = 401;
       return next(err);
@@ -103,41 +114,6 @@ export const postUserLogin = asyncHandler(
   401
 );
 
-
-// get user logout
-export const getUserLogOut = (req, res, next) => {
-  if (req.session) {
-    // delete session obj
-    req.session.destroy( (err) => {
-      if (err) {
-        return next(err);
-      } else {
-        return res.redirect('/');
-      }
-    });
-
-  } 
-
-};
-
-// get user home redirect
-export const getUserHomeRedirect = asyncHandler(
-  async (req, res, next) => {
-
-    res.redirect(`/home/${req.session.userID}`);
-  },
-  'Error retrieving user data: ',
-  500
-);
-
-// get user home
-export const getUserHome = asyncHandler(
-  async (req, res, next) => {
-    res.render('home', { route: 'home' });
-  },
-  'Error retrieving user data: ',
-  500
-);
 
 // get user profile
 export const getUserProfile = asyncHandler(
