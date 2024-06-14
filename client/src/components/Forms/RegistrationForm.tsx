@@ -4,8 +4,8 @@ import Form from './Form';
 import FormInput from './FormInput';
 import Btn from '../Btn/Btn';
 import axios from 'axios';
-import { AuthContext } from '../../context/auth-context';
-import { RegFormState, RegFormAction } from './types';
+import { AuthContext } from '../../context/AuthContext';
+import { RegFormState, RegFormAction } from './form-types';
 
 
 const formReducer = (state: RegFormState, action: RegFormAction ) => {
@@ -32,14 +32,14 @@ const RegistrationForm = () => {
 
     try {
       const res = await axios.post('api/users/register', state);
-      const { userID, token } = res.data;
+      const { userId, token } = res.data;
 
-      if (userID && token && authContext.login) {
-        authContext.login(res.data.userID, res.data.token);
+      if (userId && token && authContext.login) {
+        authContext.login(res.data.userId, res.data.token);
         navigate('/dashboard');
       } else {
         const missingData = [];
-        if (!userID) { missingData.push('User ID');}
+        if (!userId) { missingData.push('User ID');}
         if (!token) {missingData.push('Token');}
         if (!authContext.login) {missingData.push('Login function');}
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Header.scss';
 import Nav from '../Nav/Nav'; 
 import MobileMenuBtn from '../../components/MobileMenuBtn/MobileMenuBtn';
-import { AuthContext } from '../../context/auth-context';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function Header() {
   const { token } = useContext(AuthContext);

@@ -9,3 +9,13 @@ export interface RegFormState {
 export interface RegFormAction {
   [key: string]: string;
 }
+
+export interface DashboardFormProps {
+  formData: {
+    title: string;
+    description?: string;
+    ID: number;
+    user_id: number;
+    cardCount: number;
+  };
+}

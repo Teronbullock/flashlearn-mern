@@ -5,7 +5,7 @@ import Form from './Form';
 import FormInput from './FormInput';
 import Btn from '../Btn/Btn';
 import axios from 'axios';
-import { AuthContext } from '../../context/auth-context';
+import { AuthContext } from '../../context/AuthContext';
 
 interface FormState {
   user_name: string;
@@ -35,11 +35,11 @@ const LoginForm = () => {
 
     try {
       const res = (await axios.post('api/users/login', state));
-      const { userID, token } = res.data;
+      const { userId, token } = res.data;
 
-      if (userID && token) {
-        login?.(res.data.userID, res.data.token);
-        navigate(`/dashboard:${userID}`);
+      if (userId && token) {
+        login?.(res.data.userId, res.data.token);
+        navigate(`/dashboard:${userId}`);
       }
     } catch (error) {
       console.error(error);

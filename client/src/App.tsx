@@ -3,17 +3,17 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import './App.scss';
 import Header from './components-layouts/Header/Header';
 import Footer from './components-layouts/Footer/Footer';
-import Index  from './routes/Index';
-import Register from './routes/Register';
-import Login from './routes/Login';
-import Dashboard from './routes/Dashboard';
-import Profile from './routes/Profile';
-import Set from './routes/Set/Set';
-import CreateSet from './routes/Set/CreateSet';
-import EditSet from './routes/Set/EditSet';
-import Cards from './routes/Cards/Cards';
-import { AuthContextProvider, AuthContext } from './context/auth-context';
-
+import Index  from './routes/IndexPage';
+import Register from './routes/RegisterPage';
+import Login from './routes/LoginPage';
+import Dashboard from './routes/DashboardPage';
+import Profile from './routes/ProfilePage';
+import Set from './routes/Set/SetPage';
+import CreateSet from './routes/Set/CreateSetPage';
+import EditSet from './routes/Set/EditSetPage';
+import Cards from './routes/Cards/CardsPage';
+import { AuthContextProvider, AuthContext } from './context/AuthContext';
+import AddCard from './routes/Cards/AddCardPage';
 // import Card from './routes/Card';
 // import Cards from './routes/Cards';
 // import CreateSet from './routes/CreateSet';
@@ -31,7 +31,7 @@ const App = () => {
 }
 
 const MainRoutes = () => {
-  const { token, login, userID } = useContext(AuthContext)!;
+  const { token, login, userId } = useContext(AuthContext)!;
 
   useEffect(() => {
     const storeDataString = localStorage.getItem('flashlearn_userData');
@@ -52,16 +52,17 @@ const MainRoutes = () => {
     <Routes>
       { token ? (
           <>
-            <Route path='/dashboard' element={<Navigate to={`/dashboard:${userID}`} /> } />
-            <Route path={`/dashboard:${userID}`} element={<Dashboard /> } />
+            <Route path='/dashboard' element={<Navigate to={`/dashboard:${userId}`} /> } />
+            <Route path={`/dashboard:${userId}`} element={<Dashboard /> } />
             <Route path='/profile' element={<Profile /> } />
             <Route path='/set' element={<Navigate to={`/set:setNumber`} />} />
-            <Route path='/set/:setNumber' element={<Set /> } />
-            <Route path='/set/:setNumber/edit' element={<EditSet /> } />
+            <Route path='/set/:setId' element={<Set /> } />
+            <Route path='/set/:setId/edit' element={<EditSet /> } />
             <Route path='/set/create' element={<CreateSet />} />
-            <Route path='/set/4/cards/?page=1' element={<Cards />} />
-            <Route path='/' element={<Navigate to={`/dashboard:${userID}`} />} />
-            {/* <Route path="*" element={ <Navigate to={`/dashboard:${userID}`} /> } /> */}
+            <Route path='/set/:setId/cards/?page=1' element={<Cards />} />
+            <Route path='/set/:setId/card/add' element={<AddCard />} />
+            <Route path='/' element={<Navigate to={`/dashboard:${userId}`} />} />
+            {/* <Route path="*" element={ <Navigate to={`/dashboard:${userId}`} /> } /> */}
           </>
         ) : (
           <>
