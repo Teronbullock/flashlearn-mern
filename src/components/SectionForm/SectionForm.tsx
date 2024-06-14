@@ -14,7 +14,7 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
   const navigate = useNavigate();
   const userRegistered = false;
   let sectionClass = '';
-  let userID = '';
+  let userId = '';
   let formData = {};
 
   const [loginFormData, setLoginFormData] = useState({

@@ -2,14 +2,16 @@ import { Link } from 'react-router-dom';
 import Btn from '../Btn/Btn';
 import Card from '../Cards/Card';
 import Form from './Form';
-
+import { DashboardFormProps } from './form-types.ts';
 
 /**
  * 
  * @param children - type form
  * @returns 
  */
-const CardDashForm = ( ) => {
+const DashboardForm = ( { formData }: DashboardFormProps ) => {
+  const { title, description, ID, cardCount } = formData;
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,23 +25,23 @@ const CardDashForm = ( ) => {
       >
         <div className="card__info flex justify-between flex-wrap">
           <p className="my-0">#1</p>
-          <p className="card__body-info-title my-0">Terms: 1</p>
+          <p className="card__body-info-title my-0">{`Terms: ${cardCount}`}</p>
         </div>
         <div className="divider-h my-3"></div>
         <div className="card__header mb-3">
-          <Link to={`/set/${4}`} className="card__header-title-link">
-            Set 1
+          <Link to={`/set/${ID}`} className="card__header-title-link">
+            {title}
           </Link>
         </div>
         <div className="card__body mb-3">
           <p className="card__desc mb-0 line-clamp line-clamp--2">
-            This is a set of cards
+            {description}
           </p>
         </div>
         <div className="card__action mb-3 flex">
           <Btn
             className='btn--medium btn--outline-black mr-3'
-            to='/set/4'
+            to={`/set/${ID}`}
             // ariaLabel='view set'
             elementType='anchor'
           >
@@ -60,4 +62,4 @@ const CardDashForm = ( ) => {
   );
 }
 
-export default CardDashForm;
+export default DashboardForm;
