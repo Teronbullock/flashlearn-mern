@@ -1,11 +1,11 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContextValue, AuthContextProviderProps } from "./types";
+import { AuthContextValue, ContextProviderProps } from "./context-types";
 
 let logoutTimer: number | undefined;
 
 export const AuthContext = createContext<AuthContextValue>({
-  userID: null,
+  userId: null,
   setUserID: () => {},
   isLoggedIn: false,
   // setIsLoggedIn: () => {},
@@ -14,29 +14,29 @@ export const AuthContext = createContext<AuthContextValue>({
   login: () => {},
 });
 
-export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children } ) => {
-  const [userID, setUserID] = useState<string | null>(null);
+export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children } ) => {
+  const [userId, setUserID] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [tokenExpiration, setTokenExpiration] = useState<Date | null>(null);
   const navigate = useNavigate();
 
 
   /**
-   * Login function - Updates the userID and token in the context
+   * Login function - Updates the userId and token in the context
    * when a user logs in.
-   * @param userID - User ID of the user that logs in
+   * @param userId - User ID of the user that logs in
    * @param token - Token generated when a user logs in
    * @param expirationDate - Date when the token expires
    */
-  const login = useCallback((userID: string, token: string, expirationDate?: Date | null ) => {
+  const login = useCallback((userId: string, token: string, expirationDate?: Date | null ) => {
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
 
     setTokenExpiration(tokenExpirationDate);
     setToken(token);
-    setUserID(userID);
+    setUserID(userId);
     
     localStorage.setItem('flashlearn_userData', JSON.stringify({
-      userId: userID,
+      userId: userId,
       token: token,
       expiration: tokenExpirationDate.toISOString()
     }));
@@ -44,7 +44,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
   },[]);
 
   /**
-   * Logout function - Clears the userID and token in the context
+   * Logout function - Clears the userId and token in the context
    */
   const logout = useCallback(() => {
     setUserID(null);
@@ -55,7 +55,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
   }, [navigate]);
 
   const value = {
-    userID,
+    userId,
     // setUserID,
     isLoggedIn: !!token,
     // setIsLoggedIn,

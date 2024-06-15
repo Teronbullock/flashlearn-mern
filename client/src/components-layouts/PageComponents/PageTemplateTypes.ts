@@ -1,10 +1,16 @@
+export interface PageTemplateProps {
+  currentPage: 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addCardPage' | 'editCardPage' | 'viewCardsPage';
+
+  children: React.ReactNode;
+}
+
 export interface HeroData {
-  type?: string;
   heroClass?: string;
   ariaLabel?: string;
   img?: string;
   title?: string;
   copy?: string;
+  currentPage?: string;
 }
 
 export interface HeaderData {
@@ -15,43 +21,35 @@ export interface HeaderData {
   copy?: string;
   headerContainerClass?: string;
   contentClass?: string;
-  headerNav?: [
-    {
-      className: string;
-      btnText: string;
-      to: string;
-      elementType: 'anchor' | 'btn';
-      ariaLabel: string;
-      dataType: string;
-    }
-  ];
+  headerNav?: {
+    className?: string;
+    btnText: string;
+    to: string;
+    elementType?: 'anchor' | 'btn';
+    ariaLabel: string;
+    dataType?: string;
+  }[];
 }
 
 export interface PageHeaderProps {
   headerData: HeaderData;
-  children: React.ReactNode;
 }
 
 export interface PageHeroProps {
   heroData: HeroData;
 }
 
-export interface PageTemplateProps {
-  pageData: {
-    pageType: string;
-    mainClass: string;
-    hero: HeroData;
-    header: HeaderData;
-  };
 
-  children: React.ReactNode;
-}
 
 export interface PageHeaderNavItem {
-  className: string;
+  className?: string;
   btnText: string;
   to: string;
-  elementType: 'anchor' | 'btn';
+  elementType: 'anchor' | 'btn'| null;
   ariaLabel: string;
   dataType: string;
+}
+
+export type CurrentPageType {
+  currentPage: string;
 }
