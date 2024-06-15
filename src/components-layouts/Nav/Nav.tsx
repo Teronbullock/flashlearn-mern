@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import './Nav.scss'
 import Btn from '../../components/Btn/Btn';
-import { AuthContext } from '../../context/auth-context';
+import { AuthContext } from '../../context/AuthContext';
 
 const Nav = () => {
-  const { token, userID, logout } = useContext(AuthContext);
+  const { token, userId, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = (e: Event) => {
@@ -20,9 +20,9 @@ const Nav = () => {
   let currentUser = null;
 
 
-  if (userID !== null) {
-    currentUser = userID;
-    // let userID = false
+  if (userId !== null) {
+    currentUser = userId;
+    // let userId = false
   }
 
 
@@ -69,11 +69,11 @@ const Nav = () => {
                 <Link to="/dashboard">Home</Link>
               </li>
               <li className="nav-desktop__item">
-                <Link to="/create-set">Create Set</Link>
+                <Link to="/set/create">Create Set</Link>
               </li>
-              {userID && (
+              {userId && (
                 <li className="nav-desktop__item">
-                  <Link to={`/profile/${userID}`}>Profile</Link>
+                  <Link to={`/profile/${userId}`}>Profile</Link>
                 </li>
               )}
               <Btn
