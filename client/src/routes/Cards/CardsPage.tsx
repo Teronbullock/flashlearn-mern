@@ -1,6 +1,6 @@
 import PageTemplate from "../../components-layouts/PageComponents/PageTemplate"
 import pageContent from "../../data/page-content.json"
-import DashForm from "../../components/Forms/DashForm"
+import DashboardForm from "../../components/Forms/DashboardForm"
 
 
 
@@ -12,7 +12,7 @@ const Cards = () => {
       pageData={pageContent.viewCardsPage}
     >
       <section className="container py-12">
-        <DashForm />
+        <DashboardForm />
       </section>
     </PageTemplate>
   )
