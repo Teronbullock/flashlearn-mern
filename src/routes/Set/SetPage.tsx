@@ -1,13 +1,12 @@
 import PageTemplate from "../../components-layouts/PageComponents/PageTemplate";
-import pageContent from "../../data/page-content.json";
 import Card from "../../components/Cards/Card";
 import Form from "../../components/Forms/Form";
-import FormInput from "../../components/Forms/FormInput";
+
 
 const Set = () => {
   return (
     <PageTemplate 
-      pageData={pageContent.setPage}
+      currentPage="setPage"
     >
       <section className="container py-12">
         <Card>
