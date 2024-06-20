@@ -1,11 +1,17 @@
-const Cards = require('../models/cards-model');
-const Sets = require('../models/sets-model');
+import Cards from '../models/cards-model.js';
+import Sets from '../models/sets-model.js';
 
-// get card by set id
-module.exports.getCardsBySetID = async (setID, userID) => {
+/**
+ *  -- get cards by set id
+ * 
+ * @param { number } setID 
+ * @param { number } userId 
+ * @returns 
+ */
+export const getCardsBySetID = async (setID, userId) => {
   const {count, rows } = await Cards.findAndCountAll({
     raw: true,
-    where: { user_id: userID, set_id: setID },
+    where: { user_id: userId, set_id: setID },
   });
 
   let cards = rows;
@@ -14,9 +20,14 @@ module.exports.getCardsBySetID = async (setID, userID) => {
   return { cards, cardCount };
 };
 
-
-// check for set
-module.exports.checkForSet = async (setID, userID) => {
+/**
+ * -- check for set --
+ * 
+ * @param { number } setID 
+ * @param { number } userId 
+ * @returns 
+ */
+export const checkForSet = async (setID, userId) => {
   const set = await Sets.findByPk(setID, { raw: true });
 
   if (!set) {
@@ -25,7 +36,7 @@ module.exports.checkForSet = async (setID, userID) => {
     throw err;
   }
 
-  if (set.user_id !== userID) {
+  if (set.user_id !== userId) {
     const err = new Error('Your not authorized to edit this set');
     err.status = 403;
     throw err;
@@ -34,9 +45,14 @@ module.exports.checkForSet = async (setID, userID) => {
   return true;
 };
 
-// delete cards by set id
-module.exports.deleteCardsBySetID = async (setID, userID) => {
+/**
+ * -- delete cards by set id --
+ * 
+ * @param { number } setID 
+ * @param { number } userId 
+ */
+export const deleteCardsBySetID = async (setID, userId) => {
   await Cards.destroy({
-    where: { user_id: userID, set_id: setID },
+    where: { user_id: userId, set_id: setID },
   });
 };

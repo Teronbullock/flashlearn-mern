@@ -1,10 +1,13 @@
 import jwt from 'jsonwebtoken';
 
 /**
- *  Function to handle async errors.
+ *  -- Async Handler --
  *  This function will handle async errors and pass them to the
  *  error handling middleware.
- *  If there is no error the callback will be called.
+ * 
+ *  The CB is ran asynchronously, if there is an error it will
+ *  be passed to the error handling middleware, otherwise the
+ *  callback will be called. 
  * 
  * @param {*} cb - The callback function to call.
  * @param {*} errMsg - The error message to display.
@@ -17,7 +20,6 @@ export const asyncHandler = (cb, errMsg, errStatus ) => {
       await cb(req, res, next);
     } catch (error) {
 
-   
       if (errMsg) {
         error.message = errMsg + error.message;
       }
@@ -34,18 +36,18 @@ export const asyncHandler = (cb, errMsg, errStatus ) => {
 /**
  * The authToken function will create a token for the user.
  * 
- * param {*} userID - The user ID.
+ * param {*} userId - The user ID.
  * param {*} userName - The user name.
  * 
  * @returns - The token. or an error.
  */
-export const authToken = (userID, userName) => {
+export const authToken = (userId, userName) => {
   let token;
 
   try {
     token = jwt.sign(
       {
-        userID: userID,
+        userId: userId,
         userName: userName,
       },
       process.env.JWT_SECRET,

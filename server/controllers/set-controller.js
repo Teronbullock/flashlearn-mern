@@ -1,30 +1,43 @@
-const Sets = require('../models/sets-model');
-const { getCardsBySetID, checkForSet, deleteCardsBySetID } = require('../lib/set-service');
-const { asyncHandler } = require('../lib/utils');
+import Sets from '../models/sets-model.js';
+import { getCardsBySetID, checkForSet, deleteCardsBySetID } from '../lib/set-service.js';
+import { asyncHandler } from '../lib/utils.js';
 
 
 // get sets
-module.exports.getSets = asyncHandler(
-  async (req, res) => {
-    // get sets
-    const rows = await Sets.findAll({
-      raw: true,
-      where: { user_id: req.session.userID },
-    });
+export const getSets = asyncHandler(
+  async (req, res, next) => {
+    const { userId } = req.params;
+    let rows;
 
-    // get cards for each set
-    const setCardCount = [];
-
-    for (const set of rows) {
-      const { cardCount } = await getCardsBySetID(set.ID, req.session.userID);
-      setCardCount.push({setID: set.ID, cardCount});
+    // check for userId
+    if (!userId) {
+      const err = new Error('The userId is required in the URL. /userId');
+      err.status = 400;
+      return next(err);
     }
 
-    // render sets
-    res.render('home', { 
-      sets: rows,
-      mainClass: 'main-home main-sets',
-      cards: setCardCount
+    // get sets
+    rows = await Sets.findAll({
+      raw: true,
+      where: { user_id: userId },
+    });
+    
+    console.log('getSets: ', rows.length);
+    
+    // get cards for each set
+    // const setCardCount = [];
+    
+    for (const [index, set] of rows.entries()) {
+      const { cardCount } = await getCardsBySetID(set.ID, userId);
+      // setCardCount.push({setID: set.ID, cardCount});
+      rows[index].cardCount = cardCount;
+    }
+
+    console.log('getSets: ', rows);
+    res.status(200).json({
+      message: 'success',
+      rows: rows,
+      // cards: setCardCount,
     });
   },
   'Error retrieving sets data: ',
@@ -32,119 +45,111 @@ module.exports.getSets = asyncHandler(
 );
 
 
-// get create set
-module.exports.getCreateSet = (req, res) => {
-  res.render('set-form', {
-    view: 'create',
-    formScript: true, 
-  });
-};
+
+// // post create set
+// export const postCreateSet = asyncHandler(
+//   async (req, res) => {
+//     const setData = {
+//       title: req.body.title,
+//       description: req.body.desc || undefined,
+//       user_id: req.session.userId,
+//     };
+
+//     if (setData.title) {
+//       await Sets.create(setData);
+//       res.redirect('home/' + req.session.userId);
+//     }
+//   },
+//   'Error creating set: ',
+//   500
+// );
 
 
-// post create set
-module.exports.postCreateSet = asyncHandler(
-  async (req, res) => {
-    const setData = {
-      title: req.body.title,
-      description: req.body.desc || undefined,
-      user_id: req.session.userID,
-    };
+// // get set
+// export const getSet = asyncHandler(
+//   async (req, res) => {
 
-    if (setData.title) {
-      await Sets.create(setData);
-      res.redirect('home/' + req.session.userID);
-    }
-  },
-  'Error creating set: ',
-  500
-);
+//     const set = await Sets.findByPk(req.params.setID, { raw: true });
+//     const { cards } = await getCardsBySetID(req.params.setID, req.session.userId);
+
+//     res.render('set', { set, cards, userId: req.session.userId });
+//   },
+//   'Error retrieving set data: ',
+//   500
+// );
 
 
-// get set
-module.exports.getSet = asyncHandler(
-  async (req, res) => {
-
-    const set = await Sets.findByPk(req.params.setID, { raw: true });
-    const { cards } = await getCardsBySetID(req.params.setID, req.session.userID);
-
-    res.render('set', { set, cards, userID: req.session.userID });
-  },
-  'Error retrieving set data: ',
-  500
-);
-
-
-// get edit set
-module.exports.getEditSet = asyncHandler(
-  async (req, res) => {
-    const set = await Sets.findByPk(req.params.setID, {raw: true});
-    res.render('set-form', { 
-      view: 'edit', 
-      set,
-      formScript: true, 
-    });
-  },
-  'Error retrieving  set data: ',
-  500
-);
+// // get edit set
+// export const getEditSet = asyncHandler(
+//   async (req, res) => {
+//     const set = await Sets.findByPk(req.params.setID, {raw: true});
+//     res.render('set-form', { 
+//       view: 'edit', 
+//       set,
+//       formScript: true, 
+//     });
+//   },
+//   'Error retrieving  set data: ',
+//   500
+// );
 
 
-// post edit set
-module.exports.postEditSet = asyncHandler(
-  async (req, res) => {
-    const setData = {
-      title: req.body.title,
-      description: req.body.desc || undefined,
-    };
+// // post edit set
+// export const postEditSet = asyncHandler(
+//   async (req, res) => {
+//     const setData = {
+//       title: req.body.title,
+//       description: req.body.desc || undefined,
+//     };
 
-    const setID = req.params.setID;
+//     const setID = req.params.setID;
 
-    if (setData.title) {
-      await Sets.update(setData, {
-        where: {
-          ID: setID,
-        },
-      });
-      res.redirect(`/set/${setID}`);
-    }
-  },
-  'Error editing  set: ',
-  500
-);
+//     if (setData.title) {
+//       await Sets.update(setData, {
+//         where: {
+//           ID: setID,
+//         },
+//       });
+//       res.redirect(`/set/${setID}`);
+//     }
+//   },
+//   'Error editing  set: ',
+//   500
+// );
 
 
-// delete set
-module.exports.deleteSet = asyncHandler( 
-  async (req, res) => {
+// // delete set
+// export const deleteSet = asyncHandler( 
+//   async (req, res) => {
 
-    // get set
-    const set = await checkForSet(req.params.setID, req.session.userID);
+//     // get set
+//     const set = await checkForSet(req.params.setID, req.session.userId);
 
-    if(set) {
+//     if(set) {
 
-      // delete cards
-      await deleteCardsBySetID(req.params.setID, req.session.userID);
+//       // delete cards
+//       await deleteCardsBySetID(req.params.setID, req.session.userId);
 
-      const { cards } = await getCardsBySetID(req.params.setID, req.session.userID);
+//       const { cards } = await getCardsBySetID(req.params.setID, req.session.userId);
 
-      // check if cards were deleted
-      if (cards.length === 0 || cards === undefined) {
-        // delete set
-        await Sets.destroy({
-          where: {ID: req.params.setID, user_id: req.session.userID}
-        });
+//       // check if cards were deleted
+//       if (cards.length === 0 || cards === undefined) {
+//         // delete set
+//         await Sets.destroy({
+//           where: {ID: req.params.setID, user_id: req.session.userId}
+//         });
 
-        console.log(`All cards were deleted for set ${req.params.setID} `);
-        console.log('Set ' + req.params.setID + ' is deleted');
-      } else {
-        const err = new Error(`Error deleting cards for set ${req.params.setID}`);
-        err.status = 500;
-        throw err;
-      }
+//         console.log(`All cards were deleted for set ${req.params.setID} `);
+//         console.log('Set ' + req.params.setID + ' is deleted');
+//       } else {
+//         const err = new Error(`Error deleting cards for set ${req.params.setID}`);
+//         err.status = 500;
+//         throw err;
+//       }
 
-      res.redirect('/home/' + req.session.userID);
-    }
-  },
-  'Error deleting set: ',
-  500
-);
+//       res.redirect('/home/' + req.session.userId);
+//     }
+//   },
+//   'Error deleting set: ',
+//   500
+// );

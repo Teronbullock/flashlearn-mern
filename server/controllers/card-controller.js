@@ -1,19 +1,19 @@
-const Card = require('../models/cards-model');
-const { asyncHandler } = require('../lib/utils');
+import Card from '../models/cards-model.js';
+import { asyncHandler } from '../lib/utils.js';
 
 // get add card
-module.exports.getAddCard = (req, res) => {
+export const getAddCard = (req, res) => {
   const { setID } = req.params;
   res.render('card-form', {
     setID,
     view: 'add',
-    userID: req.session.userID,
+    userId: req.session.userId,
     cardScript: true, 
   });
 };
 
 // post add card
-module.exports.postAddCard = asyncHandler( 
+export const postAddCard = asyncHandler( 
   async (req, res, next) => {
     const { setID } = req.params;
     const cardDefinition = req.body.definition ? req.body.definition : 'No definition provided';
@@ -21,7 +21,7 @@ module.exports.postAddCard = asyncHandler(
     const data = {
       card_term: req.body.term,
       card_definition: cardDefinition,
-      user_id: req.session.userID,
+      user_id: req.session.userId,
       set_id: setID,
       card_color: req.body['card-color'],
       card_text_color: req.body['card-text-color'],
@@ -51,7 +51,7 @@ module.exports.postAddCard = asyncHandler(
 
 
 // get edit card
-module.exports.getEditCard = asyncHandler(
+export const getEditCard = asyncHandler(
   async (req, res) => {
     const { setID, cardID } = req.params;
     const card = await Card.findByPk(cardID, {raw: true});
@@ -68,7 +68,7 @@ module.exports.getEditCard = asyncHandler(
 
 
 // put edit card
-module.exports.putEditCard = asyncHandler(
+export const putEditCard = asyncHandler(
   async (req, res) => {
     const { setID, cardID } = req.params;
     const data = {
@@ -105,11 +105,11 @@ module.exports.putEditCard = asyncHandler(
 
 
 // delete card
-module.exports.deleteCard = asyncHandler(
+export const deleteCard = asyncHandler(
   async (req, res) => {
     const { setID, cardID } = req.params;
 
-    if (req.session.userID !== setID) {
+    if (req.session.userId !== setID) {
       await Card.destroy({ where: { ID: cardID} });
       
       console.log('card deleted');
@@ -128,7 +128,7 @@ module.exports.deleteCard = asyncHandler(
 
 
 // get view cards
-module.exports.getViewCards = asyncHandler(
+export const getViewCards = asyncHandler(
   async (req, res) => {
     const setID = req.params.setID;
     const { page } = req.query;

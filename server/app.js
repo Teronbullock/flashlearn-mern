@@ -46,7 +46,7 @@ myStore.sync();
 
 // get current user
 app.use((req, res, next) => {
-  res.locals.currentUser = req.session.userID;
+  res.locals.currentUser = req.session.userId;
   next();
 });
 

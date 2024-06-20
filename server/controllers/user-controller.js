@@ -52,7 +52,7 @@ export const postUserRegister = asyncHandler(
         res.status(200).json({
           message: 'User registered successfully.',
           token: token,
-          userID: user.ID,
+          userId: user.ID,
           userName: user.user_name,
         });
 
@@ -100,7 +100,7 @@ export const postUserLogin = asyncHandler(
           res.status(200).json({
             message: 'User logged in successfully.',
             token: token,
-            userID: user.ID,
+            userId: user.ID,
             userName: user.user_name,
           });
 
@@ -119,7 +119,7 @@ export const postUserLogin = asyncHandler(
 export const getUserProfile = asyncHandler(
   async (req, res, next) => {
 
-    const user = await Users.findByPk(req.params.userID);
+    const user = await Users.findByPk(req.params.userId);
     const data = {
       user_name: user.user_name,
       user_email: user.user_email,
@@ -136,7 +136,7 @@ export const getUserProfile = asyncHandler(
 export const putEditProfile = asyncHandler(
   async (req, res, next) => {
     const { email, old_password, password, confirm_password  } = req.body;
-    const userID = req.params.userID;
+    const userId = req.params.userId;
     const formData = {};
 
     if (!email && !old_password && !password && !confirm_password) {
@@ -145,8 +145,8 @@ export const putEditProfile = asyncHandler(
       return next(err);
     }
 
-    const user = await Users.findOne({ where: { ID: userID }}, { raw: true });
-    const oldPasswordMath = Users.comparePassword(userID, old_password, user.user_pass);
+    const user = await Users.findOne({ where: { ID: userId }}, { raw: true });
+    const oldPasswordMath = Users.comparePassword(userId, old_password, user.user_pass);
 
 
     if (!oldPasswordMath ) {
@@ -166,7 +166,7 @@ export const putEditProfile = asyncHandler(
     formData.user_email = email;
 
     const updatedUser = await Users.update(formData, {
-      where: { ID: userID }, 
+      where: { ID: userId }, 
       raw: true,
       individualHooks: true,
     });
@@ -179,7 +179,7 @@ export const putEditProfile = asyncHandler(
     } else {
 
       console.log('User updated successfully.');
-      res.redirect(`/profile/${userID}`);
+      res.redirect(`/profile/${userId}`);
     }
     
     
