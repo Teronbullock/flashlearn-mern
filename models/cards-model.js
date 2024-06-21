@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
-const db = require('../db/database');
-const User = require('./users-model');
-const Sets = require('./sets-model');
+import { DataTypes } from 'sequelize';
+import db from '../db/database.js';
+import User from './users-model.js';
+import Sets from './sets-model.js';
 
 
 const Card = db.define('fc_card', {
@@ -56,4 +56,4 @@ const Card = db.define('fc_card', {
   }
 })();
 
-module.exports = Card;
+export default Card;

@@ -1,38 +1,24 @@
 import { Router } from 'express';
 const router = Router();
 
-// const { 
-//   midCheckUsersAuth,
-//   midCheckUserAuthRedirect
-//  } = require('../middleware');
+import { midCheckUsersAuth } from '../middleware/index.js';
 
-// const {
-//   getSets,
-//   getCreateSet,
-//   postCreateSet,
-//   getSet,
-//   getEditSet,
-//   postEditSet,
-//   deleteSet
-// } = require('../controllers/set-controller');
+import { getSets } from '../controllers/set-controller.js';
 
-// const {
-//   getAddCard,
-//   postAddCard,
-//   getEditCard,
-//   putEditCard,
-//   deleteCard,
-//   getViewCards
-// } = require('../controllers/card-controller');
+import { getAddCard } from '../controllers/card-controller.js';
 
 
 // set routes
-// router.get('/create-set', midCheckUsersAuth, getCreateSet);
-// router.post('/create-set', midCheckUsersAuth, postCreateSet);
+router.get('/', getSets);
+router.get('/:userId', getSets);
 // router.get('/set/:setID', midCheckUsersAuth, getSet);
+// router.post('/set/create', midCheckUsersAuth, postCreateSet);
 // router.get('/set/:setID/edit', midCheckUsersAuth, getEditSet);
 // router.post('/set/:setID/edit', midCheckUsersAuth, postEditSet);
 // router.delete('/set/:setID/delete', midCheckUsersAuth, deleteSet);
+
+
+
 
 // // card routes
 // router.get('/set/:setID/card/add', midCheckUsersAuth, getAddCard);

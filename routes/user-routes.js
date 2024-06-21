@@ -48,8 +48,8 @@ router.post(
   postUserRegister
 );
 
-// router.get('/home/:userID', midCheckUsersAuth, midCheckUserAuthRedirect, getSets);
-// router.get('/profile/:userID', midCheckUsersAuth, midCheckUserAuthRedirect, getUserProfile);
-// router.put('/profile/:userID', midCheckUsersAuth, midCheckUserAuthRedirect, putEditProfile);
+// router.get('/home/:userId', midCheckUsersAuth, midCheckUserAuthRedirect, getSets);
+// router.get('/profile/:userId', midCheckUsersAuth, midCheckUserAuthRedirect, getUserProfile);
+// router.put('/profile/:userId', midCheckUsersAuth, midCheckUserAuthRedirect, putEditProfile);
 
 export default router;

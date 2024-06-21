@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize');
-const db = require('../db/database');
-const Users = require('./users-model');
+import { DataTypes } from 'sequelize';
+import db from '../db/database.js';
+import Users from './users-model.js';
 
 const Sets = db.define('fc_sets', {
   ID: {
@@ -27,6 +27,8 @@ const Sets = db.define('fc_sets', {
   }
 });
 
+
+
 (async () => {
   try {
     await Sets.sync({alter: true});
@@ -36,4 +38,4 @@ const Sets = db.define('fc_sets', {
   }
 })();
 
-module.exports = Sets;
+export default Sets;
