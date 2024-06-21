@@ -1,9 +1,9 @@
 
 // Check if User has authorization to view page
-module.exports.midCheckUsersAuth = (req, res, next) => {
-  if ( req.session && req.session.userID ) {
+export const midCheckUsersAuth = (req, res, next) => {
+  if ( req.session && req.session.userId ) {
 
-    res.locals.userID = req.session.userID;
+    res.locals.userId = req.session.userId;
     return next();
   } else {
     let err = new Error('User must be logged in to view page.');
@@ -14,8 +14,8 @@ module.exports.midCheckUsersAuth = (req, res, next) => {
 
 
 // Check if User has authorization to redirect
-// module.exports.midCheckUserAuthRedirect = (req, res, next) => {
-//   if (req.params.userID == req.session.userID ) {
+// export const midCheckUserAuthRedirect = (req, res, next) => {
+//   if (req.params.userId == req.session.userId ) {
 
 //     return next();
 //   } else {
