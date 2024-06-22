@@ -111,7 +111,7 @@
     "hero": {
       "heroClass": "page-header--edit-card",
       "ariaLabel": "Edit Card Page Header. This section contains the title, description, and actions for the edit card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
-      "img": "/assets/img/lala-azizli-6ZwJvJXUJfM-unsplash.jpg"
+      "img": "/assets/img/lala-azizli-qANvvc543Tg-unsplash.jpg"
     },
     "header": {
       "title": "Edit Card",
@@ -130,6 +130,18 @@
       "title": "View Cards",
       "copy": "View your flashcard. Add a question and answer to get started."
     }
+  },
+  "pageNotFound": {
+    "pageType": "pageNotFound",
+    "mainClass": "main--page-not-found",
+    "hero": {
+      "heroClass": "page-header--page-not-found",
+      "ariaLabel": "Page Not Found Page Header. This section contains the title and description for the page not found page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
+      "img": "/assets/img/lala-azizli-6ZwJvJXUJfM-unsplash.jpg"
+    },
+    "header": {
+      "title": "Page Not Found",
+      "copy": "Sorry, the page you are looking for does not exist."
+    }
   }
-
 }

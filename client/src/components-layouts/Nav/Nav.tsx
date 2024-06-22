@@ -34,7 +34,7 @@ const Nav = () => {
           { token ? (
             <>
               <li className="nav-mobile__item">
-                <Link className="nav-mobile__link" to="/dashboard">Home</Link>
+                <Link className="nav-mobile__link" to={`/dashboard/${userId}`}>Home</Link>
               </li>
               <li className="nav-mobile__item">
                 <Link className="nav-mobile__link" to="/set/create">Create Set</Link>
@@ -66,7 +66,7 @@ const Nav = () => {
           { token ? (
             <>
               <li className="nav-desktop__item">
-                <Link to="/dashboard">Home</Link>
+                <Link to={`/dashboard/${userId}`}>Home</Link>
               </li>
               <li className="nav-desktop__item">
                 <Link to="/set/create">Create Set</Link>

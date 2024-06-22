@@ -21,7 +21,7 @@ interface BtnProps {
  * @param to [string] - url for button
  * @param children [React.ReactNode] - children for button
  * @param dataType [string] - data type for button
- * @param elementType - [string] - anchor | btn - type of button
+ * @param elementType - [string] - anchor (default) | btn - type of button
  * @param onClick [function] - function for button click 
  * @param type [string] - type of button
  * @returns 

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 
 const PageHero = ({ heroData }: PageHeroProps) => {
-console.log('heroData:', heroData);
+// console.log('heroData:', heroData);
   const { 
     ariaLabel,
     img,

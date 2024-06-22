@@ -39,7 +39,7 @@ const LoginForm = () => {
 
       if (userId && token) {
         login?.(res.data.userId, res.data.token);
-        navigate(`/dashboard:${userId}`);
+        navigate(`/dashboard/${userId}`);
       }
     } catch (error) {
       console.error(error);

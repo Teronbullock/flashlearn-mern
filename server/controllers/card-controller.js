@@ -1,11 +1,30 @@
 import Card from '../models/cards-model.js';
 import { asyncHandler } from '../lib/utils.js';
 
+//get all cards
+export const getCardsAllCards = asyncHandler(
+  async (req, res) => {
+    const setId = req.params.setId;
+    const cards = await Card.findAll({
+      where: { set_id: setId },
+      raw: true,
+    });
+  console.log('getCardsAllCards', cards);
+
+    res.status(200).json({
+      "message": 'success',
+      "cards": cards,
+    });
+
+},'Error retrieving all cards data: ',
+  500
+);
+
 // get add card
 export const getAddCard = (req, res) => {
-  const { setID } = req.params;
+  const { setId } = req.params;
   res.render('card-form', {
-    setID,
+    setId,
     view: 'add',
     userId: req.session.userId,
     cardScript: true, 
@@ -15,14 +34,14 @@ export const getAddCard = (req, res) => {
 // post add card
 export const postAddCard = asyncHandler( 
   async (req, res, next) => {
-    const { setID } = req.params;
+    const { setId } = req.params;
     const cardDefinition = req.body.definition ? req.body.definition : 'No definition provided';
 
     const data = {
       card_term: req.body.term,
       card_definition: cardDefinition,
       user_id: req.session.userId,
-      set_id: setID,
+      set_id: setId,
       card_color: req.body['card-color'],
       card_text_color: req.body['card-text-color'],
     };
@@ -32,10 +51,10 @@ export const postAddCard = asyncHandler(
 
       console.log('card added');
 
-      // res.redirect(`/set/${setID}`);
+      // res.redirect(`/set/${setId}`);
       res.render('card-form', {
         view: 'add',
-        setID,
+        setId,
         msg: 'Card Added!',
         cardScript: true,
       });
@@ -53,12 +72,12 @@ export const postAddCard = asyncHandler(
 // get edit card
 export const getEditCard = asyncHandler(
   async (req, res) => {
-    const { setID, cardID } = req.params;
+    const { setId, cardID } = req.params;
     const card = await Card.findByPk(cardID, {raw: true});
 
     res.render('card-form', { 
       view: 'edit',
-      setID, card,
+      setId, card,
       cardScript: true,
     });
   },
@@ -70,7 +89,7 @@ export const getEditCard = asyncHandler(
 // put edit card
 export const putEditCard = asyncHandler(
   async (req, res) => {
-    const { setID, cardID } = req.params;
+    const { setId, cardID } = req.params;
     const data = {
       card_term: req.body.term,
       card_definition: req.body.definition,
@@ -89,7 +108,7 @@ export const putEditCard = asyncHandler(
 
       res.render('card-form', {
         view: 'edit',
-        setID,
+        setId,
         card,
         msg: 'Card Updated!',
       });
@@ -107,13 +126,13 @@ export const putEditCard = asyncHandler(
 // delete card
 export const deleteCard = asyncHandler(
   async (req, res) => {
-    const { setID, cardID } = req.params;
+    const { setId, cardID } = req.params;
 
-    if (req.session.userId !== setID) {
+    if (req.session.userId !== setId) {
       await Card.destroy({ where: { ID: cardID} });
       
       console.log('card deleted');
-      res.redirect(`/set/${setID}`);
+      res.redirect(`/set/${setId}`);
     } else {
       const err = new Error(
         'You do not have the correct permission to delete this card'
@@ -130,13 +149,13 @@ export const deleteCard = asyncHandler(
 // get view cards
 export const getViewCards = asyncHandler(
   async (req, res) => {
-    const setID = req.params.setID;
+    const setId = req.params.setId;
     const { page } = req.query;
     const nextPage = Number(page) + 1;
     const prevPage = Number(page) - 1;
     
     const {count, rows } = await Card.findAndCountAll({
-      where: { set_id: setID },
+      where: { set_id: setId },
       raw: true,
       offset: (page - 1),
       limit: 1,
@@ -147,7 +166,7 @@ export const getViewCards = asyncHandler(
 
     let templateData = { 
       cardScript: true,
-      setID,
+      setId,
       page,
       nextPage,
       prevPage,

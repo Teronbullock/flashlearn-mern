@@ -19,3 +19,12 @@ export interface DashboardFormProps {
     cardCount: number;
   };
 }
+
+export interface CardListFormProps {
+  formData: {
+    card_definition: string;
+    card_term: string;
+    ID: number;
+    set_id: number;
+  };
+}

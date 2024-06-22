@@ -5,12 +5,14 @@ import { midCheckUsersAuth } from '../middleware/index.js';
 
 import { getSets } from '../controllers/set-controller.js';
 
-import { getAddCard } from '../controllers/card-controller.js';
+import { getCardsAllCards } from '../controllers/card-controller.js';
+import { getCardsBySetID } from '../lib/set-service.js';
 
 
 // set routes
 router.get('/', getSets);
-router.get('/:userId', getSets);
+router.get('/user/:userId', getSets);
+router.get('/:setId', getCardsAllCards);
 // router.get('/set/:setID', midCheckUsersAuth, getSet);
 // router.post('/set/create', midCheckUsersAuth, postCreateSet);
 // router.get('/set/:setID/edit', midCheckUsersAuth, getEditSet);

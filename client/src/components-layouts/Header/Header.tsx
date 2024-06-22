@@ -6,7 +6,7 @@ import MobileMenuBtn from '../../components/MobileMenuBtn/MobileMenuBtn';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function Header() {
-  const { token } = useContext(AuthContext);
+  const { token, userId } = useContext(AuthContext);
   let currentUser = false;
 
   return (
@@ -14,7 +14,7 @@ export default function Header() {
       <div className='header__container container mx-auto h-full flex justify-center items-center relative md:justify-between'>
         <h1 className='header__site-title m-0 md:w-[180px]'>
           { token ? (
-            <Link className='header_site-title-link text-dark-shade' to='/dashboard'>FlashCard</Link>
+            <Link className='header_site-title-link text-dark-shade' to={`/dashboard/${userId}`}>FlashCard</Link>
           ) : (
             <Link className='header_site-title-link text-dark-shade' to='/home'>FlashCard</Link>
           )}

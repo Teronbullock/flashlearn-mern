@@ -24,7 +24,7 @@ const DashboardForm = ( { formData }: DashboardFormProps ) => {
         onSubmit={handleSubmit}
       >
         <div className="card__info flex justify-between flex-wrap">
-          <p className="my-0">#1</p>
+          <p className="my-0">{`Set ID: ${ID}`}</p>
           <p className="card__body-info-title my-0">{`Terms: ${cardCount}`}</p>
         </div>
         <div className="divider-h my-3"></div>

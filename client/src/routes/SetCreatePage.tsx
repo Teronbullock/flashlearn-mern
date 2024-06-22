@@ -1,7 +1,7 @@
-import PageTemplate from "../../components-layouts/PageComponents/PageTemplate";
-import Card from "../../components/Cards/Card";
-import Form from "../../components/Forms/Form";
-import FormInput from "../../components/Forms/FormInput";
+import PageTemplate from "../components-layouts/PageComponents/PageTemplate";
+import Card from "../components/Cards/Card";
+import Form from "../components/Forms/Form";
+import FormInput from "../components/Forms/FormInput";
 // import Btn from 
 
 
