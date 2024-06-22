@@ -5,3 +5,10 @@ export interface DashboardSetData {
   user_id: number;
   cardCount: number;
 }
+
+export interface SetCardData {
+  card_definition: string;
+  card_term: string;
+  ID: number;
+  set_id: number;
+}

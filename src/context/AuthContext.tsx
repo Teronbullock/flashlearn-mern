@@ -2,24 +2,24 @@ import { createContext, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContextValue, ContextProviderProps } from "./context-types";
 
-let logoutTimer: number | undefined;
 
 export const AuthContext = createContext<AuthContextValue>({
   userId: null,
-  setUserID: () => {},
   isLoggedIn: false,
-  // setIsLoggedIn: () => {},
   setToken: () => {},
   token: null,
   login: () => {},
 });
+
+
+// Logout timer
+let logoutTimer: number | undefined;
 
 export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children } ) => {
   const [userId, setUserID] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [tokenExpiration, setTokenExpiration] = useState<Date | null>(null);
   const navigate = useNavigate();
-
 
   /**
    * Login function - Updates the userId and token in the context
@@ -28,9 +28,12 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children }
    * @param token - Token generated when a user logs in
    * @param expirationDate - Date when the token expires
    */
-  const login = useCallback((userId: string, token: string, expirationDate?: Date | null ) => {
+  const login = useCallback((
+    userId: string,
+    token: string,
+    expirationDate?: Date | null
+  ) => {
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
-
     setTokenExpiration(tokenExpirationDate);
     setToken(token);
     setUserID(userId);
@@ -40,7 +43,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children }
       token: token,
       expiration: tokenExpirationDate.toISOString()
     }));
-
+    
   },[]);
 
   /**
@@ -56,25 +59,37 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children }
 
   const value = {
     userId,
-    // setUserID,
     isLoggedIn: !!token,
-    // setIsLoggedIn,
     token,
-    // setToken,
     login: login,
     logout: logout,
     tokenExpiration: tokenExpiration
   };
 
   useEffect(() => {
+    const storeDataString = localStorage.getItem('flashlearn_userData');
+
+    // Check if the stored data is valid
+    if (storeDataString ) {
+      const storedData = JSON.parse(storeDataString);
+      const { token, userId, expiration } = storedData;
+      const isExpirationValid = new Date(expiration) > new Date();
+
+      if (token && isExpirationValid) {
+        login?.(userId, token, new Date(expiration));
+      }
+    }
+  }, [token, login, userId]);
+
+  useEffect(() => {
     if (token && tokenExpiration) {
       const remainingTime = tokenExpiration.getTime() - new Date().getTime();
-
       logoutTimer = setTimeout(logout, remainingTime);
     } else {
       clearTimeout(logoutTimer);
     }
-  }, [token, logout, tokenExpiration]);
+
+  }, [token, logout, login, tokenExpiration]);
 
   return (
     <AuthContext.Provider value={value}>

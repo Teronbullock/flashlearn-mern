@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     ( async () => {
-      const res = await axios.get(`api/sets/${userId}`);
+      const res = await axios.get(`/api/set/user/${userId}`);
       const { rows, message } = res.data;
 
       // check if the response is successful
