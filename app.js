@@ -55,7 +55,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
 app.use('/users', userRoutes);
-app.use('/sets', setRoutes);
+app.use('/set', setRoutes);
 // import { col } from 'sequelize';
 
 // disable favicon requests
