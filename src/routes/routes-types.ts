@@ -1,14 +1,17 @@
-export interface DashboardSetData {
+interface FormPropsBase {
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  ID: number;
+}
+
+export interface DashboardSetConfig extends FormPropsBase {
   title: string;
   description?: string;
-  ID: number;
   user_id: number;
   cardCount: number;
 }
 
-export interface SetCardData {
+export interface SetCardConfig extends FormPropsBase {
   card_definition: string;
   card_term: string;
-  ID: number;
   set_id: number;
 }

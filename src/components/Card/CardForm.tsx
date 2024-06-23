@@ -1,4 +1,4 @@
-import Btn from '../../Btn/Btn';
+import Btn from '../Btn/Btn';
 
 interface CardFormProps {
   cardFormData: {

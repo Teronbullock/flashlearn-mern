@@ -2,13 +2,18 @@ import { useEffect, useContext, useState } from "react";
 import PageTemplate from "../components-layouts/PageComponents/PageTemplate";
 import DashboardForm from "../components/Forms/DashboardForm";
 import axios from "axios";
-import { DashboardSetData } from "./routes-types";
+import { DashboardSetConfig } from "./routes-types";
 import { AuthContext } from "../context/AuthContext";
 
 
 const Dashboard = () => {
   const { userId } = useContext(AuthContext);
   const [sets, setSets] = useState([]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('delete set from dashboardPage');
+  }
 
   useEffect(() => {
     ( async () => {
@@ -33,9 +38,14 @@ const Dashboard = () => {
       currentPage={'dashboardPage'}
     >
       <section className="container py-12">
-        { sets.length > 0 && sets.map((setData: DashboardSetData) => {
+        { sets.length > 0 && sets.map((setData: DashboardSetConfig) => {
+          setData = {
+            ...setData,
+            onSubmit: handleSubmit,
+          }
+
           return (
-          <DashboardForm formData={setData} key={setData.ID} />
+          <DashboardForm formConfig={setData} key={setData.ID} />
           )
         })
         }
