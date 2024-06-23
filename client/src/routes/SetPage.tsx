@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageTemplate from "../components-layouts/PageComponents/PageTemplate";
 import CardListForm from "../components/Forms/CardListForm";
-import { SetCardData } from "./routes-types";
+import { SetCardConfig } from "./routes-types";
 import axios from "axios";
 
 
@@ -10,7 +10,11 @@ const Set = () => {
   const { setId } = useParams();
   const [cards, setCards] = useState([]);
 
-  console.log('Set ID:', setId);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('delete set from set page');
+  }
+
   useEffect(() => {
     ( async () => {
       const res = await axios.get(`/api/set/${setId}`);
@@ -34,9 +38,14 @@ const Set = () => {
       currentPage="setPage"
     >
       <section className="container py-12">
-        { cards.length > 0 && cards.map((card: SetCardData, index) => {
+        { cards.length > 0 && cards.map((card: SetCardConfig, index) => {
+          card = {
+            ...card,
+            onSubmit: handleSubmit,
+          }
+
           return (
-            <CardListForm formData={card} key={index} />
+            <CardListForm formConfig={card} key={index} />
           ) 
         })}
       </section>

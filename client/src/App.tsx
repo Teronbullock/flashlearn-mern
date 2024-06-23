@@ -14,7 +14,7 @@ import Set from './routes/SetPage';
 import CardAddEdit from './routes/CardAddEditPage';
 // import CreateSet from './routes/SetCreatePage';
 // import EditSet from './routes/SetEditPage';
-// import Card from './routes/Card';
+
 // import Cards from './routes/Cards';
 // import CreateSet from './routes/CreateSet';
 // import Set from './routes/Set';
@@ -48,6 +48,7 @@ const App = () => {
     </>);
   }
 
+  
   return (
     <>
       <Header />

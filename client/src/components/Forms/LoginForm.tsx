@@ -1,18 +1,13 @@
 import { useReducer, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Card from '../Cards/Card';
 import Form from './Form';
 import FormInput from './FormInput';
 import Btn from '../Btn/Btn';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
+import { LoginFormState } from './form-types';
 
-interface FormState {
-  user_name: string;
-  user_pass: string;
-}
-
-const loginFormReducer = (state: FormState, action: object) => {
+const loginFormReducer = (state: LoginFormState, action: object) => {
   return {
     ...state,
     ...action,
@@ -26,7 +21,6 @@ const LoginForm = () => {
   });
 
   const { login } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
 
@@ -42,55 +36,51 @@ const LoginForm = () => {
         navigate(`/dashboard/${userId}`);
       }
     } catch (error) {
+      alert(error);
       console.error(error);
-
-      if (typeof error.response.data.message == 'string') {
-        alert(error.response.data.message);
-      }
     }
   }
 
+
   return (
     <section className="container py-12 w-1/2 min-h-[calc(100vh-11rem)]">
-      <Card>
-        <Form
-          onSubmit={handleFormSubmit}
-          formObj={{
-            hasTitle: true,
-            title: 'Login',
+      <Form
+        formData={{
+          onSubmit: handleFormSubmit,
+          hasTitle: true,
+          title: 'Login',
+        }}
+      >
+        <FormInput
+          labelName='Username'
+          inputObj={{
+            type: 'text',
+            name: 'user_name',
+            value: state.user_name,
+            placeholder: 'Enter your username',
+            required: true,
           }}
+          onChange={(e) => dispatch({ user_name: e.target.value })}
+        />
+        <FormInput
+          labelName='Password'
+          inputObj={{
+            type: 'password',
+            name: 'user_pass',
+            value: state.user_pass,
+            placeholder: 'Enter your password',
+            required: true,
+          }}
+          onChange={(e) => dispatch({user_pass: e.target.value })}
+        />
+        <Btn
+          elementType='btn'
+          className='btn--large btn--tertiary text-white'
+          type='submit'
         >
-          <FormInput
-            labelName='Username'
-            inputObj={{
-              type: 'text',
-              name: 'user_name',
-              value: state.user_name,
-              placeholder: 'Enter your username',
-              required: true,
-            }}
-            onChange={(e) => dispatch({ user_name: e.target.value })}
-          />
-          <FormInput
-            labelName='Password'
-            inputObj={{
-              type: 'password',
-              name: 'user_pass',
-              value: state.user_pass,
-              placeholder: 'Enter your password',
-              required: true,
-            }}
-            onChange={(e) => dispatch({user_pass: e.target.value })}
-          />
-          <Btn
-            elementType='btn'
-            className='btn--large btn--tertiary text-white'
-            type='submit'
-          >
-            Login
-          </Btn>
-        </Form>
-      </Card>
+          Login
+        </Btn>
+      </Form>
     </section>
   );
 }
