@@ -1,6 +1,6 @@
-import PageTemplate from "../components-layouts/PageComponents/PageTemplate"
+import PageTemplate from "../layouts/PageComponents/PageTemplate"
 import pageContent from "../data/page-content.json"
-import DashboardForm from "../components/Forms/DashboardForm"
+import DashboardForm from "../components/Forms/ListCardForm"
 
 
 

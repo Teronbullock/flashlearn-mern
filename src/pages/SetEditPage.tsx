@@ -1,4 +1,4 @@
-import PageTemplate from "../components-layouts/PageComponents/PageTemplate"
+import PageTemplate from "../layouts/PageComponents/PageTemplate"
 
 const EditSet = () => {
     return (

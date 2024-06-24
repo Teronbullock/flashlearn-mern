@@ -1,6 +1,6 @@
 import Btn from '../Btn/Btn';
 import Form from './Form';
-import { CardListConfig } from './form-types';
+import { CardListConfig } from '../../types/form-types';
 
 
 const CardListForm = ({ formConfig }: CardListConfig ) => {

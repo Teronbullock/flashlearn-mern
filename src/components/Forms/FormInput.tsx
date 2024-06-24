@@ -1,19 +1,5 @@
 import classNames from "classnames";
-
-interface FormInputProps {
-  labelName: string;
-  inputObj: {
-    type?: string;
-    isLabel?: boolean;
-    name: string;
-    value?: string;
-    className?: string;
-    placeholder?: string;
-    required?: boolean;
-    disabled?: boolean;
-  };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { FormInputProps } from "../../types/form-types";
 
 /**
  * -- FormInput Component --
@@ -32,17 +18,20 @@ interface FormInputProps {
  * @param onChange - The function to handle the input field change event
  * @returns 
  */
-const FormInput = ({ labelName, onChange, inputObj }: FormInputProps ) => {
-  const { 
-    type = 'text',
-    isLabel = true,
-    name,
-    value,
-    className,
-    placeholder,
-    required,
-    disabled
-  } = inputObj;
+const FormInput = ({ 
+  labelName, 
+  onChange, 
+  type = 'text',
+  isLabel = true,
+  name,
+  value,
+  className,
+  placeholder,
+  required,
+  disabled
+
+ }: FormInputProps ) => {
+
 
   let placeholderAttr = null;
 

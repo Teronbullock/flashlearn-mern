@@ -1,4 +1,4 @@
-import PageTemplate from "../components-layouts/PageComponents/PageTemplate";
+import PageTemplate from "../layouts/PageComponents/PageTemplate";
 import FormInput from "../components/Forms/FormInput";
 import Form from "../components/Forms/Form";
 // import Btn from 

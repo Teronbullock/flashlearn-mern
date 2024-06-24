@@ -2,22 +2,22 @@ import { useContext } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import './App.scss';
-import Header from './components-layouts/Header/Header';
-import Footer from './components-layouts/Footer/Footer';
-import PageNotFound from './routes/PageNotFound';
-import Index  from './routes/IndexPage';
-import Register from './routes/RegisterPage';
-import Login from './routes/LoginPage';
-import Dashboard from './routes/DashboardPage';
-import Profile from './routes/ProfilePage';
-import Set from './routes/SetPage';
-import CardAddEdit from './routes/CardAddEditPage';
-// import CreateSet from './routes/SetCreatePage';
-// import EditSet from './routes/SetEditPage';
+import Header from './layouts/Header/Header';
+import Footer from './layouts/Footer/Footer';
+import PageNotFound from './pages/PageNotFound';
+import Index  from './pages/IndexPage';
+import Register from './pages/RegisterPage';
+import Login from './pages/LoginPage';
+import Dashboard from './pages/DashboardPage';
+import Profile from './pages/ProfilePage';
+import Set from './pages/SetPage';
+import CardAddEdit from './pages/CardAddEditPage';
+// import CreateSet from './pages/SetCreatePage';
+// import EditSet from './pages/SetEditPage';
 
-// import Cards from './routes/Cards';
-// import CreateSet from './routes/CreateSet';
-// import Set from './routes/Set';
+// import Cards from './pages/Cards';
+// import CreateSet from './pages/CreateSet';
+// import Set from './pages/Set';
 
 
 const App = () => {
