@@ -1,11 +1,11 @@
 import { useReducer, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Form from './Form';
-import FormInput from './FormInput';
-import Btn from '../Btn/Btn';
+import Form from '../../components/Forms/Form';
+import FormInput from '../../components/Forms/FormInput';
+import Btn from '../../components/Btn/Btn';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
-import { RegFormState, RegFormAction } from './form-types';
+import { RegFormState, RegFormAction } from '../../types/form-types';
 
 
 const formReducer = (state: RegFormState, action: RegFormAction ) => {

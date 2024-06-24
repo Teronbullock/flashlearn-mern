@@ -1,6 +1,6 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContextValue, ContextProviderProps } from "./context-types";
+import { AuthContextValue, ContextProviderProps } from "../types/context-types";
 
 
 export const AuthContext = createContext<AuthContextValue>({

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import './Form.scss';
-import { FormProps } from './form-types';
+import { FormProps } from '../../types/form-types';
+
 
 /**
  * -- Form Component --
@@ -21,21 +22,17 @@ import { FormProps } from './form-types';
  * 
  * @returns 
  */
-const Form = ({ children, isCard = true, formData }: FormProps) => {
-  const { 
-    className = 'mb-8',
-    dataType,
-    onSubmit,
-    hasTitle = false,
-    title,
-    titleClassName
-  } = formData || {};
+const Form = ({ 
+  children,
+  className,
+  dataType,
+  onSubmit,
+  hasTitle = false,
+  title,
+  titleClassName
+}: FormProps) => {
   
   let dataTypeAttr = {};
-  
-  const formWrapperClass = classNames({
-    'card bg-white text-black rounded-md w-full mx-auto mb-12 p-8': isCard
-  }, className);
 
   if (dataType) {
     dataTypeAttr = {
@@ -44,22 +41,20 @@ const Form = ({ children, isCard = true, formData }: FormProps) => {
   }
 
   return (
-    <div className={formWrapperClass}>
-      <form 
-        onSubmit={onSubmit}
-        className='form'
-        {...dataTypeAttr}
-      >
-        {hasTitle ? (
-          <div className="form__title-container">
-            <h2 className={classNames('form__title mx-0 mb-4', titleClassName)}>
-              {title}
-            </h2>
-          </div>
-        ) : null}
-        {children}
-      </form>
-    </div>
+    <form 
+      onSubmit={onSubmit}
+      className={classNames('form', className)}
+      {...dataTypeAttr}
+    >
+      {hasTitle ? (
+        <div className="form__title-container">
+          <h2 className={classNames('form__title mx-0 mb-4', titleClassName)}>
+            {title}
+          </h2>
+        </div>
+      ) : null}
+      {children}
+    </form>
   );
 }
 

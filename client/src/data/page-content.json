@@ -3,7 +3,7 @@
     "pageType": "index",
     "mainClass": "main--index",
     "hero": {
-      "heroClass": "page-header--index",
+      "className": "page-header--index",
       "ariaLabel": "Image of a person sitting on the floor with their back on a couch while using a laptop to study. Photo by Thought Catalog on Unsplash",
       "img": "/assets/img/thought-catalog-Nv-vx3kUR2A-unsplash.jpg"
     },
@@ -16,7 +16,7 @@
     "pageType": "dashboard",
     "mainClass": "main--dashboard",
     "hero": {
-      "heroClass": "page-header--dashboard",
+      "className": "page-header--dashboard",
       "ariaLabel": "Dashboard Page Header. This section contains the title and description. The background image is of a person with a black shirt studying. Photo by Anthony Riera on Unsplash.",
       "img": "/assets/img/anthony-riera-kylWNDQFd5A-unsplash.jpg"
     },
@@ -37,7 +37,7 @@
     "pageType": "set",
     "mainClass": "main--set",
     "hero": {
-      "heroClass": "page-header--set",
+      "className": "page-header--set",
       "ariaLabel": "Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person with red hair studying, while facing forward and looking towards the camera. Photo by ThisisEngineering RAEng on Unsplash.",
       "img": "/assets/img/thisisengineering-raeng-ccpOiDUmeo0-unsplash.jpg"
     },
@@ -70,7 +70,7 @@
     "pageType": "createSet",
     "mainClass": "main--create-set",
     "hero": {
-      "heroClass": "page-header--create-set",
+      "className": "page-header--create-set",
       "ariaLabel": "Create Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person sits on padded chair while using MacBook during daytime. Photo by Christina @ wocintechchat on Unsplash.",
       "img": "/assets/img/christina-wocintechchat-com-vLwH8bWoi_8-unsplash.jpg"
     },
@@ -83,7 +83,7 @@
     "pageType": "editSet",
     "mainClass": "main--edit-set",
     "hero": {
-      "heroClass": "page-header--edit-set",
+      "className": "page-header--edit-set",
       "ariaLabel": "Edit Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person sits on padded chair while using MacBook during daytime. Photo by Christina @ wocintechchat on Unsplash.",
       "img": "/assets/img/christina-wocintechchat-com-vLwH8bWoi_8-unsplash.jpg"
     },
@@ -96,7 +96,7 @@
     "pageType": "addCard",
     "mainClass": "main--add-card",
     "hero": {
-      "heroClass": "page-header--add-card",
+      "className": "page-header--add-card",
       "ariaLabel": "Add Card Page Header. This section contains the title, description, and actions for the add card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
       "img": "/assets/img/lala-azizli-qANvvc543Tg-unsplash.jpg"
     },
@@ -109,7 +109,7 @@
     "pageType": "editCard",
     "mainClass": "main--edit-card",
     "hero": {
-      "heroClass": "page-header--edit-card",
+      "className": "page-header--edit-card",
       "ariaLabel": "Edit Card Page Header. This section contains the title, description, and actions for the edit card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
       "img": "/assets/img/lala-azizli-qANvvc543Tg-unsplash.jpg"
     },
@@ -122,7 +122,7 @@
     "pageType": "viewCards",
     "mainClass": "main--view-cards",
     "hero": {
-      "heroClass": "page-header--view-cards",
+      "className": "page-header--view-cards",
       "ariaLabel": "View Cards Page Header. This section contains the title, description, and actions for the view card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
       "img": "/assets/img/lala-azizli-6ZwJvJXUJfM-unsplash.jpg"
     },
@@ -135,7 +135,7 @@
     "pageType": "pageNotFound",
     "mainClass": "main--page-not-found",
     "hero": {
-      "heroClass": "page-header--page-not-found",
+      "className": "page-header--page-not-found",
       "ariaLabel": "Page Not Found Page Header. This section contains the title and description for the page not found page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
       "img": "/assets/img/lala-azizli-6ZwJvJXUJfM-unsplash.jpg"
     },

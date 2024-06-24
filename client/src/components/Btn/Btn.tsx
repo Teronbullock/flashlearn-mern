@@ -1,17 +1,8 @@
 import { Link } from 'react-router-dom'
 import './Btn.scss';
 import classNames from 'classnames';
+import { BtnProps } from '../../types/btn-types';
 
-interface BtnProps {
-  className?: string;
-  ariaLabel?: string;
-  to?: string;
-  children?: React.ReactNode;
-  dataType?: string;
-  elementType?: 'anchor' | 'btn';
-  onClick?: () => void;
-  type?: 'submit' | 'reset' | 'button' | undefined;
-}
 
 /**
  * -- Btn Component --

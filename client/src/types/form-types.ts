@@ -1,14 +1,11 @@
 export interface FormProps {
   children: React.ReactNode;
-  isCard?: boolean;
-  formData?: {
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    title?: string;
-    className?: string;
-    hasTitle?: boolean;
-    titleClassName?: string;
-    dataType? : string;
-  };
+  className?: string;
+  hasTitle?: boolean;
+  title?: string;
+  titleClassName?: string;
+  dataType? : string;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 interface FormPropsBase {
@@ -57,4 +54,18 @@ export interface RegFormAction {
 export interface LoginFormState {
   user_name: string;
   user_pass: string;
+}
+
+
+export interface FormInputProps {
+  labelName: string;
+  type?: string;
+  isLabel?: boolean;
+  name: string;
+  value?: string;
+  className?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

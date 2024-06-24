@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { ContextProviderProps } from './context-types';
+import { ContextProviderProps } from '../types/context-types';
 import PageContentFile from '../data/page-content.json';
 
 export const PageTempContext = createContext({
