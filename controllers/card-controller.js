@@ -49,14 +49,12 @@ export const postAddCard = asyncHandler(
     if (data.card_term && data.card_definition) {
       const card = await Card.create(data);
 
-      console.log('card added');
+      console.log('card updated', card);
 
-      // res.redirect(`/set/${setId}`);
-      res.render('card-form', {
-        view: 'add',
+      res.status(200).json({
         setId,
         msg: 'Card Added!',
-        cardScript: true,
+        card
       });
     } else {
       const err = new Error('Please fill in all fields');
@@ -72,14 +70,15 @@ export const postAddCard = asyncHandler(
 // get edit card
 export const getEditCard = asyncHandler(
   async (req, res) => {
-    const { setId, cardID } = req.params;
-    const card = await Card.findByPk(cardID, {raw: true});
+    
+    const { setId, cardId } = req.params;
+    const card = await Card.findByPk(cardId, {raw: true});
 
-    res.render('card-form', { 
-      view: 'edit',
-      setId, card,
-      cardScript: true,
+    res.status(200).json({
+      setId,
+      card,
     });
+
   },
   'Error retrieving card data: ',
   500
@@ -89,27 +88,33 @@ export const getEditCard = asyncHandler(
 // put edit card
 export const putEditCard = asyncHandler(
   async (req, res) => {
-    const { setId, cardID } = req.params;
+    const { setId, cardId } = req.params;
     const data = {
-      card_term: req.body.term,
-      card_definition: req.body.definition,
-      card_color: req.body['card-color'],
-      card_text_color: req.body['card-text-color'],
+      card_term: req.body.card_term,
+      card_definition: req.body.card_definition,
+      card_color: req.body.card_color,
+      card_text_color: req.body.card_text_color,
+      id: req.body.id,
     };
 
+    if (data.id !== cardId) {
+      return res.status(400).json({ error: "Card ID in body does not match URL" });
+    }
+
+  console.log('data: ', data);
     if (data.card_term && data.card_definition) {
       const cardUpdate = await Card.update(data, {
-        where: { ID: cardID },
+        where: { ID: cardId },
       });
 
-      const card = await Card.findByPk(cardID, { raw: true });
+      const card = await Card.findByPk(cardId, { raw: true });
 
       console.log('card updated', cardUpdate);
 
-      res.render('card-form', {
-        view: 'edit',
+      res.status(200).json({
         setId,
         card,
+        cardUpdate,
         msg: 'Card Updated!',
       });
     } else {
