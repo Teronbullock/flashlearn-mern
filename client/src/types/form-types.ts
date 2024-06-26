@@ -67,5 +67,6 @@ export interface FormInputProps {
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  dataType?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement  | HTMLTextAreaElement>) => void;
 }

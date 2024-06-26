@@ -22,3 +22,27 @@ export interface CardProps {
   className?: string;
   style?: React.CSSProperties;
 }
+
+export interface ManageCardFormProps {
+  definition?: string;
+  term?: string;
+  set_id?: number;
+  ID?: number;
+  user_id?: number;
+  formType: 'add' | 'edit';
+  textColor?: string;
+  bgColor?: string;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  to: string;
+  dispatch: React.Dispatch<any>;
+}
+
+export interface CardType {
+  ID: number;
+  card_color?: string;
+  card_definition: string;
+  card_term: string;
+  card_text_color?: string;
+  set_id: number;
+  user_id: number;
+}

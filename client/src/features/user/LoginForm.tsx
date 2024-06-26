@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import Form from '../../components/Forms/Form';
 import FormInput from '../../components/Forms/FormInput';
 import Btn from '../../components/Btn/Btn';
-import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { LoginFormState } from '../../types/form-types';
 import Card from '../../components/cards/Card';
+import { apiRequest } from '../../lib/api';
 
 const loginFormReducer = (state: LoginFormState, action: object) => {
   return {
@@ -34,7 +34,13 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = (await axios.post('api/users/login', state));
+      const res = await apiRequest({
+        method: 'post',
+        url: 'api/users/login',
+        data: state,
+        src: 'LoginForm - handleFormSubmit'
+      });
+      
       const { userId, token } = res.data;
 
       if (userId && token) {
