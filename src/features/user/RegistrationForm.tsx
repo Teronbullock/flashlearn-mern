@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Form from '../../components/Forms/Form';
 import FormInput from '../../components/Forms/FormInput';
 import Btn from '../../components/Btn/Btn';
-import axios from 'axios';
+import { apiRequest } from '../../lib/api';
 import { AuthContext } from '../../context/AuthContext';
 import { RegFormState, RegFormAction } from '../../types/form-types';
 
@@ -31,7 +31,12 @@ const RegistrationForm = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post('api/users/register', state);
+      const res = await apiRequest({
+        method: 'post',
+        url: 'api/users/register',
+        data: state,
+        src: 'RegistrationForm - handleFormSubmit'
+      });
       const { userId, token } = res.data;
 
       if (userId && token && authContext.login) {

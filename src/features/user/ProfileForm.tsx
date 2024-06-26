@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 // import Form from '../Form';
 // import FormInput from '../FormInput';
 // import Btn from '../../Btn/Btn';
-import axios from 'axios';
+import { apiRequest } from '../../lib/api';
 
 const ProfileForm = () => {
 
@@ -18,8 +18,13 @@ const ProfileForm = () => {
     e.preventDefault();
     console.log('I got clicked');
     try {
-      const response = await axios.post('api/profile', profileFormData);
-      console.log(response);
+      const response = await apiRequest({
+        method:'post',
+        url: 'api/profile',
+        data: profileFormData,
+        src: 'ProfileForm - handleFormSubmit'
+      });
+
       // navigate('/dashboard');
     } catch (error) {
       console.error(error);

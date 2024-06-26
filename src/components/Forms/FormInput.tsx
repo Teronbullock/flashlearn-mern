@@ -30,17 +30,24 @@ const FormInput = ({
   required,
   disabled
 
- }: FormInputProps ) => {
-
-
+}: FormInputProps ) => {
   let placeholderAttr = null;
+  let isTypeColor;
+
+  if (type === 'color') {
+    isTypeColor = true;
+  }
+
+  const inputClassName = classNames({
+    'form__input w-full text-black text-xl bg-white rounded-md border-solid border-2 border-black  outline-none md:mt-1 md:mx-0 md:mb-6 md:p-4 md:text-2xl py-1 px-2': !isTypeColor,
+    'md:ml-4 md:mb-4 md:w-[65px]' : isTypeColor,
+  }, className)
 
   if (placeholder) {
     placeholderAttr = {
       placeholder: placeholder,
     };
   }
-
 
   return (
     <div className="form__input-container w-full mb-4">
@@ -49,17 +56,18 @@ const FormInput = ({
       ) : null}
       {type === 'textarea' ? (
         <textarea 
+          id={name}
           cols={30} 
           rows={2}
           name={name}
+          value={value}
           className={classNames('form__input w-full text-black text-xl bg-white rounded-md border-solid border-2 border-black  outline-none md:mt-1 md:mx-0 md:mb-6 md:p-4 md:text-2xl py-1 px-2', className)}
           onChange={onChange}
           {...placeholderAttr}
           required={required}
-        >
-        </textarea>) : (
+        />) : (
           <input
-            className={classNames('form__input w-full text-black text-xl bg-white rounded-md border-solid border-2 border-black  outline-none md:mt-1 md:mx-0 md:mb-6 md:p-4 md:text-2xl py-1 px-2', className)}
+            className={inputClassName}
             type={type}
             name={name}
             value={value}

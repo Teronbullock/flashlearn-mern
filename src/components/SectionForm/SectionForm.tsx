@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './SectionForm.scss';
 import Btn from '../../components/Btn/Btn';
 import BtnClose from '../../components/BtnClose/BtnClose';
-import axios from 'axios';
+import { apiRequest } from '../../lib/api';
 
 interface SectionFormProps {
   formType: 'reg' | 'login' | 'profile';
@@ -79,13 +79,16 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
     }
 
     try {
-      const res = await axios.post(apiUrl, formData);
+      const res = await apiRequest({
+        method: 'post',
+        url: apiUrl,
+        data: formData,
+        src: 'SectionForm'
+      });
       if (formType === 'login' && res.data) {
-        console.log(res.data, 'success');
         navigate('/dashboard');
         
       } else if (formType === 'reg' && res.data) {
-        console.log(res.data, 'success');
         alert('Registration successful');
       }
       

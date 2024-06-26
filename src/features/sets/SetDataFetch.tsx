@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { apiRequest } from "../../lib/api";
 import ListCardForm from "../../components/Forms/ListCardForm";
 import { CardDataConfig } from "../../types/user-types";
 
@@ -16,7 +16,10 @@ const SetDataFetch = () => {
 
   useEffect(() => {
     ( async () => {
-      const res = await axios.get(`/api/set/${setId}`);
+      const res = await apiRequest({
+        url: `/api/set/${setId}`,
+        src: 'SetDataFetch - useEffect'
+      });
 
       // check if the response is successful
       if (res.status !== 200) {
@@ -24,7 +27,7 @@ const SetDataFetch = () => {
         return;
       } 
 
-      const { cards, message } = res.data;
+      const { cards } = res.data;
       setCards(cards);
     })();
 
@@ -36,7 +39,7 @@ const SetDataFetch = () => {
         ID,
         card_definition,
         card_term,
-        user_id,
+        set_id,
       } = card;
 
       return (
@@ -45,7 +48,7 @@ const SetDataFetch = () => {
           title={card_term}
           description={card_definition}
           onSubmit={handleSubmit}
-          to={`/set/${user_id}/card/${ID}/edit`}
+          to={`/set/${set_id}/card/${ID}/edit`}
         />
       ) 
     })}

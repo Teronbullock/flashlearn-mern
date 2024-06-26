@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import ListCardForm from "../../components/Forms/ListCardForm";
-import axios from "axios";
+import { apiRequest } from "../../lib/api";
 import { AuthContext } from "../../context/AuthContext";
 import { SetDataConfig } from "../../types/user-types";
 
@@ -17,7 +17,10 @@ const DashboardDataFetch = () => {
 
   useEffect(() => {
     ( async () => {
-      const res = await axios.get(`/api/set/user/${userId}`);
+      const res = await apiRequest({
+        url:`/api/set/user/${userId}`,
+        src: 'DashboardDataFetch - useEffect'
+      });
       const { rows, message } = res.data;
 
       // check if the response is successful

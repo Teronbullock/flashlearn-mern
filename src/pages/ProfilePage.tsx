@@ -1,4 +1,4 @@
-import ProfileForm from '../components/Forms/ProfileForm';
+import ProfileForm from '../features/user/ProfileForm';
 
 const Profile = () => {
   return (
