@@ -13,7 +13,7 @@ import Profile from './pages/ProfilePage';
 import Set from './pages/SetPage';
 import CardAddEdit from './pages/CardAddEditPage';
 // import CreateSet from './pages/SetCreatePage';
-// import EditSet from './pages/SetEditPage';
+import EditSet from './pages/SetAddEditPage';
 
 // import Cards from './pages/Cards';
 // import CreateSet from './pages/CreateSet';
@@ -32,8 +32,9 @@ const App = () => {
       <Route path='/set/:setId' element={<Set /> } />
       <Route path='/set/:setId/card/:cardId/edit' element={<CardAddEdit />} />
       <Route path='/set/:setId/card/:cardId/add' element={<CardAddEdit />} />
+      <Route path='/set/:setId/edit' element={<EditSet />} />
 
-      {/* <Route path='/set/:setId/edit' element={<EditSet /> } />
+      {/*  } />
       <Route path='/set/create' element={<CreateSet />} />
       } />*/}
       <Route path="*" element={ <PageNotFound /> } />

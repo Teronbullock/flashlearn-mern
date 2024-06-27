@@ -1,10 +1,10 @@
-import SetDataFetch from "../features/sets/SetDataFetch";
+import ManageCardData from "../features/cards/ManageCardData";
 import PageTemplate from "../layouts/PageComponents/PageTemplate";
 
 const Set = () => {
   return (
     <PageTemplate currentPage="setPage">
-      <SetDataFetch />
+      <ManageCardData />
     </PageTemplate>
   )
 }
