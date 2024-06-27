@@ -18,11 +18,11 @@ router.get('/', getSets);
 router.get('/user/:userId', getSets);
 router.get('/:setId/card/:cardId/edit', getEditCard);
 router.put('/:setId/card/:cardId/edit', putEditCard);
+// router.delete('/:setId/delete', deleteSet);
 router.get('/:setId', getCardsAllCards);
 // router.get('/set/:setID', midCheckUsersAuth, getSet);
 // router.post('/set/create', midCheckUsersAuth, postCreateSet);
 // router.get('/set/:setID/edit', midCheckUsersAuth, getEditSet);
-// router.delete('/set/:setID/delete', midCheckUsersAuth, deleteSet);
 
 
 

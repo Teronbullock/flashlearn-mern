@@ -1,11 +1,11 @@
 import PageTemplate from "../layouts/PageComponents/PageTemplate";
-import DashboardDataFetch from "../features/user/DashboardDataFetch";
+import ManageSetData from "../features/sets/ManageSetData";
 
 
 const Dashboard = () => {
   return (
     <PageTemplate currentPage={'dashboardPage'} >
-      <DashboardDataFetch />
+      <ManageSetData />
     </PageTemplate>
   )
 }

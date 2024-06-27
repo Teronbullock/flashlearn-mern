@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { SetDataConfig } from "../../types/user-types";
 
 
-const DashboardDataFetch = () => {
+const ManageSetData = () => {
   const { userId } = useContext(AuthContext);
   const [sets, setSets] = useState([]);
   const [rowCount, setRowCount] = useState(0);
@@ -19,7 +19,7 @@ const DashboardDataFetch = () => {
     ( async () => {
       const res = await apiRequest({
         url:`/api/set/user/${userId}`,
-        src: 'DashboardDataFetch - useEffect'
+        src: 'ManageSetData - useEffect'
       });
       const { rows, message } = res.data;
 
@@ -58,4 +58,4 @@ const DashboardDataFetch = () => {
   );
 }
 
-export default DashboardDataFetch;
+export default ManageSetData;
