@@ -8,10 +8,11 @@ import Btn from '../../components/Btn/Btn';
 import { PageTempContext } from '../../context/PageTempContext';
 
 const PageHeader = ({ currentPage }: CurrentPage) => {
-  const { pageContent } = useContext(PageTempContext);
+  const { pageContent, headerNav } = useContext(PageTempContext);
   const currentPageContent = pageContent[currentPage];
   const { header } = currentPageContent;
-  const { title, copy, headerNav } = header as HeaderInterface;
+  console.log('headerNav: ', headerNav);
+  const { title, copy } = header as HeaderInterface;
 
   return (
     <header className='page-header bg-white py-4'>

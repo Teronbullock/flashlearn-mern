@@ -24,12 +24,14 @@ export interface CardProps {
 }
 
 export interface ManageCardFormProps {
-  definition?: string;
-  term?: string;
+  inputOneLabel: string;
+  inputTwoLabel: string;
+  inputOneValue?: string;
+  inputTwoValue?: string;
   set_id?: number;
   ID?: number;
   user_id?: number;
-  formType: 'add' | 'edit';
+  submitBtnText: 'add' | 'Update' | 'Create';
   textColor?: string;
   bgColor?: string;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;

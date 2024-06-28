@@ -1,8 +1,8 @@
 import { useEffect, useState, useReducer } from "react";
 import ManageCardForm from "../../components/Forms/ManageCardForm";
 import { useParams } from "react-router-dom";
-import { CardType } from "../../types/card-types";
 import { apiRequest } from "../../lib/api";
+import Nav from "../../layouts/Nav/Nav";
 
 
 const SetReducer = (state: ManageCardFormProps, action: object) => {
@@ -14,12 +14,12 @@ const SetReducer = (state: ManageCardFormProps, action: object) => {
 
 
 const SetDataFetch = () => {
-  const {setId } = useParams();
+  const {userId } = useParams();
   const [setUpdated, setSetUpdated] = useState(false);
 
   const [state, dispatch] = useReducer(SetReducer, {
-    title: '',
-    description: '',
+    inputOneValue: '',
+    InputTwoValue: '',
   });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,12 +29,12 @@ const SetDataFetch = () => {
       console.log('state here:',state);
       
       const res = await apiRequest({
-        method: 'put',
-        url: `/api/set/${setId}/edit`,
+        method: 'post',
+        url: `/api/set/user/${userId}/create`,
         data: {
           title: state.inputOneValue,
           desc: state.inputTwoValue,
-          id: setId,
+          userId: userId,
         },
         src: 'SetDataFetch - onSubmit'
       });
@@ -44,6 +44,7 @@ const SetDataFetch = () => {
         setSetUpdated(setUpdate);
         alert(msg);
         console.log('Update Card data fetch', set, msg, setUpdate);
+        dispatch({inputOneValue: '', inputTwoValue: ''});
       }
 
       
@@ -56,28 +57,16 @@ const SetDataFetch = () => {
 
   useEffect(() => {
     ( async () => {
-      const res = await apiRequest({
-        url: `/api/set/${setId}/edit`,
-        src: 'SetDataFetch - useEffect'
-      });
 
-      // check if the response is successful
-      if (res.status !== 200) {
-        console.error(res.status);
-        return;
-      } 
-
-      const { set } = res.data;
-      const { title, description } = set;
-
-      dispatch({
-        inputOneValue: title,
-        inputTwoValue: description,
-      });
+      // // check if the response is successful
+      // if (res.status !== 200) {
+      //   console.error(res.status);
+      //   return;
+      // } 
 
     })();
 
-  }, [setId, setUpdated]);
+  }, [userId, setUpdated]);
 
 
 
@@ -87,11 +76,11 @@ const SetDataFetch = () => {
         <ManageCardForm
           inputOneLabel='Title'
           inputTwoLabel='Description'
-          submitBtnText='Update'
+          submitBtnText='Create'
           inputOneValue={state.inputOneValue}
           inputTwoValue={state.inputTwoValue}
           onSubmit={onSubmit}
-          to={`/set/${setId}/edit`}
+          to={`/set/user/${userId}/create`}
           dispatch={dispatch}
         />
       </section>
