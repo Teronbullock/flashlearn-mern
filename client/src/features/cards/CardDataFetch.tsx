@@ -1,5 +1,5 @@
 import { useEffect, useState, useReducer } from "react";
-import ManageCardForm from "./ManageCardForm";
+import ManageCardForm from "../../components/Forms/ManageCardForm";
 import { useParams } from "react-router-dom";
 import { CardType } from "../../types/card-types";
 import { apiRequest } from "../../lib/api";
@@ -90,9 +90,11 @@ const CardDataFetch = () => {
     return (
       <section className="container py-12 lg:max-w-screen-lg">
         <ManageCardForm
-          formType='edit'
-          term={state.term}
-          definition={state.definition}
+          inputOneLabel="Term"
+          inputTwoLabel="Definition"
+          submitBtnText='Update'
+          inputOneValue={state.inputOneValue}
+          inputTwoValue={state.inputTwoValue}
           bgColor={state.bgColor}
           textColor={state.textColor}
           onSubmit={onSubmit}

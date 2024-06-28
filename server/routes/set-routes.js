@@ -3,7 +3,12 @@ const router = Router();
 
 import { midCheckUsersAuth } from '../middleware/index.js';
 
-import { getSets } from '../controllers/set-controller.js';
+import { 
+  getSets,
+  getEditSet,
+  putEditSet,
+  postCreateSet,
+} from '../controllers/set-controller.js';
 
 import { 
   getCardsAllCards,
@@ -16,13 +21,14 @@ import { getCardsBySetID } from '../lib/set-service.js';
 // routes
 router.get('/', getSets);
 router.get('/user/:userId', getSets);
+router.post('/user/:userId/create', postCreateSet);
 router.get('/:setId/card/:cardId/edit', getEditCard);
 router.put('/:setId/card/:cardId/edit', putEditCard);
+router.get('/:setID/edit', getEditSet);
+router.put('/:setID/edit', putEditSet);
 // router.delete('/:setId/delete', deleteSet);
 router.get('/:setId', getCardsAllCards);
 // router.get('/set/:setID', midCheckUsersAuth, getSet);
-// router.post('/set/create', midCheckUsersAuth, postCreateSet);
-// router.get('/set/:setID/edit', midCheckUsersAuth, getEditSet);
 
 
 

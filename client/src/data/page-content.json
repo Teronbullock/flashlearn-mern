@@ -22,15 +22,7 @@
     },
     "header": {
       "title": "Dashboard",
-      "copy": "Welcome to your dashboard. Here you can view your card sets, create new ones, and study them. To get started create a Set.",
-      "headerNav": [
-        {
-          "className": "btn--tertiary",
-          "btnText": "Create Set",
-          "to": "/set/create",
-          "ariaLabel": "Create Set Button. Click to create a new set of flashcards."
-        }
-      ]
+      "copy": "Welcome to your dashboard. Here you can view your card sets, create new ones, and study them. To get started create a Set."
     }
   },
   "setPage": {

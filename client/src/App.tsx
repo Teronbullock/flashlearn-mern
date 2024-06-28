@@ -12,7 +12,7 @@ import Dashboard from './pages/DashboardPage';
 import Profile from './pages/ProfilePage';
 import Set from './pages/SetPage';
 import CardAddEdit from './pages/CardAddEditPage';
-// import CreateSet from './pages/SetCreatePage';
+import CreateSet from './pages/SetCreatePage';
 import EditSet from './pages/SetAddEditPage';
 
 // import Cards from './pages/Cards';
@@ -33,10 +33,8 @@ const App = () => {
       <Route path='/set/:setId/card/:cardId/edit' element={<CardAddEdit />} />
       <Route path='/set/:setId/card/:cardId/add' element={<CardAddEdit />} />
       <Route path='/set/:setId/edit' element={<EditSet />} />
+      <Route path='/set/user/:userId/create' element={<CreateSet />} />
 
-      {/*  } />
-      <Route path='/set/create' element={<CreateSet />} />
-      } />*/}
       <Route path="*" element={ <PageNotFound /> } />
       <Route path='/' element={<Navigate to={`/dashboard/${userId}`} />} />
     </>);
