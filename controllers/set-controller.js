@@ -45,24 +45,56 @@ export const getSets = asyncHandler(
 );
 
 
+// put edit set
+export const putEditSet = asyncHandler(
+  async (req, res) => {
+    const setData = {
+      title: req.body.title,
+      description: req.body.desc || undefined,
+    };
 
-// // post create set
-// export const postCreateSet = asyncHandler(
-//   async (req, res) => {
-//     const setData = {
-//       title: req.body.title,
-//       description: req.body.desc || undefined,
-//       user_id: req.session.userId,
-//     };
+    const setID = req.params.setID;
 
-//     if (setData.title) {
-//       await Sets.create(setData);
-//       res.redirect('home/' + req.session.userId);
-//     }
-//   },
-//   'Error creating set: ',
-//   500
-// );
+    if (setData.title) {
+      const set = await Sets.update(setData, {
+        where: {
+          ID: setID,
+        },
+      });
+      res.status(200).json({
+        msg: 'Set updated!',
+        set: set,
+
+      });
+    }
+  },
+  'Error editing  set: ',
+  500
+);
+
+
+// post create set
+export const postCreateSet = asyncHandler(
+  async (req, res) => {
+    // const { userId } = req.params;
+    const { userId, title, desc } = req.body;
+    const setData = {
+      title: title,
+      description: desc || undefined,
+      user_id: userId,
+    };
+
+    if (setData.title) {
+      const set = await Sets.create(setData);
+      res.status(200).json({
+        msg: 'Set created!',
+        set: set,
+      });
+    }
+  },
+  'Error creating set: ',
+  500
+);
 
 
 // // get set
@@ -79,43 +111,21 @@ export const getSets = asyncHandler(
 // );
 
 
-// // get edit set
-// export const getEditSet = asyncHandler(
-//   async (req, res) => {
-//     const set = await Sets.findByPk(req.params.setID, {raw: true});
-//     res.render('set-form', { 
-//       view: 'edit', 
-//       set,
-//       formScript: true, 
-//     });
-//   },
-//   'Error retrieving  set data: ',
-//   500
-// );
+// get edit set
+export const getEditSet = asyncHandler(
+  async (req, res) => {
+    const set = await Sets.findByPk(req.params.setID, {raw: true});
+    res.status(200).json({
+      set,
+      msg: 'success',
+    });
+  },
+  'Error retrieving  set data: ',
+  500
+);
 
 
-// // post edit set
-// export const postEditSet = asyncHandler(
-//   async (req, res) => {
-//     const setData = {
-//       title: req.body.title,
-//       description: req.body.desc || undefined,
-//     };
 
-//     const setID = req.params.setID;
-
-//     if (setData.title) {
-//       await Sets.update(setData, {
-//         where: {
-//           ID: setID,
-//         },
-//       });
-//       res.redirect(`/set/${setID}`);
-//     }
-//   },
-//   'Error editing  set: ',
-//   500
-// );
 
 
 // // delete set
