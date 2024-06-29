@@ -29,10 +29,12 @@ const Form = ({
   onSubmit,
   hasTitle = false,
   title,
-  titleClassName
+  titleClassName,
+  id
 }: FormProps) => {
   
   let dataTypeAttr = {};
+  let formId;
 
   if (dataType) {
     dataTypeAttr = {
@@ -40,8 +42,13 @@ const Form = ({
     };
   }
 
+  if (id) {
+    formId = {'id': `form-${id}`};
+  }
+
   return (
     <form 
+      {...formId}
       onSubmit={onSubmit}
       className={classNames('form', className)}
       {...dataTypeAttr}

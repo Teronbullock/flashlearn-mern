@@ -15,7 +15,8 @@ const ListCardForm = ( {
   cardCount,
   onSubmit,
   listType,
-  to
+  to,
+  ID
 }: ListCardFormProps ) => {
   let cardCountContent;
 
@@ -23,10 +24,15 @@ const ListCardForm = ( {
     cardCountContent= <p className="card__body-info-title my-0">{`Terms: ${cardCount}`}</p>
   }
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    onSubmit(e, ID);
+  }
 
   return (
     <Card className='bg-white text-black'>
-      <Form onSubmit={onSubmit} >
+      <Form onSubmit={handleSubmit} id={ID}>
         <div className="card__info flex justify-between flex-wrap">
           <h3>
             <Link to={to} className="card__header-title-link">
@@ -53,6 +59,7 @@ const ListCardForm = ( {
           >
             {listType === 'set' ? 'View' : 'Edit Card'}
           </Btn>
+          <input type="hidden" name="set_id" value={ID} />
           <input type="hidden" name="_method" value="DELETE" />
           <Btn 
             className='btn--medium btn--outline-dark-shade'
