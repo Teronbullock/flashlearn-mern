@@ -8,6 +8,7 @@ import {
   getEditSet,
   putEditSet,
   postCreateSet,
+  deleteSet,
 } from '../controllers/set-controller.js';
 
 import { 
@@ -26,7 +27,7 @@ router.get('/:setId/card/:cardId/edit', getEditCard);
 router.put('/:setId/card/:cardId/edit', putEditCard);
 router.get('/:setID/edit', getEditSet);
 router.put('/:setID/edit', putEditSet);
-// router.delete('/:setId/delete', deleteSet);
+router.delete('/:setId/delete', deleteSet);
 router.get('/:setId', getCardsAllCards);
 // router.get('/set/:setID', midCheckUsersAuth, getSet);
 
