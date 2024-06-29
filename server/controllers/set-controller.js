@@ -128,38 +128,43 @@ export const getEditSet = asyncHandler(
 
 
 
-// // delete set
-// export const deleteSet = asyncHandler( 
-//   async (req, res) => {
+// delete set
+export const deleteSet = asyncHandler( 
+  async (req, res) => {
+    const { setId } = req.params;
+    const { userId } = req.body;
 
-//     // get set
-//     const set = await checkForSet(req.params.setID, req.session.userId);
+    // get set
+    const set = await checkForSet(setId, userId);
 
-//     if(set) {
+    if(set) {
+      // delete cards
+    // const deletedSet = await deleteCardsBySetID(setId, userId);
 
-//       // delete cards
-//       await deleteCardsBySetID(req.params.setID, req.session.userId);
+      // get cards
+      const { cards } = await getCardsBySetID(setId, userId);
 
-//       const { cards } = await getCardsBySetID(req.params.setID, req.session.userId);
+      // check if cards were deleted
+      if (cards.length === 0 || cards === undefined) {
+        // delete set
+        // await Sets.destroy({
+        //   where: {ID: setId, user_id: userId}
+        // });
 
-//       // check if cards were deleted
-//       if (cards.length === 0 || cards === undefined) {
-//         // delete set
-//         await Sets.destroy({
-//           where: {ID: req.params.setID, user_id: req.session.userId}
-//         });
+        console.log(`All cards were deleted for set ${setId} `);
+        console.log('Set ' + setId + ' is deleted');
+      } else {
+        const err = new Error(`Error deleting cards for set ${setId}`);
+        err.status = 500;
+        throw err;
+      }
 
-//         console.log(`All cards were deleted for set ${req.params.setID} `);
-//         console.log('Set ' + req.params.setID + ' is deleted');
-//       } else {
-//         const err = new Error(`Error deleting cards for set ${req.params.setID}`);
-//         err.status = 500;
-//         throw err;
-//       }
-
-//       res.redirect('/home/' + req.session.userId);
-//     }
-//   },
-//   'Error deleting set: ',
-//   500
-// );
+      res.status(200).json({
+        "msg": "Set deleted",
+        "deleteSet": deletedSet,
+      });
+    }
+  },
+  'Error deleting set: ',
+  500
+);

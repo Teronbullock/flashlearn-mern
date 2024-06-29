@@ -11,7 +11,7 @@ const PageHeader = ({ currentPage }: CurrentPage) => {
   const { pageContent, headerNav } = useContext(PageTempContext);
   const currentPageContent = pageContent[currentPage];
   const { header } = currentPageContent;
-  console.log('headerNav: ', headerNav);
+  // console.log('headerNav: ', headerNav);
   const { title, copy } = header as HeaderInterface;
 
   return (

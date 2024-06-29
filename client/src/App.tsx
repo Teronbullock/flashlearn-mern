@@ -26,7 +26,7 @@ const App = () => {
   let routes;
   if (token) {
     routes = (<>
-    {console.log('Token:', Date() )}
+    {/* {console.log('Token:', Date() )} */}
       <Route path='/profile' element={<Profile /> } />
       <Route path='/dashboard/:userId' element={<Dashboard /> } />
       <Route path='/set/:setId' element={<Set /> } />

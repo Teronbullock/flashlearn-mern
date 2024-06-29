@@ -50,7 +50,7 @@ export const apiRequest = async (apiObj: apiRequestObj) => {
         res = await axios.put(url, data);
         break;
       case 'delete':
-        res = await axios.delete(url);
+        res = await axios.delete(url, {data});
         break;
       default:
         throw new Error('Unsupported method');
