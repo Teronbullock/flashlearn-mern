@@ -22,7 +22,7 @@ const PageTemplate = ({ currentPage, children }: PageTemplateProps) => {
       {children}
     </main>
   );
-  
+
   // return (
   //   <PageTempProvider>
   //     <PageMain currentPage={currentPage}>{children}</PageMain>

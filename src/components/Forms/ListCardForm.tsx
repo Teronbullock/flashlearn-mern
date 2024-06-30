@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Btn from '../Btn/Btn';
 import Form from './Form';
-import { ListCardFormProps } from '../../types/user-types';
+import { ListCardFormProps } from '../../types/form-types';
 import Card from '../cards/Card';
 
 /**
@@ -15,8 +15,9 @@ const ListCardForm = ( {
   cardCount,
   onSubmit,
   listType,
-  to,
-  ID
+  btnOneTo,
+  btnTwoTo,
+  id
 }: ListCardFormProps ) => {
   let cardCountContent;
 
@@ -27,15 +28,15 @@ const ListCardForm = ( {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    onSubmit(e, ID);
+    onSubmit(e, id);
   }
 
   return (
     <Card className='bg-white text-black'>
-      <Form onSubmit={handleSubmit} id={ID}>
+      <Form onSubmit={handleSubmit} id={id}>
         <div className="card__info flex justify-between flex-wrap">
           <h3>
-            <Link to={to} className="card__header-title-link">
+            <Link to={btnOneTo} className="card__header-title-link">
               {title}
             </Link>
           </h3>
@@ -51,15 +52,25 @@ const ListCardForm = ( {
           </p>
         </div>
         <div className="card__action mb-3 flex">
-          <Btn
+          { btnOneTo && 
+          (<Btn
             className='btn--medium btn--outline-black mr-3'
-            to={to}
+            to={btnOneTo}
             // ariaLabel='view set'
             elementType='anchor'
           >
             {listType === 'set' ? 'View' : 'Edit Card'}
-          </Btn>
-          <input type="hidden" name="set_id" value={ID} />
+          </Btn>)
+          }
+          {btnTwoTo && 
+          (<Btn 
+            className='btn--medium btn--outline-dark-shade mr-3'
+            to={btnTwoTo}
+          >
+            Edit
+          </Btn>)
+          }
+          <input type="hidden" name="set_id" value={id} />
           <input type="hidden" name="_method" value="DELETE" />
           <Btn 
             className='btn--medium btn--outline-dark-shade'
