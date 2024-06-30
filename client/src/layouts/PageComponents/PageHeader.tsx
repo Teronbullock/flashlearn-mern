@@ -11,8 +11,8 @@ const PageHeader = ({ currentPage }: CurrentPage) => {
   const { pageContent, headerNav } = useContext(PageTempContext);
   const currentPageContent = pageContent[currentPage];
   const { header } = currentPageContent;
-  // console.log('headerNav: ', headerNav);
   const { title, copy } = header as HeaderInterface;
+
 
   return (
     <header className='page-header bg-white py-4'>
@@ -23,7 +23,7 @@ const PageHeader = ({ currentPage }: CurrentPage) => {
         </div>
         <span className='hidden md:inline divider-v '></span>
         <nav className='page-header__nav w-2/5 pt-2'>
-          <ul className='page-header__nav-list flex justify-between'>
+          <ul className='page-header__nav-list flex'>
             {headerNav
               ? headerNav.map((navItem: PageHeaderNavItem, index: number) => {
                   const {

@@ -35,27 +35,7 @@
     },
     "header": {
       "title": "Set",
-      "copy": "Welcome to your set. Here you can view your flashcards, create new ones, and study them.",
-      "headerNav": [
-        {
-          "className": "btn--outline-black",
-          "btnText": "Edit Set",
-          "to": "/set/4/edit",
-          "ariaLabel": "Edit Set Button. Click to edit the title and description of this set."
-        },
-        {
-          "className": "btn--outline-black",
-          "btnText": "Add Card",
-          "to": "/set/4/card/add",
-          "ariaLabel": "Add Card Button. Click to add a new flashcard to this set."
-        },
-        {
-          "className": "btn--outline-black",
-          "btnText": "View Cards",
-          "to": "/set/4/cards/?page=1",
-          "ariaLabel": "View Cards Button. Click to view all flashcards in this set."
-        }
-      ]
+      "copy": "Welcome to your set. Here you can view your flashcards, create new ones, and study them."
     }
   },
   "createSetPage": {

@@ -30,10 +30,10 @@ const App = () => {
       <Route path='/profile' element={<Profile /> } />
       <Route path='/dashboard/:userId' element={<Dashboard /> } />
       <Route path='/set/:setId' element={<Set /> } />
-      <Route path='/set/:setId/card/:cardId/edit' element={<CardAddEdit />} />
-      <Route path='/set/:setId/card/:cardId/add' element={<CardAddEdit />} />
-      <Route path='/set/:setId/edit' element={<EditSet />} />
-      <Route path='/set/user/:userId/create' element={<CreateSet />} />
+      <Route path='/set/:setId/card/:cardId/:action' element={<CardAddEdit />} />
+      <Route path='/set/:setId/card/:action' element={<CardAddEdit />} />
+      <Route path='/set/:setId/:action' element={<EditSet />} />
+      <Route path='/set/user/:userId/:action' element={<CreateSet />} />
 
       <Route path="*" element={ <PageNotFound /> } />
       <Route path='/' element={<Navigate to={`/dashboard/${userId}`} />} />
