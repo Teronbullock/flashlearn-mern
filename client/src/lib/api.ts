@@ -14,7 +14,7 @@ import axios, { AxiosResponse } from 'axios';
  *  - data[optional]: The data to be sent with the request
  *  - src[optional]: The source of the request
  * 
- * @returns The response from the API
+ * @returns The response from the API (res)
  * 
  * @throws Error if the API call fails
  * 
@@ -56,7 +56,7 @@ export const apiRequest = async (apiObj: apiRequestObj) => {
         throw new Error('Unsupported method');
     }
 
-    console.log(`api response: \nSrc: ${src}, \nRes:`, res.data);
+    console.log(`api response: Status [${res.status}] \nSrc: ${src}, \nRes:`, res.data);
 
     return res;
   } catch (error) {
