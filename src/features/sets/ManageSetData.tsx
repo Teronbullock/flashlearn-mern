@@ -2,30 +2,39 @@ import { useContext, useEffect, useState, useReducer } from "react";
 import ListCardForm from "../../components/Forms/ListCardForm";
 import { apiRequest } from "../../lib/api";
 import { AuthContext } from "../../context/AuthContext";
-import { SetDataConfig } from "../../types/user-types";
+import { SetDataConfig, SetReducerInterface } from "../../types/set-types";
 
 
-const SetReducer = (state: object, action: object) => {
-  return {
-    ...state,
-    ...action,
+const SetReducer: SetReducerInterface = (state, action) => {
+  switch (action.type) {
+    case 'submit':
+      return {
+        ...state,
+        isSubmitted: true,
+      }
+    case 'reset':
+      return {
+        ...state,
+        isSubmitted: false,
+      }
+    default:
+      return state;
   }
 }
 
 const ManageSetData = () => {
   const { userId } = useContext(AuthContext);
   const [sets, setSets] = useState([]);
-  const [rowCount, setRowCount] = useState(0);
-
   const [state, dispatch] = useReducer(SetReducer, {
-    reset: false,
+    isSubmitted: false,
   });
+
 
   // Handle set deletion
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, setId: number) => {
     e.preventDefault();
   
-    const res = apiRequest({
+    const res = await apiRequest({
       method: 'delete',
       url: `/api/set/${setId}/delete`,
       src: 'ManageSetData - deleteSet',
@@ -35,13 +44,13 @@ const ManageSetData = () => {
     });
 
     if(res) {
-      const { msg, status } = res;
+      const { msg, isSetDeleted } = res.data;
 
-      if(status === 200) {
+      if(res.status === 200 && isSetDeleted) {
         alert(msg);
-        dispatch({reset: true});
+        dispatch({type: 'submit'});
       }
-    }
+    } else { console.error(res.status); }
   }
 
   useEffect(() => {
@@ -50,32 +59,29 @@ const ManageSetData = () => {
         url:`/api/set/user/${userId}`,
         src: 'ManageSetData - useEffect'
       });
-      const { rows, message } = res.data;
 
       // check if the response is successful
       if (res.status !== 200) {
-        console.error(res.status, message);
+        console.error(res.status);
         return;
       } 
 
+      const { rows } = res.data;
       setSets(rows);
-      setRowCount(rows.length);
 
-      console.log('UseEffect State-b4: ', state);
-      dispatch({reset: false});
-
-      console.log('UseEffect state-a: ', rows, state );
+      // Reset the state after submission
+      if(state.isSubmitted) {
+        dispatch({type: 'reset'});
+      }
     })();
 
-  },[userId, state.reset]);
+  },[userId, state.isSubmitted]);
 
-  console.log('state: ', state);
   return (
     <section className="container py-12">
     { sets.length > 0 && sets.map((setData: SetDataConfig) => {
       const { title, description, cardCount, ID } = setData;
       
- 
       return (
         <ListCardForm
           key={ID}
@@ -83,13 +89,13 @@ const ManageSetData = () => {
           description={description}
           cardCount={cardCount}
           onSubmit={handleSubmit}
-          ID={ID}
+          id={ID}
           listType={'set'}
-          to={`/set/${ID}`}
+          btnOneTo={`/set/${ID}`}
+          btnTwoTo={`/set/${ID}/edit`}
         />
       )
-    })
-    }
+    })}
   </section>
   );
 }
