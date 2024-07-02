@@ -50,7 +50,7 @@ export const postUserRegister = asyncHandler(
         let token = authToken(user.ID, user.user_name);
         
         res.status(200).json({
-          message: 'User registered successfully.',
+          msg: 'User registered successfully.',
           token: token,
           userId: user.ID,
           userName: user.user_name,
@@ -98,7 +98,7 @@ export const postUserLogin = asyncHandler(
           let token = authToken(user.ID, user.user_name);
 
           res.status(200).json({
-            message: 'User logged in successfully.',
+            msg: 'User logged in successfully.',
             token: token,
             userId: user.ID,
             userName: user.user_name,

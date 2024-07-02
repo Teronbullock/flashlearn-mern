@@ -48,3 +48,23 @@ export interface CardType {
   set_id: number;
   user_id: number;
 }
+
+export interface CardDataConfig {
+  card_definition: string;
+  card_term: string;
+  set_id: number;
+  user_id: number;
+  ID: number;
+}
+
+export type CardCurrnentPage = 'addCardPage' | 'editCardPage';
+
+export interface CardReducerInterface {
+  (
+    state: object,
+    action: {
+      type: string;
+      payload: object
+    }
+  ): object;
+}

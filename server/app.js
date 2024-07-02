@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
 
   res.status(status);
   res.json({
-    message: message,
+    msg: message,
     status: status,
   });
 

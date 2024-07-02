@@ -35,7 +35,7 @@ export const getSets = asyncHandler(
 
     console.log('getSets: ', rows);
     res.status(200).json({
-      message: 'success',
+      msg: 'success',
       rows: rows,
       // cards: setCardCount,
     });
@@ -133,13 +133,14 @@ export const deleteSet = asyncHandler(
   async (req, res) => {
     const { setId } = req.params;
     const { userId } = req.body;
+    let isSetDeleted = false;
 
     // get set
     const set = await checkForSet(setId, userId);
 
     if(set) {
       // delete cards
-    // const deletedSet = await deleteCardsBySetID(setId, userId);
+      await deleteCardsBySetID(setId, userId);
 
       // get cards
       const { cards } = await getCardsBySetID(setId, userId);
@@ -147,9 +148,9 @@ export const deleteSet = asyncHandler(
       // check if cards were deleted
       if (cards.length === 0 || cards === undefined) {
         // delete set
-        // await Sets.destroy({
-        //   where: {ID: setId, user_id: userId}
-        // });
+        isSetDeleted = await Sets.destroy({
+          where: {ID: setId, user_id: userId}
+        });
 
         console.log(`All cards were deleted for set ${setId} `);
         console.log('Set ' + setId + ' is deleted');
@@ -160,8 +161,8 @@ export const deleteSet = asyncHandler(
       }
 
       res.status(200).json({
-        "msg": "Set deleted",
-        "deleteSet": deletedSet,
+        msg: "Your set and all of its cards have been deleted",
+        isSetDeleted,
       });
     }
   },
