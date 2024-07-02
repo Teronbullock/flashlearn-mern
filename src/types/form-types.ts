@@ -47,10 +47,6 @@ export interface RegFormAction {
 }
 
 
-
-
-
-
 export interface LoginFormState {
   user_name: string;
   user_pass: string;
@@ -69,4 +65,15 @@ export interface FormInputProps {
   disabled?: boolean;
   dataType?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement  | HTMLTextAreaElement>) => void;
+}
+
+export interface ListCardFormProps {
+  title: string;
+  description: string;
+  cardCount?: number;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>, ID: number) => void;
+  listType?: 'set' | 'card' | null;
+  btnOneTo?: string;
+  btnTwoTo?: string;
+  id: number;
 }
