@@ -2,6 +2,7 @@ import { Router } from 'express';
 const router = Router();
 
 import { midCheckUsersAuth } from '../middleware/index.js';
+import { getCardsBySetID } from '../lib/set-service.js';
 
 import { 
   getSets,
@@ -15,8 +16,12 @@ import {
   getCardsAllCards,
   getEditCard,
   putEditCard,
+  postAddCard,
+  deleteCard,
  } from '../controllers/card-controller.js';
-import { getCardsBySetID } from '../lib/set-service.js';
+
+
+
 
 
 // routes
@@ -28,6 +33,8 @@ router.put('/:setId/card/:cardId/edit', putEditCard);
 router.get('/:setID/edit', getEditSet);
 router.put('/:setID/edit', putEditSet);
 router.delete('/:setId/delete', deleteSet);
+router.post('/:setId/card/add', postAddCard);
+router.delete('/:setId/card/:cardID/delete', deleteCard);
 router.get('/:setId', getCardsAllCards);
 // router.get('/set/:setID', midCheckUsersAuth, getSet);
 
@@ -36,10 +43,8 @@ router.get('/:setId', getCardsAllCards);
 
 // card routes
 
-// router.get('/set/:setID/card/add', midCheckUsersAuth, getAddCard);
 // router.post('/set/:setID/card/add', midCheckUsersAuth, postAddCard);
 // router.put('/set/:setID/card/:cardID/edit', midCheckUsersAuth, putEditCard);
-// router.delete('/set/:setID/card/:cardID/delete', midCheckUsersAuth, deleteCard);
 
 // // cards route
 // router.get('/set/:setID/cards', midCheckUsersAuth, getViewCards);
