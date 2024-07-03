@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import Btn from '../Btn/Btn';
-import Form from './Form';
 import { ListCardFormProps } from '../../types/form-types';
 import Card from '../cards/Card';
 
@@ -33,7 +32,7 @@ const ListCardForm = ( {
 
   return (
     <Card className='bg-white text-black'>
-      <Form onSubmit={handleSubmit} id={id}>
+      <form onSubmit={handleSubmit} id={id}>
         <div className="card__info flex justify-between flex-wrap">
           <h3>
             <Link to={btnOneTo} className="card__header-title-link">
@@ -81,7 +80,7 @@ const ListCardForm = ( {
             Delete
           </Btn>
         </div>
-      </Form>
+      </form>
     </Card>
   );
 }
