@@ -14,10 +14,7 @@ import Set from './pages/SetPage';
 import CardAddEdit from './pages/CardAddEditPage';
 import CreateSet from './pages/SetCreatePage';
 import EditSet from './pages/SetAddEditPage';
-
-// import Cards from './pages/Cards';
-// import CreateSet from './pages/CreateSet';
-// import Set from './pages/Set';
+import ViewCards from './pages/ViewCardsPage';
 
 
 const App = () => {
@@ -31,6 +28,7 @@ const App = () => {
       <Route path='/dashboard/:userId' element={<Dashboard /> } />
       <Route path='/set/:setId' element={<Set /> } />
       <Route path='/set/:setId/card/:cardId/:action' element={<CardAddEdit />} />
+      <Route path='/set/:setId/cards' element={<ViewCards />} />
       <Route path='/set/:setId/card/:action' element={<CardAddEdit />} />
       <Route path='/set/:setId/:action' element={<EditSet />} />
       <Route path='/set/user/:userId/:action' element={<CreateSet />} />

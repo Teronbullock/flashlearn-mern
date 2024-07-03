@@ -1,7 +1,7 @@
 import { useReducer, useState, useContext } from "react";
 import { useParams } from "react-router";
 import ManageCardForm from "../../components/Forms/ManageCardForm";
-import { apiRequest } from "../../lib/api";
+import apiRequest from "../../lib/api";
 import  { AuthContext } from "../../context/AuthContext";
 
 
@@ -63,4 +63,4 @@ const AddCard = () => {
   );
 }
 
-export default AddCard;
+export default AddCard; 

@@ -1,5 +1,4 @@
 import Btn from '../Btn/Btn';
-import Form from './Form';
 import FormInput from './FormInput';
 import Card from '../cards/Card';
 import  { ManageCardFormProps } from '../../types/card-types';
@@ -18,9 +17,11 @@ const CardAddEditForm = ({
   inputOneLabel,
   inputTwoLabel,
 }: ManageCardFormProps) => {
+
+  console.log( 'colors:', bgColor, textColor );
   return (
     <Card className='bg-white'>
-      <Form
+      <form
         onSubmit={onSubmit}
       >
         <FormInput 
@@ -30,7 +31,10 @@ const CardAddEditForm = ({
           placeholder={`Enter ${inputOneLabel}`}
           value={inputOneValue}
           required={true}
-          onChange={(e) => dispatch({ inputOneValue: e.target.value })}
+          onChange={(e) => dispatch({
+            type: 'on_change',
+            payload: {inputOneValue: e.target.value}
+          })}
         />
         <FormInput 
           labelName={inputTwoLabel}
@@ -39,7 +43,10 @@ const CardAddEditForm = ({
           placeholder={`Enter ${inputTwoLabel}`}
           value={inputTwoValue}
           required={true}
-          onChange={(e) => dispatch({ inputTwoValue: e.target.value })}
+          onChange={(e) => dispatch({
+            type: 'on_change',
+            payload: {inputTwoValue: e.target.value}
+          })}
         />
         <div className="form__group w-1/4">
           { bgColor && textColor ? (
@@ -53,19 +60,25 @@ const CardAddEditForm = ({
               </div>
               <FormInput
                 labelName="Card Color:"
-                type={'color'}
-                name={'card-color'}
+                type='color'
+                name='card-color'
                 value={bgColor}
-                dataType={'card-color'}
-                onChange={(e)=> dispatch({ bgColor: e.target.value })}
+                dataType='card-color'
+                onChange={(e)=> dispatch({
+                  type: 'on_change',
+                  payload: {card_color: e.target.value}
+                })}
               />
               <FormInput
                 labelName="Text Color:"
-                type={'color'}
-                name={'card-text-color'}
+                type='color'
+                name='card-text-color'
                 value={textColor}
-                dataType={'card-text-color'}
-                onChange={(e) => dispatch({ textColor: e.target.value })}
+                dataType='card-text-color'
+                onChange={(e)=> dispatch({
+                  type: 'on_change',
+                  payload: {card_text_color: e.target.value}
+                })}
               />
             </>
           ) : null}
@@ -86,7 +99,7 @@ const CardAddEditForm = ({
             Cancel
           </Btn>
         </div>
-      </Form>
+      </form>
     </Card>
   );
 };

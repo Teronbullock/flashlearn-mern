@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './SectionForm.scss';
 import Btn from '../../components/Btn/Btn';
 import BtnClose from '../../components/BtnClose/BtnClose';
-import { apiRequest } from '../../lib/api';
+import apiRequest from '../../lib/api';
 
 interface SectionFormProps {
   formType: 'reg' | 'login' | 'profile';
