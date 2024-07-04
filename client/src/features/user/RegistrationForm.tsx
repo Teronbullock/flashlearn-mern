@@ -1,9 +1,9 @@
 import { useReducer, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Form from '../../components/Forms/Form';
+import classNames from 'classnames';
 import FormInput from '../../components/Forms/FormInput';
 import Btn from '../../components/Btn/Btn';
-import { apiRequest } from '../../lib/api';
+import apiRequest  from '../../lib/api';
 import { AuthContext } from '../../context/AuthContext';
 import { RegFormState, RegFormAction } from '../../types/form-types';
 
@@ -58,10 +58,12 @@ const RegistrationForm = () => {
   }
 
   return (
-    <Form
-      onSubmit={handleFormSubmit}
-      sectionHeaderTitle='Register'
-    >
+    <form onSubmit={handleFormSubmit} >
+      <div className="form__title-container">
+        <h2 className={classNames('form__title mx-0 mb-4')}>
+          Register
+        </h2>
+      </div>
       <FormInput
         labelName='Username'
         inputObj={{
@@ -114,7 +116,7 @@ const RegistrationForm = () => {
       >
         Register
       </Btn>
-    </Form>
+    </form>
   );
 }
 

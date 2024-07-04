@@ -1,7 +1,7 @@
 import { useEffect, useState, useReducer } from "react";
 import ManageCardForm from "../../components/Forms/ManageCardForm";
 import { useParams } from "react-router-dom";
-import { apiRequest } from "../../lib/api";
+import apiRequest from "../../lib/api";
 import Nav from "../../layouts/Nav/Nav";
 
 

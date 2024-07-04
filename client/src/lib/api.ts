@@ -26,7 +26,7 @@ import axios, { AxiosResponse } from 'axios';
  *  src: 'Dashboard'
  *  }); 
  */
-export const apiRequest = async (apiObj: apiRequestObj) => {
+const apiRequest = async (apiObj: apiRequestObj) => {
   const { method = 'get', url, data, src } = apiObj;
 
   if (data) {
@@ -56,12 +56,17 @@ export const apiRequest = async (apiObj: apiRequestObj) => {
         throw new Error('Unsupported method');
     }
 
-    console.log(`api response: Status [${res.status}] \nSrc: ${src}, \nRes:`, res.data);
-
-    return res;
+    if(res.status === 200) {
+      console.log(`api response: Status [${res.status}] \nSrc: ${src}, \nRes:`, res.data);
+      return res;
+    } else {
+      throw new Error('API call error');
+    }
   } catch (error) {
-    console.error('API call error: ', src, error);
+    console.error({error, src});
     throw error;
   }
 
-};
+}
+
+export default apiRequest;

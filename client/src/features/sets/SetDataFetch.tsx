@@ -2,7 +2,7 @@ import { useEffect, useState, useReducer } from "react";
 import ManageCardForm from "../../components/Forms/ManageCardForm";
 import { useParams } from "react-router-dom";
 import { CardType } from "../../types/card-types";
-import { apiRequest } from "../../lib/api";
+import apiRequest from "../../lib/api";
 
 
 const SetReducer = (state: ManageCardFormProps, action: object) => {

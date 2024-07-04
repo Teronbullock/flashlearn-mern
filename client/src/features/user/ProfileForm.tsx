@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import Form from '../Form';
-// import FormInput from '../FormInput';
-// import Btn from '../../Btn/Btn';
-import { apiRequest } from '../../lib/api';
+import classNames from 'classnames';
+import FormInput from '../../components/Forms/FormInput';
+import Btn from '../../components/Btn/Btn';
+import apiRequest from '../../lib/api';
 
 const ProfileForm = () => {
 
@@ -32,10 +32,12 @@ const ProfileForm = () => {
   }
 
   return(
-    <Form
-      onSubmit={handleFormSubmit}
-      sectionHeaderTitle='Profile'
-    >
+    <form onSubmit={handleFormSubmit} >
+      <div className="form__title-container">
+        <h2 className={classNames('form__title mx-0 mb-4')}>
+          Profile
+        </h2>
+      </div>
       <FormInput
         labelName='Username'
         inputObj={{
@@ -78,7 +80,7 @@ const ProfileForm = () => {
       >
         Update
       </Btn>
-    </Form>
+    </form>
   );
 }
 
