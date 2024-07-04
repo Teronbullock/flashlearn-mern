@@ -1,35 +1,27 @@
 import { useContext, useEffect, useState, useReducer } from "react";
-import ListCardForm from "../../components/Forms/ListCardForm";
-import { apiRequest } from "../../lib/api";
-import { AuthContext } from "../../context/AuthContext";
-import { SetDataConfig, SetReducerInterface } from "../../types/set-types";
+import apiRequest from "../lib/api";
+import { AuthContext } from "../context/AuthContext";
+import { SetReducerInterface } from "../types/pages-types";
 
 
 const SetReducer: SetReducerInterface = (state, action) => {
   switch (action.type) {
     case 'submit':
-      return {
-        ...state,
-        isSubmitted: true,
-      }
+      return { ...state, isSubmitted: true }
     case 'reset':
-      return {
-        ...state,
-        isSubmitted: false,
-      }
+      return { ...state, isSubmitted: false }
     default:
       return state;
   }
 }
 
-const ManageSetData = () => {
+const useManageSetData = () => {
   const { userId } = useContext(AuthContext);
   const [sets, setSets] = useState([]);
   const [state, dispatch] = useReducer(SetReducer, {
     isSubmitted: false,
   });
-
-
+  
   // Handle set deletion
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, setId: number) => {
     e.preventDefault();
@@ -43,14 +35,12 @@ const ManageSetData = () => {
       }
     });
 
-    if(res) {
-      const { msg, isSetDeleted } = res.data;
+    if(res.status === 200 && res.data?.isSetDeleted) {
+      const { msg } = res.data;
 
-      if(res.status === 200 && isSetDeleted) {
         alert(msg);
         dispatch({type: 'submit'});
-      }
-    } else { console.error(res.status); }
+    }
   }
 
   useEffect(() => {
@@ -77,27 +67,9 @@ const ManageSetData = () => {
 
   },[userId, state.isSubmitted]);
 
-  return (
-    <section className="container py-12">
-    { sets.length > 0 && sets.map((setData: SetDataConfig) => {
-      const { title, description, cardCount, ID } = setData;
-      
-      return (
-        <ListCardForm
-          key={ID}
-          title={title}
-          description={description}
-          cardCount={cardCount}
-          onSubmit={handleSubmit}
-          id={ID}
-          listType={'set'}
-          btnOneTo={`/set/${ID}`}
-          btnTwoTo={`/set/${ID}/edit`}
-        />
-      )
-    })}
-  </section>
-  );
+
+  return{ sets, handleSubmit };
+
 }
 
-export default ManageSetData;
+export default useManageSetData;

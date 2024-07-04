@@ -1,12 +1,13 @@
 import { useReducer, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Form from '../../components/Forms/Form';
 import FormInput from '../../components/Forms/FormInput';
 import Btn from '../../components/Btn/Btn';
 import { AuthContext } from '../../context/AuthContext';
 import { LoginFormState } from '../../types/form-types';
 import Card from '../../components/cards/Card';
-import { apiRequest } from '../../lib/api';
+import apiRequest from '../../lib/api';
+import classNames from 'classnames';
+
 
 const loginFormReducer = (state: LoginFormState, action: object) => {
   return {
@@ -57,11 +58,15 @@ const LoginForm = () => {
   return (
     <section className="container py-12 w-1/2 min-h-[calc(100vh-11rem)]">
       <Card className='bg-white text-black'>
-        <Form
+        <form
           onSubmit={handleFormSubmit}
-          hasTitle={true}
-          title={'Login'}
+          className='form'
         >
+          <div className="form__title-container">
+            <h2 className={classNames('form__title mx-0 mb-4')}>
+              Login
+            </h2>
+          </div>
           <FormInput
             labelName='Username'
             type={'text'} 
@@ -87,7 +92,7 @@ const LoginForm = () => {
           >
             Login
           </Btn>
-        </Form>
+        </form>
       </Card>
     </section>
   );
