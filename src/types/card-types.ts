@@ -1,21 +1,29 @@
-// import { FormProps } from './form-types';
+export interface CardBase {
+  inputOneValue: string;
+  inputTwoValue: string;
+}
 
-// interface CardPropsBase {
-//   children: React.ReactNode;
-//   cardType?: 'card' | 'form'| null;
-// }
+export interface CardBaseColors {
+  card_color?: string;
+  card_text_color?: string;
+}
 
-// interface CardPropsWithForm extends CardPropsBase {
-//   cardType?: 'form';
-//   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void
-//   formData?: FormProps;
-// }
+export interface CardBaseIds {
+  set_id: number;
+  ID: number;
+  user_id: number;
+}
 
-// interface CardPropsWithoutForm extends CardPropsBase {
-//   cardType: 'card';
-//   onSubmit?: never;
-//   formData?: never; 
-// }
+export interface CardWithColor extends CardBase, CardBaseColors {}
+export interface CardDataConfig  extends CardBase, CardBaseIds {}
+export interface CardType extends CardDataConfig, CardBaseColors, CardBaseIds {}
+
+export interface CardInitialState extends Partial<CardBase>, CardBaseColors {
+  inputOneValue?: string;
+  inputTwoValue?: string;
+}
+
+export type CardReducerAction = { type: 'update_card' | 'on_change'; payload: Partial<CardWithColor> };
 
 export interface CardProps {
   children: React.ReactNode;
@@ -39,23 +47,7 @@ export interface ManageCardFormProps {
   dispatch: React.Dispatch<any>;
 }
 
-export interface CardType {
-  ID: number;
-  card_color?: string;
-  card_definition: string;
-  card_term: string;
-  card_text_color?: string;
-  set_id: number;
-  user_id: number;
-}
 
-export interface CardDataConfig {
-  card_definition: string;
-  card_term: string;
-  set_id: number;
-  user_id: number;
-  ID: number;
-}
 
 export type CardCurrnentPage = 'addCardPage' | 'editCardPage';
 

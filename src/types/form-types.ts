@@ -1,5 +1,6 @@
 export interface FormProps {
   children: React.ReactNode;
+  id?: string;
   className?: string;
   hasTitle?: boolean;
   title?: string;
@@ -69,11 +70,11 @@ export interface FormInputProps {
 
 export interface ListCardFormProps {
   title: string;
-  description: string;
+  description?: string;
   cardCount?: number;
   onSubmit: (e: React.FormEvent<HTMLFormElement>, ID: number) => void;
   listType?: 'set' | 'card' | null;
   btnOneTo?: string;
   btnTwoTo?: string;
-  id: number;
+  id?: number;
 }

@@ -13,6 +13,7 @@ export interface ContextProviderProps {
   children: React.ReactNode;
 }
 
+
 // export type PageNames = 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addSetPage' | 'editCardPage' | 'viewCardPage';
 
 // export interface PageContent {
