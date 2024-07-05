@@ -1,15 +1,18 @@
 import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ManageCardData from "../features/cards/ManageCardData";
+import useManageCardData from "../hooks/useManageCardData";
 import PageTemplate from "../layouts/PageComponents/PageTemplate";
 import  { PageTempContext } from "../context/PageTempContext";
 import { AuthContext } from "../context/AuthContext";
+import { CardDataConfig } from "../types/card-types";
+import ListCardForm from "../components/Forms/ListCardForm";
 
 
 const Set = () => {
   const { setHeaderNav } = useContext(PageTempContext);
   const { userId } = useContext(AuthContext);
   const { setId } = useParams();
+  const { cards, handleSubmit } = useManageCardData();
 
   const headerNavArr = [
     {
@@ -38,7 +41,28 @@ const Set = () => {
 
   return (
     <PageTemplate currentPage="setPage">
-      <ManageCardData />
+      <section className="container py-12">
+      { cards.length === 0 && <p>No cards found</p> }
+      { cards.length > 0 && cards.map((card: CardDataConfig, index) => {
+        const { 
+          ID,
+          card_definition,
+          card_term,
+          set_id,
+        } = card;
+
+        return (
+          <ListCardForm 
+            key={index} 
+            title={card_term}
+            description={card_definition}
+            onSubmit={handleSubmit}
+            btnTwoTo={`/set/${set_id}/card/${ID}/edit`}
+            id={ID}
+          />
+        ) 
+      })}
+    </section>
     </PageTemplate>
   )
 }

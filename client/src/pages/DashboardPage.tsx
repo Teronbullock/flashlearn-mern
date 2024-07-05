@@ -1,13 +1,17 @@
 import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import PageTemplate from "../layouts/PageComponents/PageTemplate";
-import ManageSetData from "../features/sets/ManageSetData";
+import useManageSetData from "../hooks/useManageSetData";
+import ListCardForm from "../components/Forms/ListCardForm";
 import  { PageTempContext } from "../context/PageTempContext";
+import { SetDataConfig } from "../types/pages-types";
 
 
 const Dashboard = () => {
   const { setHeaderNav } = useContext(PageTempContext);
   const { userId } = useParams();
+  const { sets, handleSubmit } = useManageSetData();
+
   const headerNavArr = [
     {
       "className": "btn--tertiary",
@@ -23,7 +27,25 @@ const Dashboard = () => {
 
   return (
     <PageTemplate currentPage={'dashboardPage'} >
-      <ManageSetData />
+      <section className="container py-12">
+        { sets.length > 0 && sets.map((setData: SetDataConfig) => {
+          const { title, description, cardCount, ID } = setData;
+
+          return (
+            <ListCardForm
+              key={ID}
+              id={ID}
+              title={title}
+              description={description}
+              cardCount={cardCount}
+              onSubmit={handleSubmit}
+              listType={'set'}
+              btnOneTo={`/set/${ID}`}
+              btnTwoTo={`/set/${ID}/edit`}
+            />
+          )
+        })}
+      </section>
     </PageTemplate>
   )
 }
