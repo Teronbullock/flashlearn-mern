@@ -78,18 +78,15 @@ export const getViewCards = asyncHandler(
 export const postAddCard = asyncHandler( 
   async (req, res, next) => {
     const { setId } = req.params;
-    const {definition, term, userId} = req.body;
-
-    const cardDefinition = definition && 'No definition provided';
-    console.log('cardDefinition: ', cardDefinition);
+    const {card_definition, card_term, user_id, set_id} = req.body;
 
     const data = {
-      card_term: term,
-      card_definition: cardDefinition,
-      user_id: userId,
-      set_id: setId,
-      card_color: '#fff',
-      card_text_color: '#000',
+      card_term,
+      card_definition,
+      user_id,
+      set_id,
+      card_color: '#ffffff',
+      card_text_color: '#000000',
     };
 
     if (data.card_term && data.card_definition) {
@@ -115,13 +112,17 @@ export const postAddCard = asyncHandler(
 export const putEditCard = asyncHandler(
   async (req, res) => {
     const { setId, cardId } = req.params;
+    const { card_term, card_definition, card_color, card_text_color, id } = req.body;
+
     const data = {
-      card_term: req.body.card_term,
-      card_definition: req.body.card_definition,
-      card_color: req.body.card_color,
-      card_text_color: req.body.card_text_color,
-      id: req.body.id,
+      card_term,
+      card_definition,
+      card_color,
+      card_text_color,
+      id,
     };
+
+    console.log('data: ', data);
 
     if (data.id !== cardId) {
       return res.status(400).json({ error: "Card ID in body does not match URL" });
