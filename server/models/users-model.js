@@ -3,7 +3,7 @@ import db from '../db/database.js';
 import bcrypt from 'bcrypt';
 
 const Users = db.define('fc_users', {
-  ID: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,

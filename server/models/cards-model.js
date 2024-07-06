@@ -5,7 +5,7 @@ import Sets from './sets-model.js';
 
 
 const Card = db.define('fc_card', {
-  ID: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
@@ -16,7 +16,7 @@ const Card = db.define('fc_card', {
     allowNull: false,
     references: {
       model: User,
-      key: 'ID',
+      key: 'id',
     }
   },
   set_id: {
@@ -24,23 +24,23 @@ const Card = db.define('fc_card', {
     allowNull: false,
     references: {
       model: Sets,
-      key: 'ID',
+      key: 'id',
     }
   },
-  card_term: {
+  term: {
     type: DataTypes.STRING(1000),
     allowNull: false,
   },
-  card_definition: {
+  definition: {
     type: DataTypes.STRING(1000),
     allowNull: false,
     
   },
-  card_color: {
+  bg_color: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  card_text_color: {
+  text_color: {
     type: DataTypes.STRING,
     allowNull: false,
   },

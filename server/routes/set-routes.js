@@ -27,7 +27,7 @@ import {
 // routes
 router.get('/', getSets);
 router.get('/user/:userId', getSets);
-router.post('/user/:userId/create', postCreateSet);
+router.post('/user/:userId/add', postCreateSet);
 router.get('/:setId/card/:cardId/edit', getEditCard);
 router.put('/:setId/card/:cardId/edit', putEditCard);
 router.get('/:setID/edit', getEditSet);
