@@ -3,7 +3,7 @@ import db from '../db/database.js';
 import Users from './users-model.js';
 
 const Sets = db.define('fc_sets', {
-  ID: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
@@ -14,7 +14,7 @@ const Sets = db.define('fc_sets', {
     allowNull: false,
     references: {
       model: Users,
-      key: 'ID',
+      key: 'id',
     }
   },
   title: {

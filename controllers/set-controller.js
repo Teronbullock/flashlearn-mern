@@ -20,16 +20,16 @@ export const getSets = asyncHandler(
     rows = await Sets.findAll({
       raw: true,
       where: { user_id: userId },
+      order: [['id', 'DESC']],
     });
     
-    console.log('getSets: ', rows.length);
     
     // get cards for each set
     // const setCardCount = [];
     
     for (const [index, set] of rows.entries()) {
-      const { cardCount } = await getCardsBySetID(set.ID, userId);
-      // setCardCount.push({setID: set.ID, cardCount});
+      const { cardCount } = await getCardsBySetID(set.id, userId);
+      // setCardCount.push({setID: set.id, cardCount});
       rows[index].cardCount = cardCount;
     }
 
@@ -48,9 +48,11 @@ export const getSets = asyncHandler(
 // put edit set
 export const putEditSet = asyncHandler(
   async (req, res) => {
+    const {title, description} = req.body;
+
     const setData = {
-      title: req.body.title,
-      description: req.body.desc || undefined,
+      title,
+      description,
     };
 
     const setID = req.params.setID;
@@ -58,13 +60,12 @@ export const putEditSet = asyncHandler(
     if (setData.title) {
       const set = await Sets.update(setData, {
         where: {
-          ID: setID,
+          id: setID,
         },
       });
       res.status(200).json({
         msg: 'Set updated!',
-        set: set,
-
+        set
       });
     }
   },
@@ -77,18 +78,19 @@ export const putEditSet = asyncHandler(
 export const postCreateSet = asyncHandler(
   async (req, res) => {
     // const { userId } = req.params;
-    const { userId, title, desc } = req.body;
+    const { user_id, title, description} = req.body;
+
     const setData = {
-      title: title,
-      description: desc || undefined,
-      user_id: userId,
+      title,
+      description,
+      user_id
     };
 
     if (setData.title) {
       const set = await Sets.create(setData);
       res.status(200).json({
         msg: 'Set created!',
-        set: set,
+        set,
       });
     }
   },
@@ -149,7 +151,7 @@ export const deleteSet = asyncHandler(
       if (cards.length === 0 || cards === undefined) {
         // delete set
         isSetDeleted = await Sets.destroy({
-          where: {ID: setId, user_id: userId}
+          where: {id: setId, user_id: userId}
         });
 
         console.log(`All cards were deleted for set ${setId} `);

@@ -19,7 +19,7 @@ export const postUserRegister = asyncHandler(
       return next(err);
     }
 
-    const {user_name,user_email,user_pass, user_confirm_pass} = req.body;
+    const {user_name, user_email, user_pass, user_confirm_pass} = req.body;
 
     const formData = {
       user_name,
@@ -44,16 +44,17 @@ export const postUserRegister = asyncHandler(
     try {
       // use schema method to insert document into PSQL 
       const user = await Users.create(formData);
-
+      const { id, user_name } = user;
+      
       // create a token
       try {
-        let token = authToken(user.ID, user.user_name);
+        let token = authToken(id, user_name);
         
         res.status(200).json({
           msg: 'User registered successfully.',
           token: token,
-          userId: user.ID,
-          userName: user.user_name,
+          userId: id,
+          userName: user_name,
         });
 
       } catch (error) {
@@ -76,6 +77,7 @@ export const postUserRegister = asyncHandler(
 export const postUserLogin = asyncHandler( 
   async (req, res, next) => {
     let errors = validationResult(req);
+    const {user_name, user_pass} = req.body;
     
     if (!errors.isEmpty()) {
       let err = new Error('Email and password are required.');
@@ -84,8 +86,8 @@ export const postUserLogin = asyncHandler(
     }
 
     Users.authenticate(
-      req.body.user_name,
-      req.body.user_pass,
+      user_name,
+      user_pass,
       (error, user) => {
         if (error || !user) {
           const err = new Error('Wrong username or password.');
@@ -93,15 +95,17 @@ export const postUserLogin = asyncHandler(
           return next(err);
         }
         
+        const {id, user_name} = user;
+
         // create a token
         try {
-          let token = authToken(user.ID, user.user_name);
+          let token = authToken(id, user_name);
 
           res.status(200).json({
             msg: 'User logged in successfully.',
             token: token,
-            userId: user.ID,
-            userName: user.user_name,
+            userId: id,
+            userName: user_name,
           });
 
         } catch (error) {
@@ -120,12 +124,13 @@ export const getUserProfile = asyncHandler(
   async (req, res, next) => {
 
     const user = await Users.findByPk(req.params.userId);
+    const { user_name, user_email } = user;
+
     const data = {
-      user_name: user.user_name,
-      user_email: user.user_email,
+      user_name,
+      user_email,
     };
   
-
     res.render('profile', data);
   },
   'Error retrieving user data: ',
@@ -145,7 +150,7 @@ export const putEditProfile = asyncHandler(
       return next(err);
     }
 
-    const user = await Users.findOne({ where: { ID: userId }}, { raw: true });
+    const user = await Users.findOne({ where: { id: userId }}, { raw: true });
     const oldPasswordMath = Users.comparePassword(userId, old_password, user.user_pass);
 
 
@@ -166,7 +171,7 @@ export const putEditProfile = asyncHandler(
     formData.user_email = email;
 
     const updatedUser = await Users.update(formData, {
-      where: { ID: userId }, 
+      where: { id: userId }, 
       raw: true,
       individualHooks: true,
     });
