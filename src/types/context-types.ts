@@ -18,7 +18,7 @@ export interface ContextProviderProps {
 
 // export interface PageContent {
 //   {
-//     pageType: string;
+//     actionType: string;
 //     mainClass: string;
 //     hero: {
 //       heroClass: string;

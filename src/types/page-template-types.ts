@@ -2,8 +2,14 @@ export interface CurrentPage {
   currentPage: 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addCardPage' | 'editCardPage' | 'viewCardsPage';
 }
 
-export interface PageTemplateProps extends CurrentPage {
-  children: React.ReactNode;
+export interface PageHeaderProps extends CurrentPage {
+  headerNav?: {
+      className?: string;
+      btnText?: string;
+      to?: string;
+      elementType?: 'anchor' | 'btn';
+      ariaLabel?: string;
+  }[];
 }
 
 export interface HeaderInterface {

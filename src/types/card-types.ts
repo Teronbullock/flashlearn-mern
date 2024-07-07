@@ -32,19 +32,11 @@ export interface CardProps {
 }
 
 export interface ManageCardFormProps {
-  inputOneLabel: string;
-  inputTwoLabel: string;
-  inputOneValue?: string;
-  inputTwoValue?: string;
-  set_id?: number;
-  ID?: number;
-  user_id?: number;
-  submitBtnText: 'add' | 'Update' | 'Create';
-  textColor?: string;
-  bgColor?: string;
+  formType: 'card' | 'set';
+  inputValues: string[];
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  to: string;
   dispatch: React.Dispatch<any>;
+  children: React.ReactNode;
 }
 
 
