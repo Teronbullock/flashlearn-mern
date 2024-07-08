@@ -1,18 +1,15 @@
-import { useContext } from 'react';
 import {
-  CurrentPage,
+  PageHeaderProps,
   PageHeaderNavItem,
   HeaderInterface,
 } from '../../types/page-template-types';
 import Btn from '../../components/Btn/Btn';
-import { PageTempContext } from '../../context/PageTempContext';
+import PageContentFile from '../../data/page-content.json';
 
-const PageHeader = ({ currentPage }: CurrentPage) => {
-  const { pageContent, headerNav } = useContext(PageTempContext);
-  const currentPageContent = pageContent[currentPage];
-  const { header } = currentPageContent;
-  const { title, copy } = header as HeaderInterface;
 
+const PageHeader = ({ headerNav, currentPage }: PageHeaderProps ) => {
+  const pageContent = PageContentFile[currentPage];
+  const { title, copy } = pageContent.header as HeaderInterface;
 
   return (
     <header className='page-header bg-white py-4'>
@@ -24,32 +21,27 @@ const PageHeader = ({ currentPage }: CurrentPage) => {
         <span className='hidden md:inline divider-v '></span>
         <nav className='page-header__nav w-2/5 pt-2'>
           <ul className='page-header__nav-list flex'>
-            {headerNav
-              ? headerNav.map((navItem: PageHeaderNavItem, index: number) => {
-                  const {
-                    className,
-                    btnText,
-                    to,
-                    ariaLabel,
-                    dataType,
-                    elementType,
-                  } = navItem;
+            {headerNav &&
+              headerNav.map((navItem: PageHeaderNavItem, index: number) => {
+                const {
+                  className,
+                  btnText,
+                  dataType,
+                } = navItem;
 
-                  return (
-                    <li className='page-header__nav-item' key={index}>
-                      <Btn
-                        className={`btn--large ${className}`}
-                        to={to}
-                        elementType={elementType}
-                        ariaLabel={ariaLabel}
-                        dataType={dataType ? dataType : ''}
-                      >
-                        {btnText}
-                      </Btn>
-                    </li>
-                  );
-                })
-              : null}
+                return (
+                  <li className='page-header__nav-item' key={index}>
+                    <Btn
+                      {...navItem}
+                      className={`btn--large ${className}`}
+                      dataType={dataType ? dataType : ''}
+                    >
+                      {btnText}
+                    </Btn>
+                  </li>
+                );
+              })
+            }
           </ul>
         </nav>
       </div>

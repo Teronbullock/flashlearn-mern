@@ -1,13 +1,15 @@
-import PageTemplate from '../layouts/PageComponents/PageTemplate';
+import PageHero from '../layouts/PageComponents/PageHero';
+import PageHeader from '../layouts/PageComponents/PageHeader';
 import SectionFeat from '../components/SectionFeat/SectionFeat';
+
 
 
 export default function Home() {
 
   return (
-    <PageTemplate
-      currentPage={'indexPage'}
-    >
+    <main className="main main-indexPage" >
+    <PageHero currentPage={'indexPage'}  />
+    <PageHeader currentPage={'indexPage'} />
         <SectionFeat 
       classObj={{
         section: 'py-8',
@@ -32,6 +34,6 @@ export default function Home() {
       title='Save Time'
       copy='Spend more time studing and lease time writing out your notes.'
     />
-    </PageTemplate>
+    </main>
   );
 }

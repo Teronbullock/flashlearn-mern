@@ -1,11 +1,25 @@
+import useLoginData from '../features/user/hooks/useLoginData';
 import LoginForm from '../features/user/LoginForm';
 
-const Login = () => {
+/**
+ *  -- LoginPage --
+ * 
+ * @returns 
+ */
+const LoginPage = () => {
+  const { state, dispatch, handleFormSubmit } = useLoginData();
+
   return (
     <main className="main main--login">
-      <LoginForm />
+      <section className="container py-12 w-1/2 min-h-[calc(100vh-11rem)]">
+        <LoginForm 
+          onSubmit={handleFormSubmit}
+          dispatch={dispatch}
+          state={state}
+        />
+      </section>
     </main>
   );
 }
 
-export default Login;
+export default LoginPage;

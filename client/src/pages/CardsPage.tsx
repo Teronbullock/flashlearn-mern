@@ -1,4 +1,4 @@
-import PageTemplate from "../layouts/PageComponents/PageTemplate"
+
 import pageContent from "../data/page-content.json"
 import DashboardForm from "../components/Forms/ListCardForm"
 
@@ -8,13 +8,13 @@ import DashboardForm from "../components/Forms/ListCardForm"
 const Cards = () => {
 
   return (
-    <PageTemplate 
+    <main currentPage="main main-CardsPage"
       pageData={pageContent.viewCardsPage}
     >
       <section className="container py-12">
         <DashboardForm />
       </section>
-    </PageTemplate>
+    </main>
   )
 }
 

@@ -1,10 +1,13 @@
-import PageTemplate from "../layouts/PageComponents/PageTemplate";
+import PageHero from "../layouts/PageComponents/PageHero";
+import PageHeader from "../layouts/PageComponents/PageHeader";
 
 const PageNotFound = () => {
   return (
-    <PageTemplate currentPage="pageNotFound">
+    <main className="pageNotFound">
+      <PageHero currentPage="pageNotFound" />
+      <PageHeader currentPage="pageNotFound" />
       <h1>404 Page</h1>
-    </PageTemplate>
+    </main>
   );
 }
 
