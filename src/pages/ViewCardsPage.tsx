@@ -1,16 +1,17 @@
 import { useContext, useEffect } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import PageTemplate from "../layouts/PageComponents/PageTemplate";
-import { PageTempContext } from "../context/PageTempContext";
+import classNames from "classnames";
+import PageHero from "../layouts/PageComponents/PageHero";
+import PageHeader from "../layouts/PageComponents/PageHeader";
 import ViewCardSection from "../features/cards/ViewCardSection";
+
 
 const ViewCards = () => {
   const { setId } = useParams();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page');
-  const { setHeaderNav } = useContext(PageTempContext);
 
-  const headerNavArr = [
+  const headerNav = [
     {
       "className": "btn--tertiary",
       "btnText": "Back to Set",
@@ -20,14 +21,12 @@ const ViewCards = () => {
   ];
 
 
-  useEffect(() => {
-    setHeaderNav(headerNavArr);
-  }, []);
-
   return(
-    <PageTemplate currentPage={'viewCardsPage'} >
+    <main className={classNames('main main-viewCardsPage')} currentPage={'viewCardsPage'} >
+      <PageHero currentPage={'viewCardsPage'} />
+      <PageHeader currentPage={'viewCardsPage'} headerNav={headerNav} />
       <ViewCardSection />
-    </PageTemplate>
+    </main>
   );
 }
 
