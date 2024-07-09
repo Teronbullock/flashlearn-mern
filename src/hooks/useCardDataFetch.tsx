@@ -6,6 +6,7 @@ import apiRequest from "../lib/api";
 
 
 const CardReducer = (state: CardInitialState, action: CardReducerAction) => {
+  console.log('CardReducer:', state, action);
   switch (action.type) {
     case 'update_card':
       return {
@@ -26,13 +27,13 @@ const useCardDataFetch = () => {
   const {setId, cardId} = useParams();
   const { userId } = useContext(AuthContext);
   const [cardUpdated, setCardUpdated] = useState(false);
-  const [pageType, setPageType] = useState(null);
+  const [actionType, setActionType] = useState(null);
 
   // const [card, setCard] = useState<CardType | null>(null);
 
   const [state, dispatch] = useReducer(CardReducer, {
-    inputOneValue: '',
-    inputTwoValue: '',
+    inputOneValue,
+    inputTwoValue,
     card_color: '',
     card_text_color: '',
   } as CardInitialState);
@@ -44,7 +45,7 @@ const useCardDataFetch = () => {
 
     
     try {
-      if (pageType === 'add') {
+      if (actionType === 'add') {
         res = await apiRequest({
           method: 'post',
           url: `/api/set/${setId}/card/add`,
@@ -56,7 +57,7 @@ const useCardDataFetch = () => {
           },
           src: 'AddCard - onSubmit'
         });
-      } else if (pageType === 'edit') {
+      } else if (actionType === 'edit') {
         res = await apiRequest({
           method: 'put',
           url: `/api/set/${setId}/card/${cardId}/edit`,
@@ -76,12 +77,12 @@ const useCardDataFetch = () => {
         const { msg } = res.data;
         alert(msg);
 
-        if ( pageType === 'add') {
+        if ( actionType === 'add') {
           dispatch({
             type: 'on_change',
-            payload: {inputOneValue: '', inputTwoValue: ''}
+            payload: {inputValues: ['', '']}
           });
-        } else if ( pageType === 'edit' ) {
+        } else if ( actionType === 'edit' ) {
           const { cardUpdate } = res.data;
           setCardUpdated(cardUpdate);
         }
@@ -95,7 +96,7 @@ const useCardDataFetch = () => {
   }
 
   useEffect(() => {
-    if ( pageType === 'edit' ) {
+    if ( actionType === 'edit' ) {
     ( async () => {
       const res = await apiRequest({
         url: `/api/set/${setId}/card/${cardId}/edit`,
@@ -123,9 +124,9 @@ const useCardDataFetch = () => {
     })();
   }
 
-  }, [setId, cardId, cardUpdated, pageType]);
+  }, [setId, cardId, cardUpdated, actionType]);
 
-  return { state, onSubmit, dispatch, setPageType };
+  return { state, onSubmit, dispatch, setActionType };
 };
 
 export default useCardDataFetch;

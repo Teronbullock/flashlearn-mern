@@ -40,37 +40,37 @@ const ProfileForm = () => {
       </div>
       <FormInput
         labelName='Username'
-        inputObj={{
+        inputProps={{
           type: 'text',
           name: 'user_name',
           value: profileFormData.user_name,
           placeholder: 'disabled',
           required: true,
           disabled: true,
+          onChange: (e) => setProfileFormData({ ...profileFormData, user_name: e.target.value }),
         }}
-        onChange={(e) => setProfileFormData({ ...profileFormData, user_name: e.target.value })}
       />
       <FormInput
         labelName='Email'
-        inputObj={{
+        inputProps={{
           type: 'email',
           name: 'user_email',
           value: profileFormData.user_email,
           placeholder: 'Enter your email',
           required: true,
+          onChange: (e) => setProfileFormData({ ...profileFormData, user_email: e.target.value }),
         }}
-        onChange={(e) => setProfileFormData({ ...profileFormData, user_email: e.target.value })}
       />
       <FormInput
         labelName='Password'
-        inputObj={{
+        inputProps={{
           type: 'password',
           name: 'user_pass',
           value: profileFormData.user_pass,
           placeholder: 'Enter your password',
           required: true,
+          onChange: (e) => setProfileFormData({ ...profileFormData, user_pass: e.target.value }),
         }}
-        onChange={(e) => setProfileFormData({ ...profileFormData, user_pass: e.target.value })}
       />
       <Btn
         elementType='btn'
