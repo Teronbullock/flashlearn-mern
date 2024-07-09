@@ -37,7 +37,7 @@ const Nav = () => {
                 <Link className="nav-mobile__link" to={`/dashboard/${userId}`}>Home</Link>
               </li>
               <li className="nav-mobile__item">
-                <Link className="nav-mobile__link" to="/set/create">Create Set</Link>
+                <Link className="nav-mobile__link" to="/set/add">Create Set</Link>
               </li>
               <li className="nav-mobile__item">
                 <Link className="nav-mobile__link" to="/profile/">Profile</Link>
@@ -69,7 +69,7 @@ const Nav = () => {
                 <Link to={`/dashboard/${userId}`}>Home</Link>
               </li>
               <li className="nav-desktop__item">
-                <Link to="/set/create">Create Set</Link>
+                <Link to="/set/add">Create Set</Link>
               </li>
               {userId && (
                 <li className="nav-desktop__item">

@@ -1,4 +1,4 @@
-import { useEffect, useState, useReducer, useContext } from "react";
+import { useEffect, useState, useReducer, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import apiRequest from "../lib/api";
 
@@ -9,16 +9,10 @@ import { AuthContext } from "../context/AuthContext";
 const CardReducer:CardReducerInterface = (state, action) => {
   console.log('CardReducer:', state, action);
   switch (action.type) {
-    case 'submit':
-      return {
-        ...state,
-        isSubmitted: true,
-      }
-    case 'reset':
-      return {
-        ...state,
-        isSubmitted: false,
-      }
+    case 'CARD_SUBMITTED':
+      return {...state, isSubmitted: true}
+    case 'RESET_SUBMITTED':
+      return {...state, isSubmitted: false}
     default:
       return state;
   }
@@ -32,6 +26,8 @@ const ManageCardData = () => {
   const [state, dispatch] = useReducer(CardReducer, {
     isSubmitted: false,
   });
+  const cardsRef = useRef([]);
+
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, cardId: number) => {
@@ -52,36 +48,39 @@ const ManageCardData = () => {
 
       if(res.status === 200 && isCardDeleted) {
         // alert(msg);
-        dispatch({type: 'submit'});
+        dispatch({type: 'CARD_SUBMITTED'});
       }
     } else { console.error(res.status); }
     console.log('submit - isSubmitted:', state.isSubmitted);
   }
 
-  useEffect(() => {
-    ( async () => {
-      const res = await apiRequest({
-        url: `/api/set/${setId}`,
-        src: 'ManageCardData - useEffect'
-      });
-
-      // check if the response is successful
-      if (res.status !== 200) {
-        console.error(res.status);
-        return;
-      } 
-
-      const { cards } = res.data;
+  const fetchData = async () => {
+    const res = await apiRequest({
+      url: `/api/set/${setId}`,
+      src: 'ManageCardData - useEffect'
+    });
+    
+    // check if the response is successful
+    if (res.status !== 200) {
+      console.error(res.status);
+      return;
+    } 
+    
+    const { cards } = res.data;
+    if (cards !== cardsRef.current) {
       setCards(cards);
+      cardsRef.current = cards;
+    }
+    
+    // check if the state isSubmitted
+    if(state.isSubmitted) {
+      dispatch({type: 'RESET_SUBMITTED'});
+    }
+  }
 
-      // check if the state isSubmitted
-      if(state.isSubmitted) {
-        dispatch({type: 'reset'});
-      }
-      console.log('ManageCardData state isSubmitted:', state.isSubmitted);
-    })();
-
-  },[setId, state.isSubmitted]);
+    useEffect(() => {
+      fetchData();
+    },[setId ]);
   
   return { cards, handleSubmit };
 }

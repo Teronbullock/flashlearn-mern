@@ -6,10 +6,14 @@ import { SetReducerInterface } from "../types/pages-types";
 
 const SetReducer: SetReducerInterface = (state, action) => {
   switch (action.type) {
-    case 'submit':
-      return { ...state, isSubmitted: true }
-    case 'reset':
-      return { ...state, isSubmitted: false }
+    case 'UPDATE':
+      return {...state, ...action.payload}
+    case 'ON_CHANGE':
+      return {...state, ...action.payload}
+    case 'SUBMIT':
+      return {...state, isSubmitted: true}
+    case 'RESET':
+      return {...state, isSubmitted: false}
     default:
       return state;
   }
@@ -17,58 +21,104 @@ const SetReducer: SetReducerInterface = (state, action) => {
 
 const useManageSetData = () => {
   const { userId } = useContext(AuthContext);
-  const [sets, setSets] = useState([]);
+  const [actionType, setActionType] = useState(null);
+
   const [state, dispatch] = useReducer(SetReducer, {
     isSubmitted: false,
+    payload: {
+      inputOneValue: '',
+      inputTwoValue: '',
+    }
   });
-  
-  // Handle set deletion
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, setId: number) => {
-    e.preventDefault();
-  
-    const res = await apiRequest({
-      method: 'delete',
-      url: `/api/set/${setId}/delete`,
-      src: 'ManageSetData - deleteSet',
-      data: {
-        userId: userId,
-      }
-    });
 
-    if(res.status === 200 && res.data?.isSetDeleted) {
-      const { msg } = res.data;
+  // Handle set deletion
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>, setId ) => {
+    e.preventDefault();
+    
+    if (actionType === 'edit') {
+      const res = await apiRequest({
+        method: 'put',
+        url: `/api/set/${setId}/edit`,
+        data: {
+          title: state.inputOneValue,
+          description: state.inputTwoValue,
+          id: setId,
+        },
+        src: 'SetDataFetch - onSubmit'
+      });
+
+      if (res.data) {
+        const { set, msg, setUpdate } = res.data;
 
         alert(msg);
-        dispatch({type: 'submit'});
+        console.log('Update Card data fetch', set, msg, setUpdate);
+      }
+    
+    } else if (actionType === 'add') {
+      const res = await apiRequest({
+        method: 'post',
+        url: `/api/set/user/${userId}/add`,
+        data: {
+          title: state.inputOneValue,
+          desc: state.inputTwoValue,
+          userId: userId,
+        },
+        src: 'SetDataFetch - onSubmit'
+      });
+
+      if (res.data) {
+        const { set, msg, setUpdate } = res.data;
+
+        alert(msg);
+        console.log('Update Card data fetch', set, msg, setUpdate);
+        dispatch({
+          type: 'on_change',
+          payload: {
+            inputOneValue: '',
+             inputTwoValue: ''
+          }
+        });
+      }
     }
+
   }
 
   useEffect(() => {
+    let res;
+
     ( async () => {
-      const res = await apiRequest({
-        url:`/api/set/user/${userId}`,
-        src: 'ManageSetData - useEffect'
-      });
+      if (actionType === 'edit') {
+        res = await apiRequest({
+          url: `/api/set/${setId}/edit`,
+          src: 'SetDataFetch - useEffect'
+        });
 
-      // check if the response is successful
-      if (res.status !== 200) {
-        console.error(res.status);
-        return;
-      } 
+        if (res !==undefined && res.data) {
+          const { title, description } = res.data.set;
 
-      const { rows } = res.data;
-      setSets(rows);
+          dispatch({
+            type: 'update',
+            payload: {
+              inputOneValue: title,
+              inputTwoValue: description,
+            }
+          });
+          return;
+        }
+
+      }
 
       // Reset the state after submission
       if(state.isSubmitted) {
         dispatch({type: 'reset'});
       }
+
     })();
 
-  },[userId, state.isSubmitted]);
+  },[userId, state.isSubmitted, actionType]);
 
 
-  return{ sets, handleSubmit };
+  return{state, submitHandler, setActionType, dispatch };
 
 }
 
