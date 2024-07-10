@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import ManageCardForm from "../../components/Forms/ManageCardForm";
 import apiRequest from "../../lib/api";
 import  { AuthContext } from "../../context/AuthContext";
+import FormAction from "../../components/Forms/FormAction";
 
 
 const CardReducer = ( state, action ) => {
@@ -51,14 +52,16 @@ const AddCard = () => {
   return (
     <section className="container py-12 lg:max-w-screen-lg">
       <ManageCardForm
-          inputOneLabel="Term"
-          inputTwoLabel="Definition"
-          submitBtnText='Update'
+          formType='card'
           inputOneValue={state.inputOneValue}
           inputTwoValue={state.inputTwoValue}
           onSubmit={onSubmit}
           dispatch={dispatch}
+          >
+        <FormAction
+          submitBtnText='Update'
         />
+      </ManageCardForm>
     </section>
   );
 }

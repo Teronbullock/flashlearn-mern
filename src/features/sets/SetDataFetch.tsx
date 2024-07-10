@@ -1,5 +1,4 @@
 import { useEffect, useState, useReducer } from "react";
-import ManageCardForm from "../../components/Forms/ManageCardForm";
 import { useParams } from "react-router-dom";
 import { CardType } from "../../types/card-types";
 import apiRequest from "../../lib/api";
@@ -80,29 +79,6 @@ const SetDataFetch = () => {
   }, [setId, setUpdated]);
 
 
-
-  if (state) {
-    return (
-      <section className="container py-12 lg:max-w-screen-lg">
-        <ManageCardForm
-          inputOneLabel='Title'
-          inputTwoLabel='Description'
-          submitBtnText='Update'
-          inputOneValue={state.inputOneValue}
-          inputTwoValue={state.inputTwoValue}
-          onSubmit={onSubmit}
-          to={`/set/${setId}/edit`}
-          dispatch={dispatch}
-        />
-      </section>
-    );
-  } else {
-    return (
-      <section className="container py-12 lg:max-w-screen-lg">
-        <h2 className="text-2xl text-center">No set found</h2>
-      </section>
-    );
-  }
 
 
 };
