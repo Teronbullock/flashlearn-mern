@@ -39,8 +39,8 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children }
     setUserID(userId);
     
     localStorage.setItem('flashlearn_userData', JSON.stringify({
-      userId: userId,
-      token: token,
+      userId,
+      token,
       expiration: tokenExpirationDate.toISOString()
     }));
     
@@ -61,9 +61,9 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children }
     userId,
     isLoggedIn: !!token,
     token,
-    login: login,
-    logout: logout,
-    tokenExpiration: tokenExpiration
+    login,
+    logout,
+    tokenExpiration,
   };
 
   useEffect(() => {
@@ -71,12 +71,17 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children }
 
     // Check if the stored data is valid
     if (storeDataString ) {
-      const storedData = JSON.parse(storeDataString);
-      const { token, userId, expiration } = storedData;
-      const isExpirationValid = new Date(expiration) > new Date();
-
-      if (token && isExpirationValid) {
-        login?.(userId, token, new Date(expiration));
+      try {
+        const storedData = JSON.parse(storeDataString);
+        const { token, userId, expiration } = storedData;
+        const isExpirationValid = new Date(expiration) > new Date();
+  
+        if (token && isExpirationValid) {
+          login?.(userId, token, new Date(expiration));
+        }
+        
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
       }
     }
   }, [token, login, userId]);
