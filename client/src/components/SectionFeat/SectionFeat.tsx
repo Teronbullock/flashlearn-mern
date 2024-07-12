@@ -1,29 +1,52 @@
 import './SectionFeat.scss';
+import classNames from 'classnames';
 
 interface sectionFeatProps {
   img: {
     src: string;
     alt: string;
   };
-  title: string;
-  copy: string;
-  classObj?: {
-    section?: string;
-    container?: string;
+  content: {
+    title: string;
+    copy: string;
+  };
+  sectionClasses?: {
+    sectionClass?: string;
+    containerClass?: string;
   };
 }
 
+
+/**
+ *  -- SectionFeat Component --
+ * 
+ * The SectionFeat component is a reusable component that displays a 
+ * section with an image and content.
+ * 
+ * @param {object} img - The image object containing the src and alt
+ *  attributes. 
+ * @param {object} content - The content object containing the title and
+ * copy attributes.
+ * @param {object} sectionClasses - The sectionClasses object containing the
+ * sectionClass and containerClass attributes.
+ * 
+ * @returns JSX.Element
+ * 
+ */
 export default function SectionFeat({
   img,
-  title,
-  copy,
-  classObj = { section: '', container: ''}
+  content,
+  sectionClasses = { sectionClass: '', containerClass: ''},
 } : sectionFeatProps): JSX.Element {
+  const { title, copy } = content;
+  const { src, alt } = img;
+  const { sectionClass, containerClass } = sectionClasses;
+
   return (
-    <section className={`section section-feature ${classObj.section}`}>
-      <div className={`container ${classObj.container}`}>
+    <section className={classNames('section section-feature py-8', sectionClass)}>
+      <div className={classNames('container md:flex', containerClass)}>
         <div className='section__header md:w-[50%]'>
-          <img className='img' src={img.src} alt={img.alt} />
+          <img className='img' src={src} alt={alt} />
         </div>
         <div className='section__content p-4 md:w-[50%]'>
           <div className='container'>

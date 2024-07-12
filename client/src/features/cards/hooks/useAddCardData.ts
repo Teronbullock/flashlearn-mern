@@ -1,10 +1,11 @@
 import { useContext, useReducer } from "react";
+import { useParams } from "react-router";
 import apiRequest from "../../../lib/api";
 import { AuthContext } from "../../../context/AuthContext";
 
 
 
-const SetReducer = (state, action) => {
+const CardReducer = (state, action) => {
   switch (action.type) {
     case 'ON_CHANGE':
     case 'SUBMIT':
@@ -14,10 +15,11 @@ const SetReducer = (state, action) => {
   }
 }
 
-const useAddSetData = () => {
+const useAddCardData = () => {
   const { userId } = useContext(AuthContext);
+  const { setId } = useParams();
 
-  const [state, dispatch] = useReducer(SetReducer, {
+  const [state, dispatch] = useReducer(CardReducer, {
     payload: {
       inputOneValue: '',
       inputTwoValue: '',
@@ -30,19 +32,20 @@ const useAddSetData = () => {
     try {
       const res = await apiRequest({
         method: 'post',
-        url: `/api/set/user/${userId}/add`,
+        url: `/api/set/${setId}/card/add`,
         data: {
-          title: state.inputOneValue,
-          description: state.inputTwoValue,
+          term: state.inputOneValue,
+          definition: state.inputTwoValue,
           user_id: userId,
+          set_id: setId,
         },
         src: 'SetDataFetch - onSubmit'
       });
-      if (res.data) {
-        const { msg } = res.data;
+      if (res.data && res.status === 200) {
+        const { msg, card } = res.data;
         alert(msg);
         dispatch({ type: 'SUBMIT', payload: { inputOneValue: '', inputTwoValue: '' } });
-        console.log('Set data fetch');
+        console.log('Card data fetch', card);
       }
       
     } catch (error) {
@@ -54,4 +57,4 @@ const useAddSetData = () => {
   return{state, submitHandler, dispatch };
 }
 
-export default useAddSetData;
+export default useAddCardData;

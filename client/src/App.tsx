@@ -4,17 +4,20 @@ import { AuthContext } from './context/AuthContext';
 import './App.scss';
 import Header from './layouts/Header/Header';
 import Footer from './layouts/Footer/Footer';
+
+import IndexPage from './pages/IndexPage';
+import DashboardPage from './features/sets/pages/DashboardPage';
+import AddSetPage from './features/sets/pages/AddSetPage';
+import EditSetPage from './features/sets/pages/EditSetPage';
+import AddCardPage from './features/cards/pages/AddCardPage';
+import EditCardPage from './features/cards/pages/EditCardPage';
+
 import PageNotFound from './pages/PageNotFound';
-import Index  from './pages/IndexPage';
-import Register from './pages/RegisterPage';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
-import Profile from './pages/ProfilePage';
-import Set from './pages/SetPage';
-import CardAddEdit from './pages/CardAddEditPage';
+import SetPage from './features/cards/pages/SetPage';
 import ViewCards from './pages/ViewCardsPage';
-import AddSetPage from './pages/AddSetPage';
-import EditSetPage from './pages/EditSetPage';
+import LoginPage from './features/user/page/LoginPage';
+import Profile from './features/user/page/ProfilePage';
+import Register from './features/user/page/RegisterPage';
 
 const App = () => {
   const {userId, token } = useContext(AuthContext)!;
@@ -23,14 +26,14 @@ const App = () => {
   if (token) {
     routes = (
       <>
-        <Route path='/profile' element={<Profile /> } />
         <Route path='/dashboard/:userId' element={<DashboardPage /> } />
-        <Route path='/set/:setId/card/:cardId/:action' element={<CardAddEdit />} />
-        <Route path='/set/:setId/card/:action' element={<CardAddEdit />} />
-        <Route path='/set/:setId/cards' element={<ViewCards />} />
-        <Route path='/set/:setId/edit' element={<EditSetPage />} />
+        <Route path='/set/:setId' element={<SetPage /> } />
         <Route path='/set/user/:userId/add' element={<AddSetPage />} />
-        <Route path='/set/:setId' element={<Set /> } />
+        <Route path='/set/:setId/edit' element={<EditSetPage />} />
+        <Route path='/set/:setId/card/add' element={<AddCardPage />} />
+        <Route path='/set/:setId/card/:cardId/edit' element={<EditCardPage />} />
+        <Route path='/set/:setId/cards' element={<ViewCards />} />
+        <Route path='/profile' element={<Profile /> } />
         <Route path='/' element={<Navigate to={`/dashboard/${userId}`} />} />
         <Route path="*" element={ <PageNotFound /> } />
       </>
@@ -38,7 +41,7 @@ const App = () => {
   } else {
     routes = (
       <>
-        <Route path='/' element={<Index />} />
+        <Route path='/' element={<IndexPage />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path="*" element={ <PageNotFound /> } />

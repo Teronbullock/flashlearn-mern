@@ -2,6 +2,7 @@ import Btn from '../Btn/Btn';
 import FormInput from './FormInput';
 
 export function FormColorPicker({ bgColor, textColor, dispatch }) {
+
   return (
     <div className='form__group w-1/4'>
       <div className='w-full'>
@@ -20,7 +21,7 @@ export function FormColorPicker({ bgColor, textColor, dispatch }) {
             dispatch({
               type: 'ON_CHANGE',
               payload: {
-                card_color: e.target.value,
+                bgColor: e.target.value,
               },
             }),
         }}
@@ -36,7 +37,7 @@ export function FormColorPicker({ bgColor, textColor, dispatch }) {
             dispatch({
               type: 'ON_CHANGE',
               payload: {
-                card_text_color: e.target.value,
+                textColor: e.target.value,
               },
             }),
         }}
