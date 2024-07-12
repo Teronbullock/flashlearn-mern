@@ -194,7 +194,7 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
                   <Btn
                     className='btn btn--large
                     btn--tertiary'
-                    elementType='btn'
+                    
                     type='submit'
                     to=''
                   >
@@ -240,7 +240,7 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
                   className='btn btn--large btn--tertiary'
                   to='/'
                   type='submit'
-                  elementType='btn'>Login</Btn>
+                  >Login</Btn>
               </div>
               </>
             ) : formType === 'profile' && (
@@ -312,7 +312,7 @@ export default function SectionForm({ formType }:SectionFormProps): JSX.Element 
                   <Btn
                     className='btn btn--large
                     btn--tertiary'
-                    elementType='btn'
+                    
                     type='submit'
                     to=''
                   >

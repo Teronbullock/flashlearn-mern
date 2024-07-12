@@ -1,4 +1,3 @@
-import React from 'react';
 import Btn from '../Btn/Btn';
 
 /**
@@ -13,14 +12,13 @@ function FormAction({ submitBtnText, cancelBtnTo }) {
   return (
     <div className='form__action flex md:block'>
       <Btn
-        elementType='btn'
+        tag='button'
         className='btn--large btn--tertiary text-white mr-10'
         type='submit'
       >
         {submitBtnText}
       </Btn>
       <Btn
-        elementType='anchor'
         className='btn--large btn--outline-black'
         to={cancelBtnTo}
       >

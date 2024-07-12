@@ -1,9 +1,10 @@
 import { useReducer, useState, useContext } from "react";
 import { useParams } from "react-router";
-import ManageCardForm from "../../components/Forms/ManageCardForm";
-import apiRequest from "../../lib/api";
-import  { AuthContext } from "../../context/AuthContext";
-import FormAction from "../../components/Forms/FormAction";
+import ManageCardForm from "../../../components/Forms/ManageCardForm";
+import FormAction from "../../../components/Forms/FormAction";
+import apiRequest from "../../../lib/api";
+import  { AuthContext } from "../../../context/AuthContext";
+
 
 
 const CardReducer = ( state, action ) => {
@@ -52,14 +53,16 @@ const AddCard = () => {
   return (
     <section className="container py-12 lg:max-w-screen-lg">
       <ManageCardForm
-          formType='card'
-          inputOneValue={state.inputOneValue}
-          inputTwoValue={state.inputTwoValue}
-          onSubmit={onSubmit}
-          dispatch={dispatch}
-          >
+        formType='card'
+        inputOneValue={state.inputOneValue}
+        inputTwoValue={state.inputTwoValue}
+        onSubmit={onSubmit}
+        dispatch={dispatch}
+        submitBtnText='Add Card'
+      >
         <FormAction
-          submitBtnText='Update'
+          submitBtnText='Add Card'
+          cancelBtnTo={`/set/${setId}/`}
         />
       </ManageCardForm>
     </section>

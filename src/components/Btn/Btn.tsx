@@ -1,56 +1,42 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import './Btn.scss';
 import classNames from 'classnames';
 import { BtnProps } from '../../types/btn-types';
 
-
 /**
  * -- Btn Component --
- * 
- * @param className [string] - class name for button
- * @param ariaLabel [sting] - aria label for button
- * @param to [string] - url for button
+ * @param className {string} - class name for button
  * @param children [React.ReactNode] - children for button
- * @param dataType [string] - data type for button
- * @param elementType - [string] - anchor (default) | btn - type of button
- * @param onClick [function] - function for button click 
- * @param type [string] - type of button
- * @returns 
+ * @param tag {string} - tag for button (Link, button) | Default is Link
+ * @param type {string} - button attribute type (submit, reset, button)
+ * The type attribute should only be used when the tag is 'button'.
+ *  
+ * @param ariaLabel {string} - aria label for button
+ * @param to {string} - url for button
+ * @param dataType {string} - data type for button
+ * @param onClick {function} - function for button click
+ * @returns
  */
-export default function Btn({ 
+export default function Btn({
+  children,
   className = '',
-  ariaLabel,
-  to = '#',
-  dataType,
-  children, 
-  elementType = 'anchor',
-  onClick,
-  type = undefined
-  }: BtnProps): JSX.Element {
-
-
-  if (elementType === 'btn') {
-    return (
-      <button 
-        className={classNames('btn', className)}
-        type={type}
-        onClick={onClick} 
-        {...(ariaLabel && { 'aria-label': ariaLabel })}
-        {...( dataType && {'data-js': dataType} )}
-      >
-        {children}
-      </button>
-    );
+  tag = 'Link',
+  ...otherProps
+}: BtnProps): JSX.Element {
+  let Tag;
+  
+  if (tag === 'Link' ) {
+    Tag = Link;
   } else {
-    return (
-      <Link 
-        className={`btn ${className}`}
-        to={to}
-        {...( ariaLabel && {'aria-label': ariaLabel} )}
-        {...( dataType && {'data-js': dataType} )}
-      >
-        {children}
-      </Link>
-    );
+    Tag = tag;
   }
+
+  return (
+    <Tag
+      className={classNames('btn', className)}
+      {...otherProps}
+    >
+      {children}
+    </Tag>
+  );
 }
