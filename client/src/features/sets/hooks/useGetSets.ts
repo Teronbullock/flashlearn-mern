@@ -5,23 +5,25 @@ import { AuthContext } from '../../../context/AuthContext';
 
 const useGetSets = () => {
   const { userId } = useContext(AuthContext);
-  const [sets, setSets] = useState();
+  const [sets, setSets] = useState(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
 
-  useEffect(() => {
 
+  useEffect(() => {
     if (userId) {
       ( async () => {
-        const res = await apiRequest({
-          url:`/api/set/user/${userId}`,
-          src: 'useGetSets - useEffect'
-        });
-  
-        if (res !== undefined && res.data) {
-          const { rows } = res.data;
-          setSets(rows);
-        } else {
-          console.error(res.status);
+        try {
+          const res = await apiRequest({
+            url:`/api/set/user/${userId}`,
+            src: 'useGetSets - useEffect'
+          });
+    
+          if (res !== undefined && res.data) {
+            const { rows } = res.data;
+            setSets(rows);
+          } 
+        } catch (error) {
+          console.error(error.response.data.msg, error);
         }
       })();
     }

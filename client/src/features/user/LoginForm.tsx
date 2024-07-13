@@ -45,8 +45,8 @@ const LoginForm = ({onSubmit, dispatch, state}) => {
           }}
         />
         <Btn
-          elementType='btn'
           className='btn--large btn--tertiary text-white'
+          tag='button'
           type='submit'
         >
           Login

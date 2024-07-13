@@ -14,7 +14,7 @@ const SetReducer = (state, action) => {
   }
 }
 
-const useAddSetData = (setId) => {
+const useEditSetData = (setId) => {
   const { userId } = useContext(AuthContext);
 
   const [state, dispatch] = useReducer(SetReducer, {
@@ -73,4 +73,4 @@ const useAddSetData = (setId) => {
   return{state, submitHandler, dispatch };
 }
 
-export default useAddSetData;
+export default useEditSetData;
