@@ -77,11 +77,12 @@ const Nav = () => {
                 </li>
               )}
               <Btn
-                // to="/logout"
-                onClick={handleLogout}
                 className="btn--black p-3"
-                elementType='btn'
-              >Logout</Btn>
+                tag="button"
+                onClick={handleLogout}  
+              >
+                Logout
+              </Btn>
             </>
           ) : (
             <>
@@ -89,13 +90,15 @@ const Nav = () => {
                 <Link to="/">Home</Link>
               </li>
               <li className="nav-desktop__item">
-              <Link className="nav__list-link" to="/register">Sign Up</Link>
+                <Link className="nav__list-link" to="/register">Sign Up</Link>
               </li>
               <li className="nav-desktop__item mr-0">
                 <Btn
                   to="/login"
                   className="btn--primary p-3"
-                >Login</Btn>
+                >
+                  Login
+                </Btn>
               </li>
             </>
           )}

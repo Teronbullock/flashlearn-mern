@@ -1,10 +1,12 @@
 export interface BtnProps {
-  className?: string;
-  ariaLabel?: string;
-  to?: string;
   children?: React.ReactNode;
+  className?: string;
+  tag?: 'Link' | 'button';
+  
+
   dataType?: string;
-  elementType?: 'anchor' | 'btn' | null;
+  isListItem?: boolean;
   onClick?: () => void;
   type?: 'submit' | 'reset' | 'button' | undefined;
+  to?: string;  
 }

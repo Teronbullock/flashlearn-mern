@@ -21,9 +21,6 @@ import {
  } from '../controllers/card-controller.js';
 
 
-
-
-
 // routes
 router.get('/', getSets);
 router.get('/user/:userId', getSets);

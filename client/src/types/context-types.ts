@@ -13,29 +13,3 @@ export interface ContextProviderProps {
   children: React.ReactNode;
 }
 
-
-// export type PageNames = 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addSetPage' | 'editCardPage' | 'viewCardPage';
-
-// export interface PageContent {
-//   {
-//     actionType: string;
-//     mainClass: string;
-//     hero: {
-//       heroClass: string;
-//       ariaLabel: string;
-//       img: string;
-//     };
-//     header: {
-//       title: string;
-//       copy: string;
-//       headerNav: {
-//         className?: string;
-//         btnText: string;
-//         to: string;
-//         elementType: 'anchor' | 'btn';
-//         ariaLabel: string;
-//         dataType?: string;
-//       }[];
-//     };
-//   }
-// }

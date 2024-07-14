@@ -37,6 +37,7 @@ export interface ManageCardFormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   dispatch: React.Dispatch<any>;
   children: React.ReactNode;
+  submitBtnText: string;
 }
 
 

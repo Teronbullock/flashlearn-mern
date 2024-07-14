@@ -73,7 +73,7 @@ const ProfileForm = () => {
         }}
       />
       <Btn
-        elementType='btn'
+        
         className='btn--large
         btn--tertiary text-white'
         type='submit'

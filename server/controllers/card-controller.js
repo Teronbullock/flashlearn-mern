@@ -78,18 +78,18 @@ export const getViewCards = asyncHandler(
 export const postAddCard = asyncHandler( 
   async (req, res, next) => {
     const { setId } = req.params;
-    const {card_definition, card_term, user_id, set_id} = req.body;
+    const {term, definition, user_id, set_id} = req.body;
 
     const data = {
-      card_term,
-      card_definition,
+      term,
+      definition,
       user_id,
       set_id,
-      card_color: '#ffffff',
-      card_text_color: '#000000',
+      bg_color: '#ffffff',
+      text_color: '#000000',
     };
 
-    if (data.card_term && data.card_definition) {
+    if (data.term && data.definition) {
       const card = await Card.create(data);
 
       console.log('card updated', card);
@@ -112,29 +112,29 @@ export const postAddCard = asyncHandler(
 export const putEditCard = asyncHandler(
   async (req, res) => {
     const { setId, cardId } = req.params;
-    const { card_term, card_definition, card_color, card_text_color, id } = req.body;
+    const { term, definition, bg_color, text_color, id } = req.body;
 
     const data = {
-      card_term,
-      card_definition,
-      card_color,
-      card_text_color,
+      term,
+      definition,
+      bg_color,
+      text_color,
       id,
     };
 
     console.log('data: ', data);
 
-    if (data.id !== cardId) {
+    if (data.id !== id) {
       return res.status(400).json({ error: "Card ID in body does not match URL" });
     }
 
   console.log('data: ', data);
-    if (data.card_term && data.card_definition) {
+    if (data.term && data.definition) {
       const cardUpdate = await Card.update(data, {
-        where: { ID: cardId },
+        where: { id: id },
       });
 
-      const card = await Card.findByPk(cardId, { raw: true });
+      const card = await Card.findByPk(id, { raw: true });
 
       console.log('card updated', cardUpdate);
 
@@ -157,12 +157,11 @@ export const putEditCard = asyncHandler(
 // delete card
 export const deleteCard = asyncHandler(
   async (req, res) => {
-    const { setId  } = req.params;
-    const { cardId, userId } = req.body;
+    const { id, setId } = req.body;
     let isCardDeleted = false;
 
-    if (cardId) {
-      isCardDeleted = await Card.destroy({ where: { ID: cardId} });
+    if (id) {
+      isCardDeleted = await Card.destroy({ where: { id } });
       
       console.log('card deleted');
       res.status(200).json({
