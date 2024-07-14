@@ -3,13 +3,7 @@ export interface CurrentPage {
 }
 
 export interface PageHeaderProps extends CurrentPage {
-  headerNav?: {
-      className?: string;
-      btnText?: string;
-      to?: string;
-      elementType?: 'anchor' | 'btn';
-      ariaLabel?: string;
-  }[];
+  children?: React.ReactNode;
 }
 
 export interface HeaderInterface {

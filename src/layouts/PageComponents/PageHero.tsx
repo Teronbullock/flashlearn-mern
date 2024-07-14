@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import PageContentFile from '../../data/page-content.json';
 
 const PageHero = ({ currentPage }: CurrentPage) => {
+  
   const currentPageContent = PageContentFile[currentPage];
   const { ariaLabel, img, className } = currentPageContent.hero;
   const { title, copy } = currentPageContent.header;
@@ -33,7 +34,6 @@ const PageHero = ({ currentPage }: CurrentPage) => {
             <Btn
               className='btn--primary btn--large'
               to='/register'
-              ariaLabel='Sign Up'
             >
               Sign Up
             </Btn>

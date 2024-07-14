@@ -1,50 +1,32 @@
 import {
   PageHeaderProps,
-  PageHeaderNavItem,
   HeaderInterface,
 } from '../../types/page-template-types';
-import Btn from '../../components/Btn/Btn';
 import PageContentFile from '../../data/page-content.json';
 
 
-const PageHeader = ({ headerNav, currentPage }: PageHeaderProps ) => {
-  const pageContent = PageContentFile[currentPage];
-  const { title, copy } = pageContent.header as HeaderInterface;
+const PageHeader = ({ currentPage, children }: PageHeaderProps ) => {
+const pageContent = PageContentFile[currentPage];
+const { title, copy } = pageContent.header as HeaderInterface;
 
   return (
     <header className='page-header bg-white py-4'>
-      <div className='container flex justify-between'>
-        <div className='page-header__content w-1/2'>
-          <h1 className='mb-4'>{title}</h1>
-          <h3>{copy}</h3>
+      {currentPage !== 'indexPage' && (
+        <div className='container flex justify-between'>
+          <div className='page-header__content w-1/2'>
+            <h1 className='mb-4'>{title}</h1>
+            <h3>{copy}</h3>
+          </div>
+          <span className='hidden md:inline divider-v '></span>
+          {children && (
+            <div className='page-header__nav w-2/5 pt-2'>
+              <ul className='page-header__nav-list flex'>
+                {children}
+              </ul>
+            </div>
+          )}
         </div>
-        <span className='hidden md:inline divider-v '></span>
-        <nav className='page-header__nav w-2/5 pt-2'>
-          <ul className='page-header__nav-list flex'>
-            {headerNav &&
-              headerNav.map((navItem: PageHeaderNavItem, index: number) => {
-                const {
-                  className,
-                  btnText,
-                  dataType,
-                } = navItem;
-
-                return (
-                  <li className='page-header__nav-item' key={index}>
-                    <Btn
-                      {...navItem}
-                      className={`btn--large ${className}`}
-                      dataType={dataType ? dataType : ''}
-                    >
-                      {btnText}
-                    </Btn>
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </nav>
-      </div>
+      )}
     </header>
   );
 };

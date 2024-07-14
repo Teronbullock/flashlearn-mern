@@ -109,7 +109,7 @@ const RegistrationForm = () => {
         }}
       />
       <Btn
-        elementType='btn'
+        
         className='btn--large
         btn--tertiary text-white'
         type='submit'
