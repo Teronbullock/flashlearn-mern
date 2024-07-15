@@ -14,7 +14,7 @@ import EditCardPage from './features/cards/pages/EditCardPage';
 
 import PageNotFound from './pages/PageNotFound';
 import SetPage from './features/cards/pages/SetPage';
-import ViewCards from './pages/ViewCardsPage';
+import ViewCardsPage from './features/cards/pages/ViewCardsPage';
 import LoginPage from './features/user/page/LoginPage';
 import Profile from './features/user/page/ProfilePage';
 import Register from './features/user/page/RegisterPage';
@@ -32,7 +32,7 @@ const App = () => {
         <Route path='/set/:setId/edit' element={<EditSetPage />} />
         <Route path='/set/:setId/card/add' element={<AddCardPage />} />
         <Route path='/set/:setId/card/:cardId/edit' element={<EditCardPage />} />
-        <Route path='/set/:setId/cards' element={<ViewCards />} />
+        <Route path='/set/:setId/cards' element={<ViewCardsPage />} />
         <Route path='/profile' element={<Profile /> } />
         <Route path='/' element={<Navigate to={`/dashboard/${userId}`} />} />
         <Route path="*" element={ <PageNotFound /> } />

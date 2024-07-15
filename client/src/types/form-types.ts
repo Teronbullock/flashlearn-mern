@@ -56,17 +56,15 @@ export interface LoginFormState {
 
 export interface FormInputProps {
   labelName: string;
-  inputProps: {
-    type?: string;
-    name: string;
-    value?: string;
-    className?: string;
-    placeholder?: string;
-    required?: boolean;
-    disabled?: boolean; 
-    dataType?: string; // may not need
-    onChange: (e: React.ChangeEvent<HTMLInputElement  | HTMLTextAreaElement>) => void;
-  };
+  type?: string;
+  name: string;
+  value?: string;
+  className?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean; 
+  autoFocus?: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement  | HTMLTextAreaElement>) => void; 
 }
 
 export interface ListCardFormProps {

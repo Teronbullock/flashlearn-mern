@@ -18,6 +18,7 @@ import {
   putEditCard,
   postAddCard,
   deleteCard,
+  getViewCards,
  } from '../controllers/card-controller.js';
 
 
@@ -27,11 +28,12 @@ router.get('/user/:userId', getSets);
 router.post('/user/:userId/add', postCreateSet);
 router.get('/:setId/card/:cardId/edit', getEditCard);
 router.put('/:setId/card/:cardId/edit', putEditCard);
-router.get('/:setID/edit', getEditSet);
-router.put('/:setID/edit', putEditSet);
+router.delete('/:setId/card/:cardID/delete', deleteCard);
 router.delete('/:setId/delete', deleteSet);
 router.post('/:setId/card/add', postAddCard);
-router.delete('/:setId/card/:cardID/delete', deleteCard);
+router.get('/:setId/cards', getViewCards);
+router.put('/:setId/edit', putEditSet);
+router.get('/:setId/edit', getEditSet);
 router.get('/:setId', getCardsAllCards);
 // router.get('/set/:setID', midCheckUsersAuth, getSet);
 
@@ -44,6 +46,5 @@ router.get('/:setId', getCardsAllCards);
 // router.put('/set/:setID/card/:cardID/edit', midCheckUsersAuth, putEditCard);
 
 // // cards route
-// router.get('/set/:setID/cards', midCheckUsersAuth, getViewCards);
 
 export default router;

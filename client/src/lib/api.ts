@@ -1,4 +1,4 @@
-import { apiRequestObj } from '../types/api-types';
+import { apiRequest } from '../types/api-types';
 import axios, { AxiosResponse } from 'axios';
 
 
@@ -26,14 +26,16 @@ import axios, { AxiosResponse } from 'axios';
  *  src: 'Dashboard'
  *  }); 
  */
-const apiRequest = async (apiObj: apiRequestObj) => {
-  const { method = 'get', url, data, src } = apiObj;
+const apiRequest = async (req: apiRequest ) => {
+  const { method = 'get', url, data, src } = req;
 
+
+console.log('apiRequest', req);
   if (data) {
-    console.log(`api Request: \nSrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`, data);
+    console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`, data);
 
   } else {
-    console.log(`api Request: \nSrc: ${src} \nMethod: ${method} \nURL: ${url}`);
+    console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url}`);
   }
 
   try {
@@ -41,7 +43,7 @@ const apiRequest = async (apiObj: apiRequestObj) => {
 
     switch (method) {
       case 'get':
-        res = await axios.get(url);
+        res = await axios.get(url, data);
         break;
       case 'post':
         res = await axios.post(url, data);
