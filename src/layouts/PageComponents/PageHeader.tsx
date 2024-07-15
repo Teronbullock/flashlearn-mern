@@ -14,8 +14,8 @@ const { title, copy } = pageContent.header as HeaderInterface;
       {currentPage !== 'indexPage' && (
         <div className='container flex justify-between'>
           <div className='page-header__content w-1/2'>
-            <h1 className='mb-4'>{title}</h1>
-            <h3>{copy}</h3>
+            <h1 className='mb-2 text-4xl'>{title}</h1>
+            <h3 className='text-2xl'>{copy}</h3>
           </div>
           <span className='hidden md:inline divider-v '></span>
           {children && (

@@ -1,5 +1,6 @@
 export interface CurrentPage {
   currentPage: 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addCardPage' | 'editCardPage' | 'viewCardsPage';
+  className?: string;
 }
 
 export interface PageHeaderProps extends CurrentPage {

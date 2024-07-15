@@ -4,19 +4,15 @@ import Btn from '../../components/Btn/Btn';
 import classNames from 'classnames';
 import PageContentFile from '../../data/page-content.json';
 
-const PageHero = ({ currentPage }: CurrentPage) => {
+const PageHero = ({ currentPage, className }: CurrentPage) => {
   
   const currentPageContent = PageContentFile[currentPage];
-  const { ariaLabel, img, className } = currentPageContent.hero;
+  const { ariaLabel, img } = currentPageContent.hero;
   const { title, copy } = currentPageContent.header;
 
   const heroClass = classNames(
     'page-hero bg-black text-white relative bg-no-repeat bg-center bg-cover',
-    {
-      'page-hero--half-mask h-[calc(100vh-4.37rem)]':
-        currentPage === 'indexPage',
-      'h-[42vh]': currentPage !== 'indexPage',
-    },
+    {'page-hero--half-mask': currentPage === 'indexPage'},
     className
   );
 
