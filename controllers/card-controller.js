@@ -41,34 +41,39 @@ export const getEditCard = asyncHandler(
 export const getViewCards = asyncHandler(
   async (req, res) => {
     const setId = req.params.setId;
-    const { page } = req.query;
-    const nextPage = Number(page) + 1;
-    const prevPage = Number(page) - 1;
+    // const { page } = req.query;
+    // const nextPage = Number(page) + 1;
+    // const prevPage = Number(page) - 1;
     
     const {count, rows } = await Card.findAndCountAll({
-      where: { set_id: setId },
-      raw: true,
-      offset: (page - 1),
-      limit: 1,
+        where: { set_id: setId },
+        raw: true,
+        // offset: (page - 1),
+        // limit: 1,
+      });
+      
+      let cards = rows;
+      
+      console.log('cards', cards);
+
+    // let templateData = { 
+    //   cardScript: true,
+    //   setId,
+    //   page,
+    //   nextPage,
+    //   prevPage,
+    //   count,
+    //   cards,
+    //   frontCardText: cards[0]['card_term'],
+    //   backCardText: cards[0]['card_definition'],
+    //   cardColor: cards[0]['card_color'],
+    //   cardTextColor: cards[0]['card_text_color'],
+    // };
+
+    res.status(200).json({
+      msg: 'success',
+      cards
     });
-
-    let cards = rows;
-
-
-    let templateData = { 
-      cardScript: true,
-      setId,
-      page,
-      nextPage,
-      prevPage,
-      count,
-      frontCardText: cards[0]['card_term'],
-      backCardText: cards[0]['card_definition'],
-      cardColor: cards[0]['card_color'],
-      cardTextColor: cards[0]['card_text_color'],
-    };
-
-    res.render('card', templateData);
   },
   'Error retrieving cards data: ',
   500
