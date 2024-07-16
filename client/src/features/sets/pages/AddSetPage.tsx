@@ -6,7 +6,6 @@ import PageHeader from "../../../layouts/PageComponents/PageHeader";
 import PageHero from "../../../layouts/PageComponents/PageHero";
 import useAddSetData from "../hooks/useAddSetData";
 import ListItemBtn from "../../../components/Btn/ListItemBtn";
-import Btn from "../../../components/Btn/Btn";
 import FormAction from "../../../components/Forms/FormAction";
 
 const AddSetPage = () => {
@@ -17,7 +16,7 @@ const AddSetPage = () => {
 
   return (
     <main className={classNames('main', `main-${currentPage}`)} >
-      <PageHero currentPage={currentPage} />
+      <PageHero currentPage={currentPage} className="h-[42vh]"/>
       <PageHeader currentPage={currentPage}>
         <ListItemBtn
           className='btn--outline-black btn--large'

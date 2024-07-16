@@ -31,25 +31,26 @@ const useLoginData = () => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const res = await apiRequest({
-        method: 'post',
-        url: 'api/users/login',
-        data: state,
-        src: 'LoginForm - handleFormSubmit'
-      });
+    // try {
+    //   const res = await apiRequest({
+    //     method: 'post',
+    //     url: 'api/users/login',
+    //     data: state,
+    //     src: 'LoginForm - handleFormSubmit'
+    //   });
       
-      if (res.status === 200 && res.data) {
-        const { userId, token } = res.data;
+    //   if (res.status === 200 && res.data) {
+    //     const { userId, token } = res.data;
 
-        login?.(userId, token);
-        navigate(`/dashboard/${userId}`);
-      }
+    //     login?.(userId, token);
+    //     navigate(`/dashboard/${userId}`);
+    //   }
 
-    } catch (error) {
-      alert(error);
-      console.error(error);
-    }
+    // } catch (error) {
+    //   alert(error);
+    //   console.error(error);
+    // }
+    login(1, 'token');
   }
 
   return { state, dispatch, handleFormSubmit };
