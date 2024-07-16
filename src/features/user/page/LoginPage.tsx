@@ -1,6 +1,21 @@
-import useLoginData from "../hooks/useLoginData";
+import { useReducer } from 'react';
+// import useLoginData from "../hooks/useLoginData";
 import LoginForm from "../LoginForm";
+import { useAuthContext } from '../../../context/AuthContext';
 
+
+const loginFormReducer = (state: LoginFormState, action: object) => {
+  switch (action.type) {
+    case 'SUBMIT':
+    case 'ON_CHANGE':
+      return {
+        ...state,
+        ...action.payload,
+      }
+    default: 
+      return state;
+  }
+}
 
 /**
  *  -- LoginPage --
@@ -8,7 +23,21 @@ import LoginForm from "../LoginForm";
  * @returns 
  */
 const LoginPage = () => {
-  const { state, dispatch, handleFormSubmit } = useLoginData();
+  const { login } = useAuthContext();
+  const [state, dispatch] = useReducer(loginFormReducer, {
+    user_name: '',
+    user_pass: '',
+  });
+
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      login(state.user_name, state.user_pass);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <main className="main main--login">

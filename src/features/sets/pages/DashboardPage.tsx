@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   return (
     <main className="main main-dashboardPage" >
-      <PageHero currentPage={currentPage} />
+      <PageHero currentPage={currentPage} className="h-[42vh]"/>
       <PageHeader currentPage={currentPage}> 
         <ListItemBtn
           tag="Link" 

@@ -66,50 +66,41 @@ const RegistrationForm = () => {
       </div>
       <FormInput
         labelName='Username'
-        inputProps={{
-          type: 'text',
-          name: 'user_name',
-          value: state.user_name,
-          placeholder: 'Enter your username',
-          required: true,
-          onChange: (e) => dispatch({ user_name: e.target.value }),
-        }}
+        type= 'text'
+        name= 'user_name'
+        value={state.user_name}
+        placeholder='Enter your username'
+        required={true}
+        onChange={(e) => dispatch({ user_name: e.target.value })}
       />
       <FormInput
         labelName='Email'
-        inputProps={{
-          type: 'email',
-          name: 'user_email',
-          value: state.user_email,
-          placeholder: 'Enter your email',
-          required: true,
-          onChange: (e) => dispatch({ user_email: e.target.value }),
-        }}
+        type='email'
+        name='user_email'
+        value={state.user_email}
+        placeholder='Enter your email'
+        required={true}
+        onChange={(e) => dispatch({ user_email: e.target.value })}
       />
       <FormInput
         labelName='Password'
-        inputProps={{
-          type: 'password',
-          name: 'user_pass',
-          value: state.user_pass,
-          placeholder: 'Enter your password',
-          required: true,
-          onChange: (e) => dispatch({ user_pass: e.target.value }),
-        }}
+        type='password'
+        name='user_pass'
+        value={state.user_pass}
+        placeholder='Enter your password'
+        required={true}
+        onChange={(e) => dispatch({ user_pass: e.target.value })}
       />
       <FormInput
         labelName='Confirm Password'
-        inputProps={{
-          type: 'password',
-          name: 'user_pass_confirm',
-          value: state.user_pass_confirm,
-          placeholder: 'Confirm your password',
-          required: true,
-          onChange: (e) => dispatch({ user_pass_confirm: e.target.value }),
-        }}
+        type='password'
+        name='user_pass_confirm'
+        value={state.user_pass_confirm}
+        placeholder='Confirm your password'
+        required={true}
+        onChange={(e) => dispatch({ user_pass_confirm: e.target.value })}
       />
       <Btn
-        
         className='btn--large
         btn--tertiary text-white'
         type='submit'

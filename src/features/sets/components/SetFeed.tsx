@@ -40,6 +40,13 @@ const SetFeed = () => {
               >
                 Edit
               </ListItemBtn>
+              <ListItemBtn
+                tag='button'
+                type='submit'
+                className='btn--outline-black btn--medium'
+              >
+                Delete Set
+              </ListItemBtn>
             </ListCardForm>
           );
         })

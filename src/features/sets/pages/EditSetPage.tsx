@@ -7,7 +7,6 @@ import PageHeader from "../../../layouts/PageComponents/PageHeader";
 import ListItemBtn from "../../../components/Btn/ListItemBtn";
 import PageHero from "../../../layouts/PageComponents/PageHero";
 import useEditSetData from "../hooks/useEditSetData";
-import Btn from "../../../components/Btn/Btn";
 import FormAction from "../../../components/Forms/FormAction";
 
 
@@ -20,7 +19,7 @@ const EditSetPage = () => {
 
   return (
     <main className={classNames('main', `main-${currentPage}`)} >
-      <PageHero currentPage={currentPage} />
+      <PageHero currentPage={currentPage} className="h-[42vh]"/>
       <PageHeader currentPage={currentPage}>
         <ListItemBtn
           className="btn--large btn--outline-black mr-6"

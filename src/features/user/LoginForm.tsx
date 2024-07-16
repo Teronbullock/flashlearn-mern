@@ -24,25 +24,22 @@ const LoginForm = ({onSubmit, dispatch, state}) => {
         </div>
         <FormInput
           labelName='Username'
-          inputProps={{
-            type: 'text',
-            name: 'user_name',
-            value: state.user_name,
-            placeholder: 'Enter your username',
-            required: true,
-            onChange: (e) => dispatch({type: 'ON_CHANGE', 'payload': {user_name: e.target.value}}),
-          }}
+          type='text'
+          name='user_name'
+          value={state.user_name}
+          placeholder='Enter your username'
+          required={true}
+          onChange={ (e) => dispatch({type: 'ON_CHANGE', 'payload': {user_name: e.target.value}})}
+          autoFocus={true}
         />
         <FormInput
           labelName='Password'
-          inputProps={{
-            type: 'password',
-            name: 'user_pass',
-            value: state.user_pass,
-            placeholder: 'Enter your password',
-            required: true,
-            onChange: (e) => dispatch({ type: 'ON_CHANGE', 'payload': {user_pass: e.target.value} }),
-          }}
+          type='password'
+          name='user_pass'
+          value={state.user_pass}
+          placeholder='Enter your password'
+          required={true}
+          onChange={(e) => dispatch({ type: 'ON_CHANGE', 'payload': {user_pass: e.target.value} })}
         />
         <Btn
           className='btn--large btn--tertiary text-white'
