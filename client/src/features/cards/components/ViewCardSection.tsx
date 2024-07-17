@@ -1,9 +1,27 @@
-import Card from '../../../components/cards/Card';
+import { useState, useEffect, memo } from 'react';
+import './ViewCardSection.scss';
+import Btn from '../../../components/Btn/Btn';
 
-const ViewCardSection = () => {
+const ViewCardSection = memo(({page, setId, cards, ...props}) => {
+  const[backBtnURL, setBackBtnURL] = useState(`/set/${setId}/cards/?page=${page - 1}`);
+  const[nextBtnURL, setNextBtnURL] = useState(`/set/${setId}/cards/?page=${page + 1}`);
+  const [currentCard, setCurrentCard] = useState(page - 1);
+
+  const { term, definition } = currentCard;
+  
+  useEffect(() => {
+    
+    if (page <= 1 ) {
+      setBackBtnURL('');
+    } else {
+      setBackBtnURL(`/set/${setId}/cards/?page=${page - 1}`);
+    }
+    // console.log('page: ', page, cards);
+    // setCurrentCard(cards[2 - 1]);
+  }, [page, backBtnURL, nextBtnURL]);
+
   return (
-    <section className='section-flash-card py-3 w-1/2 mx-auto'>
-      <Card className='bg-white'>
+    <section className='section-flash-card pt-8 w-1/2 mx-auto'>
       <div className='flashcard mx-auto' data-js='flashcard'>
         <div className='flashcard__inner' data-js='flashcardInner'>
           <div
@@ -28,16 +46,24 @@ const ViewCardSection = () => {
                   Definition
                 </a>
                 <p className='flashcard__text' style={{ color: '#000' }}>
-                  The is a term for a card
+                  {term}
                 </p>
               </div>
               <div className='flashcard__footer d-flex justify-content-center p-4'>
-                <a className='btn btn--outline-secondary mr-4' disabled=''>
+                <Btn 
+                  className='btn btn--outline-secondary mr-4' 
+                  // to={`/set/${setId}/cards/?page=${page - 1}`}
+                  to={backBtnURL}
+                >
                   &lt;
-                </a>
-                <a className='btn btn--black' href='/set/5/cards/?page=2'>
+                </Btn>
+                <Btn 
+                  className='btn btn--black'
+                  // to={`/set/${setId}/cards/?page=${page + 1}`}
+                  to={nextBtnURL}
+                >
                   &gt;
-                </a>
+                </Btn>
               </div>
             </div>
           </div>
@@ -63,24 +89,23 @@ const ViewCardSection = () => {
                   Term
                 </a>
                 <p className='flashcard__text' style={{ color: '#000' }}>
-                  No definition provided
+                 {definition}
                 </p>
               </div>
               <div className='flashcard__footer d-flex justify-content-center p-4'>
-                <a className='btn btn--outline-secondary mr-4' disabled=''>
+                <Btn className='btn btn--outline-secondary mr-4' tag='button'>
                   &lt;
-                </a>
-                <a className='btn btn--black' href='/set/5/cards/?page=2'>
+                </Btn>
+                <Btn className='btn btn--black' tag='button'>
                   &gt;
-                </a>
+                </Btn>
               </div>
             </div>
           </div>
         </div>
       </div>
-      </Card>
     </section>
   );
-};
+});
 
 export default ViewCardSection;

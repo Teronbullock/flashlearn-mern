@@ -39,13 +39,19 @@ const useAddCardData = () => {
           user_id: userId,
           set_id: setId,
         },
-        src: 'SetDataFetch - onSubmit'
+        src: 'useAddCardData - onSubmit'
       });
       if (res.data && res.status === 200) {
         const { msg, card } = res.data;
         alert(msg);
         dispatch({ type: 'SUBMIT', payload: { inputOneValue: '', inputTwoValue: '' } });
-        console.log('Card data fetch', card);
+        const termInput =  document.querySelector('#term') as HTMLInputElement;
+
+        if (termInput) {
+          termInput.focus();
+        }
+
+        console.log('Card data fetch', card, termInput);
       }
       
     } catch (error) {

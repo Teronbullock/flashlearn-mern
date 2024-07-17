@@ -26,8 +26,15 @@ const CardFeed = () => {
               <ListItemBtn
                 className='btn--outline-black btn--medium mr-6'
                 to={`/set/${set_id}/card/${id}/edit`}
-              >
+                >
                 Edit Card
+              </ListItemBtn>
+              <ListItemBtn
+                tag='button'
+                type='submit'
+                className='btn--outline-black btn--medium'
+              >
+                Delete Card
               </ListItemBtn>
             </ListCardForm>
           );
