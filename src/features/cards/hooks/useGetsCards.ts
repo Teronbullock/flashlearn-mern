@@ -30,7 +30,7 @@ const useGetsCards = () => {
   }, [setId, refreshCounter]);
   
   const refreshCards = () => {setRefreshCounter(prev => prev + 1)};
-
+  console.log('useGetsCards - cards: ', cards);
   return {cards, refreshCards};
 }
 

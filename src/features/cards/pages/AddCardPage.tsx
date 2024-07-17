@@ -16,7 +16,7 @@ const AddCardPage = () => {
 
   return (
     <main className={classNames('main', `main-${currentPage}`)} >
-      <PageHero currentPage={currentPage} />
+      <PageHero currentPage={currentPage} className="h-[42vh]"/>
       <PageHeader currentPage={currentPage}>
         <ListItemBtn
           className='btn--outline-black btn--large'
