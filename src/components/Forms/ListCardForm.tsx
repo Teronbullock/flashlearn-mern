@@ -20,11 +20,11 @@ const ListCardForm = ({
       <form onSubmit={onSubmit}>
         <div className='card__info flex justify-between flex-wrap'>
           <h3>{title}</h3>
-          {cardCount && (
+          {cardCount || cardCount === 0 ? (
             <p className='card__body-info-title my-0'>
               Terms: {cardCount}
             </p>
-          )}
+          ) : null}
         </div>
         <div className='divider-h my-3'></div>
         <div className='card__header mb-3'></div>
@@ -35,15 +35,6 @@ const ListCardForm = ({
         </div>
         <ul className='card__action mb-3 flex'>
           {children}
-          <li>
-            <Btn
-              className='btn--medium btn--outline-dark-shade'
-              type='submit'
-              tag='button'
-            >
-              Delete Set
-            </Btn>
-          </li>
         </ul>
         <input type='hidden' name='set_id' value={id} />
         <input type='hidden' name='_method' value='DELETE' />

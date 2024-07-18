@@ -1,7 +1,6 @@
 {
   "indexPage": {
     "hero": {
-      "className": "page-header--index",
       "ariaLabel": "Image of a person sitting on the floor with their back on a couch while using a laptop to study. Photo by Thought Catalog on Unsplash",
       "img": "/assets/img/thought-catalog-Nv-vx3kUR2A-unsplash.jpg"
     },
