@@ -29,31 +29,28 @@ const ManageCardForm = ({
       <form onSubmit={onSubmit}>
         <FormInput 
           labelName={inputLabels[formType].inputOneLabel}
-          inputProps={{
-            type: 'textarea',
-            name: 'term',
-            value: inputValues[0],
-            required: true,
-            placeholder: `Enter ${inputLabels[formType].inputOneLabel}`,
-            onChange: (e) => dispatch({
-              type: 'ON_CHANGE',
-              payload: {inputOneValue: e.target.value}
-            })
-          }}
+          type='textarea'
+          name='term'
+          value={inputValues[0]}
+          required={true}
+          placeholder={`Enter ${inputLabels[formType].inputOneLabel}`}
+          onChange={(e) => dispatch({
+            type: 'ON_CHANGE',
+            payload: {inputOneValue: e.target.value}
+          })}
+          autoFocus={true}
         />
         <FormInput 
           labelName={inputLabels[formType].inputTwoLabel}
-          inputProps={{
-            type: 'textarea',
-            name: 'definition',
-            value: inputValues[1],
-            required: true,
-            placeholder: `Enter ${inputLabels[formType].inputTwoLabel}`,
-            onChange: (e) => dispatch({
-              type: 'ON_CHANGE',
-              payload: {inputTwoValue: e.target.value}
-            })
-          }}
+          type='textarea'
+          name='definition'
+          value={inputValues[1]}
+          required={true}
+          placeholder={`Enter ${inputLabels[formType].inputTwoLabel}`}
+          onChange={(e) => dispatch({
+            type: 'ON_CHANGE',
+            payload: {inputTwoValue: e.target.value}
+          })}
         />
           {children}
       </form>

@@ -12,35 +12,31 @@ export function FormColorPicker({ bgColor, textColor, dispatch }) {
       </div>
       <FormInput
         labelName='Card Color:'
-        inputProps={{
-          type: 'color',
-          name: 'card-color',
-          value: bgColor,
-          dataType: 'card-color',
-          onChange: e =>
-            dispatch({
-              type: 'ON_CHANGE',
-              payload: {
-                bgColor: e.target.value,
-              },
-            }),
-        }}
+        type='color'
+        name='bg_color'
+        value={bgColor}
+        dataType='card-color'
+        onChange={ (e) =>
+          dispatch({
+            type: 'ON_CHANGE',
+            payload: {
+              bgColor: e.target.value,
+            },
+          })}
       />
       <FormInput
         labelName='Text Color:'
-        inputProps={{
-          type: 'color',
-          name: 'card-text-color',
-          value: textColor,
-          dataType: 'card-text-color',
-          onChange: e =>
-            dispatch({
-              type: 'ON_CHANGE',
-              payload: {
-                textColor: e.target.value,
-              },
-            }),
-        }}
+        type='color'
+        name='text_color'
+        value={textColor}
+        dataType='card-text-color'
+        onChange={ (e) =>
+          dispatch({
+            type: 'ON_CHANGE',
+            payload: {
+              textColor: e.target.value,
+            },
+          })}
       />
     </div>
   );

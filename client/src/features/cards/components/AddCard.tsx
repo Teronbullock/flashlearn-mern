@@ -21,10 +21,8 @@ const AddCard = () => {
   });
 
   const { userId } = useContext(AuthContext);
-
   const { setId } = useParams();
   
-  console.log('CardReducer:', state, setId);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -54,8 +52,7 @@ const AddCard = () => {
     <section className="container py-12 lg:max-w-screen-lg">
       <ManageCardForm
         formType='card'
-        inputOneValue={state.inputOneValue}
-        inputTwoValue={state.inputTwoValue}
+        inputValues={[state.inputOneValue, state.inputTwoValue]}
         onSubmit={onSubmit}
         dispatch={dispatch}
         submitBtnText='Add Card'
