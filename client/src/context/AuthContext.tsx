@@ -13,9 +13,6 @@ export const AuthContext = createContext<AuthContextValue>({
 });
 
 
-// Logout timer
-let logoutTimer: number | undefined;
-
 const authReducer = (state: any, action: any) => {
   switch (action.type) {
     case 'LOGIN':
@@ -39,6 +36,15 @@ const authReducer = (state: any, action: any) => {
   }
 }
 
+
+// Logout timer
+let logoutTimer: number | undefined;
+
+/**
+ * -- AuthContextProvider --
+ * 
+ * @param children - The children of the provider
+ */
 export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children } ) => {
   const [authState, dispatch] = useReducer(authReducer, {
     userId: null,
@@ -131,7 +137,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({ children }
     navigate('/');
   }, [navigate]);
 
- 
+
 
   // Check if the user is logged in
   useEffect(() => {

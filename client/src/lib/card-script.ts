@@ -10,7 +10,7 @@ if (resetColorBtn) {
     cardTextColor.value = '#000000';
   });
 }
-
+console.log('loaded');
 
 class FlashCard {
   constructor(el) {
