@@ -29,13 +29,11 @@ import axios, { AxiosResponse } from 'axios';
 const apiRequest = async (req: apiRequest ) => {
   const { method = 'get', url, data, src } = req;
 
-
-console.log('apiRequest', req);
   if (data) {
-    console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`, data);
+    // console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`, data);
 
   } else {
-    console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url}`);
+    // console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url}`);
   }
 
   try {
