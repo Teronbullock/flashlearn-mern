@@ -11,6 +11,7 @@ const ViewCardsPage = () => {
   const { setId } = useParams();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page');
+  console.log('page', typeof page);
   const { card, cardCount } = useGetCardView(setId, page);
 
   return(

@@ -1,6 +1,5 @@
-import { useContext } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { AuthContext } from './context/AuthContext';
+import { useAuthContext } from './context/hooks/useAuthContext';
 import './App.scss';
 import Header from './layouts/Header/Header';
 import Footer from './layouts/Footer/Footer';
@@ -20,7 +19,7 @@ import Profile from './features/user/page/ProfilePage';
 import Register from './features/user/page/RegisterPage';
 
 const App = () => {
-  const {userId, token } = useContext(AuthContext)!;
+  const {userId, token } = useAuthContext()!;
 
   let routes;
   if (token) {
