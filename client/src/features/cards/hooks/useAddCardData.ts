@@ -1,7 +1,7 @@
-import { useContext, useReducer } from "react";
+import { useReducer } from "react";
 import { useParams } from "react-router";
 import apiRequest from "../../../lib/api";
-import { AuthContext } from "../../../context/AuthContext";
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 
@@ -16,7 +16,7 @@ const CardReducer = (state, action) => {
 }
 
 const useAddCardData = () => {
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
   const { setId } = useParams();
 
   const [state, dispatch] = useReducer(CardReducer, {

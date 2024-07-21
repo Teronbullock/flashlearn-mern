@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+
 import apiRequest from "../../../lib/api";
 
 
-const useGetCardView = (setId: string, pageNum: number) => {
+const useGetCardView = (setId: string | undefined, pageNum: string | null) => {
 const [card, setCard] = useState();
 const [cardCount, setCardCount] = useState(0);
   

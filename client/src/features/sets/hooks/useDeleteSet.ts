@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import apiRequest from "../../../lib/api";
-import { AuthContext } from "../../../context/AuthContext";
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 export const useDeleteSet = (refreshSets) => {
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
 
   const handlerDelete = async (e,  setId: number) => {
     e.preventDefault();

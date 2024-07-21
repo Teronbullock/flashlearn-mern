@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import CardFeed from '../components/CardFeed';
-import { AuthContext } from "../../../context/AuthContext";
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 import PageHero from "../../../layouts/PageComponents/PageHero";
 import PageHeader from "../../../layouts/PageComponents/PageHeader";
 import ListItemBtn from '../../../components/Btn/ListItemBtn';
 
 
 const SetPage = () => {
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
   const { setId } = useParams();
   const currentPage = 'setPage';
 

@@ -1,6 +1,6 @@
 import { useContext, useReducer } from "react";
 import apiRequest from "../../../lib/api";
-import { AuthContext } from "../../../context/AuthContext";
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 
@@ -15,7 +15,7 @@ const SetReducer = (state, action) => {
 }
 
 const useAddSetData = () => {
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
 
   const [state, dispatch] = useReducer(SetReducer, {
     payload: {

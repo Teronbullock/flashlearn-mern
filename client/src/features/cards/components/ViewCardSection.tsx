@@ -2,14 +2,16 @@ import { useState, useEffect, memo } from 'react';
 import classnames from 'classnames';
 import Btn from '../../../components/Btn/Btn';
 import './ViewCardSection.scss';
-import '../../../lib/card-script';
+// import '../../../lib/card-script';
 
 const ViewCardSection = ({page, setId, card, cardCount, ...props}) => {
+  const [flashcardClass, setFlashcardClass] = useState('');
   let backBtnUrl = `/set/${setId}/cards/?page=${page - 1}`;
   let nextBtnUrl = `/set/${setId}/cards/?page=${page + 1}`;
   let term, definition, bgColor, textColor;
   let disableBackBtnStyle;
   let disableNextBtnStyle;
+
 
   if (card) {
     term = card.term;
@@ -34,12 +36,18 @@ const ViewCardSection = ({page, setId, card, cardCount, ...props}) => {
     disableNextBtnStyle = '';
   }
   
-  console.log('btn', page);
+  const handFlipAction = (e) => {
+    setFlashcardClass('flashcard--flipped');
+      // self.setInnerHeight();
+
+      console.log('flipped', this);
+  }
+
 
   return (
     <section className='section-flash-card pt-8 w-1/2 mx-auto'>
     { card ? (
-      <div className='flashcard mx-auto' data-js='flashcard'>
+      <div className={classnames('flashcard mx-auto', flashcardClass)} data-js='flashcard'>
         <div className='flashcard__inner' data-js='flashcardInner'>
           <div
             className='flashcard--front'
@@ -57,8 +65,9 @@ const ViewCardSection = ({page, setId, card, cardCount, ...props}) => {
                 style={{ borderColor: textColor }}
               >
                 <a
-                  className='btn btn--secondary btn--large mb-8'
+                  className="btn btn--secondary btn--large mb-8"
                   data-js='flashcardFrontFlipBtn'
+                  onClick={handFlipAction}
                 >
                   Definition
                 </a>

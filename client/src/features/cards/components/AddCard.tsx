@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import ManageCardForm from "../../../components/Forms/ManageCardForm";
 import FormAction from "../../../components/Forms/FormAction";
 import apiRequest from "../../../lib/api";
-import  { AuthContext } from "../../../context/AuthContext";
+import  { AuthContext } from "../../../context/hooks/useAuthContext";
 
 
 
@@ -20,7 +20,7 @@ const AddCard = () => {
     inputTwoValue: '',
   });
 
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
   const { setId } = useParams();
   
 
