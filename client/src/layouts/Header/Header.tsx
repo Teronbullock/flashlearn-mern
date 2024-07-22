@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import './Header.scss';
 import Nav from '../Nav/Nav'; 
 import MobileMenuBtn from '../../components/MobileMenuBtn/MobileMenuBtn';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuthContext } from '../../context/hooks/useAuthContext';
 
 export default function Header() {
-  const { token, userId } = useContext(AuthContext);
+  const { token, userId } = useAuthContext();
   let currentUser = false;
 
   return (

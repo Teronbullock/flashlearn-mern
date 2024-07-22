@@ -1,15 +1,16 @@
 import Cards from '../models/cards-model.js';
 import Sets from '../models/sets-model.js';
+import RefreshTokens from '../models/refresh-token-model.js';
 
 /**
  *  -- get cards by set id
- * 
- * @param { number } setId 
- * @param { number } userId 
- * @returns 
+ *
+ * @param { number } setId
+ * @param { number } userId
+ * @returns
  */
 export const getCardsBySetID = async (setId, userId) => {
-  const {count, rows } = await Cards.findAndCountAll({
+  const { count, rows } = await Cards.findAndCountAll({
     raw: true,
     where: { user_id: userId, set_id: setId },
   });
@@ -22,10 +23,10 @@ export const getCardsBySetID = async (setId, userId) => {
 
 /**
  * -- check for set --
- * 
- * @param { number } setId 
- * @param { number } userId 
- * @returns 
+ *
+ * @param { number } setId
+ * @param { number } userId
+ * @returns
  */
 export const checkForSet = async (setId, userId) => {
   console.log('checkForSet: ', setId, userId);
@@ -48,12 +49,31 @@ export const checkForSet = async (setId, userId) => {
 
 /**
  * -- delete cards by set id --
- * 
- * @param { number } setId 
- * @param { number } userId 
+ *
+ * @param { number } setId
+ * @param { number } userId
  */
 export const deleteCardsBySetID = async (setId, userId) => {
   await Cards.destroy({
     where: { user_id: userId, set_id: setId },
   });
+};
+
+export const addRefreshToken = async (userId, refreshToken) => {
+  try {
+    await RefreshTokens.create({
+      user_id: userId,
+      token: refreshToken,
+    });
+  } catch (error) {
+    console.log('Error adding refresh token: ', error);
+  }
+};
+
+export const deleteRefreshToken = async userId => {
+  const deletedCount = await RefreshTokens.destroy({
+    where: { user_id: userId },
+  });
+
+  return deletedCount;
 };

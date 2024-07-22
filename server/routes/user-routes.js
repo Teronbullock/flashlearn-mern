@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
+import { genAuthToken } from '../lib/utils.js';
 
 const router = Router();
 
@@ -11,11 +12,15 @@ const router = Router();
 import { 
   postUserRegister,
   postUserLogin,
+  postRefresh,
+  postUserLogout,
   getUserProfile,
   putEditProfile
 } from '../controllers/user-controller.js';
 
-
+/**
+ * -- User Login --
+ */
 router.post('/login',
   [
     body('user_name')
@@ -28,6 +33,11 @@ router.post('/login',
   postUserLogin
 );
 
+router.post('/logout', postUserLogout);
+
+/**
+ * -- User Registration --
+ */
 router.post(
   '/register',
   [
@@ -47,6 +57,12 @@ router.post(
   ],
   postUserRegister
 );
+
+/**
+ * -- refresh token --
+ */
+router.post('/refresh', postRefresh);
+
 
 // router.get('/home/:userId', midCheckUsersAuth, midCheckUserAuthRedirect, getSets);
 // router.get('/profile/:userId', midCheckUsersAuth, midCheckUserAuthRedirect, getUserProfile);

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import classNames from "classnames";
 import ManageCardForm from "../../../components/Forms/ManageCardForm";
-import { AuthContext } from "../../../context/AuthContext";
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 import PageHeader from "../../../layouts/PageComponents/PageHeader";
 import ListItemBtn from "../../../components/Btn/ListItemBtn";
 import PageHero from "../../../layouts/PageComponents/PageHero";
@@ -12,7 +12,7 @@ import FormAction from "../../../components/Forms/FormAction";
 
 
 const EditSetPage = () => {
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
   const { setId } = useParams();
   const { state, submitHandler, dispatch} = useEditSetData(setId);
   const currentPage = 'editSetPage';

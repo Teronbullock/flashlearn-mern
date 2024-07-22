@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import FormInput from '../../components/Forms/FormInput';
 import Btn from '../../components/Btn/Btn';
 import apiRequest  from '../../lib/api';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuthContext } from '../../context/hooks/useAuthContext';
 import { RegFormState, RegFormAction } from '../../types/form-types';
 
 
@@ -16,7 +16,7 @@ const formReducer = (state: RegFormState, action: RegFormAction ) => {
 }
 
 const RegistrationForm = () => {
-  const authContext = useContext(AuthContext);
+  const authContext = useAuthContext();
   const [state, dispatch] = useReducer(formReducer, {
     user_name: '',
     user_email: '',

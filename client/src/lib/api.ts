@@ -28,12 +28,16 @@ import axios, { AxiosResponse } from 'axios';
  */
 const apiRequest = async (req: apiRequest ) => {
   const { method = 'get', url, data, src } = req;
+  const seeInput = false;
+  const seeOutput = false;
 
-  if (data) {
-    // console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`, data);
-
-  } else {
-    // console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url}`);
+  if (seeInput) {
+    if (data) {
+      console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`, data);
+  
+    } else {
+      console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url}`);
+    }
   }
 
   try {
@@ -56,16 +60,22 @@ const apiRequest = async (req: apiRequest ) => {
         throw new Error('Unsupported method');
     }
 
-    if(res.status === 200) {
-      console.log(`api response: Status [${res.status}] \nSrc: ${src}, \nRes:`, res.data);
-      return res;
-    } else {
-      throw new Error('API call error');
+    if(!res.data) {
+      throw new Error('Missing data in response');
     }
+    
+    if(seeOutput) {
+      console.log(`api response: Status [${res.status}] \nSrc: ${src}, \nRes:`, res.data);
+    }
+
+    return res;
+
   } catch (error) {
     console.error({error, src});
     throw error;
   }
+
+
 
 }
 

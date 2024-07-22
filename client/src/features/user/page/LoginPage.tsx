@@ -1,9 +1,10 @@
 import { useReducer } from 'react';
 import LoginForm from "../LoginForm";
-import { useAuthContext } from '../../../context/AuthContext';
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
+import { LoginFormState, LoginFormAction } from '../../../types/form-types';
 
 
-const loginFormReducer = (state: LoginFormState, action: object) => {
+const loginFormReducer = (state: LoginFormState, action: LoginFormAction) => {
   switch (action.type) {
     case 'SUBMIT':
     case 'ON_CHANGE':
@@ -31,10 +32,16 @@ const LoginPage = () => {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
-      login(state.user_name, state.user_pass);
+      if( login) {
+        login(state.user_name, state.user_pass);
+      } else {
+        throw new Error('Login function not found');
+      }
     } catch (error) {
       console.error(error);
+      alert('Login Error: Please check your user name and password and try again');
     }
   }
 

@@ -1,128 +1,137 @@
 import pkg from 'pg/lib/defaults.js';
-import { asyncHandler, authToken } from '../lib/utils.js';
+import {
+  asyncHandler,
+  genAuthToken,
+  genRefreshToken,
+  setRefreshTokenCookie,
+  verifyToken,
+} from '../lib/utils.js';
 import Users from '../models/users-model.js';
 import { validationResult } from 'express-validator';
+import { addRefreshToken, deleteRefreshToken } from '../lib/set-service.js';
 
 const { user } = pkg;
-
 
 /**
  * user register
  */
-export const postUserRegister = asyncHandler(
-  async (req, res, next) => {
-    let errors = validationResult(req);
-    
-    if (!errors.isEmpty()) {
-      let err = new Error('All fields required.');
-      err.status = 400;
-      return next(err);
-    }
+export const postUserRegister = asyncHandler(async (req, res, next) => {
+  let errors = validationResult(req);
 
-    const {user_name, user_email, user_pass, user_confirm_pass} = req.body;
+  if (!errors.isEmpty()) {
+    let err = new Error('All fields required.');
+    err.status = 400;
+    return next(err);
+  }
 
-    const formData = {
-      user_name,
-      user_email,
-      user_pass,
-    };
+  const { user_name, user_email, user_pass, user_confirm_pass } = req.body;
 
-    // confirm that all fields are filled out
-    if ( Object.values(formData).some(value => value == null || value === '') ) {
-      let err = new Error('All fields required.');
-      err.status = 400;
-      return next(err);
-    }
+  const formData = {
+    user_name,
+    user_email,
+    user_pass,
+  };
 
-    // confirm that user typed same password twice
-    if (user_pass !== user_confirm_pass) {  
-      let err = new Error('Passwords do not match.');
-      err.status = 400;
-      return next(err);
-    }
+  // confirm that all fields are filled out
+  if (Object.values(formData).some(value => value == null || value === '')) {
+    let err = new Error('All fields required.');
+    err.status = 400;
+    return next(err);
+  }
 
+  // confirm that user typed same password twice
+  if (user_pass !== user_confirm_pass) {
+    let err = new Error('Passwords do not match.');
+    err.status = 400;
+    return next(err);
+  }
+
+  try {
+    // use schema method to insert document into PSQL
+    const user = await Users.create(formData);
+    const { id, user_name } = user;
+
+    // create a token
     try {
-      // use schema method to insert document into PSQL 
-      const user = await Users.create(formData);
-      const { id, user_name } = user;
-      
-      // create a token
-      try {
-        let token = authToken(id, user_name);
-        
-        res.status(200).json({
-          msg: 'User registered successfully.',
-          token: token,
-          userId: id,
-          userName: user_name,
-        });
+      let token = genAuthToken(id, user_name);
+      let refreshToken = genRefreshToken(id);
 
-      } catch (error) {
-        console.log('Error creating token: ', error);
-        return next(error);
-      }
+      // add refresh token to database
+      addRefreshToken(id, refreshToken);
 
+      // set refresh token cookie
+      setRefreshTokenCookie(res, refreshToken);
+
+      res.status(200).json({
+        msg: 'User registered successfully.',
+        token,
+        refreshToken,
+        userId: id,
+        userName: user_name,
+      });
     } catch (error) {
-      console.log('Error registering user: ', error);
+      console.log('Error creating token: ', error);
       return next(error);
     }
-
+  } catch (error) {
+    console.log('Error registering user: ', error);
+    return next(error);
   }
-);
-
+});
 
 /**
  * user login
  */
-export const postUserLogin = asyncHandler( 
+export const postUserLogin = asyncHandler(
   async (req, res, next) => {
     let errors = validationResult(req);
-    const {user_name, user_pass} = req.body;
-    
+    const { user_name, user_pass } = req.body;
+
     if (!errors.isEmpty()) {
       let err = new Error('Email and password are required.');
       err.status = 401;
       return next(err);
     }
 
-    Users.authenticate(
-      user_name,
-      user_pass,
-      (error, user) => {
-        if (error || !user) {
-          const err = new Error('Wrong username or password.');
-          err.status = 401;
-          return next(err);
-        }
-        
-        const {id, user_name} = user;
-
-        // create a token
-        try {
-          let token = authToken(id, user_name);
-
-          res.status(200).json({
-            msg: 'User logged in successfully.',
-            token: token,
-            userId: id,
-            userName: user_name,
-          });
-
-        } catch (error) {
-          return next(error);               
-        }
+    Users.authenticate(user_name, user_pass, (error, user) => {
+      if (error || !user) {
+        const err = new Error('Wrong username or password.');
+        err.status = 401;
+        return next(err);
       }
-    );
+
+      const { id, user_name } = user;
+
+      // create a token
+      try {
+        let token = genAuthToken(id, user_name);
+        let refreshToken = genRefreshToken(id);
+
+        // add refresh token to database
+        addRefreshToken(id, refreshToken);
+
+        // set refresh token cookie
+        setRefreshTokenCookie(res, refreshToken);
+
+        res.status(200).json({
+          msg: 'User logged in successfully.',
+          token,
+          refreshToken,
+          userId: id,
+          userName: user_name,
+        });
+      } catch (error) {
+        return next(error);
+      }
+    });
   },
   'Error logging in: ',
   401
 );
 
-
 // get user profile
 export const getUserProfile = asyncHandler(
   async (req, res, next) => {
-
     const user = await Users.findByPk(req.params.userId);
     const { user_name, user_email } = user;
 
@@ -130,7 +139,7 @@ export const getUserProfile = asyncHandler(
       user_name,
       user_email,
     };
-  
+
     res.render('profile', data);
   },
   'Error retrieving user data: ',
@@ -140,7 +149,7 @@ export const getUserProfile = asyncHandler(
 // put user profile
 export const putEditProfile = asyncHandler(
   async (req, res, next) => {
-    const { email, old_password, password, confirm_password  } = req.body;
+    const { email, old_password, password, confirm_password } = req.body;
     const userId = req.params.userId;
     const formData = {};
 
@@ -150,17 +159,19 @@ export const putEditProfile = asyncHandler(
       return next(err);
     }
 
-    const user = await Users.findOne({ where: { id: userId }}, { raw: true });
-    const oldPasswordMath = Users.comparePassword(userId, old_password, user.user_pass);
+    const user = await Users.findOne({ where: { id: userId } }, { raw: true });
+    const oldPasswordMath = Users.comparePassword(
+      userId,
+      old_password,
+      user.user_pass
+    );
 
-
-    if (!oldPasswordMath ) {
+    if (!oldPasswordMath) {
       const err = new Error('Old password is incorrect.');
       err.status = 400;
       return next(err);
     }
 
- 
     if (password !== confirm_password) {
       const err = new Error('Passwords do not match.');
       err.status = 400;
@@ -171,25 +182,89 @@ export const putEditProfile = asyncHandler(
     formData.user_email = email;
 
     const updatedUser = await Users.update(formData, {
-      where: { id: userId }, 
+      where: { id: userId },
       raw: true,
       individualHooks: true,
     });
 
-  
     if (updatedUser[0] === 0) {
       const err = new Error('User not found.');
       err.status = 400;
       return next(err);
     } else {
-
       console.log('User updated successfully.');
       res.redirect(`/profile/${userId}`);
     }
-    
-    
-
   },
   'Error updating user data: ',
   500
 );
+
+/**
+ * -- refresh token --
+ */
+export const postRefresh = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  let tokenData;
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    tokenData = await verifyToken(refreshToken);
+
+    if (tokenData) {
+      const user = await Users.findByPk(tokenData.userId);
+
+      if (!user) {
+        res.status(404);
+        throw new Error('User not found');
+      }
+      // Generate a new access token
+      const token = genAuthToken(user.id, user.user_name);
+
+      return res.status(200).json({
+        token,
+        userId: user.id,
+
+      });
+    }
+
+  } catch (error) {
+    console.log('Error refreshing token: ', error);
+    return res.json({
+      message: error.message,
+    });
+  }
+};
+
+
+export const postUserLogout = async (req, res) => {
+  const token = await verifyToken(req.cookies.refreshToken);
+  const userId = token.userId;
+
+  // remove refresh token from database
+  try {
+    const deletedRefreshToken = await deleteRefreshToken(userId);
+
+    if (deletedRefreshToken > 0) {
+      res.clearCookie('refreshToken');
+      console.log( 'number of deleted tokens: ', deletedRefreshToken);
+      
+      res.status(200).json({ 
+        msg: 'User is logged out.'
+      });
+    } else {
+      throw new Error('Error logging out: refresh token not found.');
+    }
+
+  } catch (error) {
+    console.log('Error logging out: ', error);
+    res.status(500).json({
+      msg: 'Error logging out: ' + error.message
+    });
+  }
+
+
+}

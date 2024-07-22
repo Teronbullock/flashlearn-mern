@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import classNames from "classnames";
 import ManageCardForm from "../../../components/Forms/ManageCardForm";
-import { AuthContext } from "../../../context/AuthContext";
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 import PageHeader from "../../../layouts/PageComponents/PageHeader";
 import PageHero from "../../../layouts/PageComponents/PageHero";
 import useAddSetData from "../hooks/useAddSetData";
@@ -9,7 +9,7 @@ import ListItemBtn from "../../../components/Btn/ListItemBtn";
 import FormAction from "../../../components/Forms/FormAction";
 
 const AddSetPage = () => {
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
   const { state, submitHandler, dispatch} = useAddSetData();
   const currentPage = 'createSetPage';
 

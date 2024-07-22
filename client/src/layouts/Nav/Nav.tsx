@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import './Nav.scss'
 import Btn from '../../components/Btn/Btn';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuthContext } from '../../context/hooks/useAuthContext';
 
 const Nav = () => {
-  const { token, userId, logout } = useContext(AuthContext);
+  const { token, userId, logout } = useAuthContext();
   const navigate = useNavigate();
 
   const handleLogout = (e: Event) => {

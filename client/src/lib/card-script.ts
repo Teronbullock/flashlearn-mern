@@ -10,7 +10,7 @@ if (resetColorBtn) {
     cardTextColor.value = '#000000';
   });
 }
-console.log('loaded');
+// console.log('loaded');
 
 class FlashCard {
   constructor(el) {
@@ -36,6 +36,7 @@ class FlashCard {
     self.frontFlipBtn.addEventListener( 'click', () => {
       self.el.classList.add('flashcard--flipped');
       self.setInnerHeight();
+      console.log('flipped');
     });
   }
 

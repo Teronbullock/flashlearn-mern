@@ -46,7 +46,6 @@ Users.authenticate = async (username, password, callback) => {
         return callback(err);
       }
       
-      console.log('Users.authenticate: ');
       bcrypt.compare(password, user.user_pass, (error, result) => {
         if (result === true) {
           callback(null, user);
@@ -93,6 +92,8 @@ Users.beforeUpdate( async (users, options) => {
     console.log('Error: Encryption did not work', error);
   }
 });
+
+
 
 (async () => {
   try {
