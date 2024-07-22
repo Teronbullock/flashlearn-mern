@@ -53,6 +53,14 @@ export interface LoginFormState {
   user_pass: string;
 }
 
+export interface LoginFormAction {
+  type: 'SUBMIT' | 'ON_CHANGE';
+  payload: {
+    user_name: string;
+    user_pass: string;
+  };
+}
+
 
 export interface FormInputProps {
   labelName: string;

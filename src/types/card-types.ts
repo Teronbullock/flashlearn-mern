@@ -53,3 +53,6 @@ export interface CardReducerInterface {
     }
   ): object;
 }
+
+
+export interface

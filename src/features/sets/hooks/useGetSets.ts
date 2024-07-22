@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import apiRequest from '../../../lib/api';
-import { AuthContext } from '../../../context/AuthContext';
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 const useGetSets = () => {
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
   const [sets, setSets] = useState(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
 
