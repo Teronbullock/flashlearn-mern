@@ -1,7 +1,6 @@
 import FormInput from './FormInput';
 import Card from '../cards/Card';
 import  { ManageCardFormProps } from '../../types/card-types';
-import Btn from '../Btn/Btn';
 
 
 const ManageCardForm = ({
@@ -9,8 +8,7 @@ const ManageCardForm = ({
   inputValues,
   onSubmit,
   dispatch,
-  children,
-  submitBtnText,
+  children
 }: ManageCardFormProps) => {
 
   const inputLabels = {

@@ -1,5 +1,6 @@
 import { useReducer, useEffect } from "react";
 import apiRequest from "../../../lib/api";
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 
@@ -24,6 +25,8 @@ const useEditCardData = (cardId, setId) => {
     }
   });
 
+  const { token } = useAuthContext();
+
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -37,6 +40,7 @@ const useEditCardData = (cardId, setId) => {
           bg_color: state.bgColor,
           text_color: state.textColor,
           id: cardId,
+          headers: { 'Authorization': `Bearer ${token}` }
         },
         src: 'cardDataFetch - onSubmit'
       });

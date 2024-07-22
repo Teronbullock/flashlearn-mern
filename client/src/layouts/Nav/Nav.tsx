@@ -1,20 +1,17 @@
-import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './Nav.scss'
 import Btn from '../../components/Btn/Btn';
 import { useAuthContext } from '../../context/hooks/useAuthContext';
 
 const Nav = () => {
   const { token, userId, logout } = useAuthContext();
-  const navigate = useNavigate();
 
   const handleLogout = (e: Event) => {
     e.preventDefault();
-    console.log('logout', e);
+
     if (logout) {
       logout();
     }
-    navigate('/');
   };
 
   let currentUser = null;

@@ -1,4 +1,4 @@
-import { useContext, useReducer, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import apiRequest from "../../../lib/api";
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
@@ -15,7 +15,7 @@ const SetReducer = (state, action) => {
 }
 
 const useEditSetData = (setId) => {
-  const { userId } = useAuthContext();
+  const { userId, token } = useAuthContext();
 
   const [state, dispatch] = useReducer(SetReducer, {
     payload: {
@@ -35,6 +35,7 @@ const useEditSetData = (setId) => {
           title: state.inputOneValue,
           description: state.inputTwoValue,
           id: setId,
+          headers: { 'Authorization': `Bearer ${token}` }
         },
         src: 'SetDataFetch - onSubmit'
       });

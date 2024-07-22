@@ -1,13 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import { genAuthToken } from '../lib/utils.js';
-
-const router = Router();
-
-// const { 
-//   midCheckUsersAuth,
-//   midCheckUserAuthRedirect
-//  } = require('../middleware');
+import checkAuth from '../middleware/check-auth.js';
 
 import { 
   postUserRegister,
@@ -18,22 +11,8 @@ import {
   putEditProfile
 } from '../controllers/user-controller.js';
 
-/**
- * -- User Login --
- */
-router.post('/login',
-  [
-    body('user_name')
-    .not()
-    .isEmpty(),
-    body('user_pass')
-    .not()
-    .isEmpty()
-  ],
-  postUserLogin
-);
 
-router.post('/logout', postUserLogout);
+const router = Router();
 
 /**
  * -- User Registration --
@@ -58,14 +37,28 @@ router.post(
   postUserRegister
 );
 
+
+/**
+ * -- User Login --
+ */
+router.post('/login',
+  [
+    body('user_name')
+    .not()
+    .isEmpty(),
+    body('user_pass')
+    .not()
+    .isEmpty()
+  ],
+  postUserLogin
+);
+
+router.post('/logout', postUserLogout);
+
+
 /**
  * -- refresh token --
  */
 router.post('/refresh', postRefresh);
-
-
-// router.get('/home/:userId', midCheckUsersAuth, midCheckUserAuthRedirect, getSets);
-// router.get('/profile/:userId', midCheckUsersAuth, midCheckUserAuthRedirect, getUserProfile);
-// router.put('/profile/:userId', midCheckUsersAuth, midCheckUserAuthRedirect, putEditProfile);
 
 export default router;

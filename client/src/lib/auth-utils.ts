@@ -1,4 +1,13 @@
-import apiRequest from "./api";
+import { Dispatch } from 'react';
+
+type Action = {
+  type: 'LOGIN';
+  payload: {
+    userId: string;
+    token: string;
+    tokenExpTime: Date;
+  };
+};
 
 /**
  *  -- setUserAndToken --
@@ -10,15 +19,15 @@ import apiRequest from "./api";
  * @param token 
  * @returns
  */
-export const setUserAndToken = (dispatch, userId: string, token: string) => {
+export const setUserAndToken = (dispatch: Dispatch<Action>, userId: string, token: string) => {
   // sets the token expiration time to 15 minutes
   const tokenExpTime = new Date(new Date().getTime() + 1000 * 60 * 15);
 
-  console.log('This is the tokenExpTime:', tokenExpTime);
   if (!userId || !token || !tokenExpTime) {
     throw new Error('userId, token, and tokenExpTime are required');
   }
 
+  // dispatch values to the context
   dispatch({ 'type': 'LOGIN', 'payload': {
     userId,
     token,
@@ -33,31 +42,5 @@ export const setUserAndToken = (dispatch, userId: string, token: string) => {
   }));
 
   return;
-
-};
-
-
-
-
-export const refreshAuthToken = async (refreshToken: string) => {
-  try {
-    const res = await apiRequest({
-      method: 'post',
-      url: '/api/user/refresh',
-      data: { refresh_token: refreshToken },
-      src: 'refreshAuthToken',
-    });  
-
-    if (res.status === 200 && res.data) {
-      const { token, expiration } = res.data;
-      return { token, expiration: new Date(expiration) };
-    } else {
-      throw new Error(`Error refreshing token ${res.status}`);
-    }
-
-  } catch (error) {
-    console.error("Error refreshing auth token:", error);
-    return null;
-  }
 
 };

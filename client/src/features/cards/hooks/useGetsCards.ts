@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import apiRequest from '../../../lib/api';
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 const useGetsCards = () => {
   const { setId } = useParams();
   const [cards, setCards] = useState(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
+  const { token } = useAuthContext();
 
 
   useEffect(() => {
@@ -15,7 +17,8 @@ const useGetsCards = () => {
         try {
           const res = await apiRequest({
             url:`/api/set/${setId}`,
-            src: 'useGetCards - useEffect'
+            src: 'useGetCards - useEffect',
+            data: {headers: { 'Authorization': `Bearer ${token}` }}
           });
     
           if (res !== undefined && res.data) {

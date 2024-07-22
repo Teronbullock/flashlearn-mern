@@ -1,21 +1,23 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import apiRequest from '../../../lib/api';
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 const useGetSets = () => {
-  const { userId } = useAuthContext();
+  const { userId, token } = useAuthContext();
   const [sets, setSets] = useState(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
 
 
   useEffect(() => {
-    if (userId) {
+    if (userId && token) {
+      // console.log('useGetSets - useEffect - tk:', token);
       ( async () => {
         try {
           const res = await apiRequest({
             url:`/api/set/user/${userId}`,
-            src: 'useGetSets - useEffect'
+            src: 'useGetSets - useEffect',
+            data: { headers: { 'Authorization': `Bearer ${token}` } }
           });
     
           if (res !== undefined && res.data) {
@@ -27,7 +29,7 @@ const useGetSets = () => {
         }
       })();
     }
-  }, [userId, refreshCounter]);
+  }, [userId, refreshCounter, token]);
   
   const refreshSets = () => {setRefreshCounter(prev => prev + 1)};
 
