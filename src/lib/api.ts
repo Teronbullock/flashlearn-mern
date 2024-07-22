@@ -1,42 +1,54 @@
-import { apiRequest } from '../types/api-types';
 import axios, { AxiosResponse } from 'axios';
+
+
+interface apiRequestInterface {
+  method?: 'get' | 'post' | 'put' | 'delete';
+  url: string;
+  data?: object;
+  src?: string;
+  headers?: object;
+}
 
 
 /**
  *  -- API Request Function --
  * The function takes an object with the following properties:
- * @param apiObj 
- * 
+ * @param apiObj
+ *
  * The get request is the default method.
- * 
+ *
  *  - method[optional] : 'get' | 'post' | 'put' | 'delete'
  *  - url: string
  *  - data[optional]: The data to be sent with the request
  *  - src[optional]: The source of the request
- * 
+ *
  * @returns The response from the API (res)
- * 
+ *
  * @throws Error if the API call fails
- * 
+ *
  * @example
  * const res = await apiRequest({
  *  method: 'get',
  *  url: '/api/set/user/1',
  *  data: { id: 1 },
  *  src: 'Dashboard'
- *  }); 
+ *  });
  */
-const apiRequest = async (req: apiRequest ) => {
+const apiRequest = async (req: apiRequestInterface) => {
   const { method = 'get', url, data, src } = req;
   const seeInput = false;
   const seeOutput = false;
 
   if (seeInput) {
     if (data) {
-      console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`, data);
-  
+      console.log(
+        `api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`,
+        data
+      );
     } else {
-      console.log(`api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url}`);
+      console.log(
+        `api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url}`
+      );
     }
   }
 
@@ -54,29 +66,28 @@ const apiRequest = async (req: apiRequest ) => {
         res = await axios.put(url, data);
         break;
       case 'delete':
-        res = await axios.delete(url, {data});
+        res = await axios.delete(url, { data });
         break;
       default:
         throw new Error('Unsupported method');
     }
 
-    if(!res.data) {
+    if (!res.data) {
       throw new Error('Missing data in response');
     }
-    
-    if(seeOutput) {
-      console.log(`api response: Status [${res.status}] \nSrc: ${src}, \nRes:`, res.data);
+
+    if (seeOutput) {
+      console.log(
+        `api response: Status [${res.status}] \nSrc: ${src}, \nRes:`,
+        res.data
+      );
     }
 
     return res;
-
   } catch (error) {
-    console.error({error, src});
+    console.error({ error, src });
     throw error;
   }
-
-
-
-}
+};
 
 export default apiRequest;

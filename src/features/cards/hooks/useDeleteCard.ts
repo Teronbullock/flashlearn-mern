@@ -4,7 +4,7 @@ import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 export const useDeleteCard = (refreshCards) => {
-  const { userId } = useAuthContext();
+  const { userId, token } = useAuthContext();
 
   const handlerDelete = async (e,  cardId: number, setId: number) => {
     e.preventDefault();
@@ -17,6 +17,7 @@ export const useDeleteCard = (refreshCards) => {
         data: {
           id : cardId,
           setId,
+          headers: { 'Authorization': `Bearer ${token}` }
         }
       });
 

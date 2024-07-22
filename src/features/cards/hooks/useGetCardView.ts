@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-
 import apiRequest from "../../../lib/api";
+import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 const useGetCardView = (setId: string | undefined, pageNum: string | null) => {
 const [card, setCard] = useState();
 const [cardCount, setCardCount] = useState(0);
+const { token } = useAuthContext();
   
   useEffect(() => {
     ( async () => {
@@ -13,6 +14,7 @@ const [cardCount, setCardCount] = useState(0);
         const res = await apiRequest({
           'url': `/api/set/${setId}/cards/?page=${pageNum}`,
           'src': 'useGetCardView - getCards',
+          data: { headers: { 'Authorization': `Bearer ${token}` } }
         });
 
         if (res.status === 200 && res.data) {

@@ -6,6 +6,7 @@ import Btn from '../../components/Btn/Btn';
 import apiRequest  from '../../lib/api';
 import { useAuthContext } from '../../context/hooks/useAuthContext';
 import { RegFormState, RegFormAction } from '../../types/form-types';
+import Card from '../../components/cards/Card';
 
 
 const formReducer = (state: RegFormState, action: RegFormAction ) => {
@@ -58,56 +59,58 @@ const RegistrationForm = () => {
   }
 
   return (
-    <form onSubmit={handleFormSubmit} >
-      <div className="form__title-container">
-        <h2 className={classNames('form__title mx-0 mb-4')}>
+    <Card className='bg-white text-black'>
+      <form onSubmit={handleFormSubmit} >
+        <div className="form__title-container">
+          <h2 className={classNames('form__title mx-0 mb-4')}>
+            Register
+          </h2>
+        </div>
+        <FormInput
+          labelName='Username'
+          type= 'text'
+          name= 'user_name'
+          value={state.user_name}
+          placeholder='Enter your username'
+          required={true}
+          onChange={(e) => dispatch({ user_name: e.target.value })}
+        />
+        <FormInput
+          labelName='Email'
+          type='email'
+          name='user_email'
+          value={state.user_email}
+          placeholder='Enter your email'
+          required={true}
+          onChange={(e) => dispatch({ user_email: e.target.value })}
+        />
+        <FormInput
+          labelName='Password'
+          type='password'
+          name='user_pass'
+          value={state.user_pass}
+          placeholder='Enter your password'
+          required={true}
+          onChange={(e) => dispatch({ user_pass: e.target.value })}
+        />
+        <FormInput
+          labelName='Confirm Password'
+          type='password'
+          name='user_pass_confirm'
+          value={state.user_pass_confirm}
+          placeholder='Confirm your password'
+          required={true}
+          onChange={(e) => dispatch({ user_pass_confirm: e.target.value })}
+        />
+        <Btn
+          className='btn--large
+          btn--tertiary text-white'
+          type='submit'
+        >
           Register
-        </h2>
-      </div>
-      <FormInput
-        labelName='Username'
-        type= 'text'
-        name= 'user_name'
-        value={state.user_name}
-        placeholder='Enter your username'
-        required={true}
-        onChange={(e) => dispatch({ user_name: e.target.value })}
-      />
-      <FormInput
-        labelName='Email'
-        type='email'
-        name='user_email'
-        value={state.user_email}
-        placeholder='Enter your email'
-        required={true}
-        onChange={(e) => dispatch({ user_email: e.target.value })}
-      />
-      <FormInput
-        labelName='Password'
-        type='password'
-        name='user_pass'
-        value={state.user_pass}
-        placeholder='Enter your password'
-        required={true}
-        onChange={(e) => dispatch({ user_pass: e.target.value })}
-      />
-      <FormInput
-        labelName='Confirm Password'
-        type='password'
-        name='user_pass_confirm'
-        value={state.user_pass_confirm}
-        placeholder='Confirm your password'
-        required={true}
-        onChange={(e) => dispatch({ user_pass_confirm: e.target.value })}
-      />
-      <Btn
-        className='btn--large
-        btn--tertiary text-white'
-        type='submit'
-      >
-        Register
-      </Btn>
-    </form>
+        </Btn>
+      </form>
+    </Card>
   );
 }
 

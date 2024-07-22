@@ -16,7 +16,7 @@ const CardReducer = (state, action) => {
 }
 
 const useAddCardData = () => {
-  const { userId } = useAuthContext();
+  const { userId, token } = useAuthContext();
   const { setId } = useParams();
 
   const [state, dispatch] = useReducer(CardReducer, {
@@ -38,6 +38,7 @@ const useAddCardData = () => {
           definition: state.inputTwoValue,
           user_id: userId,
           set_id: setId,
+          headers: { 'Authorization': `Bearer ${token}` }
         },
         src: 'useAddCardData - onSubmit'
       });

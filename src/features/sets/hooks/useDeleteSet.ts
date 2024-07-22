@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import apiRequest from "../../../lib/api";
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
 export const useDeleteSet = (refreshSets) => {
-  const { userId } = useAuthContext();
+  const { userId, token } = useAuthContext();
 
   const handlerDelete = async (e,  setId: number) => {
     e.preventDefault();
@@ -16,6 +15,7 @@ export const useDeleteSet = (refreshSets) => {
         src: 'ManageSetData - deleteSet',
         data: {
           userId: userId,
+          headers: { 'Authorization': `Bearer ${token}` }
         }
       });
 
