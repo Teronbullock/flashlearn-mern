@@ -16,6 +16,8 @@ import cors from 'cors';
 import userRoutes from './routes/user-routes.js';
 import setRoutes from './routes/set-routes.js';
 import cookieParser from 'cookie-parser'; 
+import checkAuth from './middleware/check-auth.js';
+import { check } from 'express-validator';
 
 
 const SequelizeStore = connectSessionSequelize(session.Store);
@@ -46,18 +48,18 @@ app.use(session({
 
 myStore.sync();
 
-// get current user
-app.use((req, res, next) => {
-  res.locals.currentUser = req.session.userId;
-  next();
-});
+
+// app.use((req, res, next) => {
+//   console.log('Catch ALL: ', req.headers);
+//   next();
+// });
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
 app.use('/users', userRoutes);
-app.use('/set', setRoutes);
+app.use('/set', checkAuth, setRoutes);
 // import { col } from 'sequelize';
 
 // disable favicon requests

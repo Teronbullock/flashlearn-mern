@@ -1,10 +1,5 @@
 import { Router } from 'express';
-const router = Router();
-
-import { midCheckUsersAuth } from '../middleware/index.js';
-import { getCardsBySetID } from '../lib/set-service.js';
-
-import { 
+import {
   getSets,
   getEditSet,
   putEditSet,
@@ -12,15 +7,16 @@ import {
   deleteSet,
 } from '../controllers/set-controller.js';
 
-import { 
+import {
   getCardsAllCards,
   getEditCard,
   putEditCard,
   postAddCard,
   deleteCard,
   getViewCards,
- } from '../controllers/card-controller.js';
+} from '../controllers/card-controller.js';
 
+const router = Router();
 
 // routes
 router.get('/', getSets);
@@ -35,16 +31,5 @@ router.get('/:setId/cards', getViewCards);
 router.put('/:setId/edit', putEditSet);
 router.get('/:setId/edit', getEditSet);
 router.get('/:setId', getCardsAllCards);
-// router.get('/set/:setID', midCheckUsersAuth, getSet);
-
-
-
-
-// card routes
-
-// router.post('/set/:setID/card/add', midCheckUsersAuth, postAddCard);
-// router.put('/set/:setID/card/:cardID/edit', midCheckUsersAuth, putEditCard);
-
-// // cards route
 
 export default router;

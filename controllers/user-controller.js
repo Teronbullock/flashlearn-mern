@@ -9,8 +9,11 @@ import {
 import Users from '../models/users-model.js';
 import { validationResult } from 'express-validator';
 import { addRefreshToken, deleteRefreshToken } from '../lib/set-service.js';
+import dotenv from 'dotenv';
 
-const { user } = pkg;
+dotenv.config();
+
+// const { user } = pkg;
 
 /**
  * user register
@@ -78,6 +81,7 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
     return next(error);
   }
 });
+
 
 /**
  * user login
@@ -212,7 +216,7 @@ export const postRefresh = async (req, res) => {
   }
 
   try {
-    tokenData = await verifyToken(refreshToken);
+    tokenData = await verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
     if (tokenData) {
       const user = await Users.findByPk(tokenData.userId);
@@ -241,16 +245,16 @@ export const postRefresh = async (req, res) => {
 
 
 export const postUserLogout = async (req, res) => {
-  const token = await verifyToken(req.cookies.refreshToken);
+  const token = verifyToken(req.cookies.refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
   const userId = token.userId;
 
   // remove refresh token from database
   try {
     const deletedRefreshToken = await deleteRefreshToken(userId);
-
-    if (deletedRefreshToken > 0) {
+ 
+    if (deletedRefreshToken >= 1) {
       res.clearCookie('refreshToken');
-      console.log( 'number of deleted tokens: ', deletedRefreshToken);
       
       res.status(200).json({ 
         msg: 'User is logged out.'
@@ -265,6 +269,4 @@ export const postUserLogout = async (req, res) => {
       msg: 'Error logging out: ' + error.message
     });
   }
-
-
 }
