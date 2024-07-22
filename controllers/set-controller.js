@@ -33,7 +33,7 @@ export const getSets = asyncHandler(
       rows[index].cardCount = cardCount;
     }
 
-    console.log('getSets: ', rows);
+    // console.log('getSets: ', rows);
     res.status(200).json({
       msg: 'success',
       rows: rows,

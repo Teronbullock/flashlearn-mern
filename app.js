@@ -15,6 +15,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/user-routes.js';
 import setRoutes from './routes/set-routes.js';
+import cookieParser from 'cookie-parser'; 
 
 
 const SequelizeStore = connectSessionSequelize(session.Store);
@@ -32,6 +33,7 @@ app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(methodOverride('_method'));
+app.use(cookieParser());
 
 // session middleware
 app.use(session({
