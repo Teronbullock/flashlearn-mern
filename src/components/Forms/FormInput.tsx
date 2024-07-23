@@ -1,5 +1,18 @@
 import classNames from "classnames";
-import { FormInputProps } from "../../types/form-types";
+
+interface FormInputProps {
+  labelName: string;
+  type?: string;
+  name: string;
+  value: string | null;
+  className?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean; 
+  autoFocus?: boolean;
+  datatype?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement  | HTMLTextAreaElement>) => void;
+}
 
 /**
  * -- FormInput Component --
@@ -35,7 +48,7 @@ const FormInput = ({
     'md:ml-4 md:mb-4 md:w-[65px]' : isTypeColor,
   }, className)
 
-
+  // console.log('formInputs:', props);
   return (
     <div className="form__input-container w-full mb-4">
       {labelName && name && (

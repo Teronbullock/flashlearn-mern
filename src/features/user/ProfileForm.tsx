@@ -22,6 +22,9 @@ const ProfileForm = () => {
         method:'post',
         url: 'api/profile',
         data: profileFormData,
+        // config: {
+        //   headers: { authorization: `Bearer ${token}` },
+        // },
         src: 'ProfileForm - handleFormSubmit'
       });
 

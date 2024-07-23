@@ -35,7 +35,9 @@ const useEditSetData = (setId) => {
           title: state.inputOneValue,
           description: state.inputTwoValue,
           id: setId,
-          headers: { 'Authorization': `Bearer ${token}` }
+        },
+        config: {
+          headers: { authorization: `Bearer ${token}` },
         },
         src: 'SetDataFetch - onSubmit'
       });
@@ -54,7 +56,10 @@ const useEditSetData = (setId) => {
     (async () => {
       const res = await apiRequest({
         url: `/api/set/${setId}/edit`,
-        src: 'SetDataFetch - useEffect'
+        src: 'SetDataFetch - useEffect',
+        config: {
+          headers: { authorization: `Bearer ${token}` },
+        }
       });
 
       if (res !==undefined && res.data) {

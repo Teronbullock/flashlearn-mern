@@ -5,12 +5,11 @@ import PageHeader from "../../../layouts/PageComponents/PageHeader";
 import PageHero from "../../../layouts/PageComponents/PageHero";
 import useAddCardData from "../hooks/useAddCardData";
 import ListItemBtn from "../../../components/Btn/ListItemBtn";
-
 import FormAction from "../../../components/Forms/FormAction";
 
 const AddCardPage = () => {
-  const { state, submitHandler, dispatch} = useAddCardData();
   const { setId } = useParams();
+  const { state, submitHandler, dispatch} = useAddCardData();
   const currentPage = 'addCardPage';
 
 
@@ -29,10 +28,10 @@ const AddCardPage = () => {
         {!state && <h2 className="text-2xl text-center">No set found</h2>}
         <ManageCardForm
           formType='set'
-          inputValues={[state.inputOneValue, state.inputTwoValue]}
+          inputOneValue={state.inputOneValue}
+          inputTwoValue={state.inputTwoValue}
           onSubmit={submitHandler}
           dispatch={dispatch}
-          submitBtnText='Create'
         >
           <FormAction
             submitBtnText='Create'

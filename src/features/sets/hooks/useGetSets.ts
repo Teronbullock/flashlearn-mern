@@ -17,7 +17,7 @@ const useGetSets = () => {
           const res = await apiRequest({
             url:`/api/set/user/${userId}`,
             src: 'useGetSets - useEffect',
-            data: { headers: { 'Authorization': `Bearer ${token}` } }
+            config: { headers: { 'Authorization': `Bearer ${token}` } }
           });
     
           if (res !== undefined && res.data) {

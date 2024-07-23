@@ -2,14 +2,27 @@ import { useReducer } from "react";
 import { useParams } from "react-router";
 import apiRequest from "../../../lib/api";
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
+import { CardInputState, CardAction } from "../types/card-types";
 
 
-
-const CardReducer = (state, action) => {
+const CardReducer = (state: CardInputState, action: CardAction) => {
   switch (action.type) {
-    case 'ON_CHANGE':
-    case 'SUBMIT':
-      return {...state, ...action.payload}
+    case 'ON_INPUT_ONE_CHANGE':
+      return {
+        ...state,
+        inputOneValue: action.payload.inputOneValue
+      }
+    case 'ON_INPUT_TWO_CHANGE':
+      return {
+        ...state,
+        inputTwoValue: action.payload.inputTwoValue
+      }
+    case 'REST':
+      return {
+        ...state,
+        inputOneValue: '',
+        inputTwoValue: ''
+      }
     default:
       return state;
   }
@@ -20,11 +33,9 @@ const useAddCardData = () => {
   const { setId } = useParams();
 
   const [state, dispatch] = useReducer(CardReducer, {
-    payload: {
-      inputOneValue: '',
-      inputTwoValue: '',
-    }
-  });
+    inputOneValue: '',
+    inputTwoValue: '',
+  } );
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,25 +49,27 @@ const useAddCardData = () => {
           definition: state.inputTwoValue,
           user_id: userId,
           set_id: setId,
-          headers: { 'Authorization': `Bearer ${token}` }
+        },
+        config: {
+          headers: { Authorization: `Bearer ${token}` },
         },
         src: 'useAddCardData - onSubmit'
       });
-      if (res.data && res.status === 200) {
-        const { msg, card } = res.data;
+      if ((res.status >= 200 && res.status < 300) && (res && res.data)) {
+        const { msg } = res.data;
         alert(msg);
-        dispatch({ type: 'SUBMIT', payload: { inputOneValue: '', inputTwoValue: '' } });
+        dispatch({ type: 'REST'});
+        
         const termInput =  document.querySelector('#term') as HTMLInputElement;
 
         if (termInput) {
           termInput.focus();
         }
 
-        console.log('Card data fetch', card, termInput);
       }
       
     } catch (error) {
-      console.error(`Set data fetch error (${error.response.data.msg})`, error);
+      console.error(`Set data fetch error (${error})`);
     }
 
   }

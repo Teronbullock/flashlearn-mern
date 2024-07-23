@@ -35,7 +35,9 @@ const useAddSetData = () => {
           title: state.inputOneValue,
           description: state.inputTwoValue,
           user_id: userId,
-          headers: { 'Authorization': `Bearer ${token}` }
+        },
+        config: {
+          headers: { authorization: `Bearer ${token}` },
         },
         src: 'SetDataFetch - onSubmit'
       });

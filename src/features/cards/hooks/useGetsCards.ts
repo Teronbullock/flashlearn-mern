@@ -3,10 +3,17 @@ import { useParams } from "react-router-dom";
 import apiRequest from '../../../lib/api';
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
+interface Card {
+  id: string;
+  term: string;
+  definition: string;
+  set_id: string;
+}
+
 
 const useGetsCards = () => {
   const { setId } = useParams();
-  const [cards, setCards] = useState(null);
+  const [cards, setCards] = useState<Card[]>([]);
   const [refreshCounter, setRefreshCounter] = useState(0);
   const { token } = useAuthContext();
 
@@ -18,22 +25,22 @@ const useGetsCards = () => {
           const res = await apiRequest({
             url:`/api/set/${setId}`,
             src: 'useGetCards - useEffect',
-            data: {headers: { 'Authorization': `Bearer ${token}` }}
-          });
+            config: {headers: { 'Authorization': `Bearer ${token}` }}
+          }, 'all');
     
-          if (res !== undefined && res.data) {
+          if ((res.status >= 200 && res.status < 300) && (res && res.data)) {
             const { cards } = res.data;
             setCards(cards);
           }
         } catch (error) {
-          console.error(error.response.data.msg, error);
+          console.error(error);
         }
       })();
     }
-  }, [setId, refreshCounter]);
+  }, [setId, refreshCounter, token]);
   
   const refreshCards = () => {setRefreshCounter(prev => prev + 1)};
-  console.log('useGetsCards - cards: ', cards);
+
   return {cards, refreshCards};
 }
 

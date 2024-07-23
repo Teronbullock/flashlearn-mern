@@ -1,12 +1,11 @@
-import { useContext } from "react";
 import apiRequest from "../../../lib/api";
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
 
-export const useDeleteCard = (refreshCards) => {
-  const { userId, token } = useAuthContext();
+export const useDeleteCard = (refreshCards: () => void) => {
+  const { token } = useAuthContext();
 
-  const handlerDelete = async (e,  cardId: number, setId: number) => {
+  const handlerDelete = async (e: React.FormEvent<HTMLFormElement>,  cardId: string, setId: string) => {
     e.preventDefault();
     
     if (setId && cardId) {
@@ -14,10 +13,8 @@ export const useDeleteCard = (refreshCards) => {
         method: 'delete',
         url: `/api/set/${setId}/card/${cardId}/delete`,
         src: 'ManageSetData - deleteSet',
-        data: {
-          id : cardId,
-          setId,
-          headers: { 'Authorization': `Bearer ${token}` }
+        config: {
+          headers: { Authorization: `Bearer ${token}` },
         }
       });
 

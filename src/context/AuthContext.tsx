@@ -63,7 +63,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   const logoutTimer = useRef<number | undefined>(undefined);
 
   // Token refresh interval
-  const refreshInterval = useRef<NodeJS.Timeout | null>(null);
+  const refreshInterval = useRef<number | null>(null);
 
 
   /**
@@ -150,8 +150,10 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         method: 'post',
         src: 'useTokenRefresh',
         data: { userId },
-        headers: { Authorization: `Bearer ${token}` },
-      });
+        config: {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      }, 'all');
 
       if (res.status === 200 && res.data) {
         const { token } = res.data;
@@ -176,7 +178,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   useEffect(() => {
     if (token) {
       // Set interval to refresh token periodically (every 10min )
-      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 10);
+      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 1);
       return () => {
         // Cleanup on unmount or token change
         if (refreshInterval.current) {
@@ -186,7 +188,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
     }
   }, [token, refreshAuthToken]);
 
-  
+
   // Check if the user is logged in
   useEffect(() => {
     const storeDataString = localStorage.getItem('flashlearn_userData');

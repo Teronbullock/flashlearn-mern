@@ -1,6 +1,13 @@
-import { ListCardFormProps } from '../../types/set-types';
 import Card from '../cards/Card';
-import Btn from '../Btn/Btn';
+
+interface ListCardFormProps {
+  title: string;
+  description?: string;
+  cardCount?: number;
+  id: string;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  children: React.ReactNode;
+}
 
 /**
  *

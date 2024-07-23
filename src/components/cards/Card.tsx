@@ -1,7 +1,11 @@
 
 import classNames from "classnames";
-// import './scss/card.scss';
-import { CardProps } from '../../types/card-types';
+
+interface CardProps {
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
 
 const Card = ({ children, className, style, ...props }: CardProps) => {
   return (
