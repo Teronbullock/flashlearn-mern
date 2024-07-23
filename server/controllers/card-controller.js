@@ -10,7 +10,6 @@ export const getCardsAllCards = asyncHandler(
       raw: true,
       order: [['id', 'ASC']],
     });
-  console.log('getCardsAllCards', cards);
 
     res.status(200).json({
       msg: 'success',
@@ -167,7 +166,7 @@ export const putEditCard = asyncHandler(
 // delete card
 export const deleteCard = asyncHandler(
   async (req, res) => {
-    const { id, setId } = req.body;
+    const { cardId: id, setId } = req.params;
     let isCardDeleted = false;
 
     if (id) {

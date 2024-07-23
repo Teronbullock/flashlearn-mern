@@ -11,10 +11,9 @@ export const useDeleteSet = (refreshSets) => {
     if (setId && userId) {
       const res = await apiRequest({
         method: 'delete',
-        url: `/api/set/${setId}/delete`,
+        url: `/api/set/user/${userId}/${setId}/delete`,
         src: 'ManageSetData - deleteSet',
-        data: {
-          userId: userId,
+        config: {
           headers: { 'Authorization': `Bearer ${token}` }
         }
       });

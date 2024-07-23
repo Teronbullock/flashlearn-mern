@@ -1,19 +1,22 @@
 import axios, { AxiosResponse } from 'axios';
 
-
-interface apiRequestInterface {
+interface ApiReq {
   method?: 'get' | 'post' | 'put' | 'delete';
   url: string;
   data?: object;
   src?: string;
-  headers?: object;
+  config?: {
+    headers: object;
+  };
 }
+
+type DebugOption = 'all' | 'input' | 'output' | undefined;
 
 
 /**
  *  -- API Request Function --
  * The function takes an object with the following properties:
- * @param apiObj
+ * @param req - The request object
  *
  * The get request is the default method.
  *
@@ -21,6 +24,12 @@ interface apiRequestInterface {
  *  - url: string
  *  - data[optional]: The data to be sent with the request
  *  - src[optional]: The source of the request
+ * - config[optional]: The configuration object for the request
+ * 
+ * @param debugMode - The debug mode option
+ * - 'all': Show input and output
+ * - 'input': Show input only
+ * - 'output': Show output only
  *
  * @returns The response from the API (res)
  *
@@ -34,22 +43,40 @@ interface apiRequestInterface {
  *  src: 'Dashboard'
  *  });
  */
-const apiRequest = async (req: apiRequestInterface) => {
-  const { method = 'get', url, data, src } = req;
-  const seeInput = false;
-  const seeOutput = false;
+const apiRequest = async (req: ApiReq, debugMode?: DebugOption ) => {
+  const { method = 'get', url, data, config, src } = req;
+  let seeInput = false;
+  let seeOutput = false;
+
+  switch (debugMode) {
+    case 'all':
+      seeInput = true;
+      seeOutput = true;
+      break;
+    case 'input':
+      seeInput = true;
+      break;
+    case 'output':
+      seeOutput = true;
+      break;
+    default:
+      break;
+  }
 
   if (seeInput) {
-    if (data) {
-      console.log(
-        `api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url} \nData:`,
-        data
-      );
-    } else {
-      console.log(
-        `api Request: \nsrc: ${src} \nMethod: ${method} \nURL: ${url}`
-      );
-    }
+    console.log(
+      'api Request: ',
+      '\nsrc: ',
+      src,
+      '\nMethod: ',
+      method,
+      '\nURL: ',
+      url,
+      '\nData: ',
+      data,
+      '\nConfig: ',
+      config
+    );
   }
 
   try {
@@ -57,16 +84,16 @@ const apiRequest = async (req: apiRequestInterface) => {
 
     switch (method) {
       case 'get':
-        res = await axios.get(url, data);
+        res = await axios.get(url, config);
         break;
       case 'post':
-        res = await axios.post(url, data);
+        res = await axios.post(url, data, config);
         break;
       case 'put':
-        res = await axios.put(url, data);
+        res = await axios.put(url, data, config);
         break;
       case 'delete':
-        res = await axios.delete(url, { data });
+        res = await axios.delete(url, config);
         break;
       default:
         throw new Error('Unsupported method');
@@ -85,7 +112,7 @@ const apiRequest = async (req: apiRequestInterface) => {
 
     return res;
   } catch (error) {
-    console.error({ error, src });
+    console.error(`Error in apiRequest - Src ${src}: `, error);
     throw error;
   }
 };

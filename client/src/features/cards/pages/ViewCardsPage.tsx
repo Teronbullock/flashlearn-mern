@@ -11,7 +11,6 @@ const ViewCardsPage = () => {
   const { setId } = useParams();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page');
-  console.log('page', typeof page);
   const { card, cardCount } = useGetCardView(setId, page);
 
   return(
@@ -25,12 +24,15 @@ const ViewCardsPage = () => {
           Set Page
         </ListItemBtn>
       </PageHeader>
-      <ViewCardSection
-        page={Number(page)}
-        setId={setId}
-        card={card}
-        cardCount={cardCount}
-      />
+      { setId && page && card && cardCount && (
+        <ViewCardSection
+          page={Number(page)}
+          setId={setId}
+          card={card}
+          cardCount={cardCount}
+          cardLoadClass={null}
+        />
+      )}
     </main>
   );
 }

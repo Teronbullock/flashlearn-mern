@@ -10,8 +10,8 @@ const CardFeed = () => {
 
   return (
     <section className='container py-12'>
-      {cards && cards.length > 0 ? (
-        cards.map((card: CardDataConfig) => {
+      {cards  && cards.length > 0 ? (
+        cards.map((card) => {
           const { id, definition, term, set_id } = card;
 
           return (
@@ -20,7 +20,6 @@ const CardFeed = () => {
               id={id}
               title={term}
               description={definition}
-              cardCount={null}
               onSubmit={e => handlerDelete(e, id, set_id)}
             >
               <ListItemBtn

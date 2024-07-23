@@ -13,7 +13,7 @@ import { BtnProps } from '../../types/btn-types';
  *  
  * @param ariaLabel {string} - aria label for button
  * @param to {string} - url for button
- * @param dataType {string} - data type for button
+ * @param datatype {string} - data type for button
  * @param onClick {function} - function for button click
  * @returns
  */

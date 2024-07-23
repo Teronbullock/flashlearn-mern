@@ -1,11 +1,17 @@
 
 import Card from '../../../components/cards/Card';
 import ListCardForm from '../../../components/Forms/ListCardForm';
-import { SetDataBase } from '../../../types/set-types';
 import useDeleteSet from '../hooks/useDeleteSet';
 import useGetSets from '../hooks/useGetSets';
 import ListItemBtn from '../../../components/Btn/ListItemBtn';
 
+interface SetDataBase {
+  title: string;
+  description?: string;
+  cardCount?: number;
+  id: number;
+  user_id?: number;
+}
 
 const SetFeed = () => {
   const { sets, refreshSets } = useGetSets();

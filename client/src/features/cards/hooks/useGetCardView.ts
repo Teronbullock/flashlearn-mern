@@ -14,8 +14,10 @@ const { token } = useAuthContext();
         const res = await apiRequest({
           'url': `/api/set/${setId}/cards/?page=${pageNum}`,
           'src': 'useGetCardView - getCards',
-          data: { headers: { 'Authorization': `Bearer ${token}` } }
-        });
+          config: {
+            headers: { authorization: `Bearer ${token}` },
+          }
+        }, 'all');
 
         if (res.status === 200 && res.data) {
           const { card, count } = res.data;
@@ -29,7 +31,7 @@ const { token } = useAuthContext();
       }
 
     })();
-  }, [pageNum]);
+  }, [pageNum, setId, token]);
 
   
   return( {card, cardCount}

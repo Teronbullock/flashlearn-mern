@@ -28,10 +28,10 @@ const AddSetPage = () => {
         {!state && <h2 className="text-2xl text-center">No set found</h2>}
         <ManageCardForm
           formType='set'
-          inputValues={[state.inputOneValue, state.inputTwoValue]}
+          inputOneValue={state.inputOneValue}
+          inputTwoValue={state.inputTwoValue}
           onSubmit={submitHandler}
           dispatch={dispatch}
-          submitBtnText='Create'
         >
           <FormAction
             submitBtnText='Create'

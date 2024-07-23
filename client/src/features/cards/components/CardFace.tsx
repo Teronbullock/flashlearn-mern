@@ -1,0 +1,55 @@
+import classnames from "classnames";
+
+interface CardFaceProps {
+  children: React.ReactNode;
+  className?: string;
+  bgColor?: string;
+  textColor?: string;
+  cardHeaderText: string;
+  cardText: string;
+  handFlipAction: () => void;
+  BtnText: string;
+}
+
+const CardFace = ({ 
+  children,
+  className,
+  bgColor = '#ffffff',
+  textColor = '#000000',
+  cardHeaderText,
+  cardText,
+  handFlipAction,
+  BtnText
+}: CardFaceProps) => {
+  return (
+    <div
+      className={classnames('flashcard', className)}
+      style={{ backgroundColor: bgColor }}
+      data-js='flashcardFront'
+    >
+      <div className='flashcard__aside'>
+        <h1 className='flashcard__title flashcard__title--front mt-0'>{cardHeaderText}</h1>
+      </div>
+      <div className='flashcard__body'>
+        <div
+          className='flashcard__header p-3'
+          style={{ borderColor: textColor }}
+        >
+          <a
+            className='btn btn--secondary btn--large mb-8'
+            data-js='flashcardFrontFlipBtn'
+            onClick={handFlipAction}
+          >
+            {BtnText}
+          </a>
+          <p className='flashcard__text' style={{ color: '#000' }}>
+            {cardText}
+          </p>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default CardFace;

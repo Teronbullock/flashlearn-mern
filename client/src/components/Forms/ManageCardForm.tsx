@@ -1,56 +1,69 @@
 import FormInput from './FormInput';
 import Card from '../cards/Card';
-import  { ManageCardFormProps } from '../../types/card-types';
+import { CardAction } from '../../features/cards/types/card-types';
 
+
+interface ManageCardFormProps {
+  formType: 'card' | 'set';
+  inputOneValue: string | null;
+  inputTwoValue: string | null;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  dispatch: React.Dispatch<CardAction>;
+  children: React.ReactNode;
+}
 
 const ManageCardForm = ({
   formType,
-  inputValues,
+  inputOneValue,
+  inputTwoValue,
   onSubmit,
   dispatch,
-  children
+  children,
 }: ManageCardFormProps) => {
-
   const inputLabels = {
-    'card': {
-      'inputOneLabel': 'Term',
-      'inputTwoLabel': 'Definition',
+    card: {
+      inputOneLabel: 'Term',
+      inputTwoLabel: 'Definition',
     },
-    'set': {
-      'inputOneLabel': 'Title',
-      'inputTwoLabel': 'Description',
+    set: {
+      inputOneLabel: 'Title',
+      inputTwoLabel: 'Description',
     },
   };
 
   return (
     <Card className='bg-white'>
       <form onSubmit={onSubmit}>
-        <FormInput 
+        <FormInput
           labelName={inputLabels[formType].inputOneLabel}
           type='textarea'
           name='term'
-          value={inputValues[0]}
+          value={inputOneValue}
           required={true}
           placeholder={`Enter ${inputLabels[formType].inputOneLabel}`}
-          onChange={(e) => dispatch({
-            type: 'ON_CHANGE',
-            payload: {inputOneValue: e.target.value}
-          })}
+          onChange={e =>
+            dispatch({
+              type: 'ON_INPUT_ONE_CHANGE',
+              payload: { inputOneValue: e.target.value },
+            })
+          }
           autoFocus={true}
         />
-        <FormInput 
+        <FormInput
           labelName={inputLabels[formType].inputTwoLabel}
           type='textarea'
           name='definition'
-          value={inputValues[1]}
+          value={inputTwoValue}
           required={true}
           placeholder={`Enter ${inputLabels[formType].inputTwoLabel}`}
-          onChange={(e) => dispatch({
-            type: 'ON_CHANGE',
-            payload: {inputTwoValue: e.target.value}
-          })}
+          onChange={e =>
+            dispatch({
+              type: 'ON_INPUT_TWO_CHANGE',
+              payload: { inputTwoValue: e.target.value },
+            })
+          }
         />
-          {children}
+        {children}
       </form>
     </Card>
   );

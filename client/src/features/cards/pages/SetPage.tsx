@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import CardFeed from '../components/CardFeed';
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
@@ -12,7 +11,6 @@ const SetPage = () => {
   const { setId } = useParams();
   const currentPage = 'setPage';
 
-  
   return (
     <main className="main main-setPage">
       <PageHero currentPage={currentPage} className="h-[42vh]"/>
