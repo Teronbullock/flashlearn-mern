@@ -11,13 +11,13 @@ const checkAuth = (req, res, next) => {
     if (authHeader) {
       token = authHeader.split(' ')[1];
     }
-    
+  
     if (token === undefined || token === null) {
       const error = new Error('Not authenticated.');
       error.statusCode = 401;
     }
     const decodedToken = verifyToken(token, process.env.JWT_SECRET);
-
+console.log('decodedToken', decodedToken);
     req.userData = { userId: decodedToken.userId };
 
     next();

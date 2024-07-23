@@ -1,16 +1,15 @@
 import Sets from '../models/sets-model.js';
-import { getCardsBySetID, checkForSet, deleteCardsBySetID } from '../lib/set-service.js';
+import Cards from '../models/cards-model.js';
 import { asyncHandler } from '../lib/utils.js';
-
 
 // get sets
 export const getSets = asyncHandler(
   async (req, res, next) => {
-    const { userId } = req.params;
+    const { userId: user_id } = req.params;
     let rows;
 
     // check for userId
-    if (!userId) {
+    if (!user_id) {
       const err = new Error('The userId is required in the URL. /userId');
       err.status = 400;
       return next(err);
@@ -19,18 +18,21 @@ export const getSets = asyncHandler(
     // get sets
     rows = await Sets.findAll({
       raw: true,
-      where: { user_id: userId },
+      where: { user_id },
       order: [['id', 'DESC']],
     });
-    
-    
+
     // get cards for each set
     // const setCardCount = [];
-    
+
     for (const [index, set] of rows.entries()) {
-      const { cardCount } = await getCardsBySetID(set.id, userId);
-      // setCardCount.push({setID: set.id, cardCount});
-      rows[index].cardCount = cardCount;
+      const { count, rows } = await Cards.findAndCountAll({
+        where: { user_id, set_id: set.id },
+        raw: true,
+      });
+      // setCardCount.push({setID: set.id, count});
+      console.log('count: ', count, rows, set.id);
+      rows[index].cardCount = count;
     }
 
     // console.log('getSets: ', rows);
@@ -44,11 +46,10 @@ export const getSets = asyncHandler(
   500
 );
 
-
 // put edit set
 export const putEditSet = asyncHandler(
   async (req, res) => {
-    const {title, description} = req.body;
+    const { title, description } = req.body;
 
     const setData = {
       title,
@@ -65,7 +66,7 @@ export const putEditSet = asyncHandler(
       });
       res.status(200).json({
         msg: 'Set updated!',
-        set
+        set,
       });
     }
   },
@@ -73,17 +74,16 @@ export const putEditSet = asyncHandler(
   500
 );
 
-
 // post create set
 export const postCreateSet = asyncHandler(
   async (req, res) => {
     // const { userId } = req.params;
-    const { user_id, title, description} = req.body;
+    const { user_id, title, description } = req.body;
 
     const setData = {
       title,
       description,
-      user_id
+      user_id,
     };
 
     if (setData.title) {
@@ -98,25 +98,27 @@ export const postCreateSet = asyncHandler(
   500
 );
 
-
 // // get set
 // export const getSet = asyncHandler(
 //   async (req, res) => {
 
 //     const set = await Sets.findByPk(req.params.setID, { raw: true });
-//     const { cards } = await getCardsBySetID(req.params.setID, req.session.userId);
 
-//     res.render('set', { set, cards, userId: req.session.userId });
+  // const { count, rows } = await Cards.findAndCountAll({
+  //   where: { user_id: req.session.userId, set_id: req.params.setID },
+  //   raw: true,
+  // });
+
+//     res.render('set', { set, rows, userId: req.session.userId });
 //   },
 //   'Error retrieving set data: ',
 //   500
 // );
 
-
 // get edit set
 export const getEditSet = asyncHandler(
   async (req, res) => {
-    const set = await Sets.findByPk(req.params.setID, {raw: true});
+    const set = await Sets.findByPk(req.params.setID, { raw: true });
     res.status(200).json({
       set,
       msg: 'success',
@@ -126,48 +128,63 @@ export const getEditSet = asyncHandler(
   500
 );
 
-
-
-
-
 // delete set
-export const deleteSet = asyncHandler( 
-  async (req, res) => {
-    const { setId } = req.params;
-    const { userId } = req.body;
-    let isSetDeleted = false;
+export const deleteSet = asyncHandler(async (req, res, next) => {
+  const { setId: id, userId: user_id } = req.params;
+  let isSetDeleted = false;
+  let set = null;
+  let deletedCard = null;
+  let newCards = null;
 
-    // get set
-    const set = await checkForSet(setId, userId);
+  // check for set
+  try {
+    set = await Sets.findByPk(id, { raw: true });
 
-    if(set) {
-      // delete cards
-      await deleteCardsBySetID(setId, userId);
+    if (set.user_id !== Number(user_id)) {
+      const err = new Error('Your not authorized to edit this set');
+      err.status = 403;
+      next(err);
+    }
+  } catch (error) {
+    const err = new Error(error);
+    err.status = err.status || 404;
+    throw err;
+  }
 
-      // get cards
-      const { cards } = await getCardsBySetID(setId, userId);
+  // delete cards
+  if (set) {
+    try {
+      deletedCard = await Cards.destroy({
+        where: { user_id },
+      });
+      console.log(`All cards were deleted for set ${id} `, deletedCard);
+    } catch (error) {
+      const err = new Error(`Error deleting cards for set ${id}: `, error);
+      throw err;
+    }
+  }
 
-      // check if cards were deleted
-      if (cards.length === 0 || cards === undefined) {
-        // delete set
-        isSetDeleted = await Sets.destroy({
-          where: {id: setId, user_id: userId}
-        });
+  // delete set
+  try {
+    newCards = await Cards.findAll({
+      raw: true,
+      where: { user_id, id },
+    });
 
-        console.log(`All cards were deleted for set ${setId} `);
-        console.log('Set ' + setId + ' is deleted');
-      } else {
-        const err = new Error(`Error deleting cards for set ${setId}`);
-        err.status = 500;
-        throw err;
-      }
+    if (newCards.length === 0) {
+      isSetDeleted = await Sets.destroy({
+        where: { id, user_id },
+      });
+
+      console.log('Set ' + id + ' is deleted');
 
       res.status(200).json({
-        msg: "Your set and all of its cards have been deleted",
+        msg: 'Your set and all of its cards have been deleted',
         isSetDeleted,
       });
     }
-  },
-  'Error deleting set: ',
-  500
-);
+  } catch (error) {
+    const err = new Error(`Error deleting set ${id}: `, error);
+    throw err;
+  }
+}, 'Error deleting set - ');

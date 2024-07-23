@@ -22,14 +22,18 @@ const router = Router();
 router.get('/', getSets);
 router.get('/user/:userId', getSets);
 router.post('/user/:userId/add', postCreateSet);
+router.delete('/user/:userId/:setId/delete', deleteSet);
 router.get('/:setId/card/:cardId/edit', getEditCard);
 router.put('/:setId/card/:cardId/edit', putEditCard);
-router.delete('/:setId/card/:cardID/delete', deleteCard);
-router.delete('/:setId/delete', deleteSet);
+router.delete('/:setId/card/:cardId/delete', deleteCard);
 router.post('/:setId/card/add', postAddCard);
 router.get('/:setId/cards', getViewCards);
 router.put('/:setId/edit', putEditSet);
 router.get('/:setId/edit', getEditSet);
 router.get('/:setId', getCardsAllCards);
 
+// handle 404
+router.use('*', (req, res, next) => {
+  return next();
+});
 export default router;

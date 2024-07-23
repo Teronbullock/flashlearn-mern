@@ -60,6 +60,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use('/users', userRoutes);
 app.use('/set', checkAuth, setRoutes);
+
 // import { col } from 'sequelize';
 
 // disable favicon requests
@@ -80,14 +81,16 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
+  
+  console.log('Error: ', message + '\n', 'Status: ', status, '\n');
+  console.log('Stack:', err.stack);
 
-  res.status(status);
-  res.json({
+  res.status(status).json({
+    error: message,
     msg: message,
     status: status,
   });
-
-  console.log(status, message);
+  
 });
 
 
