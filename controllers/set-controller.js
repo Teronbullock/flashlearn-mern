@@ -1,132 +1,117 @@
+import { validationResult } from 'express-validator';
 import Sets from '../models/sets-model.js';
 import Cards from '../models/cards-model.js';
 import { asyncHandler } from '../lib/utils.js';
 
+// post create set
+export const postCreateSet = asyncHandler(async (req, res) => {
+  const validationErrors = validationResult(req);
+
+  if (!validationErrors.isEmpty()) {
+    const err = new Error('Validation failed, entered data is incorrect');
+    err.status = 422;
+    throw err;
+  }
+
+  const { userId: user_id } = req.params;
+  const { title, description } = req.body;
+
+  const setData = {
+    title,
+    description,
+    user_id,
+  };
+
+  const set = await Sets.create(setData);
+  res.status(200).json({
+    msg: 'Set created!',
+    set,
+  });
+}, 'creating set: ');
+
 // get sets
-export const getSets = asyncHandler(
-  async (req, res, next) => {
-    const { userId: user_id } = req.params;
-    let rows;
+export const getSets = asyncHandler(async (req, res, next) => {
+  const { userId: user_id } = req.params;
+  let sets;
 
-    // check for userId
-    if (!user_id) {
-      const err = new Error('The userId is required in the URL. /userId');
-      err.status = 400;
-      return next(err);
-    }
+  // check for userId
+  if (!user_id) {
+    const err = new Error('The userId is required in the URL. /userId');
+    err.status = 400;
+    return next(err);
+  }
 
-    // get sets
-    rows = await Sets.findAll({
+  // fetch all sets
+  try {
+    sets = await Sets.findAll({
       raw: true,
       where: { user_id },
       order: [['id', 'DESC']],
     });
+  } catch (error) {
+    const err = new Error('Error retrieving all sets data: ', error);
+    return next(err);
+  }
 
-    // get cards for each set
-    // const setCardCount = [];
-
-    for (const [index, set] of rows.entries()) {
-      const { count, rows } = await Cards.findAndCountAll({
+  // get card count for each set
+  for (const [index, set] of sets.entries()) {
+    try {
+      const count = await Cards.count({
         where: { user_id, set_id: set.id },
-        raw: true,
       });
-      // setCardCount.push({setID: set.id, count});
-      console.log('count: ', count, rows, set.id);
-      rows[index].cardCount = count;
-    }
 
-    // console.log('getSets: ', rows);
+      // add card count to each set
+      sets[index].cardCount = count;
+    } catch (error) {
+      const err = new Error('retrieving cards data for set: ', error);
+      return next(err);
+    }
+  }
+
+  res.status(200).json({
+    msg: 'success',
+    sets,
+  });
+}, 'retrieving sets data: ');
+
+// get edit set
+export const getEditSet = asyncHandler(async (req, res) => {
+  const { setId: id } = req.params;
+
+  try {
+    const set = await Sets.findByPk(id, { raw: true });
     res.status(200).json({
+      set,
       msg: 'success',
-      rows: rows,
-      // cards: setCardCount,
     });
-  },
-  'Error retrieving sets data: ',
-  500
-);
+  } catch (error) {
+    throw error;
+  }
+}, 'retrieving  set data: ');
 
 // put edit set
-export const putEditSet = asyncHandler(
-  async (req, res) => {
-    const { title, description } = req.body;
+export const putEditSet = asyncHandler(async (req, res) => {
+  const { title, description } = req.body;
+  const { setId: id } = req.params;
+  const setData = {
+    title,
+    description,
+  };
 
-    const setData = {
-      title,
-      description,
-    };
-
-    const setID = req.params.setID;
-
-    if (setData.title) {
+  if (setData.title && setData.description) {
+    try {
       const set = await Sets.update(setData, {
-        where: {
-          id: setID,
-        },
+        where: { id },
       });
       res.status(200).json({
         msg: 'Set updated!',
         set,
       });
+    } catch (error) {
+      throw error;
     }
-  },
-  'Error editing  set: ',
-  500
-);
-
-// post create set
-export const postCreateSet = asyncHandler(
-  async (req, res) => {
-    // const { userId } = req.params;
-    const { user_id, title, description } = req.body;
-
-    const setData = {
-      title,
-      description,
-      user_id,
-    };
-
-    if (setData.title) {
-      const set = await Sets.create(setData);
-      res.status(200).json({
-        msg: 'Set created!',
-        set,
-      });
-    }
-  },
-  'Error creating set: ',
-  500
-);
-
-// // get set
-// export const getSet = asyncHandler(
-//   async (req, res) => {
-
-//     const set = await Sets.findByPk(req.params.setID, { raw: true });
-
-  // const { count, rows } = await Cards.findAndCountAll({
-  //   where: { user_id: req.session.userId, set_id: req.params.setID },
-  //   raw: true,
-  // });
-
-//     res.render('set', { set, rows, userId: req.session.userId });
-//   },
-//   'Error retrieving set data: ',
-//   500
-// );
-
-// get edit set
-export const getEditSet = asyncHandler(
-  async (req, res) => {
-    const set = await Sets.findByPk(req.params.setID, { raw: true });
-    res.status(200).json({
-      set,
-      msg: 'success',
-    });
-  },
-  'Error retrieving  set data: ',
-  500
-);
+  }
+}, 'editing set: ');
 
 // delete set
 export const deleteSet = asyncHandler(async (req, res, next) => {

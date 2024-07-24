@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { body } from 'express-validator';
+
 import {
   getSets,
   getEditSet,
@@ -21,7 +23,9 @@ const router = Router();
 // routes
 router.get('/', getSets);
 router.get('/user/:userId', getSets);
-router.post('/user/:userId/add', postCreateSet);
+router.post('/user/:userId/add', [
+  body('title').notEmpty()
+], postCreateSet);
 router.delete('/user/:userId/:setId/delete', deleteSet);
 router.get('/:setId/card/:cardId/edit', getEditCard);
 router.put('/:setId/card/:cardId/edit', putEditCard);

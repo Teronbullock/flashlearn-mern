@@ -82,7 +82,7 @@ app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
   
-  console.log('Error: ', message + '\n', 'Status: ', status, '\n');
+  console.log('Error - ', message + '\n', 'Status: ', status, '\n');
   console.log('Stack:', err.stack);
 
   res.status(status).json({
