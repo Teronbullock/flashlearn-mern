@@ -6,12 +6,12 @@ dotenv.config();
 
 /**
  *  -- Async Handler --
- *  This function will handle async errors and pass them to the
- *  error handling middleware.
+ * This function will handle async errors via the try catch block
+ * and pass them to the error handling middleware.
  *
- *  The CB is ran asynchronously, if there is an error it will
- *  be passed to the error handling middleware, otherwise the
- *  callback will be called.
+ * The CB is ran asynchronously, if there is an error it will
+ * be passed to the error handling middleware, otherwise the
+ * callback will be called.
  *
  * @param {*} cb - The callback function to call.
  * @param {*} errMsg - The error message to display.

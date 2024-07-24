@@ -1,6 +1,6 @@
 import FormInput from './FormInput';
 import Card from '../cards/Card';
-import { CardAction } from '../../features/cards/types/card-types';
+import { CardAction, SetAction } from '../../types/card-set-types';
 
 
 interface ManageCardFormProps {
@@ -8,7 +8,7 @@ interface ManageCardFormProps {
   inputOneValue: string | null;
   inputTwoValue: string | null;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  dispatch: React.Dispatch<CardAction>;
+  dispatch: React.Dispatch<CardAction> | React.Dispatch<SetAction>;
   children: React.ReactNode;
 }
 

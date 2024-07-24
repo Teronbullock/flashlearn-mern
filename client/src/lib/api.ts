@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
 interface ApiReq {
   method?: 'get' | 'post' | 'put' | 'delete';
@@ -12,7 +12,6 @@ interface ApiReq {
 
 type DebugOption = 'all' | 'input' | 'output' | undefined;
 
-
 /**
  *  -- API Request Function --
  * The function takes an object with the following properties:
@@ -25,7 +24,7 @@ type DebugOption = 'all' | 'input' | 'output' | undefined;
  *  - data[optional]: The data to be sent with the request
  *  - src[optional]: The source of the request
  * - config[optional]: The configuration object for the request
- * 
+ *
  * @param debugMode - The debug mode option
  * - 'all': Show input and output
  * - 'input': Show input only
@@ -43,7 +42,7 @@ type DebugOption = 'all' | 'input' | 'output' | undefined;
  *  src: 'Dashboard'
  *  });
  */
-const apiRequest = async (req: ApiReq, debugMode?: DebugOption ) => {
+const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
   const { method = 'get', url, data, config, src } = req;
   let seeInput = false;
   let seeOutput = false;
@@ -112,8 +111,16 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption ) => {
 
     return res;
   } catch (error) {
-    console.error(`Error in apiRequest - Src ${src}: `, error);
-    throw error;
+    if (error instanceof AxiosError) {
+      console.error(
+        error.response?.data?.error || error.message,
+        error.stack
+      );
+      throw error.response?.data?.error || error.message;
+    } else {
+      console.error(error);
+      throw error;
+    }
   }
 };
 

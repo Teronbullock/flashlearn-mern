@@ -1,4 +1,3 @@
-
 import Card from '../../../components/cards/Card';
 import ListCardForm from '../../../components/Forms/ListCardForm';
 import useDeleteSet from '../hooks/useDeleteSet';
@@ -27,7 +26,6 @@ const SetFeed = () => {
             listType: 'set',
           } as const;
 
-          
           return (
             <ListCardForm
               onSubmit={e => handlerDelete(e, id)}
