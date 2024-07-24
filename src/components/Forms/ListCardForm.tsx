@@ -4,7 +4,7 @@ interface ListCardFormProps {
   title: string;
   description?: string;
   cardCount?: number;
-  id: string;
+  id: number;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
 }

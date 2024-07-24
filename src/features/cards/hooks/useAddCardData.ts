@@ -2,10 +2,11 @@ import { useReducer } from "react";
 import { useParams } from "react-router";
 import apiRequest from "../../../lib/api";
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
-import { CardInputState, CardAction } from "../types/card-types";
+import { CardState, CardAction } from '../../../types/card-set-types';
 
 
-const CardReducer = (state: CardInputState, action: CardAction) => {
+
+const CardReducer = (state: CardState, action: CardAction) => {
   switch (action.type) {
     case 'ON_INPUT_ONE_CHANGE':
       return {
@@ -17,7 +18,7 @@ const CardReducer = (state: CardInputState, action: CardAction) => {
         ...state,
         inputTwoValue: action.payload.inputTwoValue
       }
-    case 'REST':
+    case 'RESET':
       return {
         ...state,
         inputOneValue: '',
@@ -35,6 +36,8 @@ const useAddCardData = () => {
   const [state, dispatch] = useReducer(CardReducer, {
     inputOneValue: '',
     inputTwoValue: '',
+    bgColor: '#ffffff',
+    textColor: '#000000'
   } );
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,7 +61,7 @@ const useAddCardData = () => {
       if ((res.status >= 200 && res.status < 300) && (res && res.data)) {
         const { msg } = res.data;
         alert(msg);
-        dispatch({ type: 'REST'});
+        dispatch({ type: 'RESET'});
         
         const termInput =  document.querySelector('#term') as HTMLInputElement;
 

@@ -2,38 +2,48 @@ import { useEffect, useState } from 'react';
 import apiRequest from '../../../lib/api';
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
+interface SetData {
+  id: number;
+  user_id: number;
+  title: string;
+  description: string;
+}
 
 const useGetSets = () => {
   const { userId, token } = useAuthContext();
-  const [sets, setSets] = useState(null);
+  const [sets, setSets] = useState<SetData[]>([]);
   const [refreshCounter, setRefreshCounter] = useState(0);
-
 
   useEffect(() => {
     if (userId && token) {
-      // console.log('useGetSets - useEffect - tk:', token);
-      ( async () => {
+      (async () => {
         try {
           const res = await apiRequest({
-            url:`/api/set/user/${userId}`,
+            url: `/api/set/user/${userId}`,
             src: 'useGetSets - useEffect',
-            config: { headers: { 'Authorization': `Bearer ${token}` } }
+            config: { headers: { Authorization: `Bearer ${token}` } },
           });
-    
+
           if (res !== undefined && res.data) {
-            const { rows } = res.data;
-            setSets(rows);
-          } 
+            const sets = res.data.sets;
+            setSets(sets);
+          }
         } catch (error) {
-          console.error(error.response.data.msg, error);
+          if (error instanceof Error) {
+            console.error(error.message, error.stack);
+          } else {
+            console.error(error);
+          }
         }
       })();
     }
   }, [userId, refreshCounter, token]);
-  
-  const refreshSets = () => {setRefreshCounter(prev => prev + 1)};
 
-  return {sets, refreshSets};
-}
+  const refreshSets = () => {
+    setRefreshCounter(prev => prev + 1);
+  };
+
+  return { sets, refreshSets };
+};
 
 export default useGetSets;

@@ -1,32 +1,35 @@
 import { useReducer, useEffect } from "react";
 import apiRequest from "../../../lib/api";
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
+import { InputState, SetAction } from '../../../types/card-set-types';
 
-
-
-const SetReducer = (state, action) => {
+const SetReducer = (state: InputState, action: SetAction) => {
   switch (action.type) {
-    case 'ON_CHANGE':
-    case 'UPDATE':
-      return {...state, ...action.payload}
+    case 'ON_LOAD':
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case 'ON_INPUT_ONE_CHANGE':
+      return {...state, inputOneValue: action.payload.inputOneValue};
+    case 'ON_INPUT_TWO_CHANGE':
+      return {...state, inputTwoValue: action.payload.inputTwoValue};
     default:
       return state;
   }
 }
 
-const useEditSetData = (setId) => {
-  const { userId, token } = useAuthContext();
+const useEditSetData = (setId: string | undefined) => {
+  const { token } = useAuthContext();
 
   const [state, dispatch] = useReducer(SetReducer, {
-    payload: {
-      inputOneValue: '',
-      inputTwoValue: '',
-    }
+    inputOneValue: '',
+    inputTwoValue: '',
   });
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+  
     try {
       const res = await apiRequest({
         method: 'put',
@@ -41,13 +44,18 @@ const useEditSetData = (setId) => {
         },
         src: 'SetDataFetch - onSubmit'
       });
+
       if (res.data && res.status === 200) {
         const { msg } = res.data;
         alert(msg);
         console.log('Set data fetch');
       }
     } catch (error) {
-      console.error(`Set data fetch error (${error.response.data.msg})`, error);
+      if (error instanceof Error) {
+        console.error(`Set data fetch error ${error.message}`);
+      } else {
+        console.error('Set data fetch error', error);
+      }
     }
 
   }
@@ -65,7 +73,7 @@ const useEditSetData = (setId) => {
       if (res !==undefined && res.data) {
         const { title, description } = res.data.set;
         dispatch({
-          type: 'UPDATE',
+          type: 'ON_LOAD',
           payload: {
             inputOneValue: title,
             inputTwoValue: description,

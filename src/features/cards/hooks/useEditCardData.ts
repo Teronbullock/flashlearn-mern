@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from 'react';
 import apiRequest from '../../../lib/api';
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
-import { CardState, CardAction } from '../types/card-types';
+import { CardState, CardAction } from '../../../types/card-set-types';
 
 
 const CardReducer = (state: CardState, action: CardAction) => {
@@ -26,7 +26,7 @@ const CardReducer = (state: CardState, action: CardAction) => {
         ...state,
         textColor: action.payload.textColor,
       };
-    case 'SUBMIT':
+    case 'ON_CARD_RELOAD':
       return {
         ...state,
         inputOneValue: action.payload.inputOneValue,
@@ -102,7 +102,7 @@ const useEditCardData = (cardId: string | undefined, setId: string | undefined) 
         if ( (res.status >= 200 && res.status < 300) && (res && res.data) ) {
           const { term, definition, bg_color, text_color } = res.data.card;
           dispatch({
-            type: 'SUBMIT',
+            type: 'ON_CARD_RELOAD',
             payload: {
               inputOneValue: term,
               inputTwoValue: definition,
