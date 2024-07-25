@@ -4,20 +4,20 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx,json}",
   ],
   theme: {
-    colors: {
-      'primary':        '#c93916',
-      'secondary':      '#ADAAA6',
-      'tertiary':       '#6e8875',
-      'dark-brown':     '#361D14',
-      'white':          '#ffffff',
-      'black':          '#000000',
-      'light-gray':     '#e3e6ef',
-      'green':          '#46544a',
-      'mustard':        '#dd9243',
-      'dark-shade':     '#2A2B2D',
-      'light-shade':    '#6A6F6F',
-    },
     extend: {
+      colors: {
+        'primary':        '#c93916',
+        'secondary':      '#ADAAA6',
+        'tertiary':       '#6e8875',
+        'dark-brown':     '#361D14',
+        'white':          '#ffffff',
+        'black':          '#000000',
+        'light-gray':     '#e3e6ef',
+        'green':          '#46544a',
+        'mustard':        '#dd9243',
+        'dark-shade':     '#2A2B2D',
+        'light-shade':    '#6A6F6F',
+      },
       screens: {
         '1xl': '1440px',
       },

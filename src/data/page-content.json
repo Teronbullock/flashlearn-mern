@@ -137,5 +137,18 @@
       "title": "Page Not Found",
       "copy": "Sorry, the page you are looking for does not exist."
     }
+  },
+  "profilePage" : {
+    "pageType": "profile",
+    "mainClass": "main--profile",
+    "hero": {
+      "className": "page-header--profile",
+      "ariaLabel": "Profile Page Header. This section contains the title and description. The background image is of a person with a black shirt studying. Photo by Anthony Riera on Unsplash.",
+      "img": "/assets/img/anthony-riera-kylWNDQFd5A-unsplash.jpg"
+    },
+    "header": {
+      "title": "Profile Page",
+      "copy": "Edit your profile information."
+    }
   }
 }

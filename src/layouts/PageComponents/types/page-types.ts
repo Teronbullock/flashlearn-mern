@@ -1,9 +1,9 @@
-export interface CurrentPage {
-  currentPage: 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addCardPage' | 'editCardPage' | 'viewCardsPage';
+export interface CurrentPageInterface {
+  currentPage: 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addCardPage' | 'editCardPage' | 'viewCardsPage' | 'profilePage';
   className?: string;
 }
 
-export interface PageHeaderProps extends CurrentPage {
+export interface PageHeaderProps extends CurrentPageInterface {
   children?: React.ReactNode;
 }
 
