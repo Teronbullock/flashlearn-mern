@@ -60,17 +60,6 @@ Users.authenticate = async (username, password, callback) => {
     }
 };
 
-// compare password input to password saved in database
-Users.comparePassword = async (password, hash) => {
-  try {
-    const result = await bcrypt.compare(password, hash);
-    return result;
-  } catch (error) {
-    console.log('Error: Users.comparePassword did not work');
-    return false;
-  }
-};
-
 // hash password before saving to database using Hooks
 Users.beforeCreate( async (users, options) => {
   try {

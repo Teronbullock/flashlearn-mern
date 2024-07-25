@@ -1,7 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import pg from 'pg';
-import pgHstore from 'pg-hstore';
 import db from './db/database.js';
 import session from 'express-session';
 import connectSessionSequelize from 'connect-session-sequelize';
@@ -17,7 +15,7 @@ import userRoutes from './routes/user-routes.js';
 import setRoutes from './routes/set-routes.js';
 import cookieParser from 'cookie-parser'; 
 import checkAuth from './middleware/check-auth.js';
-import { check } from 'express-validator';
+
 
 
 const SequelizeStore = connectSessionSequelize(session.Store);
@@ -49,19 +47,13 @@ app.use(session({
 myStore.sync();
 
 
-// app.use((req, res, next) => {
-//   console.log('Catch ALL: ', req.headers);
-//   next();
-// });
-
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-app.use('/users', userRoutes);
+app.use('/user', userRoutes);
 app.use('/set', checkAuth, setRoutes);
 
-// import { col } from 'sequelize';
 
 // disable favicon requests
 app.use('/favicon.ico', (req, res, next) => {
