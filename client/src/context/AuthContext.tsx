@@ -81,11 +81,10 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
       if (!userName || !userPass) {
         throw new Error('user name and password are required');
       }
-
       // call the api to login the user
       (async () => {
         const res = await apiRequest({
-          url: '/api/users/login',
+          url: '/api/user/login',
           method: 'post',
           src: 'AuthContextProvider',
           data: {
@@ -123,7 +122,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
     (async () => {
       try {
         const res = await apiRequest({
-          url: '/api/users/logout',
+          url: '/api/user/logout',
           method: 'post',
           src: 'AuthContextProvider'
         });
@@ -146,7 +145,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   const refreshAuthToken = useCallback(async () => {
     try {
       const res = await apiRequest({
-        url: '/api/users/refresh',
+        url: '/api/user/refresh',
         method: 'post',
         src: 'useTokenRefresh',
         data: { userId },

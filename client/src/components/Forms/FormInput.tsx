@@ -33,7 +33,7 @@ interface FormInputProps {
 const FormInput = ({ 
   labelName, 
   type = 'text',
-  className,
+  className = 'text-black bg-white',
   name,
   ...props
 }: FormInputProps ) => {
@@ -44,7 +44,7 @@ const FormInput = ({
   }
 
   const inputClassName = classNames({
-    'form__input w-full text-black text-xl bg-white rounded-md border-solid border-2 border-black  outline-none md:mt-1 md:mx-0 md:mb-6 md:p-4 md:text-2xl py-1 px-2': !isTypeColor,
+    'form__input w-full text-xl rounded-md border-solid border-2 border-black  outline-none md:mt-1 md:mx-0 md:mb-6 md:p-4 md:text-2xl py-1 px-2': !isTypeColor,
     'md:ml-4 md:mb-4 md:w-[65px]' : isTypeColor,
   }, className)
 

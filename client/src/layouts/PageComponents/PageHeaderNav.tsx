@@ -1,9 +1,9 @@
 import pageContent from '../../data/page-content.json';
-import { PageHeaderNavItem, CurrentPage } from '../../types/page-template-types';
+import { CurrentPageInterface } from './types/page-types';
 
 
-const PageHeaderNav = ({children, currentPage }: CurrentPage) => {
-  // const navItems = pageContent[currentPage].headerNavItems;
+const PageHeaderNav = ({children, currentPage }: CurrentPageInterface) => {
+  const navItems = pageContent[currentPage].headerNavItems;
 
   return (
     <nav className='page-header__nav w-2/5 pt-2'>

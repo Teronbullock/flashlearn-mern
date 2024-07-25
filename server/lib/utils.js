@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import RefreshTokens from '../models/refresh-token-model.js';
 
 
 dotenv.config();
@@ -92,4 +93,23 @@ export const verifyToken = (token, secret) => {
   } catch (error) {
     throw new Error('Error verifying token: ', {cause: error});
   }
+};
+
+export const addRefreshToken = async (userId, refreshToken) => {
+  try {
+    await RefreshTokens.create({
+      user_id: userId,
+      token: refreshToken,
+    });
+  } catch (error) {
+    console.log('Error adding refresh token: ', error);
+  }
+};
+
+export const deleteRefreshToken = async userId => {
+  const deletedCount = await RefreshTokens.destroy({
+    where: { user_id: userId },
+  });
+
+  return deletedCount;
 };

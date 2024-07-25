@@ -1,7 +1,7 @@
 import {
   PageHeaderProps,
   HeaderInterface,
-} from '../../types/page-template-types';
+} from './types/page-types';
 import PageContentFile from '../../data/page-content.json';
 
 
@@ -17,13 +17,15 @@ const { title, copy } = pageContent.header as HeaderInterface;
             <h1 className='mb-2 text-4xl'>{title}</h1>
             <h3 className='text-2xl'>{copy}</h3>
           </div>
-          <span className='hidden md:inline divider-v '></span>
           {children && (
-            <div className='page-header__nav w-2/5 pt-2'>
-              <ul className='page-header__nav-list flex'>
-                {children}
-              </ul>
-            </div>
+            <>
+              <span className='hidden md:inline divider-v '></span>
+              <div className='page-header__nav w-2/5 pt-2'>
+                <ul className='page-header__nav-list flex'>
+                  {children}
+                </ul>
+              </div>
+            </>
           )}
         </div>
       )}

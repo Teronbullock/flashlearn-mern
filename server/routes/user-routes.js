@@ -55,6 +55,25 @@ router.post('/login',
 
 router.post('/logout', postUserLogout);
 
+/**
+ * -- Edit Profile --
+ */
+router.get('/:userId/profile', checkAuth, getUserProfile);
+router.put('/:userId/profile', checkAuth,[
+  body('user_email')
+  .isEmail()
+  .not()
+  .isEmpty(),
+  body('user_old_pass')
+  .not()
+  .isEmpty(),
+  body('user_pass')
+  .not()
+  .isEmpty(),
+  body('user_pass_confirm')
+  .not()
+  .isEmpty()
+], putEditProfile);
 
 /**
  * -- refresh token --

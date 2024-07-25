@@ -1,22 +1,22 @@
-import pkg from 'pg/lib/defaults.js';
+import { validationResult } from 'express-validator';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+import Users from '../models/users-model.js';
 import {
   asyncHandler,
   genAuthToken,
   genRefreshToken,
   setRefreshTokenCookie,
   verifyToken,
+  addRefreshToken,
+  deleteRefreshToken
 } from '../lib/utils.js';
-import Users from '../models/users-model.js';
-import { validationResult } from 'express-validator';
-import { addRefreshToken, deleteRefreshToken } from '../lib/set-service.js';
-import dotenv from 'dotenv';
 
 dotenv.config();
 
-// const { user } = pkg;
 
 /**
- * user register
+ * post user register
  */
 export const postUserRegister = asyncHandler(async (req, res, next) => {
   let errors = validationResult(req);
@@ -49,42 +49,37 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
+  // check if user already exists
+  const isUser = await Users.findOne({ where: { user_name } });
+  const isUserEmail = await Users.findOne({ where: { user_email } });
+
+  if (isUser) {
+    let err = new Error('User already exists.');
+    err.status = 400;
+    return next(err);
+  }
+
+  if (isUserEmail) {
+    let err = new Error('Email already exists.');
+    err.status = 400;
+    return next(err);
+  }
+
   try {
     // use schema method to insert document into PSQL
-    const user = await Users.create(formData);
-    const { id, user_name } = user;
+    await Users.create(formData);
 
-    // create a token
-    try {
-      let token = genAuthToken(id, user_name);
-      let refreshToken = genRefreshToken(id);
-
-      // add refresh token to database
-      addRefreshToken(id, refreshToken);
-
-      // set refresh token cookie
-      setRefreshTokenCookie(res, refreshToken);
-
-      res.status(200).json({
-        msg: 'User registered successfully.',
-        token,
-        refreshToken,
-        userId: id,
-        userName: user_name,
-      });
-    } catch (error) {
-      console.log('Error creating token: ', error);
-      return next(error);
-    }
+    res.status(200).json({
+      msg: 'User registered successfully.',
+    });
   } catch (error) {
     console.log('Error registering user: ', error);
     return next(error);
   }
 });
 
-
 /**
- * user login
+ * post user login
  */
 export const postUserLogin = asyncHandler(
   async (req, res, next) => {
@@ -133,75 +128,84 @@ export const postUserLogin = asyncHandler(
   401
 );
 
-// get user profile
+/**
+ * -- get user profile --
+ */
 export const getUserProfile = asyncHandler(
-  async (req, res, next) => {
-    const user = await Users.findByPk(req.params.userId);
+  async (req, res ) => {  
+    const { userId } = req.params;
+    
+    const user = await Users.findByPk(userId);
     const { user_name, user_email } = user;
 
-    const data = {
+    return res.status(200).json({
       user_name,
       user_email,
-    };
-
-    res.render('profile', data);
+    });
   },
-  'Error retrieving user data: ',
-  500
+  'Error retrieving user data: '
 );
 
-// put user profile
+/**
+ * -- put user profile --
+ */
 export const putEditProfile = asyncHandler(
   async (req, res, next) => {
-    const { email, old_password, password, confirm_password } = req.body;
-    const userId = req.params.userId;
-    const formData = {};
+    let errors = validationResult(req);
 
-    if (!email && !old_password && !password && !confirm_password) {
-      const err = new Error('All fields required.');
+    if (!errors.isEmpty()) {
+      let err = new Error('All fields required.');
       err.status = 400;
       return next(err);
     }
 
-    const user = await Users.findOne({ where: { id: userId } }, { raw: true });
-    const oldPasswordMath = Users.comparePassword(
-      userId,
-      old_password,
-      user.user_pass
-    );
+    const { user_email, user_old_pass, user_pass, user_pass_confirm } = req.body;
+    const userId = req.params.userId;
+  
+    // add user data to formData
+    const formData = {
+      user_email,
+      user_pass,
+    };
 
-    if (!oldPasswordMath) {
+    // check if user exists
+    const user = await Users.findOne({ where: { id: userId } }, { raw: true });
+
+    // check old password match
+    const isOldPassMatch = await bcrypt.compare(user_old_pass, user.user_pass);
+
+    if (!isOldPassMatch) {
       const err = new Error('Old password is incorrect.');
       err.status = 400;
       return next(err);
     }
 
-    if (password !== confirm_password) {
+    // confirm that password and confirm password match
+    if (user_pass !== user_pass_confirm) {
       const err = new Error('Passwords do not match.');
       err.status = 400;
       return next(err);
     }
 
-    formData.user_pass = password;
-    formData.user_email = email;
-
+    // update user data
     const updatedUser = await Users.update(formData, {
       where: { id: userId },
       raw: true,
       individualHooks: true,
     });
 
+    // check if user was updated
     if (updatedUser[0] === 0) {
       const err = new Error('User not found.');
       err.status = 400;
       return next(err);
     } else {
-      console.log('User updated successfully.');
-      res.redirect(`/profile/${userId}`);
+      res.status(200).json({
+        msg: 'User updated successfully.',
+      });
     }
   },
   'Error updating user data: ',
-  500
 );
 
 /**
@@ -243,7 +247,9 @@ export const postRefresh = async (req, res) => {
   }
 };
 
-
+/**
+ *  -- post user logout --
+ */
 export const postUserLogout = async (req, res) => {
   const token = verifyToken(req.cookies.refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
