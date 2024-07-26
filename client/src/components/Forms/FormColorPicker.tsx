@@ -1,6 +1,6 @@
 import Btn from '../Btn/Btn';
 import FormInput from './FormInput';
-import { CardAction } from '../../features/cards/types/card-types';
+import { CardAction } from '../../types/card-set-types';
 
 type FormColorPickerProps = {
   bgColor?: string;

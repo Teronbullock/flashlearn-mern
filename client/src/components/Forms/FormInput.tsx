@@ -4,7 +4,7 @@ interface FormInputProps {
   labelName: string;
   type?: string;
   name: string;
-  value: string | null;
+  value: string | undefined;
   className?: string;
   placeholder?: string;
   required?: boolean;
@@ -48,7 +48,6 @@ const FormInput = ({
     'md:ml-4 md:mb-4 md:w-[65px]' : isTypeColor,
   }, className)
 
-  // console.log('formInputs:', props);
   return (
     <div className="form__input-container w-full mb-4">
       {labelName && name && (

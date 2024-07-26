@@ -1,7 +1,31 @@
-import { Link } from 'react-router-dom';
+import { Link, To } from 'react-router-dom';
 import './Btn.scss';
 import classNames from 'classnames';
-import { BtnProps } from '../../types/btn-types';
+
+
+type LinkProps = {
+  tag: 'link' | 'listItemLink';
+  to: To;
+  className?: string;
+};
+
+type ButtonProps = {
+  tag: 'button' | 'listItemBtn';
+  type: 'submit' | 'reset' | 'button';
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
+};
+
+
+interface BtnProps {
+  children: React.ReactNode;
+  className?: string;
+  tag?: 'link' | 'button' | 'listItemBtn' | 'listItemLink';
+  to?: To;
+  type?: 'submit' | 'reset' | 'button';
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  isListItem?: boolean;
+}
 
 /**
  * -- Btn Component --
@@ -11,32 +35,69 @@ import { BtnProps } from '../../types/btn-types';
  * @param type {string} - button attribute type (submit, reset, button)
  * The type attribute should only be used when the tag is 'button'.
  *  
- * @param ariaLabel {string} - aria label for button
  * @param to {string} - url for button
- * @param datatype {string} - data type for button
  * @param onClick {function} - function for button click
+ * @param isListItem {boolean} - boolean for list item
  * @returns
  */
-export default function Btn({
-  children,
-  className = '',
-  tag = 'Link',
-  ...otherProps
-}: BtnProps): JSX.Element {
-  let Tag;
-  
-  if (tag === 'Link' ) {
-    Tag = Link;
-  } else {
-    Tag = tag;
+export default function Btn(props: BtnProps) {
+  const {
+    children,
+    tag = 'link',
+    isListItem = false,
+  } = props;
+
+  if (tag === 'link') {
+    const { to, className } = props as LinkProps;
+    return (
+      <>
+      {isListItem ? (
+        <li>
+          <Link
+            className={classNames('btn', className)}
+            to={to}
+          >
+            {children}
+          </Link>
+        </li>
+      ) : (
+        <Link
+          className={classNames('btn', className)}
+          to={to}
+          >
+          {children}
+        </Link>
+      )}
+      </>
+    );
   }
 
-  return (
-    <Tag
-      className={classNames('btn', className)}
-      {...otherProps}
-    >
-      {children}
-    </Tag>
-  );
+  if (tag === 'button') {
+    const { type, onClick, className } = props as ButtonProps;
+    return (
+      <>
+      {isListItem ? (
+        <li>
+          <button
+            className={classNames('btn', className)}
+            type={type}
+            onClick={onClick}
+          >
+            {children}
+          </button>
+        </li>
+      ) : (
+        <button
+          className={classNames('btn', className)}
+          type={type}
+          onClick={onClick}
+        >
+          {children}
+        </button>
+      )}
+      </>
+    );
+  }
+
+
 }

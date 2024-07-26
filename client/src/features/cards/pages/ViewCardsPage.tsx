@@ -1,7 +1,7 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import PageHero from "../../../layouts/PageComponents/PageHero";
 import PageHeader from "../../../layouts/PageComponents/PageHeader";
-import ListItemBtn from "../../../components/Btn/ListItemBtn";
+import Btn from "../../../components/Btn/Btn";
 import ViewCardSection from "../components/ViewCardSection";
 import useGetCardView from "../hooks/useGetCardView";
 
@@ -17,12 +17,13 @@ const ViewCardsPage = () => {
     <main className="main main-viewCardsPage" >
       <PageHero currentPage={currentPage} className="page-header--index h-[25vh]" />
       <PageHeader currentPage={currentPage}>
-        <ListItemBtn
+        <Btn
           className="btn--tertiary btn--large"
           to={`/set/${setId}`}
+          isListItem={true}
         >
           Set Page
-        </ListItemBtn>
+        </Btn>
       </PageHeader>
       { setId && page && card && cardCount && (
         <ViewCardSection

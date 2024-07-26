@@ -51,11 +51,8 @@ const useEditSetData = (setId: string | undefined) => {
         console.log('Set data fetch');
       }
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(`Set data fetch error ${error.message}`);
-      } else {
-        console.error('Set data fetch error', error);
-      }
+      alert(`Error updating set ${error}`);
+      console.error('Set data fetch error', error);
     }
 
   }

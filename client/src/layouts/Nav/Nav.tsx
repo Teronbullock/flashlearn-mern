@@ -6,22 +6,13 @@ import { useAuthContext } from '../../context/hooks/useAuthContext';
 const Nav = () => {
   const { token, userId, logout } = useAuthContext();
 
-  const handleLogout = (e: Event) => {
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement> ) => {
     e.preventDefault();
 
     if (logout) {
       logout();
     }
   };
-
-  let currentUser = null;
-
-
-  if (userId !== null) {
-    currentUser = userId;
-    // let userId = false
-  }
-
 
 
   return (

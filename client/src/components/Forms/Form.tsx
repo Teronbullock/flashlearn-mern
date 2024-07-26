@@ -1,4 +1,4 @@
-import Card from '../cards/Card';
+import Card from '../Card/Card';
 import classNames from 'classnames';
 
 interface FormProps {
@@ -8,6 +8,14 @@ interface FormProps {
   className?: string;
 }
 
+/**
+ *  -- Form Component --
+ * @param {React.ReactNode} props.children
+ * @param {FormEventHandler<HTMLFormElement>} props.onSubmit
+ * @param {string} props.title - Optional
+ * @param {string} props.className - Optional
+ * @returns 
+ */
 const Form = ({children, onSubmit, title, className}: FormProps) => {
 
   return (

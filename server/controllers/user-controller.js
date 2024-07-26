@@ -21,13 +21,13 @@ dotenv.config();
 export const postUserRegister = asyncHandler(async (req, res, next) => {
   let errors = validationResult(req);
 
+  // check if all fields are filled
   if (!errors.isEmpty()) {
     let err = new Error('All fields required.');
-    err.status = 400;
-    return next(err);
+    throw err;
   }
 
-  const { user_name, user_email, user_pass, user_confirm_pass } = req.body;
+  const { user_name, user_email, user_pass, user_pass_confirm } = req.body;
 
   const formData = {
     user_name,
@@ -35,34 +35,24 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
     user_pass,
   };
 
-  // confirm that all fields are filled out
-  if (Object.values(formData).some(value => value == null || value === '')) {
-    let err = new Error('All fields required.');
-    err.status = 400;
-    return next(err);
-  }
-
   // confirm that user typed same password twice
-  if (user_pass !== user_confirm_pass) {
+  if (user_pass !== user_pass_confirm) {
     let err = new Error('Passwords do not match.');
-    err.status = 400;
-    return next(err);
+    throw err;
   }
 
-  // check if user already exists
+  // check if user and email already exists
   const isUser = await Users.findOne({ where: { user_name } });
   const isUserEmail = await Users.findOne({ where: { user_email } });
 
   if (isUser) {
     let err = new Error('User already exists.');
-    err.status = 400;
-    return next(err);
+    throw err;
   }
 
   if (isUserEmail) {
     let err = new Error('Email already exists.');
-    err.status = 400;
-    return next(err);
+    throw err;
   }
 
   try {
@@ -73,10 +63,10 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
       msg: 'User registered successfully.',
     });
   } catch (error) {
-    console.log('Error registering user: ', error);
-    return next(error);
+    let err = new Error('Error registering user.');
+    throw err; 
   }
-});
+}, null, 400);
 
 /**
  * post user login

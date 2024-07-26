@@ -1,8 +1,8 @@
-import Card from '../../../components/cards/Card';
+import Card from '../../../components/Card/Card';
 import ListCardForm from '../../../components/Forms/ListCardForm';
 import useDeleteSet from '../hooks/useDeleteSet';
 import useGetSets from '../hooks/useGetSets';
-import ListItemBtn from '../../../components/Btn/ListItemBtn';
+import Btn from '../../../components/Btn/Btn';
 
 interface SetDataBase {
   title: string;
@@ -32,25 +32,28 @@ const SetFeed = () => {
               key={id}
               {...data}
             >
-              <ListItemBtn
+              <Btn
                 className='btn--outline-black btn--medium mr-6'
                 to={`/set/${id}`}
+                isListItem={true}
               >
                 View
-              </ListItemBtn>
-              <ListItemBtn
+              </Btn>
+              <Btn
                 className='btn--outline-black btn--medium mr-6'
                 to={`/set/${id}/edit`}
+                isListItem={true}
               >
                 Edit
-              </ListItemBtn>
-              <ListItemBtn
+              </Btn>
+              <Btn
                 tag='button'
                 type='submit'
                 className='btn--outline-black btn--medium'
+                isListItem={true}
               >
                 Delete Set
-              </ListItemBtn>
+              </Btn>
             </ListCardForm>
           );
         })

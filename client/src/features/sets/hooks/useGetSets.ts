@@ -29,11 +29,8 @@ const useGetSets = () => {
             setSets(sets);
           }
         } catch (error) {
-          if (error instanceof Error) {
-            console.error(error.message, error.stack);
-          } else {
-            console.error(error);
-          }
+          console.error(error);
+          alert('Error fetching cards');
         }
       })();
     }

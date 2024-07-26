@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.scss';
 import Nav from '../Nav/Nav'; 
@@ -7,7 +6,6 @@ import { useAuthContext } from '../../context/hooks/useAuthContext';
 
 export default function Header() {
   const { token, userId } = useAuthContext();
-  let currentUser = false;
 
   return (
     <header className='header fixed top-0 left-0 w-full z-[500] h-[70px] bg-white'>

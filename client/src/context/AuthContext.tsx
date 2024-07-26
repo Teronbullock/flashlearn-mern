@@ -2,12 +2,42 @@ import { createContext, useCallback, useEffect, useReducer, useRef } from 'react
 import { useNavigate } from 'react-router-dom';
 import apiRequest from '../lib/api';
 import { setUserAndToken } from '../lib/auth-utils';
-import {
-  AuthContextValue,
-  ContextProviderProps,
-  AuthReducerAction,
-  AuthReducerState,
-} from '../types/context-types';
+
+
+interface AuthContextValue {
+  userId?: string | null;
+  setUserID?: React.Dispatch<React.SetStateAction<string | null>>;
+  isLoggedIn?: boolean;
+  token?: string | null;
+  setToken?: React.Dispatch<React.SetStateAction<string | null>>;
+  login?: (userId: string, token: string, expirationDate?: Date | null) => void ;
+  logout?: () => void;
+  tokenExpTime?: Date | null;
+}
+
+interface ContextProviderProps {
+  children: React.ReactNode;
+}
+
+interface AuthReducerState {
+  userId: string | null;
+  token: string | null;
+  tokenExpTime: Date | null;
+  isAuthenticated: boolean;
+}
+
+type AuthReducerAction = 
+  | {
+      type: 'LOGIN';
+      payload: {
+        userId: string;
+        token: string;
+        tokenExpTime: Date;
+      };
+    }
+  | {
+      type: 'LOGOUT';
+    };
 
 
 export const AuthContext = createContext<AuthContextValue>({
@@ -177,7 +207,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   useEffect(() => {
     if (token) {
       // Set interval to refresh token periodically (every 10min )
-      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 5);
+      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 10);
       return () => {
         // Cleanup on unmount or token change
         if (refreshInterval.current) {

@@ -1,7 +1,7 @@
-import Card from '../../../components/cards/Card';
+ import Card from '../../../components/Card/Card';
 import ListCardForm from '../../../components/Forms/ListCardForm';
 import useGetCards from '../hooks/useGetsCards';
-import ListItemBtn from '../../../components/Btn/ListItemBtn';
+import Btn from '../../../components/Btn/Btn';
 import useDeleteCard from '../hooks/useDeleteCard';
 
 const CardFeed = () => {
@@ -17,24 +17,26 @@ const CardFeed = () => {
           return (
             <ListCardForm
               key={id}
-              id={id}
               title={term}
               description={definition}
               onSubmit={e => handlerDelete(e, id, set_id)}
             >
-              <ListItemBtn
+              <Btn
                 className='btn--outline-black btn--medium mr-6'
                 to={`/set/${set_id}/card/${id}/edit`}
+                isListItem={true}
+                data-Test='edit-card'
                 >
                 Edit Card
-              </ListItemBtn>
-              <ListItemBtn
+              </Btn>
+              <Btn
                 tag='button'
                 type='submit'
                 className='btn--outline-black btn--medium'
+                isListItem={true}
               >
                 Delete Card
-              </ListItemBtn>
+              </Btn>
             </ListCardForm>
           );
         })

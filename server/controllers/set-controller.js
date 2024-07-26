@@ -8,7 +8,7 @@ export const postCreateSet = asyncHandler(async (req, res) => {
   const validationErrors = validationResult(req);
 
   if (!validationErrors.isEmpty()) {
-    const err = new Error('Validation failed, entered data is incorrect');
+    const err = new Error('Validation failed, Please fill out all fields');
     err.status = 422;
     throw err;
   }
@@ -78,19 +78,23 @@ export const getSets = asyncHandler(async (req, res, next) => {
 export const getEditSet = asyncHandler(async (req, res) => {
   const { setId: id } = req.params;
 
-  try {
-    const set = await Sets.findByPk(id, { raw: true });
-    res.status(200).json({
-      set,
-      msg: 'success',
-    });
-  } catch (error) {
-    throw error;
-  }
+  const set = await Sets.findByPk(id, { raw: true });
+  res.status(200).json({
+    set,
+    msg: 'success',
+  });
 }, 'retrieving  set data: ');
 
 // put edit set
 export const putEditSet = asyncHandler(async (req, res) => {
+  const validationErrors = validationResult(req);
+
+  if (!validationErrors.isEmpty()) {
+    const err = new Error('Validation failed, Please fill out all fields');
+    err.status = 422;
+    throw err;
+  }
+
   const { title, description } = req.body;
   const { setId: id } = req.params;
   const setData = {
@@ -98,19 +102,13 @@ export const putEditSet = asyncHandler(async (req, res) => {
     description,
   };
 
-  if (setData.title && setData.description) {
-    try {
-      const set = await Sets.update(setData, {
-        where: { id },
-      });
-      res.status(200).json({
-        msg: 'Set updated!',
-        set,
-      });
-    } catch (error) {
-      throw error;
-    }
-  }
+  const set = await Sets.update(setData, {
+    where: { id },
+  });
+  res.status(200).json({
+    msg: 'Set updated!',
+    set,
+  });
 }, 'editing set: ');
 
 // delete set
@@ -132,15 +130,15 @@ export const deleteSet = asyncHandler(async (req, res, next) => {
     }
   } catch (error) {
     const err = new Error(error);
-    err.status = err.status || 404;
-    throw err;
+    err.status = 403;
+    next(err);
   }
 
   // delete cards
   if (set) {
     try {
       deletedCard = await Cards.destroy({
-        where: { user_id },
+        where: { user_id, set_id: id },
       });
       console.log(`All cards were deleted for set ${id} `, deletedCard);
     } catch (error) {

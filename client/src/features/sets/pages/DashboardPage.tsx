@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import PageHero from "../../../layouts/PageComponents/PageHero";
 import PageHeader from "../../../layouts/PageComponents/PageHeader";
 import SetFeed from "../components/SetFeed";
-import ListItemBtn from "../../../components/Btn/ListItemBtn";
+import Btn from "../../../components/Btn/Btn";
 
 
 const Dashboard = () => {
@@ -14,13 +14,13 @@ const Dashboard = () => {
     <main className="main main-dashboard-page" >
       <PageHero currentPage={currentPage} className="h-[42vh]"/>
       <PageHeader currentPage={currentPage}> 
-        <ListItemBtn
-          tag="Link" 
+        <Btn
           className="btn--tertiary btn--large"
           to={`/set/user/${userId}/add`}
+          isListItem={true}
         >
           Create Set
-        </ListItemBtn>
+        </Btn>
       </PageHeader>
       <SetFeed />
     </main>

@@ -73,6 +73,7 @@ const useAddCardData = () => {
       
     } catch (error) {
       console.error(`Set data fetch error (${error})`);
+      alert('Error adding card');
     }
 
   }
