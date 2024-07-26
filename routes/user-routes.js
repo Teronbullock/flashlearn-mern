@@ -30,7 +30,7 @@ router.post(
     body('user_pass')
     .not()
     .isEmpty(),
-    body('user_confirm_pass')
+    body('user_pass_confirm')
     .not()
     .isEmpty()
   ],
@@ -79,5 +79,10 @@ router.put('/:userId/profile', checkAuth,[
  * -- refresh token --
  */
 router.post('/refresh', postRefresh);
+
+// handle 404
+router.use('*', (req, res, next) => {
+  return next();
+});
 
 export default router;

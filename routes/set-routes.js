@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 
 import {
   getSets,
@@ -21,18 +21,15 @@ import {
 const router = Router();
 
 // routes
-router.get('/', getSets);
 router.get('/user/:userId', getSets);
-router.post('/user/:userId/add', [
-  body('title').notEmpty()
-], postCreateSet);
+router.post('/user/:userId/add', [body('title').notEmpty()], postCreateSet);
 router.delete('/user/:userId/:setId/delete', deleteSet);
 router.get('/:setId/card/:cardId/edit', getEditCard);
 router.put('/:setId/card/:cardId/edit', putEditCard);
 router.delete('/:setId/card/:cardId/delete', deleteCard);
-router.post('/:setId/card/add', postAddCard);
+router.post('/:setId/card/add', [body('term').notEmpty()], postAddCard);
 router.get('/:setId/cards', getViewCards);
-router.put('/:setId/edit', putEditSet);
+router.put('/:setId/edit', [body('title').notEmpty()], putEditSet);
 router.get('/:setId/edit', getEditSet);
 router.get('/:setId', getCardsAllCards);
 

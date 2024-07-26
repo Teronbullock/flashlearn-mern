@@ -17,7 +17,6 @@ const checkAuth = (req, res, next) => {
       error.statusCode = 401;
     }
     const decodedToken = verifyToken(token, process.env.JWT_SECRET);
-console.log('decodedToken', decodedToken);
     req.userData = { userId: decodedToken.userId };
 
     next();
