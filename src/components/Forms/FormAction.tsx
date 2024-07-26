@@ -1,5 +1,10 @@
 import Btn from '../Btn/Btn';
 
+type FormActionProps = {
+  submitBtnText: string;
+  cancelBtnTo: string;
+};
+
 /**
  *  -- FormAction Component --
  * FormAction component is used to render the form action buttons.
@@ -8,7 +13,7 @@ import Btn from '../Btn/Btn';
  * @param param0 
  * @returns 
  */
-function FormAction({ submitBtnText, cancelBtnTo }) {
+function FormAction({ submitBtnText, cancelBtnTo }: FormActionProps) {
   return (
     <div className='form__action flex md:block'>
       <Btn

@@ -88,6 +88,7 @@ const Register = () => {
       });
 
       if (res.status === 200 && login) {
+        alert('Registration successful');
         login(state.user_name, state.user_pass);
         dispatch({ type: 'SUBMIT' });
       } else {

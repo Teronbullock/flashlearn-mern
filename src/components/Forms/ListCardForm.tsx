@@ -1,10 +1,9 @@
-import Card from '../cards/Card';
+import Card from '../Card/Card';
 
 interface ListCardFormProps {
   title: string;
   description?: string;
   cardCount?: number;
-  id: number;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
 }
@@ -20,7 +19,6 @@ const ListCardForm = ({
   cardCount = 0,
   onSubmit,
   children,
-  id,
 }: ListCardFormProps) => {
   return (
     <Card className='bg-white text-black'>
@@ -34,7 +32,6 @@ const ListCardForm = ({
           ) : null}
         </div>
         <div className='divider-h my-3'></div>
-        <div className='card__header mb-3'></div>
         <div className='card__body mb-3'>
           <p className='card__desc mb-0 line-clamp line-clamp--2'>
             {description}
@@ -43,7 +40,7 @@ const ListCardForm = ({
         <ul className='card__action mb-3 flex'>
           {children}
         </ul>
-        <input type='hidden' name='set_id' value={id} />
+        {/* <input type='hidden' name='set_id' value={id} /> */}
         <input type='hidden' name='_method' value='DELETE' />
       </form>
     </Card>
