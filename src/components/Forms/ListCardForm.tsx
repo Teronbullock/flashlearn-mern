@@ -32,7 +32,7 @@ const ListCardForm = ({
           ) : null}
         </div>
         <div className='divider-h my-3'></div>
-        <div className='card__body mb-3'>
+        <div className='card__body mb-6'>
           <p className='card__desc mb-0 line-clamp line-clamp--2'>
             {description}
           </p>
@@ -40,7 +40,6 @@ const ListCardForm = ({
         <ul className='card__action mb-3 flex'>
           {children}
         </ul>
-        {/* <input type='hidden' name='set_id' value={id} /> */}
         <input type='hidden' name='_method' value='DELETE' />
       </form>
     </Card>

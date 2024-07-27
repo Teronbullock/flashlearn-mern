@@ -5,14 +5,15 @@ import classNames from 'classnames';
 import PageContentFile from '../../data/page-content.json';
 
 const PageHero = ({ currentPage, className }: CurrentPageInterface) => {
-  
+
   const currentPageContent = PageContentFile[currentPage];
   const { ariaLabel, img } = currentPageContent.hero;
   const { title, copy } = currentPageContent.header;
 
   const heroClass = classNames(
     'page-hero bg-black text-white relative bg-no-repeat bg-center bg-cover',
-    {'page-hero--half-mask': currentPage === 'indexPage'},
+    {'page-hero--half-mask h-[calc(100vh-3.56rem)] md:h-[calc(100vh-4.37rem)] px-4': currentPage === 'indexPage'},
+    {'h-[20vh] md:h-[42vh]': currentPage !== 'indexPage'},
     className
   );
 

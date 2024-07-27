@@ -25,7 +25,6 @@ const CardFace = ({
     <div
       className={classnames('flashcard', className)}
       style={{ backgroundColor: bgColor }}
-      data-js='flashcardFront'
     >
       <div className='flashcard__aside'>
         <h1 className='flashcard__title flashcard__title--front mt-0'>{cardHeaderText}</h1>
@@ -37,7 +36,6 @@ const CardFace = ({
         >
           <a
             className='btn btn--secondary btn--large mb-8'
-            data-js='flashcardFrontFlipBtn'
             onClick={handFlipAction}
           >
             {BtnText}

@@ -120,7 +120,7 @@ const Profile = () => {
 
   return (
     <main className='main main--profile-page'>
-      <PageHero currentPage={currentPage} className='h-[42vh]' />
+      <PageHero currentPage={currentPage} className='hidden md:block' />
       <PageHeader currentPage={currentPage}></PageHeader>
       <section className='container py-12'>
         <Form

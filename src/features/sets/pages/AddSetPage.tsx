@@ -15,7 +15,7 @@ const AddSetPage = () => {
 
   return (
     <main className={classNames('main', `main-${currentPage}`)}>
-      <PageHero currentPage={currentPage} className='h-[42vh]' />
+      <PageHero currentPage={currentPage} />
       <PageHeader currentPage={currentPage}>
         <Btn
           className='btn--outline-black btn--large'

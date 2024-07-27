@@ -17,7 +17,7 @@ const EditSetPage = () => {
 
   return (
     <main className={classNames('main', `main-${currentPage}`)}>
-      <PageHero currentPage={currentPage} className='h-[42vh]' />
+      <PageHero currentPage={currentPage} className='hidden md:block'/>
       <PageHeader currentPage={currentPage}>
         <Btn
           className='btn--large btn--outline-black mr-6'
@@ -66,7 +66,7 @@ const EditSetPage = () => {
             }
           />
           <FormAction
-            submitBtnText='Create'
+            submitBtnText='Update'
             cancelBtnTo={`/dashboard/${userId}/`}
           />
         </Form>

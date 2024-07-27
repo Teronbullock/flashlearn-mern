@@ -10,7 +10,7 @@ const IndexPage = () => {
 
   return (
     <main className='main main--index'>
-      <PageHero currentPage={currentPage} className='h-[calc(100vh-4.37rem)]' />
+      <PageHero currentPage={currentPage}  />
       <PageHeader currentPage={currentPage} />
       <SectionFeat {...sections[0]} />
       <SectionFeat {...sections[1]} />

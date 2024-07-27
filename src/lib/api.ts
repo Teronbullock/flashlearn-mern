@@ -112,6 +112,10 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
     return res;
   } catch (error) {
     if (error instanceof AxiosError) {
+      if (error.response?.status === 401 && error.response?.data?.message === 'Not authorized') {
+        throw error.response.data.error;
+      }
+
       console.error(
         error.response?.data?.error || error.message,
         error.stack

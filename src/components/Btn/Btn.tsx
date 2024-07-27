@@ -7,6 +7,7 @@ type LinkProps = {
   tag: 'link' | 'listItemLink';
   to: To;
   className?: string;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
 type ButtonProps = {
@@ -25,6 +26,7 @@ interface BtnProps {
   type?: 'submit' | 'reset' | 'button';
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isListItem?: boolean;
+  defaultStyle?: boolean;
 }
 
 /**
@@ -38,6 +40,8 @@ interface BtnProps {
  * @param to {string} - url for button
  * @param onClick {function} - function for button click
  * @param isListItem {boolean} - boolean for list item
+ * @param defaultStyle {boolean} - boolean for default style - 
+ * Default is true
  * @returns
  */
 export default function Btn(props: BtnProps) {
@@ -45,25 +49,28 @@ export default function Btn(props: BtnProps) {
     children,
     tag = 'link',
     isListItem = false,
+    defaultStyle = true,
   } = props;
 
   if (tag === 'link') {
-    const { to, className } = props as LinkProps;
+    const { to, className, onClick } = props as LinkProps;
     return (
       <>
       {isListItem ? (
         <li>
           <Link
-            className={classNames('btn', className)}
+            className={classNames({'btn': defaultStyle}, className)}
             to={to}
+            onClick={onClick}
           >
             {children}
           </Link>
         </li>
       ) : (
         <Link
-          className={classNames('btn', className)}
+          className={classNames({'btn': defaultStyle}, className)}
           to={to}
+          onClick={onClick}
           >
           {children}
         </Link>
@@ -79,7 +86,7 @@ export default function Btn(props: BtnProps) {
       {isListItem ? (
         <li>
           <button
-            className={classNames('btn', className)}
+            className={classNames({'btn': defaultStyle}, className)}
             type={type}
             onClick={onClick}
           >
@@ -88,7 +95,7 @@ export default function Btn(props: BtnProps) {
         </li>
       ) : (
         <button
-          className={classNames('btn', className)}
+          className={classNames({'btn': defaultStyle}, className)}
           type={type}
           onClick={onClick}
         >

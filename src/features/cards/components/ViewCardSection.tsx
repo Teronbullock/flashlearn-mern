@@ -56,9 +56,7 @@ const ViewCardSection = ({
   }
 
   const handFlipAction = () => {
-    const card = document.querySelector('[data-js="flashcard"]');
-
-    if (card && card.classList.contains('flashcard--flipped')) {
+    if(flashcardClass) {
       setFlashcardClass('');
     } else {
       setFlashcardClass('flashcard--flipped');
@@ -66,13 +64,10 @@ const ViewCardSection = ({
   };
 
   return (
-    <section className='section-flash-card pt-8 w-1/2 mx-auto'>
+    <section className='section-flash-card p-8 md:w-1/2 mx-auto'>
       {card ? (
-        <div
-          className={classnames('flashcard mx-auto', flashcardClass)}
-          data-js='flashcard'
-        >
-          <div className='flashcard__inner' data-js='flashcardInner'>
+        <div className={classnames('flashcard mx-auto', flashcardClass)}>
+          <div className='flashcard__inner'>
             {term && (
               <CardFace
                 className='flashcard--front'
