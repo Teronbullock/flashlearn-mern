@@ -18,10 +18,12 @@ const checkAuth = (req, res, next) => {
     }
     const decodedToken = verifyToken(token, process.env.JWT_SECRET);
     req.userData = { userId: decodedToken.userId };
-
+console.log('decodedToken Good', decodedToken);
     next();
   } catch (error) {
-    return next(error);
+    console.log('decodedToken Bad', error);
+    // return next(error);
+    res.status(401).json({ message: 'Not authorized'});
   }
 };
 
