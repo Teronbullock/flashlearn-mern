@@ -4,8 +4,9 @@ interface FormInputProps {
   labelName: string;
   type?: string;
   name: string;
-  value: string | undefined;
+  value: string | undefined | '';
   className?: string;
+  containerClassName?: string;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean; 
@@ -22,6 +23,7 @@ interface FormInputProps {
  * @param {string} inputProps.name - The input field name.
  * @param {string} [inputProps.value] - The input field value (optional).
  * @param {string} [inputProps.className] - The input field class name (optional).
+ * @param {string} [inputProps.containerClassName] - The input field container class name (optional).
  * @param {string} [inputProps.placeholder] - The input field placeholder (optional).
  * @param {boolean} [inputProps.required=false] - Whether the input field is required (optional, defaults to false).
  * @param {boolean} [inputProps.disabled=false] - Whether the input field is disabled (optional, defaults to false).
@@ -35,6 +37,7 @@ const FormInput = ({
   type = 'text',
   className = 'text-black bg-white',
   name,
+  containerClassName,
   ...props
 }: FormInputProps ) => {
   let isTypeColor;
@@ -49,7 +52,7 @@ const FormInput = ({
   }, className)
 
   return (
-    <div className="form__input-container w-full mb-4">
+    <div className={classNames('form__input-container w-full mb-4', containerClassName)}>
       {labelName && name && (
         <label htmlFor={name} className='form__label w-full text-xl'>
           {labelName}

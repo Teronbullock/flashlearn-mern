@@ -15,7 +15,7 @@ const ViewCardsPage = () => {
 
   return(
     <main className="main main-viewCardsPage" >
-      <PageHero currentPage={currentPage} className="page-header--index h-[25vh]" />
+      <PageHero currentPage={currentPage} className="page-header--index hidden md:block" />
       <PageHeader currentPage={currentPage}>
         <Btn
           className="btn--tertiary btn--large"

@@ -240,15 +240,15 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
 
 
   // Set the logout timer
-  useEffect(() => {
-    if (token && tokenExpTime) {
-      const remainingTime = tokenExpTime.getTime() - new Date().getTime();
-
-      clearTimeout(logoutTimer.current);
-      logoutTimer.current = setTimeout(logout, remainingTime);
-    } else {
-      clearTimeout(logoutTimer.current);
-    }
+  if (token && tokenExpTime) {
+    const remainingTime = tokenExpTime.getTime() - new Date().getTime();
+    
+    clearTimeout(logoutTimer.current);
+    logoutTimer.current = setTimeout(logout, remainingTime);
+  } else {
+    clearTimeout(logoutTimer.current);
+  }
+  useEffect(() => { console.log( 'I ran to check the logout timer', token, 'exp time: ', tokenExpTime, 'logout TImer: ', logoutTimer.current);
   }, [token, logout, login, tokenExpTime]);
 
 

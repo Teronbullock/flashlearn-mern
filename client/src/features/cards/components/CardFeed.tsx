@@ -22,7 +22,7 @@ const CardFeed = () => {
               onSubmit={e => handlerDelete(e, id, set_id)}
             >
               <Btn
-                className='btn--outline-black btn--medium mr-6'
+                className='btn--outline-black btn--medium mr-3 md:mr-6'
                 to={`/set/${set_id}/card/${id}/edit`}
                 isListItem={true}
                 data-Test='edit-card'

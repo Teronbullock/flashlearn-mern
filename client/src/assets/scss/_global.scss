@@ -67,7 +67,11 @@ h3 {
 }
 
 h1, h2, h3 {
-  line-height: 1.2;
+  line-height: 1.4;
+  
+  @include bp.media-breakpoint-up(md) {
+    line-height: 1.2;
+  }
 }
 
 p {
@@ -104,8 +108,12 @@ ul {
 }
 
 main {
-  padding-top: 4.37rem;
+  padding-top: 3.56rem;
   background-color: var.$color-light-gray;
+
+  @include bp.media-breakpoint-up(md) {
+    padding-top: 4.37rem;
+  }
 }
 
 main:not(.main--index) {

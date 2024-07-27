@@ -16,17 +16,17 @@ const EditCardPage = () => {
 
   return (
     <main className='main main--edit-card-page'>
-      <PageHero currentPage={currentPage} className='h-[42vh]' />
+      <PageHero currentPage={currentPage} className='hidden md:block'/>
       <PageHeader currentPage={currentPage}>
         <Btn
-          className='btn--tertiary btn--large mr-6'
+          className='btn--outline-black btn--large mr-6'
           to={`/set/${setId}`}
           isListItem={true}
         >
           Set Page
         </Btn>
       </PageHeader>
-      <section className='container py-12 lg:max-w-screen-lg'>
+      <section className='container pt-8 pb-4 md:pt-12 lg:max-w-screen-lg'>
         {state ? (
           <Form onSubmit={submitHandler} className='bg-white'>
             <FormInput
@@ -62,7 +62,10 @@ const EditCardPage = () => {
               textColor={state.textColor}
               dispatch={dispatch}
             />
-            <FormAction submitBtnText='Update' cancelBtnTo={`/set/${setId}`} />
+            <FormAction 
+            submitBtnText='Update' 
+            cancelBtnTo={`/set/${setId}`} 
+            />
           </Form>
         ) : (
           <p>Loading...</p>

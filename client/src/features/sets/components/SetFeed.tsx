@@ -33,18 +33,18 @@ const SetFeed = () => {
               {...data}
             >
               <Btn
-                className='btn--outline-black btn--medium mr-6'
+                className='btn--outline-black btn--medium mr-3 md:mr-6'
                 to={`/set/${id}`}
                 isListItem={true}
               >
-                View
+                View Set
               </Btn>
               <Btn
-                className='btn--outline-black btn--medium mr-6'
+                className='btn--outline-black btn--medium mr-3 md:mr-6'
                 to={`/set/${id}/edit`}
                 isListItem={true}
               >
-                Edit
+                Edit Set
               </Btn>
               <Btn
                 tag='button'

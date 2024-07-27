@@ -107,7 +107,7 @@ const Register = () => {
 
   return (
     <main className='main main--register'>
-      <section className='container py-12 w-1/2 min-h-[calc(100vh-11rem)]'>
+      <section className='container py-12 md:w-1/2 min-h-[calc(100vh-11rem)]'>
         <Form
           className='bg-white card--login-form'
           onSubmit={handleFormSubmit}

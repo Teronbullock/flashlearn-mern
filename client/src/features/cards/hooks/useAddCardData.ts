@@ -2,7 +2,30 @@ import { useReducer } from "react";
 import { useParams } from "react-router";
 import apiRequest from "../../../lib/api";
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
-import { CardState, CardAction } from '../../../types/card-set-types';
+
+
+interface CardState {
+  inputOneValue: string;
+  inputTwoValue: string;
+  bgColor: string;
+  textColor: string;
+}
+
+type OnChangeOneAction = {
+  type: 'ON_INPUT_ONE_CHANGE';
+  payload: { inputOneValue: string };
+}
+
+type OnChangeTwoAction = {
+  type: 'ON_INPUT_TWO_CHANGE';
+  payload: { inputTwoValue: string };
+}
+
+type ResetAction = {
+  type: 'RESET';
+}
+
+type CardAction = OnChangeOneAction | OnChangeTwoAction | ResetAction;
 
 
 
