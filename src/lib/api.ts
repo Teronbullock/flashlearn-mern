@@ -50,7 +50,6 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
   if (envMode === 'production') {
     // replace api with prod url
     url = url.replace('/api', import.meta.env.VITE_API_URL);
-    console.log('url', import.meta.env.MODE);
   }
 
   let seeInput = false;

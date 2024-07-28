@@ -82,7 +82,7 @@ const Register = () => {
     try {
       const res = await apiRequest({
         method: 'post',
-        url: 'api/user/register',
+        url: '/api/user/register',
         data: state,
         src: 'RegistrationForm - handleFormSubmit',
       });
