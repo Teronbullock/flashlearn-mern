@@ -1,6 +1,6 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { useAuthContext } from './context/hooks/useAuthContext';
-import './app.scss';
+import './App.scss';
 import Header from './layouts/Header/Header';
 import Footer from './layouts/Footer/Footer';
 
