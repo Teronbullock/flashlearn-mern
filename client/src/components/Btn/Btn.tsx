@@ -1,5 +1,5 @@
 import { Link, To } from 'react-router-dom';
-import './Btn.scss';
+import './btn.scss';
 import classNames from 'classnames';
 
 

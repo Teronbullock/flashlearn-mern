@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import './Nav.scss';
+import './nav.scss';
 import Btn from '../../components/Btn/Btn';
 import { useAuthContext } from '../../context/hooks/useAuthContext';
 

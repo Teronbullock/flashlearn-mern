@@ -1,7 +1,7 @@
 import { useState, memo } from 'react';
 import classnames from 'classnames';
 import Btn from '../../../components/Btn/Btn';
-import './ViewCardSection.scss';
+import './view-card-section.scss';
 import CardFace from './CardFace';
 
 interface ViewCardSectionProps {
