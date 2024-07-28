@@ -43,7 +43,16 @@ type DebugOption = 'all' | 'input' | 'output' | undefined;
  *  });
  */
 const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
-  const { method = 'get', url, data, config, src } = req;
+  const { method = 'get', data, config, src } = req;
+  let { url } = req;
+  const envMode = import.meta.env.MODE;
+
+  if (envMode === 'production') {
+    // replace api with prod url
+    url = url.replace('/api', import.meta.env.VITE_API_URL);
+    console.log('url', import.meta.env.MODE);
+  }
+
   let seeInput = false;
   let seeOutput = false;
 
@@ -116,13 +125,14 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
         throw error.response.data.error;
       }
 
-      console.error(
-        error.response?.data?.error || error.message,
-        error.stack
-      );
+      // console.error(
+      //   error.response?.data?.error || error.message,
+      //   error.stack
+      // );
       throw error.response?.data?.error || error.message;
     } else {
-      console.error(error);
+      // console.error(error);
+      console.log('error', error);
       throw error;
     }
   }

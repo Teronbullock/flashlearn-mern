@@ -106,7 +106,7 @@ const useEditCardData = (
       if (res.data && res.status === 200) {
         const { msg } = res.data;
         alert(msg);
-        console.log('Set data fetch');
+
       }
     } catch (error) {
       if (error instanceof Error) {

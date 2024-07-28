@@ -99,7 +99,7 @@ app.use((err, req, res, next) => {
   }
 })();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5001;
 const currentWorkingDirectory = process.cwd();
 const keyPath = path.resolve(currentWorkingDirectory, 'certs', 'key.pem');
 const certPath = path.resolve(currentWorkingDirectory, 'certs', 'cert.pem');

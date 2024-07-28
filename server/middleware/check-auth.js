@@ -18,7 +18,7 @@ const checkAuth = (req, res, next) => {
     }
     const decodedToken = verifyToken(token, process.env.JWT_SECRET);
     req.userData = { userId: decodedToken.userId };
-console.log('decodedToken Good', decodedToken);
+
     next();
   } catch (error) {
     console.log('decodedToken Bad', error);

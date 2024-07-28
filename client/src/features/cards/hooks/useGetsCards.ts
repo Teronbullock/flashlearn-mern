@@ -26,7 +26,7 @@ const useGetsCards = () => {
             url:`/api/set/${setId}`,
             src: 'useGetCards - useEffect',
             config: {headers: { 'Authorization': `Bearer ${token}` }}
-          }, 'all');
+          });
     
           if ((res.status >= 200 && res.status < 300) && (res && res.data)) {
             const { cards } = res.data;

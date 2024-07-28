@@ -1,5 +1,5 @@
 export interface CurrentPageInterface {
-  currentPage: 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addCardPage' | 'editCardPage' | 'viewCardsPage' | 'profilePage';
+  currentPage: 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addCardPage' | 'editCardPage' | 'viewCardsPage' | 'profilePage' | 'pageNotFound';
   className?: string;
 }
 

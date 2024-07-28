@@ -22,7 +22,7 @@ const useGetProfile = (dispatch: React.Dispatch<UserAction>) => {
           url: `/api/user/${userId}/profile`,
           src: 'useGetProfile',
           config: { headers: { Authorization: `Bearer ${token}` } },
-        }, 'all');
+        });
 
         const { user_name, user_email } = res.data;
         dispatch({ type: 'GET_PROFILE', payload: { user_name, user_email } });

@@ -71,8 +71,7 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
 /**
  * post user login
  */
-export const postUserLogin = asyncHandler(
-  async (req, res, next) => {
+export const postUserLogin = asyncHandler( async (req, res, next) => {
     let errors = validationResult(req);
     const { user_name, user_pass } = req.body;
 

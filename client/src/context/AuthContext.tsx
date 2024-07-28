@@ -1,8 +1,13 @@
-import { createContext, useCallback, useEffect, useReducer, useRef } from 'react';
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiRequest from '../lib/api';
 import { setUserAndToken } from '../lib/auth-utils';
-
 
 interface AuthContextValue {
   userId?: string | null;
@@ -10,7 +15,7 @@ interface AuthContextValue {
   isLoggedIn?: boolean;
   token?: string | null;
   setToken?: React.Dispatch<React.SetStateAction<string | null>>;
-  login?: (userId: string, token: string, expirationDate?: Date | null) => void ;
+  login?: (userId: string, token: string, expirationDate?: Date | null) => void;
   logout?: () => void;
   tokenExpTime?: Date | null;
 }
@@ -26,7 +31,7 @@ interface AuthReducerState {
   isAuthenticated: boolean;
 }
 
-type AuthReducerAction = 
+type AuthReducerAction =
   | {
       type: 'LOGIN';
       payload: {
@@ -95,7 +100,6 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   // Token refresh interval
   const refreshInterval = useRef<number | null>(null);
 
-
   /**
    *  -- Login function --
    *
@@ -104,15 +108,13 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
    * @param expirationDate - The expiration date of the token
    */
   const login = useCallback(
-    (
-      userName: string,
-      userPass: string
-    ) => {
+    async (userName: string, userPass: string) => {
       if (!userName || !userPass) {
         throw new Error('user name and password are required');
       }
+
       // call the api to login the user
-      (async () => {
+      try {
         const res = await apiRequest({
           url: '/api/user/login',
           method: 'post',
@@ -120,29 +122,33 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
           data: {
             user_name: userName,
             user_pass: userPass,
-          }
+          },
         });
 
-        if (res.data && res.status === 200) {
-          const { userId, token } = res.data;
-
-          // set the user and token in the context
-          setUserAndToken(dispatch, userId, token);
-
-          // navigate to the dashboard
-          navigate(`/dashboard/${userId}`);
+        // check if the response is valid
+        if (!res.data && res.status !== 200) {
+          throw new Error('Failed to login user');
         }
-      })();
+
+        const { userId, token } = res.data;
+
+        // set the user and token in the context
+        setUserAndToken(dispatch, userId, token);
+
+        // navigate to the dashboard
+        navigate(`/dashboard/${userId}`);
+      } catch (error) {
+        console.error('Error logging in user:', error);
+        alert(`Login Error: ${error}`);
+      }
     },
     [dispatch, navigate]
   );
-
 
   /**
    * Logout function - Clears the userId and token in the context
    */
   const logout = useCallback(() => {
-
     // sets the auth reducers values to null
     dispatch({ type: 'LOGOUT' });
     localStorage.removeItem('flashlearn_userData');
@@ -154,45 +160,39 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         const res = await apiRequest({
           url: '/api/user/logout',
           method: 'post',
-          src: 'AuthContextProvider'
+          src: 'AuthContextProvider',
         });
-        
+
         if (res.status === 200) {
           console.log('User logged out successfully');
         }
-
       } catch (error) {
         console.error('Error logging out user from backend:', error);
       }
     })();
-  
   }, [navigate]);
-
 
   /**
    * Refresh the auth token function
    */
   const refreshAuthToken = useCallback(async () => {
     try {
-      const res = await apiRequest({
-        url: '/api/user/refresh',
-        method: 'post',
-        src: 'useTokenRefresh',
-        data: { userId },
-        config: {
-          headers: { Authorization: `Bearer ${token}` },
+      const res = await apiRequest(
+        {
+          url: '/api/user/refresh',
+          method: 'post',
+          src: 'useTokenRefresh',
+          data: { userId },
+          config: {
+            headers: { Authorization: `Bearer ${token}` },
+          },
         }
-      }, 'all');
+      );
 
-      if (res.status === 200 && res.data) {
+      if (res.status === 200 && res.data && res.data.token && userId ) {
         const { token } = res.data;
-
-        if (token && userId) {
-          setUserAndToken(dispatch, userId, token);
-        } else {
-          throw new Error('Failed to refresh token, missing token or userId');
-        }
-
+        setUserAndToken(dispatch, userId, token);
+        console.log('Token refreshed successfully', token);
       } else {
         throw new Error('Failed to refresh token');
       }
@@ -201,7 +201,6 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
       logout();
     }
   }, [dispatch, token, userId, logout]);
-
 
   // Set the token refresh interval
   useEffect(() => {
@@ -216,7 +215,6 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
       };
     }
   }, [token, refreshAuthToken]);
-
 
   // Check if the user is logged in
   useEffect(() => {
@@ -238,19 +236,19 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
     }
   }, [token, login, userId, dispatch]);
 
-
   // Set the logout timer
-  if (token && tokenExpTime) {
-    const remainingTime = tokenExpTime.getTime() - new Date().getTime();
-    
-    clearTimeout(logoutTimer.current);
-    logoutTimer.current = setTimeout(logout, remainingTime);
-  } else {
-    clearTimeout(logoutTimer.current);
-  }
-  useEffect(() => { console.log( 'I ran to check the logout timer', token, 'exp time: ', tokenExpTime, 'logout TImer: ', logoutTimer.current);
-  }, [token, logout, login, tokenExpTime]);
+  useEffect(() => {
+    if (token && tokenExpTime) {
+      const remainingTime = tokenExpTime.getTime() - new Date().getTime();
+  
+      clearTimeout(logoutTimer.current);
+      logoutTimer.current = setTimeout(logout, remainingTime);
 
+    } else {
+      clearTimeout(logoutTimer.current);
+    }
+
+  }, [token, logout, login, tokenExpTime]);
 
   // value object for the context
   const value = {

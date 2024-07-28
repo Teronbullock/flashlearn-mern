@@ -17,7 +17,7 @@ const { token } = useAuthContext();
           config: {
             headers: { authorization: `Bearer ${token}` },
           }
-        }, 'all');
+        });
 
         if (res.status === 200 && res.data) {
           const { card, count } = res.data;
