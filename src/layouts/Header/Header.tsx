@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Header.scss';
+import './header.scss';
 import Nav from '../Nav/Nav'; 
 import MobileMenuBtn from '../../components/MobileMenuBtn/MobileMenuBtn';
 import { useAuthContext } from '../../context/hooks/useAuthContext';
@@ -24,7 +24,7 @@ export default function Header() {
           { token ? (
             <Link className='header_site-title-link text-dark-shade' to={`/dashboard/${userId}`}>FlashCard</Link>
           ) : (
-            <Link className='header_site-title-link text-dark-shade' to='/home'>FlashCard</Link>
+            <Link className='header_site-title-link text-dark-shade' to='/'>FlashCard</Link>
           )}
         </h1>
         <MobileMenuBtn
