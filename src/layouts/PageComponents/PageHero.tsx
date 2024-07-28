@@ -1,5 +1,5 @@
 import { CurrentPageInterface } from './types/page-types';
-import './PageComponents.scss';
+import './page-components.scss';
 import Btn from '../../components/Btn/Btn';
 import classNames from 'classnames';
 import PageContentFile from '../../data/page-content.json';

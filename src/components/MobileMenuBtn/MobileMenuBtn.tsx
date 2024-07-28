@@ -1,4 +1,4 @@
-import './MobileMenuBtn.scss';
+import './mobile-menu-btn.scss';
 
 type MobileMenuBtnProps = {
   onClick: () => void;

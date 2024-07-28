@@ -1,4 +1,4 @@
-import './SectionFeat.scss';
+import './section-feat.scss';
 import classNames from 'classnames';
 
 interface sectionFeatProps {
