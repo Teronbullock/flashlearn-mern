@@ -103,7 +103,7 @@ const Profile = () => {
           headers: { authorization: `Bearer ${token}` },
         },
         src: 'ProfileForm - handleFormSubmit',
-      }, 'all');
+      });
 
       if (res.status === 200 && res.data) {
         alert('Profile updated successfully');

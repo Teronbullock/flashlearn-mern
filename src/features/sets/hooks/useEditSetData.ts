@@ -1,7 +1,17 @@
 import { useReducer, useEffect } from "react";
 import apiRequest from "../../../lib/api";
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
-import { InputState, SetAction } from '../../../types/card-set-types';
+
+
+interface InputState {
+  inputOneValue?: string;
+  inputTwoValue?: string;
+}
+
+interface SetAction {
+  type: 'ON_INPUT_ONE_CHANGE' | 'ON_INPUT_TWO_CHANGE' | 'ON_LOAD';
+  payload: InputState;
+}
 
 const SetReducer = (state: InputState, action: SetAction) => {
   switch (action.type) {
@@ -48,7 +58,6 @@ const useEditSetData = (setId: string | undefined) => {
       if (res.data && res.status === 200) {
         const { msg } = res.data;
         alert(msg);
-        console.log('Set data fetch');
       }
     } catch (error) {
       alert(`Error updating set ${error}`);
@@ -79,7 +88,7 @@ const useEditSetData = (setId: string | undefined) => {
         return;
       }
     })();
-  }, []);
+  }, [setId, token]);
 
   return{state, submitHandler, dispatch };
 }

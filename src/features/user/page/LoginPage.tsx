@@ -18,6 +18,7 @@ interface LoginReducerAction {
   };
 }
 
+
 // Reducer function for the Login component
 const loginReducer = (state: UserState, action: LoginReducerAction) => {
   switch (action.type) {
@@ -51,17 +52,10 @@ const LoginPage = () => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      if (login) {
-        login(state.user_name, state.user_pass);
-      } else {
-        throw new Error('Login function not found');
-      }
-    } catch (error) {
-      console.error(error);
-      alert(
-        'Login Error: Please check your user name and password and try again'
-      );
+    if (login) {
+      login(state.user_name, state.user_pass);
+    } else {
+      throw new Error('Login function not found');
     }
   };
 

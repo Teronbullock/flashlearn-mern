@@ -1,7 +1,23 @@
 import { useReducer } from 'react';
 import apiRequest from '../../../lib/api';
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
-import { InputState, SetAction } from '../../../types/card-set-types';
+
+
+interface InputState {
+  inputOneValue?: string;
+  inputTwoValue?: string;
+}
+
+interface InputAction {
+  type: 'ON_INPUT_ONE_CHANGE' | 'ON_INPUT_TWO_CHANGE';
+  payload: InputState;
+}
+
+interface InputSubmit {
+  type: 'SUBMIT';
+}
+
+type SetAction = InputAction | InputSubmit;
 
 const SetReducer = (state: InputState, action: SetAction) => {
   switch (action.type) {
@@ -48,7 +64,6 @@ const useAddSetData = () => {
         const { msg } = res.data;
         alert(msg);
         dispatch({type: 'SUBMIT'});
-        console.log('Set data fetch');
       }
     } catch (error) {
       if ( error instanceof Error) {
