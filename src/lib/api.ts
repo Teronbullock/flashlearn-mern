@@ -124,13 +124,8 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
         throw error.response.data.error;
       }
 
-      // console.error(
-      //   error.response?.data?.error || error.message,
-      //   error.stack
-      // );
       throw error.response?.data?.error || error.message;
     } else {
-      // console.error(error);
       console.log('error', error);
       throw error;
     }
