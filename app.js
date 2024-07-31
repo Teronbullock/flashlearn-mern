@@ -104,11 +104,18 @@ const currentWorkingDirectory = process.cwd();
 const keyPath = path.resolve(currentWorkingDirectory, 'certs', 'key.pem');
 const certPath = path.resolve(currentWorkingDirectory, 'certs', 'cert.pem');
 
-const server = https.createServer(
-  {
-    key: fs.readFileSync(keyPath),
-    cert: fs.readFileSync(certPath),
-  }, app
-).listen(port, () => {
-  console.log(`Express app listening on https://localhost:${port}`);
-});
+if(process.env.NODE_ENV === 'production') {
+  const server = https.createServer(
+    {
+      key: fs.readFileSync(keyPath),
+      cert: fs.readFileSync(certPath),
+    }, app
+  ).listen(port, () => {
+    console.log(`Express app listening on https://localhost:${port}`);
+  });
+
+} else {
+  app.listen(port, ()=> {
+    console.log(`Express app listening on http:serverIP:${port}`);
+  });
+}

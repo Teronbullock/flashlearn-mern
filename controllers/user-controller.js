@@ -27,7 +27,8 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
     throw err;
   }
 
-  const { user_name, user_email, user_pass, user_pass_confirm } = req.body;
+  const { user_email, user_pass, user_pass_confirm } = req.body;
+  const user_name = req.body.user_name.trim().toLowerCase();
 
   const formData = {
     user_name,
@@ -73,7 +74,9 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
  */
 export const postUserLogin = asyncHandler( async (req, res, next) => {
     let errors = validationResult(req);
-    const { user_name, user_pass } = req.body;
+    const { user_pass } = req.body;
+    const user_name = req.body.user_name.trim().toLowerCase();
+    
 
     if (!errors.isEmpty()) {
       let err = new Error('Email and password are required.');
@@ -200,7 +203,7 @@ export const putEditProfile = asyncHandler(
 /**
  * -- refresh token --
  */
-export const postRefresh = async (req, res) => {
+export const postRefresh = asyncHandler( async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   let tokenData;
 
@@ -209,7 +212,7 @@ export const postRefresh = async (req, res) => {
   }
 
   try {
-    tokenData = await verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    tokenData = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
     if (tokenData) {
       const user = await Users.findByPk(tokenData.userId);
@@ -234,7 +237,7 @@ export const postRefresh = async (req, res) => {
       message: error.message,
     });
   }
-};
+});
 
 /**
  *  -- post user logout --
