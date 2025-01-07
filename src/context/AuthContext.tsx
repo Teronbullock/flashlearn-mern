@@ -206,7 +206,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   useEffect(() => {
     if (token) {
       // Set interval to refresh token periodically (every 10min )
-      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 10);
+      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 1);
       return () => {
         // Cleanup on unmount or token change
         if (refreshInterval.current) {
