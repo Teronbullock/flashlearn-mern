@@ -48,20 +48,19 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
   let { url, config } = req;
 
   if (config){
+
     config = {
       ...config, 
       headers: {
-        ...config.headers,  // Ensure existing headers are preserved
-        withCredentials: true  // Add the withCredentials flag
+        ...config.headers,
+        withCredentials: true,
       }
     };
   }
 
-console.log('url', url);
   if (envMode === 'production') {
     // replace api with prod url
     url = url.replace('/api', import.meta.env.VITE_API_URL);
-    console.log('url', url);
   }
 
   let seeInput = false;
