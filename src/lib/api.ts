@@ -6,7 +6,8 @@ interface ApiReq {
   data?: object;
   src?: string;
   config?: {
-    headers: object;
+    headers?: object;
+    withCredentials?: boolean;
   };
 }
 
@@ -47,16 +48,10 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
   const { method = 'get', data, src } = req;
   let { url, config } = req;
 
-  if (config){
-
     config = {
       ...config, 
-      headers: {
-        ...config.headers,
-        withCredentials: true,
-      }
+      withCredentials: true,
     };
-  }
 
   if (envMode === 'production') {
     // replace api with prod url
