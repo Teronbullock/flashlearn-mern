@@ -123,7 +123,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
             user_name: userName,
             user_pass: userPass,
           },
-        });
+        }, 'all');
 
         // check if the response is valid
         if (!res.data && res.status !== 200) {
@@ -206,7 +206,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   useEffect(() => {
     if (token) {
       // Set interval to refresh token periodically (every 10min )
-      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 1);
+      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 15);
       return () => {
         // Cleanup on unmount or token change
         if (refreshInterval.current) {
