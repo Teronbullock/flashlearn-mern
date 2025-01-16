@@ -38,9 +38,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/set', checkAuth, setRoutes);
-app.use('/',(req, res)=>{
+
+app.use('/api',(req, res)=>{
   res.send('Hello from the API');
 });
+
 
 
 // disable favicon requests

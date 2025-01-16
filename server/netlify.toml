@@ -2,6 +2,8 @@
   NODE_VERSION = "20"
 
 [build]
+  base = "server"
+  publish = "server/build"
   functions = "netlify/functions"
 
 [functions]
@@ -9,12 +11,18 @@
   external_node_modules = ["express", "serverless-http", "body-parser", "dotenv", "cors", "helmet", "compression", "method-override", "cookie-parser", "pg-hstore", "pg"]
   directory = "netlify/functions"
 
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/api"
+status = 200
+
 [[redirects]]
   from = "/"
-  to = "/.netlify/functions/api"
-  status = 200
-  force = true
+  to = "/api"
+  status = 301
+
 
 [dev]
-  host = "localhost"
+  host = "$SERVER_DEV_HOST"
   port = 8888
