@@ -8,7 +8,23 @@
 
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["express", "serverless-http", "body-parser", "dotenv", "cors", "helmet", "compression", "method-override", "cookie-parser", "pg-hstore", "pg"]
+  external_node_modules = [
+    "express",
+    "serverless-http",
+    "body-parser",
+    "dotenv",
+    "cors",
+    "helmet",
+    "compression",
+    "method-override",
+    "cookie-parser",
+    "pg-hstore",
+    "pg",
+    "sequelize",
+    "express-validator",
+    "bcrypt"
+    
+    ]
   directory = "../server/netlify/functions"
 
 [[redirects]]
