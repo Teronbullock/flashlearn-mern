@@ -1,16 +1,16 @@
 import express from 'express';
 import serverless from 'serverless-http';
 import bodyParser from 'body-parser';
-import db from '../../db/database.js';
+import db from '../../server/db/database.js';
 import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import userRoutes from '../../routes/user-routes.js';
-import setRoutes from '../../routes/set-routes.js';
+import userRoutes from '../../server/routes/user-routes.js';
+import setRoutes from '../../server/routes/set-routes.js';
 import cookieParser from 'cookie-parser'; 
-import checkAuth from '../../middleware/check-auth.js';
+import checkAuth from '../../server/middleware/check-auth.js';
 
 
 // Load environment variables
