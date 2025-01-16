@@ -22,7 +22,8 @@
     "pg",
     "sequelize",
     "express-validator",
-    "bcrypt"
+    "bcrypt",
+    "jsonwebtoken"
     
     ]
   directory = "../server/netlify/functions"
