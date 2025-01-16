@@ -2,9 +2,9 @@
   NODE_VERSION = "20"
 
 [build]
-  base = "/"
-  command = "npm run client:build"
+  base = "client"
   publish = "client/dist"
+  command = "npm run build"
 
 [functions]
   node_bundler = "esbuild"
