@@ -34,3 +34,6 @@
 
 # Environment files
 **/*.env
+
+# Local Netlify folder
+.netlify
