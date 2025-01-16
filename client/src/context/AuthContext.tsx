@@ -95,10 +95,10 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   const { userId, token, tokenExpTime, isAuthenticated } = authState;
 
   // Logout timer
-  const logoutTimer = useRef<number | undefined>(undefined);
+  const logoutTimer = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
 
   // Token refresh interval
-  const refreshInterval = useRef<number | null>(null);
+  const refreshInterval = useRef<ReturnType<typeof setInterval> | null>(null);
 
   /**
    *  -- Login function --
