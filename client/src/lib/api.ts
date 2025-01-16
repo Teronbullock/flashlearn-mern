@@ -47,17 +47,18 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
   const envMode = import.meta.env.MODE;
   const { method = 'get', data, src } = req;
   let { url, config } = req;
-
-    config = {
-      ...config, 
-      withCredentials: true,
-    };
-
+  
+  config = {
+    ...config, 
+    withCredentials: true,
+  };
+  
   if (envMode === 'production') {
     // replace api with prod url
     url = url.replace('/api', import.meta.env.VITE_API_URL);
   }
 
+  console.log('apiRequest ----', url);
   let seeInput = false;
   let seeOutput = false;
 

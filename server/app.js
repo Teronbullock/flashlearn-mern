@@ -1,8 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import db from './db/database.js';
-import session from 'express-session';
-import connectSessionSequelize from 'connect-session-sequelize';
 import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -17,36 +15,16 @@ import cookieParser from 'cookie-parser';
 import checkAuth from './middleware/check-auth.js';
 
 
-
-const SequelizeStore = connectSessionSequelize(session.Store);
-
-
 // Load environment variables
 dotenv.config();
 
 const app = express();
-const myStore = new SequelizeStore({
-  db: db,
-});
 
 app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(methodOverride('_method'));
 app.use(cookieParser());
-
-// session middleware
-app.use(session({
-    secret: 'process.env.SESSION_SECRET', 
-    store: myStore, 
-    resave: true,
-    saveUninitialized: false,
-    proxy: true,
-}));
-
-myStore.sync();
-
-
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
