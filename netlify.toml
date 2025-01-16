@@ -1,0 +1,20 @@
+[build.environment]
+  NODE_VERSION = "20"
+
+[build]
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["express", "serverless-http", "body-parser", "dotenv", "cors", "helmet", "compression", "method-override", "cookie-parser", "pg-hstore", "pg"]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[dev]
+  host = "localhost"
+  port = 8888
