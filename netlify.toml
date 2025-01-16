@@ -2,15 +2,14 @@
   NODE_VERSION = "20"
 
 [build]
-  base = "server"
-  publish = "server/build"
-  functions = "netlify/functions"
+  base = "/"
+  command = "npm run client:build"
+  publish = "client/dist"
 
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["express", "serverless-http", "body-parser", "dotenv", "cors", "helmet", "compression", "method-override", "cookie-parser", "pg-hstore", "pg"]
   directory = "netlify/functions"
-
 
 [[redirects]]
 from = "/api/*"
@@ -21,7 +20,6 @@ status = 200
   from = "/"
   to = "/api"
   status = 301
-
 
 [dev]
   host = "$SERVER_DEV_HOST"
