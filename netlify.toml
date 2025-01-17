@@ -4,7 +4,7 @@
 [build]
   base = "."
   publish = "client/dist"
-  command = "npm install && npm-run-all -s install:all client:build"
+  command = "npm run install:all && npm run client:build"
 
 [functions]
   node_bundler = "esbuild"
