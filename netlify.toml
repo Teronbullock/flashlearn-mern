@@ -2,9 +2,9 @@
   NODE_VERSION = "20"
 
 [build]
-  base = "/client"
-  publish = "dist"
-  command = "npm run build"
+  base = "."
+  publish = "client/dist"
+  command = "npm install && npm-run-all -s install:all client:build"
 
 [functions]
   node_bundler = "esbuild"
@@ -24,9 +24,8 @@
     "express-validator",
     "bcrypt",
     "jsonwebtoken"
-    
     ]
-  directory = "../server/netlify/functions"
+  directory = "server/netlify/functions"
 
 [[redirects]]
 from = "/api/*"
