@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      historyApiFallback: true,
       host: env.VITE_SERVER_HOST,
       port: 5173,
       proxy: {

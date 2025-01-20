@@ -2,6 +2,7 @@
   "name": "flashlearn-mern",
   "version": "1.0.1",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,7 +16,9 @@
     "client:dev:preview": "npm --prefix ./client run preview",
     "server:start": "npm --prefix ./server start",
     "server:dev": "npm --prefix ./server run dev",
-    "dev": "npm-run-all -s client:dev server:dev"
+    "dev": "npm-run-all -p client:dev server:dev",
+    "dev:server:prod": "npm-run-all -p client:dev:prod server:start",
+    "dev:netlify": "netlify dev"
   },
   "keywords": [],
   "author": "",

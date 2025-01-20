@@ -17,7 +17,6 @@ import checkAuth from '../../middleware/check-auth.js';
 dotenv.config();
 
 const app = express();
-console.log('CORS_ORIGIN:', process.env);
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -34,16 +33,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/set', checkAuth, setRoutes);
-
-app.use('/api',(req, res)=>{
-  res.send('Hello from the API');
-});
-
-
 
 // disable favicon requests
 app.use('/favicon.ico', (req, res, next) => {
@@ -58,12 +50,10 @@ app.use((req, res, next) => {
   next(err);
 });
 
-
 // error handler
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
-
 
   if (process.env.NODE_ENV === 'development') {
     console.error('Error:', message, '\nStatus:', status, '\nStack:', err.stack);
