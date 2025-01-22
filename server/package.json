@@ -5,8 +5,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "NODE_ENV=development node --watch app.js",
-    "start": "NODE_ENV=production node --watch app.js"
+    "start": "NODE_ENV=development node --watch app.js",
+    "prod": "NODE_ENV=production node --watch app.js"
   },
   "keywords": [],
   "author": "Teron Bullock",

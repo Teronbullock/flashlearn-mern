@@ -19,8 +19,16 @@ import checkAuth from './middleware/check-auth.js';
 dotenv.config();
 
 const app = express();
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'withCredentials'],
+  credentials: true,
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
+app.options('*', cors());
+
 app.use(helmet());
 app.use(compression());
 app.use(methodOverride('_method'));
@@ -31,7 +39,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use('/user', userRoutes);
 app.use('/set', checkAuth, setRoutes);
-
 
 // disable favicon requests
 app.use('/favicon.ico', (req, res, next) => {
@@ -77,10 +84,10 @@ app.use((err, req, res, next) => {
   }
 })();
 
-const port = process.env.PORT || 5001;
-const currentWorkingDirectory = process.cwd();
-const keyPath = path.resolve(currentWorkingDirectory, 'certs', 'key.pem');
-const certPath = path.resolve(currentWorkingDirectory, 'certs', 'cert.pem');
+const port = process.env.SERVER_DEV_PORT || 5001;
+const prodServerHost = process.env.SERVER_DEV_HOST || 'localhost';
+const keyPath = path.resolve(process.cwd(), 'certs', 'key.pem');
+const certPath = path.resolve(process.cwd(), 'certs', 'cert.pem');
 
 if(process.env.NODE_ENV === 'production') {
   const server = https.createServer(
@@ -89,11 +96,11 @@ if(process.env.NODE_ENV === 'production') {
       cert: fs.readFileSync(certPath),
     }, app
   ).listen(port, () => {
-    console.log(`Express app listening on https://localhost:${port}`);
+    console.log(`Express app listening on https://${prodServerHost}:${port}`);
   });
 
 } else {
   app.listen(port, ()=> {
-    console.log(`Express app listening on http:serverIP:${port}`);
+    console.log(`Express app listening on http://localhost:${port}`);
   });
 }

@@ -90,7 +90,7 @@ const Nav = ({ showMobileMenu, onclick }: NavProps) => {
               <li className='nav-mobile__item'>
                 <Btn
                   to='/login'
-                  className='nav-mobile__link border-2 border-black rounded-[15px] p-1 mx-2 mt-2'
+                  className='nav-mobile__link border border-black rounded-[15px] p-1 mx-2 mt-2'
                   onClick={onclick}
                   defaultStyle={false}
                 >
@@ -109,7 +109,7 @@ const Nav = ({ showMobileMenu, onclick }: NavProps) => {
                 <Link to={`/dashboard/${userId}`}>Home</Link>
               </li>
               <li className='nav-desktop__item'>
-                <Link to='/set/add'>Create Set</Link>
+                <Link to={`/set/user/${userId}/add`}>Create Set</Link>
               </li>
               {userId && (
                 <li className='nav-desktop__item'>

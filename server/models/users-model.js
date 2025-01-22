@@ -83,7 +83,6 @@ Users.beforeUpdate( async (users, options) => {
 });
 
 
-
 (async () => {
   try {
     await Users.sync({alter: true});

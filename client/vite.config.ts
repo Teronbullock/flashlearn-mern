@@ -22,11 +22,11 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       historyApiFallback: true,
-      host: env.VITE_SERVER_HOST,
+      host: env.VITE_DEV_HOST,
       port: 5173,
       proxy: {
         '/api': {
-          target: env.VITE_API_URL,
+          target: env.VITE_DEV_API_URL,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ''),
         },

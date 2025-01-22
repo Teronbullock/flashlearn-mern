@@ -80,6 +80,10 @@ router.put('/:userId/profile', checkAuth,[
  */
 router.post('/refresh', postRefresh);
 
+router.get('/', (req, res) => {
+  res.send('Welcome to the User API');
+});
+
 // handle 404
 router.use('*', (req, res, next) => {
   return next();

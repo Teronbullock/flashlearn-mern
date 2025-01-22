@@ -58,7 +58,6 @@ const apiRequest = async (req: ApiReq, debugMode?: DebugOption) => {
     url = url.replace('/api', import.meta.env.VITE_API_URL);
   }
 
-  console.log('apiRequest ----', url);
   let seeInput = false;
   let seeOutput = false;
 
