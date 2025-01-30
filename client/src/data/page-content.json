@@ -6,27 +6,29 @@
     },
     "header": {
       "title": "Quick, Easy, Study in a Flash!",
-      "copy": "Studying made easy with FlashCard. Create your own flashcards and study them online."
+      "copy": "Create personalized flashcards and study them online, anytime, anywhere."
     },
     "sections": [
       {
         "img": {
           "src": "/assets/img/kojo-kwarteng-KUzlAah2dog-unsplash.jpg",
-          "alt": "Image of a person studying using a laptop. Photo by Kojo Kwarteng on Unsplash"
+          "alt": "Image of a person studying using a laptop. Photo by Kojo Kwarteng on Unsplash",
+          "caption": "Create your own flashcards"
         },
         "content":{
           "title": "Studying Made Easy",
-          "copy": "Flashcard allows you to create your own flashcards to study from. Sign-up is free and is easy to get started."
+          "copy": "FlashLearn lets you create personalized flashcards in minutes, so you can focus on what matters most—studying. Sign up for free and start your study journey today!"
         }
       },
       {
         "img": {
           "src": "/assets/img/anete-lusina--4Wi_ii6StY-unsplash.jpg",
-          "alt": "Image of a person studying using a laptop. Photo by Anete Lūsiņa on Unsplash"
+          "alt": "Image of a person studying using a laptop. Photo by Anete Lūsiņa on Unsplash",
+          "caption": "Save time studying"
         },
         "content":{
           "title": "Save Time",
-          "copy": "Spend more time studing and lease time writing out your notes."
+          "copy": "Stop wasting time writing out flashcards by hand. With FlashLearn, you can create, organize, and review your study material in less time, leaving you more hours to focus on learning."
         },
         "sectionClasses": {
           "containerClass": "md:flex-row-reverse"

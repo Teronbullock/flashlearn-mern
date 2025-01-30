@@ -5,6 +5,7 @@ interface sectionFeatProps {
   img: {
     src: string;
     alt: string;
+    caption?: string;
   };
   content: {
     title: string;
@@ -39,14 +40,15 @@ export default function SectionFeat({
   sectionClasses = { sectionClass: '', containerClass: ''},
 } : sectionFeatProps): JSX.Element {
   const { title, copy } = content;
-  const { src, alt } = img;
+  const { src, alt, caption } = img;
   const { sectionClass, containerClass } = sectionClasses;
 
   return (
     <section className={classNames('section section-feature py-8', sectionClass)}>
       <div className={classNames('container md:flex', containerClass)}>
         <div className='section__header md:w-[50%]'>
-          <img className='img' src={src} alt={alt} />
+          <img className='img rounded-lg' src={src} alt={alt} />
+          <figcaption className='img__caption text-center mt-2 '>{caption}</figcaption>
         </div>
         <div className='section__content p-4 md:w-[50%]'>
           <div className='container'>
