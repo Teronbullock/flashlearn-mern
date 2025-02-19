@@ -9,6 +9,12 @@ const Users = db.define('fc_users', {
     autoIncrement: true,
     primaryKey: true 
   },
+  auth_id: {
+    type: DataTypes.UUID,
+    allowNull: true,
+    unique: true,
+    trim: true
+  },
   user_name: {
     type: DataTypes.STRING,
     allowNull: false,

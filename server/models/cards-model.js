@@ -3,7 +3,6 @@ import db from '../db/database.js';
 import User from './users-model.js';
 import Sets from './sets-model.js';
 
-
 const Card = db.define('fc_card', {
   id: {
     type: DataTypes.INTEGER,
@@ -17,7 +16,15 @@ const Card = db.define('fc_card', {
     references: {
       model: User,
       key: 'id',
-    }
+    },
+  },
+  auth_id: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: Users,
+      key: 'auth_id',
+    },
   },
   set_id: {
     type: DataTypes.INTEGER,
@@ -25,7 +32,7 @@ const Card = db.define('fc_card', {
     references: {
       model: Sets,
       key: 'id',
-    }
+    },
   },
   term: {
     type: DataTypes.STRING(1000),
@@ -34,7 +41,6 @@ const Card = db.define('fc_card', {
   definition: {
     type: DataTypes.STRING(1000),
     allowNull: false,
-    
   },
   bg_color: {
     type: DataTypes.STRING,
@@ -46,10 +52,9 @@ const Card = db.define('fc_card', {
   },
 });
 
-
 (async () => {
   try {
-    await Card.sync({alter: true});
+    await Card.sync({ alter: true });
     console.log('The Card model table is synced');
   } catch (error) {
     console.log('Error: The Card model table was not synced.', error);

@@ -15,7 +15,15 @@ const Sets = db.define('fc_sets', {
     references: {
       model: Users,
       key: 'id',
-    }
+    },
+  },
+  auth_id: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: Users,
+      key: 'auth_id',
+    },
   },
   title: {
     type: DataTypes.STRING(500),
@@ -23,15 +31,13 @@ const Sets = db.define('fc_sets', {
   },
   description: {
     type: DataTypes.STRING(500),
-    defaultValue: 'No description added'
-  }
+    defaultValue: 'No description added',
+  },
 });
-
-
 
 (async () => {
   try {
-    await Sets.sync({alter: true});
+    await Sets.sync({ alter: true });
     console.log('The Sets model table is synced');
   } catch (error) {
     console.log('Error: The Sets model table was not synced.', error);
