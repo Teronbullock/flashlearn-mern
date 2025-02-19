@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/database.js';
-import User from './users-model.js';
+import Users from './users-model.js';
 import Sets from './sets-model.js';
 
 const Card = db.define('fc_card', {
@@ -14,7 +14,7 @@ const Card = db.define('fc_card', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
+      model: Users,
       key: 'id',
     },
   },
