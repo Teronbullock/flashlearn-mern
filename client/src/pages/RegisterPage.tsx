@@ -1,40 +1,30 @@
 import { useReducer } from 'react';
-import useGetProfile from '../hooks/useGetProfile';
-import PageHero from '../../../layouts/PageComponents/PageHero';
-import PageHeader from '../../../layouts/PageComponents/PageHeader';
-import Form from '../../../components/Forms/Form';
-import FormInput from '../../../components/Forms/FormInput';
-import Btn from '../../../components/Btn/Btn';
-import apiRequest from '../../../lib/api';
-import { useAuthContext } from '../../../context/hooks/useAuthContext';
-
+import Form from '@components/Forms/Form';
+import Btn from '@components/Btn/Btn';
+import FormInput from '@components/Forms/FormInput';
+import { useAuthContext } from '@/context/hooks/useAuthContext';
+import apiRequest from '@/lib/api';
 
 interface UserState {
   user_name: string;
   user_email: string;
   user_pass: string;
-  user_old_pass: string;
   user_pass_confirm: string;
 }
 
-interface UserAction {
-  type: 'GET_PROFILE' | 'ON_CHANGE' | 'SUBMIT';
+interface RegisterReducerAction {
+  type: 'ON_CHANGE' | 'SUBMIT';
   payload?: {
     user_name?: string;
     user_email?: string;
     user_pass?: string;
-    user_old_pass?: string;
     user_pass_confirm?: string;
   };
 }
 
-const profileReducer = (state: UserState, action: UserAction) => {
+// Reducer function for the Register component
+const registerReducer = (state: UserState, action: RegisterReducerAction) => {
   switch (action.type) {
-    case 'GET_PROFILE':
-      return {
-        ...state,
-        ...action.payload,
-      };
     case 'ON_CHANGE':
       return {
         ...state,
@@ -42,9 +32,9 @@ const profileReducer = (state: UserState, action: UserAction) => {
       };
     case 'SUBMIT':
       return {
-        ...state,
+        user_name: '',
+        user_email: '',
         user_pass: '',
-        user_old_pass: '',
         user_pass_confirm: '',
       };
     default:
@@ -52,23 +42,23 @@ const profileReducer = (state: UserState, action: UserAction) => {
   }
 };
 
-const Profile = () => {
-  const { token, userSlug } = useAuthContext();
-  const [state, dispatch] = useReducer(profileReducer, {
+/**
+ *  -- Register --
+ *
+ * @returns
+ */
+const Register = () => {
+  const { login } = useAuthContext();
+  const [state, dispatch] = useReducer(registerReducer, {
     user_name: '',
     user_email: '',
     user_pass: '',
-    user_old_pass: '',
     user_pass_confirm: '',
   });
 
-  useGetProfile(dispatch);
-
-  const currentPage = 'profilePage';
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       // check if both strings are at least 8 characters long
       if (state.user_pass.length < 8 || state.user_pass_confirm.length < 8) {
@@ -79,32 +69,25 @@ const Profile = () => {
       if (state.user_pass !== state.user_pass_confirm) {
         throw new Error('Passwords do not match');
       }
-  
+
+      // sending the request to register the user
       const res = await apiRequest({
-        method: 'put',
-        url: `/api/user/${userSlug}/profile`,
-        data: {
-          user_email: state.user_email,
-          user_pass: state.user_pass,
-          user_old_pass: state.user_old_pass,
-          user_pass_confirm: state.user_pass_confirm,
-        },
-        config: {
-          headers: { authorization: `Bearer ${token}` },
-        },
-        src: 'ProfileForm - handleFormSubmit',
+        method: 'post',
+        url: '/api/user/register',
+        data: state,
       });
 
-      if (res.status === 200 && res.data) {
-        alert('Profile updated successfully');
+      // if the response is successful, alert the user and log them in
+      if (res.status === 200 && login) {
+        alert('Registration successful');
+        login(state.user_name, state.user_pass);
         dispatch({ type: 'SUBMIT' });
       } else {
-        throw new Error('Error updating profile');
+        throw new Error('Registration Error');
       }
-
     } catch (error) {
       if (error instanceof Error) {
-        console.error('Error:', error.message);
+        console.error('Error: ' + error.message);
       } else {
         console.error(error);
       }
@@ -113,24 +96,16 @@ const Profile = () => {
   };
 
   return (
-    <main className='main main--profile-page'>
-      <PageHero currentPage={currentPage} className='hidden md:block' />
-      <PageHeader currentPage={currentPage}></PageHeader>
-      <section className='container py-12'>
-        <Form
-          className='bg-white card--login-form'
-          onSubmit={handleFormSubmit}
-          title='Update Profile'
-        >
+    <main className='main main--register'>
+      <section className='container py-12 md:w-1/2 min-h-[calc(100vh-11rem)]'>
+        <Form className='bg-white card--login-form' onSubmit={handleFormSubmit} title='Register'>
           <FormInput
             labelName='Username'
-            className='text-gray-400'
             type='text'
             name='user_name'
             value={state.user_name}
-            placeholder={state.user_name}
+            placeholder='Enter your username'
             required={true}
-            disabled={true}
             onChange={e =>
               dispatch({
                 type: 'ON_CHANGE',
@@ -153,21 +128,7 @@ const Profile = () => {
             }
           />
           <FormInput
-            labelName='Old Password'
-            type='password'
-            name='user_old_pass'
-            value={state.user_old_pass}
-            placeholder='Enter your password'
-            required={true}
-            onChange={e =>
-              dispatch({
-                type: 'ON_CHANGE',
-                payload: { user_old_pass: e.target.value },
-              })
-            }
-          />
-          <FormInput
-            labelName='New Password'
+            labelName='Password'
             type='password'
             name='user_pass'
             value={state.user_pass}
@@ -181,11 +142,11 @@ const Profile = () => {
             }
           />
           <FormInput
-            labelName='Confirm New Password'
+            labelName='Confirm Password'
             type='password'
-            name='user_pass_confirm'
+            name='user_confirm_pass'
             value={state.user_pass_confirm}
-            placeholder='Enter your password'
+            placeholder='Confirm your password'
             required={true}
             onChange={e =>
               dispatch({
@@ -194,12 +155,8 @@ const Profile = () => {
               })
             }
           />
-          <Btn
-            className='btn--large btn--tertiary text-white'
-            type='submit'
-            tag='button'
-          >
-            Update
+          <Btn className='btn--large btn--tertiary text-white' tag='button' type='submit'>
+            Register
           </Btn>
         </Form>
       </section>
@@ -207,4 +164,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Register;

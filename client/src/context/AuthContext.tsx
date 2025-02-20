@@ -6,7 +6,7 @@ import {
   useRef,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiRequest from '../lib/api';
+import apiRequest from '@/lib/api';
 import { setUserAndToken } from '../lib/auth-utils';
 
 interface AuthContextValue {
@@ -116,8 +116,8 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
    * @param expirationDate - The expiration date of the token
    */
   const login = useCallback(
-    async (userName: string, userPass: string) => {
-      if (!userName || !userPass) {
+    async (userEmail: string, userPass: string) => {
+      if (!userEmail || !userPass) {
         throw new Error('user name and password are required');
       }
 
@@ -126,17 +126,11 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         const res = await apiRequest({
           url: '/api/user/login',
           method: 'post',
-          src: 'AuthContextProvider',
           data: {
-            user_name: userName,
+            user_email: userEmail,
             user_pass: userPass,
           },
         });
-
-        // check if the response is valid
-        if (!res.data && res.status !== 200) {
-          throw new Error('Failed to login user');
-        }
 
         const { userId, token, userSlug } = res.data;
 
@@ -172,7 +166,6 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         const res = await apiRequest({
           url: '/api/user/logout',
           method: 'post',
-          src: 'AuthContextProvider',
         });
 
         if (res.status === 200) {
@@ -197,7 +190,6 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         {
           url: '/api/user/refresh',
           method: 'post',
-          src: 'useTokenRefresh',
           data: { userId },
           config: {
             headers: { Authorization: `Bearer ${token}` },

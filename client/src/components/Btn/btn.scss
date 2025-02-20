@@ -5,13 +5,13 @@
 
 .btn {
   min-width: 60px;
-  padding: 0.5rem;
+  padding: 0.6rem;
   border: none;
   border-radius: 5px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-family: var.$font-main;
   text-decoration: none;
   color: var.$color-white;
@@ -32,7 +32,6 @@
   }
 }
 
-
 // btn colors
 @each $color, $value in var.$colors {
   .btn--#{$color} {
@@ -47,14 +46,13 @@
   }
 }
 
-
 @each $color, $value in var.$colors {
   @if $color == 'white' {
     .btn--outline-#{$color} {
       color: $value;
       background-color: unset;
       border: 1px $value solid;
-    
+
       &:hover {
         background-color: $value;
         color: var.$color-black;
@@ -65,7 +63,7 @@
       color: $value;
       background-color: unset;
       border: 1px $value solid;
-    
+
       &:hover {
         background-color: $value;
         color: var.$color-white;
@@ -74,6 +72,32 @@
   }
 }
 
+// btn sizes
+.btn--small {
+  @include bp.media-breakpoint-up(md) {
+    padding: 0.875rem;
+    font-size: 1.125rem;
+  }
+}
+
+.btn--medium {
+  font-size: 1rem;
+  padding: 0.75rem;
+
+  @include bp.media-breakpoint-up(md) {
+    padding: 1.125rem 1.25rem;
+    font-size: 1.25rem;
+  }
+}
+
+.btn--large {
+  padding: 1rem;
+  font-size: 1.125rem;
+  @include bp.media-breakpoint-up(md) {
+    padding: 1.25rem 1.5rem;
+    font-size: 1.375rem;
+  }
+}
 
 // btn types
 .btn--set-page {
@@ -85,39 +109,11 @@
     color: var.$color-white;
     background-color: unset;
     border: 1px var.$color-white solid;
-    
+
     &:hover {
       background-color: var.$color-white;
       color: var.$color-black;
     }
-  }
-
-}
-
-
-// btn sizes
-.btn--small {
-  padding: 1rem;
-  font-size: 0.75rem;
-
-  @include bp.media-breakpoint-up(md) {
-    font-size: 1rem;
-  }
-}
-
-.btn--medium {
-
-  @include bp.media-breakpoint-up(md) {
-    padding: 1rem 1.25rem;
-  }
-}
-
-.btn--large {
-  padding: 1rem 1rem;
-  
-  @include bp.media-breakpoint-up(md) {
-    padding: 1.25rem 1.75rem;
-    font-size: 1.25rem;
   }
 }
 

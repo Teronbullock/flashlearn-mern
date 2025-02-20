@@ -10,11 +10,7 @@ interface CardState {
 
 type CardAction =
   | {
-      type:
-        | 'ON_INPUT_ONE_CHANGE'
-        | 'ON_INPUT_TWO_CHANGE'
-        | 'ON_BG_COLOR_CHANGE'
-        | 'ON_TEXT_COLOR_CHANGE';
+      type: 'SET_INPUT_ONE' | 'SET_INPUT_TWO' | 'SET_BG_COLOR' | 'SET_TEXT_COLOR';
       payload: {
         inputOneValue?: string;
         inputTwoValue?: string;
@@ -34,11 +30,7 @@ type FormColorPickerProps = {
   dispatch: (action: CardAction) => void;
 };
 
-export const FormColorPicker = ({
-  bgColor = 'ffffff',
-  textColor = '000000',
-  dispatch,
-}: FormColorPickerProps) => {
+export const FormColorPicker = ({ bgColor = 'ffffff', textColor = '000000', dispatch }: FormColorPickerProps) => {
   const handleResetColors = () => {
     dispatch({
       type: 'RESET_COLORS',
@@ -48,10 +40,7 @@ export const FormColorPicker = ({
   return (
     <div className='form__group'>
       <div>
-        <Btn
-          className='btn--small bg-black text-white mb-4'
-          onClick={handleResetColors}
-        >
+        <Btn className='btn--small bg-black text-white mb-4' onClick={handleResetColors}>
           Reset Colors
         </Btn>
       </div>
@@ -67,7 +56,7 @@ export const FormColorPicker = ({
             datatype='card-color'
             onChange={e =>
               dispatch({
-                type: 'ON_BG_COLOR_CHANGE',
+                type: 'SET_BG_COLOR',
                 payload: {
                   bgColor: e.target.value,
                 },
@@ -86,7 +75,7 @@ export const FormColorPicker = ({
             datatype='card-text-color'
             onChange={e =>
               dispatch({
-                type: 'ON_TEXT_COLOR_CHANGE',
+                type: 'SET_TEXT_COLOR',
                 payload: {
                   textColor: e.target.value,
                 },

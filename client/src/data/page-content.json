@@ -15,7 +15,7 @@
           "alt": "Image of a person studying using a laptop. Photo by Kojo Kwarteng on Unsplash",
           "caption": "Create your own flashcards"
         },
-        "content":{
+        "content": {
           "title": "Studying Made Easy",
           "copy": "FlashLearn lets you create personalized flashcards in minutes, so you can focus on what matters most—studying. Sign up for free and start your study journey today!"
         }
@@ -26,7 +26,7 @@
           "alt": "Image of a person studying using a laptop. Photo by Anete Lūsiņa on Unsplash",
           "caption": "Save time studying"
         },
-        "content":{
+        "content": {
           "title": "Save Time",
           "copy": "Stop wasting time writing out flashcards by hand. With FlashLearn, you can create, organize, and review your study material in less time, leaving you more hours to focus on learning."
         },
@@ -140,7 +140,7 @@
       "copy": "Sorry, the page you are looking for does not exist."
     }
   },
-  "profilePage" : {
+  "profilePage": {
     "pageType": "profile",
     "mainClass": "main--profile",
     "hero": {

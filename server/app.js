@@ -54,16 +54,20 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
-  
+  const stack = err.stack;
+  const cause = err?.cause || "No cause available";
+
   // Log the error details
-  console.error(`[ERROR] ${status} - ${message} \n`);
   if (process.env.NODE_ENV !== 'production') {
-    console.error(err.stack);
+    console.error(`${status} - Cause: ${cause}`);
+    console.error(stack);
+  } else {
+    console.error(message);
   }
 
+  // sends res to client
   res.status(status).json({
     error: message,
-    msg: message,
     status,
   });
   

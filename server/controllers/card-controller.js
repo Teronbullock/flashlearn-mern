@@ -1,11 +1,10 @@
 import Cards from '../models/cards-model.js';
-import { asyncHandler } from '../lib/utils.js';
 import { validationResult } from 'express-validator';
 
 /**
  * -- post add card --
  */
-export const postAddCard = asyncHandler( async (req, res, next) => {
+export const postAddCard = async (req, res, next) => {
   const validationErrors = validationResult(req);
 
   if (!validationErrors.isEmpty()) {
@@ -14,7 +13,8 @@ export const postAddCard = asyncHandler( async (req, res, next) => {
     throw err;
   }
 
-  const { term, definition, user_id, set_id } = req.body;
+  const { term, definition, setId: set_id } = req.body;
+  const { userId: user_id } = req.userData;
 
   const data = {
     term,
@@ -25,23 +25,27 @@ export const postAddCard = asyncHandler( async (req, res, next) => {
     text_color: '#000000',
   };
 
-  if (data.term) {
+  try {
+    if (!data.term) {
+      throw new Error('Please fill in all fields');
+    }
+
     const card = await Cards.create(data);
 
     res.status(200).json({
       msg: 'Card Added!',
       card,
     });
-  } else {
-    const err = new Error('Please fill in all fields');
-    throw err;
+  } catch (err) {
+    console.error(err);
+    throw new Error('Error creating card');
   }
-}, 'creating card: ', 400 );
+};
 
 /**
  * -- get all cards --
  */
-export const getCardsAllCards = asyncHandler( async (req, res) => {
+export const getCardsAllCards = async (req, res) => {
   const setId = req.params.setId;
 
   const cards = await Cards.findAll({
@@ -54,12 +58,12 @@ export const getCardsAllCards = asyncHandler( async (req, res) => {
     msg: 'success',
     cards: cards,
   });
-}, 'retrieving all cards data: ');
+};
 
 /**
  * -- get edit card --
  */
-export const getEditCard = asyncHandler( async (req, res) => {
+export const getEditCard = async (req, res) => {
   const { setId, cardId } = req.params;
   const card = await Cards.findByPk(cardId, { raw: true });
 
@@ -67,12 +71,12 @@ export const getEditCard = asyncHandler( async (req, res) => {
     setId,
     card,
   });
-}, 'retrieving card data: ');
+};
 
 /**
  * -- get view cards --
  */
-export const getViewCards = asyncHandler( async (req, res) => {
+export const getViewCards = async (req, res) => {
   const setId = req.params.setId;
   const { page } = req.query;
 
@@ -91,12 +95,12 @@ export const getViewCards = asyncHandler( async (req, res) => {
     card,
     count,
   });
-}, 'Error retrieving cards data: ');
+};
 
 /**
  * -- put edit card --
  */
-export const putEditCard = asyncHandler( async (req, res) => {
+export const putEditCard = async (req, res) => {
   const validationErrors = validationResult(req);
 
   if (!validationErrors.isEmpty()) {
@@ -117,9 +121,7 @@ export const putEditCard = asyncHandler( async (req, res) => {
   };
 
   if (data.id !== id) {
-    return res
-      .status(400)
-      .json({ error: 'Card ID in body does not match URL' });
+    return res.status(400).json({ error: 'Card ID in body does not match URL' });
   }
 
   if (data.term && data.definition) {
@@ -140,12 +142,12 @@ export const putEditCard = asyncHandler( async (req, res) => {
     err.status = 400;
     return next(err);
   }
-}, 'updating card: ');
+};
 
 /**
  * -- delete card --
  */
-export const deleteCard = asyncHandler( async (req, res) => {
+export const deleteCard = async (req, res) => {
   const { cardId: id } = req.params;
   let isCardDeleted = false;
 
@@ -158,10 +160,8 @@ export const deleteCard = asyncHandler( async (req, res) => {
       isCardDeleted: 1,
     });
   } else {
-    const err = new Error(
-      'You do not have the correct permission to delete this card'
-    );
+    const err = new Error('You do not have the correct permission to delete this card');
     err.status = 400;
     return next(err);
   }
-}, 'deleting card: ');
+};

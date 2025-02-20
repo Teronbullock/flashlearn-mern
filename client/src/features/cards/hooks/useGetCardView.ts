@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
-import apiRequest from "../../../lib/api";
+import { useEffect, useState } from 'react';
+import apiRequest from '@/lib/api';
 import { useAuthContext } from '../../../context/hooks/useAuthContext';
 
-
 const useGetCardView = (setId: string | undefined, pageNum: string | null) => {
-const [card, setCard] = useState();
-const [cardCount, setCardCount] = useState(0);
-const { token } = useAuthContext();
-  
+  const [card, setCard] = useState();
+  const [cardCount, setCardCount] = useState(0);
+  const { token } = useAuthContext();
+
   useEffect(() => {
-    ( async () => {
+    (async () => {
       try {
         const res = await apiRequest({
-          'url': `/api/set/${setId}/cards/?page=${pageNum}`,
-          'src': 'useGetCardView - getCards',
+          url: `/api/set/${setId}/cards/?page=${pageNum}`,
           config: {
             headers: { authorization: `Bearer ${token}` },
-          }
+          },
         });
 
         if (res.status === 200 && res.data) {
@@ -24,7 +22,7 @@ const { token } = useAuthContext();
           setCard(card);
           setCardCount(count);
         } else {
-          throw new Error(`Error fetching cards ${res.status}`, );
+          throw new Error(`Error fetching cards ${res.status}`);
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -33,13 +31,10 @@ const { token } = useAuthContext();
           console.error(error);
         }
       }
-
     })();
   }, [pageNum, setId, token]);
 
-  
-  return( {card, cardCount}
-  );
+  return { card, cardCount };
 };
 
 export default useGetCardView;

@@ -1,33 +1,25 @@
-import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
-import { useAuthContext } from '../../../context/hooks/useAuthContext';
-import PageHeader from '../../../layouts/PageComponents/PageHeader';
-import Btn from '../../../components/Btn/Btn';
-import PageHero from '../../../layouts/PageComponents/PageHero';
-import useEditSetData from '../hooks/useEditSetData';
-import Form from '../../../components/Forms/Form';
-import FormInput from '../../../components/Forms/FormInput';
-import FormAction from '../../../components/Forms/FormAction';
+import useManageSetData from '../features/sets/hooks/useManageSetData';
+import { useAuthContext } from '../context/hooks/useAuthContext';
+import PageHeader from '../layouts/PageComponents/PageHeader';
+import PageHero from '../layouts/PageComponents/PageHero';
+import Form from '@components/Forms/Form';
+import FormInput from '@components/Forms/FormInput';
+import FormAction from '@components/Forms/FormAction';
+import Btn from '@components/Btn/Btn';
 
-const EditSetPage = () => {
+const AddSetPage = () => {
   const { userSlug } = useAuthContext();
-  const { setId } = useParams();
-  const { state, submitHandler, dispatch } = useEditSetData(setId);
-  const currentPage = 'editSetPage';
+  // const { state, addSetHander, dispatch } = useAddSetData();
+  const {state, addSetHandler, dispatch } = useManageSetData();
+  const currentPage = 'createSetPage';
 
   return (
     <main className={classNames('main', `main-${currentPage}`)}>
-      <PageHero currentPage={currentPage} className='hidden md:block'/>
+      <PageHero currentPage={currentPage} />
       <PageHeader currentPage={currentPage}>
         <Btn
-          className='btn--large btn--outline-black mr-6'
-          to={`/set/${setId}/`}
-          isListItem={true}
-        >
-          View Set
-        </Btn>
-        <Btn
-          className='btn--large btn--outline-black'
+          className='btn--outline-black btn--large'
           to={`/dashboard/${userSlug}/`}
           isListItem={true}
         >
@@ -36,7 +28,7 @@ const EditSetPage = () => {
       </PageHeader>
       <section className='container py-12 lg:max-w-screen-lg'>
         {!state && <h2 className='text-2xl text-center'>No set found</h2>}
-        <Form onSubmit={submitHandler} className='bg-white'>
+        <Form onSubmit={addSetHandler} className='bg-white'>
           <FormInput
             labelName='Title'
             type='textarea'
@@ -66,7 +58,7 @@ const EditSetPage = () => {
             }
           />
           <FormAction
-            submitBtnText='Update'
+            submitBtnText='Create'
             cancelBtnTo={`/dashboard/${userSlug}/`}
           />
         </Form>
@@ -75,4 +67,4 @@ const EditSetPage = () => {
   );
 };
 
-export default EditSetPage;
+export default AddSetPage;
