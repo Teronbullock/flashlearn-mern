@@ -4,16 +4,11 @@ import bcrypt from 'bcrypt';
 
 const Users = db.define('fc_users', {
   id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true 
-  },
-  auth_id: {
     type: DataTypes.UUID,
-    allowNull: true,
+    defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
     unique: true,
-    trim: true
+    primaryKey: true 
   },
   user_name: {
     type: DataTypes.STRING,
@@ -29,6 +24,12 @@ const Users = db.define('fc_users', {
   user_pass: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    trim: true
   }
   
 });
@@ -71,6 +72,7 @@ Users.beforeCreate( async (users, options) => {
   try {
     const hash = await bcrypt.hash(users.user_pass, 10);
     users.user_pass = hash;
+
     console.log('Users.beforeCreate: ');
   } catch (error) {
     console.log('Error: Encryption did not work', error);

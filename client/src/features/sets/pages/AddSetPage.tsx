@@ -9,7 +9,7 @@ import FormAction from '../../../components/Forms/FormAction';
 import Btn from '../../../components/Btn/Btn';
 
 const AddSetPage = () => {
-  const { userId } = useAuthContext();
+  const { userSlug } = useAuthContext();
   const { state, submitHandler, dispatch } = useAddSetData();
   const currentPage = 'createSetPage';
 
@@ -19,7 +19,7 @@ const AddSetPage = () => {
       <PageHeader currentPage={currentPage}>
         <Btn
           className='btn--outline-black btn--large'
-          to={`/dashboard/${userId}/`}
+          to={`/dashboard/${userSlug}/`}
           isListItem={true}
         >
           Dashboard Page
@@ -58,7 +58,7 @@ const AddSetPage = () => {
           />
           <FormAction
             submitBtnText='Create'
-            cancelBtnTo={`/dashboard/${userId}/`}
+            cancelBtnTo={`/dashboard/${userSlug}/`}
           />
         </Form>
       </section>

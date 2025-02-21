@@ -53,7 +53,7 @@ const profileReducer = (state: UserState, action: UserAction) => {
 };
 
 const Profile = () => {
-  const { token, userId } = useAuthContext();
+  const { token, userSlug } = useAuthContext();
   const [state, dispatch] = useReducer(profileReducer, {
     user_name: '',
     user_email: '',
@@ -92,7 +92,7 @@ const Profile = () => {
     try {
       const res = await apiRequest({
         method: 'put',
-        url: `/api/user/${userId}/profile`,
+        url: `/api/user/${userSlug}/profile`,
         data: {
           user_email: state.user_email,
           user_pass: state.user_pass,

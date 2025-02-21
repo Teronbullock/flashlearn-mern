@@ -10,7 +10,7 @@ import FormInput from '../../../components/Forms/FormInput';
 import FormAction from '../../../components/Forms/FormAction';
 
 const EditSetPage = () => {
-  const { userId } = useAuthContext();
+  const { userSlug } = useAuthContext();
   const { setId } = useParams();
   const { state, submitHandler, dispatch } = useEditSetData(setId);
   const currentPage = 'editSetPage';
@@ -28,7 +28,7 @@ const EditSetPage = () => {
         </Btn>
         <Btn
           className='btn--large btn--outline-black'
-          to={`/dashboard/${userId}/`}
+          to={`/dashboard/${userSlug}/`}
           isListItem={true}
         >
           Dashboard Page
@@ -67,7 +67,7 @@ const EditSetPage = () => {
           />
           <FormAction
             submitBtnText='Update'
-            cancelBtnTo={`/dashboard/${userId}/`}
+            cancelBtnTo={`/dashboard/${userSlug}/`}
           />
         </Form>
       </section>

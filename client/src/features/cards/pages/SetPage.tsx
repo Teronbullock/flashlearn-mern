@@ -6,7 +6,7 @@ import PageHeader from '../../../layouts/PageComponents/PageHeader';
 import Btn from '../../../components/Btn/Btn';
 
 const SetPage = () => {
-  const { userId } = useAuthContext();
+  const { userSlug } = useAuthContext();
   const { setId } = useParams();
   const currentPage = 'setPage';
 
@@ -30,7 +30,7 @@ const SetPage = () => {
         </Btn>
         <Btn
           className='btn--outline-black btn--page-header'
-          to={`/dashboard/${userId}/`}
+          to={`/dashboard/${userSlug}/`}
           isListItem={true}
         >
           Dashboard

@@ -10,7 +10,7 @@ type NavProps = {
 };
 
 const Nav = ({ showMobileMenu, onclick }: NavProps) => {
-  const { token, userId, logout } = useAuthContext();
+  const { token, userSlug, logout } = useAuthContext();
 
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ const Nav = ({ showMobileMenu, onclick }: NavProps) => {
               <li className='nav-mobile__item'>
                 <Link
                   className='nav-mobile__link'
-                  to={`/dashboard/${userId}`}
+                  to={`/dashboard/${userSlug}`}
                   onClick={onclick}
                 >
                   Home
@@ -42,16 +42,16 @@ const Nav = ({ showMobileMenu, onclick }: NavProps) => {
               <li className='nav-mobile__item'>
                 <Link
                   className='nav-mobile__link'
-                  to={`/set/user/${userId}/add`}
+                  to={`/set/user/${userSlug}/add`}
                   onClick={onclick}
                 >
                   Create Set
                 </Link>
               </li>
-              {userId && (
+              {userSlug && (
                 <li className='nav-mobile__item'>
                   <Btn
-                    to={`/profile/${userId}`}
+                    to={`/profile/${userSlug}`}
                     className='nav-mobile__link'
                     defaultStyle={false}
                     onClick={onclick}
@@ -106,14 +106,14 @@ const Nav = ({ showMobileMenu, onclick }: NavProps) => {
           {token ? (
             <>
               <li className='nav-desktop__item'>
-                <Link to={`/dashboard/${userId}`}>Home</Link>
+                <Link to={`/dashboard/${userSlug}`}>Home</Link>
               </li>
               <li className='nav-desktop__item'>
-                <Link to={`/set/user/${userId}/add`}>Create Set</Link>
+                <Link to={`/set/user/${userSlug}/add`}>Create Set</Link>
               </li>
-              {userId && (
+              {userSlug && (
                 <li className='nav-desktop__item'>
-                  <Link to={`/profile/${userId}`}>Profile</Link>
+                  <Link to={`/profile/${userSlug}`}>Profile</Link>
                 </li>
               )}
               <Btn

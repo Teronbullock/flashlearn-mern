@@ -4,6 +4,7 @@ type Action = {
   type: 'LOGIN';
   payload: {
     userId: string;
+    userSlug: string;
     token: string;
     tokenExpTime: Date;
   };
@@ -16,20 +17,22 @@ type Action = {
  * 
  * @param dispatch 
  * @param userId 
+ * @param userSlug
  * @param token 
  * @returns
  */
-export const setUserAndToken = (dispatch: Dispatch<Action>, userId: string, token: string) => {
+export const setUserAndToken = (dispatch: Dispatch<Action>, userId: string, userSlug: string, token: string) => {
   // sets the token expiration time to 15 minutes
   const tokenExpTime = new Date(new Date().getTime() + 1000 * 60 * 15);
 
-  if (!userId || !token || !tokenExpTime) {
-    throw new Error('userId, token, and tokenExpTime are required');
+  if (!userSlug || !token || !tokenExpTime) {
+    throw new Error('userSlug, token, and tokenExpTime are required');
   }
 
   // dispatch values to the context
   dispatch({ 'type': 'LOGIN', 'payload': {
     userId,
+    userSlug,
     token,
     tokenExpTime
   }});
@@ -37,6 +40,7 @@ export const setUserAndToken = (dispatch: Dispatch<Action>, userId: string, toke
   // set the token in the local storage
   localStorage.setItem('flashlearn_userData', JSON.stringify({
     userId,
+    userSlug,
     token,
     tokenExpTime: tokenExpTime.toISOString()
   }));

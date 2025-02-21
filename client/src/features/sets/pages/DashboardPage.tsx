@@ -6,7 +6,7 @@ import Btn from "../../../components/Btn/Btn";
 
 
 const Dashboard = () => {
-  const { userId } = useParams();
+  const { userSlug } = useParams();
   const currentPage = 'dashboardPage';
   
 
@@ -16,7 +16,7 @@ const Dashboard = () => {
       <PageHeader currentPage={currentPage}> 
         <Btn
           className="btn--tertiary btn--large"
-          to={`/set/user/${userId}/add`}
+          to={`/set/user/${userSlug}/add`}
           isListItem={true}
         >
           Create Set

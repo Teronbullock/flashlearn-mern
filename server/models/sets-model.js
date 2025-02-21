@@ -10,19 +10,11 @@ const Sets = db.define('fc_sets', {
     primaryKey: true,
   },
   user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: Users,
-      key: 'id',
-    },
-  },
-  auth_id: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: Users,
-      key: 'auth_id',
+      key: 'id',
     },
   },
   title: {

@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import { nanoid } from 'nanoid';
 import Users from '../models/users-model.js';
 import {
   asyncHandler,
@@ -36,6 +37,8 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
     user_pass,
   };
 
+  formData.slug = nanoid(10);
+
   // confirm that user typed same password twice
   if (user_pass !== user_pass_confirm) {
     let err = new Error('Passwords do not match.');
@@ -59,13 +62,13 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
   try {
     // use schema method to insert document into PSQL
     await Users.create(formData);
-
+    console.log('User registered successfully.');
     res.status(200).json({
       msg: 'User registered successfully.',
     });
   } catch (error) {
     let err = new Error('Error registering user.');
-    throw err; 
+    throw err + error; // remove error after testing 
   }
 }, null, 400);
 
@@ -91,7 +94,7 @@ export const postUserLogin = asyncHandler( async (req, res, next) => {
         return next(err);
       }
 
-      const { id, user_name } = user;
+      const { id, user_name, slug } = user;
 
       // create a token
       try {
@@ -110,6 +113,7 @@ export const postUserLogin = asyncHandler( async (req, res, next) => {
           refreshToken,
           userId: id,
           userName: user_name,
+          userSlug: slug,
         });
       } catch (error) {
         return next(error);
@@ -227,7 +231,7 @@ export const postRefresh = asyncHandler( async (req, res) => {
       return res.status(200).json({
         token,
         userId: user.id,
-
+        userSlug: user.slug,
       });
     }
 

@@ -11,7 +11,7 @@ const RefreshTokens = db.define('fc_refresh_tokens', {
     primaryKey: true,
   },
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: Users,

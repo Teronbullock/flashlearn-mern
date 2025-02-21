@@ -19,21 +19,21 @@ import ProfilePage from './features/user/page/ProfilePage';
 import Register from './features/user/page/RegisterPage';
 
 const App = () => {
-  const {userId, token } = useAuthContext()!;
+  const {userSlug, token } = useAuthContext()!;
 
   let routes;
   if (token) {
     routes = (
       <>
-        <Route path='/dashboard/:userId' element={<DashboardPage /> } />
+        <Route path='/dashboard/:userSlug' element={<DashboardPage /> } />
         <Route path='/set/:setId' element={<SetPage /> } />
-        <Route path='/set/user/:userId/add' element={<AddSetPage />} />
+        <Route path='/set/user/:userSlug/add' element={<AddSetPage />} />
         <Route path='/set/:setId/edit' element={<EditSetPage />} />
         <Route path='/set/:setId/card/add' element={<AddCardPage />} />
         <Route path='/set/:setId/card/:cardId/edit' element={<EditCardPage />} />
         <Route path='/set/:setId/cards' element={<ViewCardsPage />} />
-        <Route path='/profile/:userId' element={<ProfilePage /> } />
-        <Route path='/' element={<Navigate to={`/dashboard/${userId}`} />} />
+        <Route path='/profile/:userSlug' element={<ProfilePage /> } />
+        <Route path='/' element={<Navigate to={`/dashboard/${userSlug}`} />} />
         <Route path="*" element={ <PageNotFound /> } />
       </>
     );

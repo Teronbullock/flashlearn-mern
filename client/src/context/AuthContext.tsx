@@ -18,6 +18,7 @@ interface AuthContextValue {
   login?: (userId: string, token: string, expirationDate?: Date | null) => void;
   logout?: () => void;
   tokenExpTime?: Date | null;
+  userSlug?: string | null;
 }
 
 interface ContextProviderProps {
@@ -29,6 +30,7 @@ interface AuthReducerState {
   token: string | null;
   tokenExpTime: Date | null;
   isAuthenticated: boolean;
+  userSlug: string | null;
 }
 
 type AuthReducerAction =
@@ -38,6 +40,7 @@ type AuthReducerAction =
         userId: string;
         token: string;
         tokenExpTime: Date;
+        userSlug: string;
       };
     }
   | {
@@ -47,6 +50,7 @@ type AuthReducerAction =
 
 export const AuthContext = createContext<AuthContextValue>({
   userId: null,
+  userSlug: null,
   isLoggedIn: false,
   setToken: () => {},
   token: null,
@@ -60,6 +64,7 @@ const authReducer = (state: AuthReducerState, action: AuthReducerAction) => {
       return {
         ...state,
         userId: action.payload.userId,
+        userSlug: action.payload.userSlug,
         token: action.payload.token,
         tokenExpTime: action.payload.tokenExpTime,
         isAuthenticated: true,
@@ -71,6 +76,7 @@ const authReducer = (state: AuthReducerState, action: AuthReducerAction) => {
         token: null,
         tokenExpTime: null,
         isAuthenticated: false,
+        userSlug: null,
       };
     default:
       return state;
@@ -88,11 +94,13 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   const navigate = useNavigate();
   const [authState, dispatch] = useReducer(authReducer, {
     userId: null,
+    userSlug: null,
     token: null,
     tokenExpTime: null,
     isAuthenticated: false,
   });
-  const { userId, token, tokenExpTime, isAuthenticated } = authState;
+
+  const { userId, token, tokenExpTime, isAuthenticated, userSlug } = authState;
 
   // Logout timer
   const logoutTimer = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
@@ -130,13 +138,13 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
           throw new Error('Failed to login user');
         }
 
-        const { userId, token } = res.data;
+        const { userId, token, userSlug } = res.data;
 
         // set the user and token in the context
-        setUserAndToken(dispatch, userId, token);
+        setUserAndToken(dispatch, userId, userSlug, token);
 
         // navigate to the dashboard
-        navigate(`/dashboard/${userId}`);
+        navigate(`/dashboard/${userSlug}`);
       } catch (error) {
         console.error('Error logging in user:', error);
         alert(`Login Error: ${error}`);
@@ -189,9 +197,9 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         }
       );
 
-      if (res.status === 200 && res.data && res.data.token && userId ) {
+      if (res.status === 200 && res.data && res.data.token && userId && userSlug) {
         const { token } = res.data;
-        setUserAndToken(dispatch, userId, token);
+        setUserAndToken(dispatch, userId, userSlug, token);
         console.log('Token refreshed successfully', token);
       } else {
         throw new Error('Failed to refresh token');
@@ -200,7 +208,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
       console.error('Error refreshing token:', error);
       logout();
     }
-  }, [dispatch, token, userId, logout]);
+  }, [dispatch, token, userId, userSlug, logout]);
 
   // Set the token refresh interval
   useEffect(() => {
@@ -224,11 +232,11 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
     if (storeDataString) {
       try {
         const storedData = JSON.parse(storeDataString);
-        const { token, userId, tokenExpTime } = storedData;
+        const { token, userId, userSlug, tokenExpTime } = storedData;
         const isExpirationValid = new Date(tokenExpTime) > new Date();
 
         if (token && isExpirationValid) {
-          setUserAndToken?.(dispatch, userId, token);
+          setUserAndToken?.(dispatch, userId, userSlug, token);
         }
       } catch (error) {
         console.error('Error parsing stored user data:', error);
@@ -253,6 +261,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   // value object for the context
   const value = {
     userId,
+    userSlug,
     login,
     logout,
     isAuthenticated,

@@ -16,7 +16,7 @@
     "server:prod": "npm --prefix ./server run prod",
     "server:dev": "npm --prefix ./server run start",
     "dev": "npm-run-all -p client:dev server:dev",
-    "dev-https": "npm-run-all -p client:dev server:prod",
+    "dev:https": "npm-run-all -p client:dev server:prod",
     "dev:netlify": "npm run client:build && netlify dev"
   },
   "keywords": [],
