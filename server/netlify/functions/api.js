@@ -2,19 +2,19 @@ import express from 'express';
 import serverless from 'serverless-http';
 import bodyParser from 'body-parser';
 import db from '../../db/database.js';
+import Users from '../../models/users-model.js';
+import Sets from '../../models/sets-model.js';
+import Cards from '../../models/cards-model.js';
+import RefreshTokens from '../../models/refresh-token-model.js';
 import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from '../../routes/user-routes.js';
 import setRoutes from '../../routes/set-routes.js';
 import cookieParser from 'cookie-parser'; 
 import checkAuth from '../../middleware/check-auth.js';
 
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 const corsOptions = {
@@ -65,20 +65,5 @@ app.use((err, req, res, next) => {
   });
   
 });
-
-
-//Server
-(async () => {
-  try {
-    await db.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error(
-      'Error: Could not connect to the database. Server will not start until database connection is made. ',
-      error
-    );
-  }
-})();
-
 
 export const handler = serverless(app);

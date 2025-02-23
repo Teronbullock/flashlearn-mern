@@ -44,13 +44,4 @@ const Card = db.define('fc_card', {
   },
 });
 
-(async () => {
-  try {
-    await Card.sync({ alter: true });
-    console.log('The Card model table is synced');
-  } catch (error) {
-    console.log('Error: The Card model table was not synced.', error);
-  }
-})();
-
 export default Card;

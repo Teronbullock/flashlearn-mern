@@ -7,16 +7,12 @@ import compression from 'compression';
 import path from 'path';
 import https from 'https';
 import fs from 'fs';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/user-routes.js';
 import setRoutes from './routes/set-routes.js';
 import cookieParser from 'cookie-parser'; 
 import checkAuth from './middleware/check-auth.js';
 
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 const corsOptions = {
@@ -71,21 +67,8 @@ app.use((err, req, res, next) => {
 });
 
 
-//Server
-(async () => {
-  try {
-    await db.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error(
-      'Error: Could not connect to the database. Server will not start until database connection is made. ',
-      error
-    );
-  }
-})();
-
 const port = process.env.SERVER_DEV_PORT || 5001;
-const prodServerHost = process.env.SERVER_DEV_HOST || 'localhost';
+const prodServerHost = process.env.HOST || 'localhost';
 const keyPath = path.resolve(process.cwd(), 'certs', 'key.pem');
 const certPath = path.resolve(process.cwd(), 'certs', 'cert.pem');
 

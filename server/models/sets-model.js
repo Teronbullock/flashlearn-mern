@@ -27,13 +27,4 @@ const Sets = db.define('fc_sets', {
   },
 });
 
-(async () => {
-  try {
-    await Sets.sync({ alter: true });
-    console.log('The Sets model table is synced');
-  } catch (error) {
-    console.log('Error: The Sets model table was not synced.', error);
-  }
-})();
-
 export default Sets;

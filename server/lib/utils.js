@@ -1,8 +1,6 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import RefreshTokens from '../models/refresh-token-model.js';
 
-dotenv.config();
 
 /**
  *  -- Async Handler --

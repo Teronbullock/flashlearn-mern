@@ -1,6 +1,5 @@
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
 import { nanoid } from 'nanoid';
 import Users from '../models/users-model.js';
 import {
@@ -13,7 +12,6 @@ import {
   deleteRefreshToken
 } from '../lib/utils.js';
 
-dotenv.config();
 
 
 /**

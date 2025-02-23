@@ -91,13 +91,4 @@ Users.beforeUpdate( async (users, options) => {
 });
 
 
-(async () => {
-  try {
-    await Users.sync({alter: true});
-    console.log("The Users model table is synced");
-  } catch (error) {
-    console.log("Error: The Users model table was not synced", error);
-  }
-})();
-
 export default Users;

@@ -1,17 +1,4 @@
 import { Sequelize } from 'sequelize';
-import dotenv from 'dotenv';
-import path from 'path';
-
-const isNetlify = process.env.NETLIFY === 'true';
-const isNetlifyDev = process.env.NETLIFY_DEV === 'true';
-
-if (isNetlify || isNetlifyDev) {
-  dotenv.config();
-} else {
-  const __dirname = process.cwd();
-  const envPath = path.resolve(__dirname, '../.env');
-  dotenv.config({ path: envPath });  
-}
 
 const database = process.env.DATABASE_URL;
 
@@ -22,5 +9,19 @@ if (!database) {
 const sequelize = new Sequelize( database, {
   logging: false,
 });
+
+const testDbConnection = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error(
+      'Error: Could not connect to the database. Server will not start until database connection is made. ',
+      error
+    );
+  }
+};
+
+testDbConnection();
 
 export default sequelize;

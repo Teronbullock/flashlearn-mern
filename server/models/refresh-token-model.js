@@ -24,13 +24,5 @@ const RefreshTokens = db.define('fc_refresh_tokens', {
   }
 });
 
-(async () => {
-  try {
-    await RefreshTokens.sync({alter: true});
-    console.log('The RefreshTokens model table is synced');
-  } catch (error) {
-    console.log('Error: The RefreshTokens model table was not synced.', error);
-  }
-})();
 
 export default RefreshTokens;

@@ -5,8 +5,16 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "NODE_ENV=development node --watch app.js",
-    "prod": "NODE_ENV=production node --watch app.js"
+    "start": "NODE_ENV=development node --env-file=../.env --watch app.js",
+    "prod": "NODE_ENV=production node --env-file=../.env --watch app.js",
+    "build:users-table": "npx sequelize migration:generate --name create-users-table",
+    "build:sets-table": "npx sequelize migration:generate --name create-sets-table",
+    "build:cards-table": "npx sequelize migration:generate --name create-cards-table",
+    "build:refresh-tokens-table": "npx sequelize migration:generate --name create-refresh-tokens-table",
+    "build:all-tables": "npm-run-all -s build:users-table build:sets-table build:cards-table build:refresh-tokens-table",
+    "migrate": "npx sequelize db:migrate",
+    "migrate:undo": "npx sequelize db:migrate:undo",
+    "migrate:undo:all": "npx sequelize db:migrate:undo:all"
   },
   "keywords": [],
   "author": "Teron Bullock",
@@ -17,7 +25,6 @@
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
     "express": "^4.18.2",
     "express-validator": "^7.2.0",
     "helmet": "^7.1.0",
@@ -29,5 +36,9 @@
     "pug": "^3.0.2",
     "sequelize": "^6.3.4",
     "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7",
+    "sequelize-cli": "^6.6.2"
   }
 }
