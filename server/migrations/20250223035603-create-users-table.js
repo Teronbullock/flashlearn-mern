@@ -21,13 +21,12 @@ export default {
       user_name: {
         type: Sequelize.STRING,
         allowNull: false,
-        trim: true
       },
       user_email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-        trim: true
+        
       },
       user_pass: {
         type: Sequelize.STRING,
@@ -37,7 +36,6 @@ export default {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-        trim: true
       },
       createdAt: {
         type: Sequelize.DATE,

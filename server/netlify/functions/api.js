@@ -1,11 +1,6 @@
 import express from 'express';
 import serverless from 'serverless-http';
 import bodyParser from 'body-parser';
-import db from '../../db/database.js';
-import Users from '../../models/users-model.js';
-import Sets from '../../models/sets-model.js';
-import Cards from '../../models/cards-model.js';
-import RefreshTokens from '../../models/refresh-token-model.js';
 import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -54,13 +49,16 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
+  
 
-  if (process.env.NODE_ENV === 'development') {
-    console.error('Error:', message, '\nStatus:', status, '\nStack:', err.stack);
+  // Log the error details
+  console.error(`[ERROR: ${status} - ${message}] [ERROR LOCATION: ${err.local}]`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.error(err.stack);
   }
 
   res.status(status).json({
-    error: process.env.NODE_ENV === 'development' ? message : 'Something went wrong!',
+    error: message,
     status,
   });
   

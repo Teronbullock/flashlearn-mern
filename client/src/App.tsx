@@ -20,8 +20,8 @@ import Register from './features/user/page/RegisterPage';
 
 const App = () => {
   const {userSlug, token } = useAuthContext()!;
-
   let routes;
+  
   if (token) {
     routes = (
       <>

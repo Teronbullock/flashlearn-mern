@@ -9,7 +9,7 @@ export default {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable('fc_card', {
+    await queryInterface.createTable('fc_cards', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,

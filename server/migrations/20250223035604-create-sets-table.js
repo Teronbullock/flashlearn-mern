@@ -13,7 +13,7 @@ export default {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true,
+        autoIncrement: true,
         primaryKey: true
       },
       user_id: {
@@ -23,12 +23,6 @@ export default {
           model: 'fc_users',
           key: 'id'
         }
-      },
-      user_email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-        trim: true
       },
       title: {
         type: Sequelize.STRING(500),

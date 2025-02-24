@@ -23,7 +23,8 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
   // check if all fields are filled
   if (!errors.isEmpty()) {
     let err = new Error('All fields required.');
-    throw err;
+    err.status = 401;
+    return next(err);
   }
 
   const { user_email, user_pass, user_pass_confirm } = req.body;
@@ -40,7 +41,8 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
   // confirm that user typed same password twice
   if (user_pass !== user_pass_confirm) {
     let err = new Error('Passwords do not match.');
-    throw err;
+    err.status = 401;
+    return next(err);
   }
 
   // check if user and email already exists
@@ -49,12 +51,14 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
 
   if (isUser) {
     let err = new Error('User already exists.');
-    throw err;
+    err.status = 401;
+    return next(err);
   }
 
   if (isUserEmail) {
     let err = new Error('Email already exists.');
-    throw err;
+    err.status = 401;
+    return next(err);
   }
 
   try {
@@ -65,10 +69,11 @@ export const postUserRegister = asyncHandler(async (req, res, next) => {
       msg: 'User registered successfully.',
     });
   } catch (error) {
-    let err = new Error('Error registering user.');
-    throw err + error; // remove error after testing 
+    let err = new Error('Couldn\'t register user.');
+    err.stack = error;
+    throw err;
   }
-}, null, 400);
+}, 'Creating user', 400);
 
 /**
  * post user login
@@ -114,93 +119,86 @@ export const postUserLogin = asyncHandler( async (req, res, next) => {
           userSlug: slug,
         });
       } catch (error) {
-        return next(error);
+        let err = new Error('Could\'t log user in: ');
+        err.stack = error;
+        throw err;
       }
     });
-  },
-  'Error logging in: ',
-  401
-);
+}, 'Logging in', 401);
 
 /**
  * -- get user profile --
  */
-export const getUserProfile = asyncHandler(
-  async (req, res ) => {  
-    const { userId } = req.params;
-    
-    const user = await Users.findByPk(userId);
-    const { user_name, user_email } = user;
+export const getUserProfile = asyncHandler( async (req, res ) => {  
+  const { userId } = req.params;
+  
+  const user = await Users.findByPk(userId);
+  const { user_name, user_email } = user;
 
-    return res.status(200).json({
-      user_name,
-      user_email,
-    });
-  },
-  'Error retrieving user data: '
-);
+  return res.status(200).json({
+    user_name,
+    user_email,
+  });
+}, 'Retrieving user data');
 
 /**
  * -- put user profile --
  */
-export const putEditProfile = asyncHandler(
-  async (req, res, next) => {
-    let errors = validationResult(req);
+export const putEditProfile = asyncHandler( async (req, res, next) => {
+  let errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      let err = new Error('All fields required.');
-      err.status = 400;
-      return next(err);
-    }
+  if (!errors.isEmpty()) {
+    let err = new Error('All fields required.');
+    err.status = 400;
+    return next(err);
+  }
 
-    const { user_email, user_old_pass, user_pass, user_pass_confirm } = req.body;
-    const userId = req.params.userId;
-  
-    // add user data to formData
-    const formData = {
-      user_email,
-      user_pass,
-    };
+  const { user_email, user_old_pass, user_pass, user_pass_confirm } = req.body;
+  const userId = req.params.userId;
 
-    // check if user exists
-    const user = await Users.findOne({ where: { id: userId } }, { raw: true });
+  // add user data to formData
+  const formData = {
+    user_email,
+    user_pass,
+  };
 
-    // check old password match
-    const isOldPassMatch = await bcrypt.compare(user_old_pass, user.user_pass);
+  // check if user exists
+  const user = await Users.findOne({ where: { id: userId } }, { raw: true });
 
-    if (!isOldPassMatch) {
-      const err = new Error('Old password is incorrect.');
-      err.status = 400;
-      return next(err);
-    }
+  // check old password match
+  const isOldPassMatch = await bcrypt.compare(user_old_pass, user.user_pass);
 
-    // confirm that password and confirm password match
-    if (user_pass !== user_pass_confirm) {
-      const err = new Error('Passwords do not match.');
-      err.status = 400;
-      return next(err);
-    }
+  if (!isOldPassMatch) {
+    const err = new Error('Old password is incorrect.');
+    err.status = 400;
+    return next(err);
+  }
 
-    // update user data
-    const updatedUser = await Users.update(formData, {
-      where: { id: userId },
-      raw: true,
-      individualHooks: true,
+  // confirm that password and confirm password match
+  if (user_pass !== user_pass_confirm) {
+    const err = new Error('Passwords do not match.');
+    err.status = 400;
+    return next(err);
+  }
+
+  // update user data
+  const updatedUser = await Users.update(formData, {
+    where: { id: userId },
+    raw: true,
+    individualHooks: true,
+  });
+
+  // check if user was updated
+  if (updatedUser[0] === 0) {
+    const err = new Error('User not found.');
+    err.status = 400;
+    return next(err);
+  } else {
+    res.status(200).json({
+      msg: 'User updated successfully.',
     });
-
-    // check if user was updated
-    if (updatedUser[0] === 0) {
-      const err = new Error('User not found.');
-      err.status = 400;
-      return next(err);
-    } else {
-      res.status(200).json({
-        msg: 'User updated successfully.',
-      });
-    }
-  },
-  'Error updating user data: ',
-);
+  }
+}, 'Updating user data: ');
 
 /**
  * -- refresh token --
@@ -213,60 +211,43 @@ export const postRefresh = asyncHandler( async (req, res) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  try {
-    tokenData = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+  tokenData = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-    if (tokenData) {
-      const user = await Users.findByPk(tokenData.userId);
+  if (tokenData) {
+    const user = await Users.findByPk(tokenData.userId);
 
-      if (!user) {
-        res.status(404);
-        throw new Error('User not found');
-      }
-      // Generate a new access token
-      const token = genAuthToken(user.id, user.user_name);
-
-      return res.status(200).json({
-        token,
-        userId: user.id,
-        userSlug: user.slug,
-      });
+    if (!user) {
+      res.status(404);
+      throw new Error('User not found');
     }
-
-  } catch (error) {
-    console.log('Error refreshing token: ', error);
-    return res.json({
-      message: error.message,
+    // Generate a new access token
+    const token = genAuthToken(user.id, user.user_name);
+    return res.status(200).json({
+      token,
+      userId: user.id,
+      userSlug: user.slug,
     });
   }
-});
+}, 'Refreshing token', 401);
 
 /**
  *  -- post user logout --
  */
-export const postUserLogout = async (req, res) => {
+export const postUserLogout = asyncHandler( async (req, res) => {
   const token = verifyToken(req.cookies.refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
   const userId = token.userId;
 
   // remove refresh token from database
-  try {
-    const deletedRefreshToken = await deleteRefreshToken(userId);
- 
-    if (deletedRefreshToken >= 1) {
-      res.clearCookie('refreshToken');
-      
-      res.status(200).json({ 
-        msg: 'User is logged out.'
-      });
-    } else {
-      throw new Error('Error logging out: refresh token not found.');
-    }
+  const deletedRefreshToken = await deleteRefreshToken(userId);
 
-  } catch (error) {
-    console.log('Error logging out: ', error);
-    res.status(500).json({
-      msg: 'Error logging out: ' + error.message
+  if (deletedRefreshToken >= 1) {
+    res.clearCookie('refreshToken');
+    
+    res.status(200).json({ 
+      msg: 'User is logged out.'
     });
+  } else {
+    throw new Error('Error logging out: refresh token not found.');
   }
-}
+}, 'Logging out', 401);

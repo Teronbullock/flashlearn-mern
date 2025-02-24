@@ -3,7 +3,7 @@ import db from '../db/database.js';
 import Users from './users-model.js';
 import Sets from './sets-model.js';
 
-const Card = db.define('fc_card', {
+const Cards = db.define('fc_cards', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -44,4 +44,4 @@ const Card = db.define('fc_card', {
   },
 });
 
-export default Card;
+export default Cards;

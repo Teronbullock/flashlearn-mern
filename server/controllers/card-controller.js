@@ -1,54 +1,50 @@
-import Card from '../models/cards-model.js';
+import Cards from '../models/cards-model.js';
 import { asyncHandler } from '../lib/utils.js';
 import { validationResult } from 'express-validator';
 
 /**
  * -- post add card --
  */
-export const postAddCard = asyncHandler(
-  async (req, res, next) => {
-    const validationErrors = validationResult(req);
+export const postAddCard = asyncHandler( async (req, res, next) => {
+  const validationErrors = validationResult(req);
 
-    if (!validationErrors.isEmpty()) {
-      const err = new Error('Validation failed, Please fill out all fields');
-      err.status = 422;
-      throw err;
-    }
+  if (!validationErrors.isEmpty()) {
+    const err = new Error('Validation failed, Please fill out all fields');
+    err.status = 422;
+    throw err;
+  }
 
-    const { term, definition, user_id, set_id } = req.body;
+  const { term, definition, user_id, set_id } = req.body;
 
-    const data = {
-      term,
-      definition,
-      user_id,
-      set_id,
-      bg_color: '#ffffff',
-      text_color: '#000000',
-    };
+  const data = {
+    term,
+    definition,
+    user_id,
+    set_id,
+    bg_color: '#ffffff',
+    text_color: '#000000',
+  };
 
-    if (data.term) {
-      const card = await Card.create(data);
+  if (data.term) {
+    const card = await Cards.create(data);
 
-      res.status(200).json({
-        msg: 'Card Added!',
-        card,
-      });
-    } else {
-      const err = new Error('Please fill in all fields');
-      throw err;
-    }
-  },
-  'creating card: ',
-  400
-);
+    res.status(200).json({
+      msg: 'Card Added!',
+      card,
+    });
+  } else {
+    const err = new Error('Please fill in all fields');
+    throw err;
+  }
+}, 'creating card: ', 400 );
 
 /**
  * -- get all cards --
  */
-export const getCardsAllCards = asyncHandler(async (req, res) => {
+export const getCardsAllCards = asyncHandler( async (req, res) => {
   const setId = req.params.setId;
 
-  const cards = await Card.findAll({
+  const cards = await Cards.findAll({
     where: { set_id: setId },
     raw: true,
     order: [['id', 'ASC']],
@@ -63,9 +59,9 @@ export const getCardsAllCards = asyncHandler(async (req, res) => {
 /**
  * -- get edit card --
  */
-export const getEditCard = asyncHandler(async (req, res) => {
+export const getEditCard = asyncHandler( async (req, res) => {
   const { setId, cardId } = req.params;
-  const card = await Card.findByPk(cardId, { raw: true });
+  const card = await Cards.findByPk(cardId, { raw: true });
 
   res.status(200).json({
     setId,
@@ -76,11 +72,11 @@ export const getEditCard = asyncHandler(async (req, res) => {
 /**
  * -- get view cards --
  */
-export const getViewCards = asyncHandler(async (req, res) => {
+export const getViewCards = asyncHandler( async (req, res) => {
   const setId = req.params.setId;
   const { page } = req.query;
 
-  const { count, rows } = await Card.findAndCountAll({
+  const { count, rows } = await Cards.findAndCountAll({
     where: { set_id: setId },
     raw: true,
     offset: page - 1,
@@ -100,7 +96,7 @@ export const getViewCards = asyncHandler(async (req, res) => {
 /**
  * -- put edit card --
  */
-export const putEditCard = asyncHandler(async (req, res) => {
+export const putEditCard = asyncHandler( async (req, res) => {
   const validationErrors = validationResult(req);
 
   if (!validationErrors.isEmpty()) {
@@ -127,11 +123,11 @@ export const putEditCard = asyncHandler(async (req, res) => {
   }
 
   if (data.term && data.definition) {
-    const cardUpdate = await Card.update(data, {
+    const cardUpdate = await Cards.update(data, {
       where: { id: id },
     });
 
-    const card = await Card.findByPk(id, { raw: true });
+    const card = await Cards.findByPk(id, { raw: true });
 
     res.status(200).json({
       setId,
@@ -149,12 +145,12 @@ export const putEditCard = asyncHandler(async (req, res) => {
 /**
  * -- delete card --
  */
-export const deleteCard = asyncHandler(async (req, res) => {
-  const { cardId: id, setId } = req.params;
+export const deleteCard = asyncHandler( async (req, res) => {
+  const { cardId: id } = req.params;
   let isCardDeleted = false;
 
   if (id) {
-    isCardDeleted = await Card.destroy({ where: { id } });
+    isCardDeleted = await Cards.destroy({ where: { id } });
 
     console.log('card deleted');
     res.status(200).json({

@@ -55,13 +55,16 @@ app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
   
-  console.log('Error - ', message + '\n', 'Status: ', status, '\n');
-  console.log('Stack:', err.stack);
+  // Log the error details
+  console.error(`[ERROR] ${status} - ${message} \n`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.error(err.stack);
+  }
 
   res.status(status).json({
     error: message,
     msg: message,
-    status: status,
+    status,
   });
   
 });

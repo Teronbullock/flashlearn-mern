@@ -6,6 +6,7 @@ import path from 'path';
 export default defineConfig(({ mode }) => {
 
   const env = loadEnv(mode, path.resolve(__dirname, '../'), '');
+  const isDev = mode === 'development';
 
   return {
     define: {
@@ -26,7 +27,7 @@ export default defineConfig(({ mode }) => {
       port: 5173,
       proxy: {
         '/api': {
-          target: env.VITE_DEV_API_URL,
+          target: `${isDev ? 'http' : 'https'}://${env.VITE_DEV_API_URL}`,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ''),
         },

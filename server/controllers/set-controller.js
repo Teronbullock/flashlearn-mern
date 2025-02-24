@@ -2,6 +2,7 @@ import { validationResult } from 'express-validator';
 import Sets from '../models/sets-model.js';
 import Cards from '../models/cards-model.js';
 import { asyncHandler } from '../lib/utils.js';
+import Users from '../models/users-model.js';
 
 // post create set
 export const postCreateSet = asyncHandler(async (req, res) => {
@@ -22,11 +23,24 @@ export const postCreateSet = asyncHandler(async (req, res) => {
     user_id,
   };
 
-  const set = await Sets.create(setData);
-  res.status(200).json({
-    msg: 'Set created!',
-    set,
-  });
+  // Find all users
+  const users = await Users.findAll();
+  const allSets = await Sets.findAll();
+  console.log('All users:', JSON.stringify(users, null, 2));
+  console.log('All sets:', JSON.stringify(allSets, null, 2));
+  console.log('setData', setData);
+  try {
+    const set = await Sets.create(setData);
+    res.status(200).json({
+      msg: 'Set created!',
+      set,
+    });
+    
+  } catch (error) {
+    const err = new Error('Error creating set: ', error);
+    console.log('Error creating set: ', err);
+    throw err;
+  }
 }, 'creating set: ');
 
 // get sets
@@ -42,37 +56,27 @@ export const getSets = asyncHandler(async (req, res, next) => {
   }
 
   // fetch all sets
-  try {
-    sets = await Sets.findAll({
-      raw: true,
-      where: { user_id },
-      order: [['id', 'DESC']],
-    });
-  } catch (error) {
-    const err = new Error('Error retrieving all sets data: ', error);
-    return next(err);
-  }
+  sets = await Sets.findAll({
+    raw: true,
+    where: { user_id },
+    order: [['id', 'DESC']],
+  });
 
   // get card count for each set
   for (const [index, set] of sets.entries()) {
-    try {
-      const count = await Cards.count({
-        where: { user_id, set_id: set.id },
-      });
+    const count = await Cards.count({
+      where: { user_id, set_id: set.id },
+    });
 
-      // add card count to each set
-      sets[index].cardCount = count;
-    } catch (error) {
-      const err = new Error('retrieving cards data for set: ', error);
-      return next(err);
-    }
+    // add card count to each set
+    sets[index].cardCount = count;
   }
 
   res.status(200).json({
     msg: 'success',
     sets,
   });
-}, 'retrieving sets data: ');
+}, 'retrieving sets data');
 
 // get edit set
 export const getEditSet = asyncHandler(async (req, res) => {

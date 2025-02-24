@@ -12,22 +12,24 @@ import RefreshTokens from '../models/refresh-token-model.js';
  * callback will be called.
  *
  * @param {*} cb - The callback function to call.
- * @param {*} errMsg - The error message to display.
+ * @param {*} errLocal - Displays where the error is.
  * @param {*} errStatus - The error status to display.
  * @returns
  */
-export const asyncHandler = (cb, errMsg, errStatus) => {
+export const asyncHandler = (cb, errLocal, errStatus) => {
   return async (req, res, next) => {
     try {
       await cb(req, res, next);
     } catch (error) {
       
-      if (errMsg) {
-        error.message = errMsg + error.message;
+      if (errLocal) {
+        error.local = `${errLocal}`;
       }
 
       // Set the error status
       error.status = error.status || errStatus;
+
+      // Pass the error to the error handling middleware
       next(error);
     }
   };

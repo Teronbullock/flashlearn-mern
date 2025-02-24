@@ -13,13 +13,11 @@ const Users = db.define('fc_users', {
   user_name: {
     type: DataTypes.STRING,
     allowNull: false,
-    trim: true
   },
   user_email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    trim: true
   },
   user_pass: {
     type: DataTypes.STRING,
@@ -29,7 +27,6 @@ const Users = db.define('fc_users', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    trim: true
   }
   
 });
