@@ -28,7 +28,11 @@ const useGetProfile = (dispatch: React.Dispatch<UserAction>) => {
         dispatch({ type: 'GET_PROFILE', payload: { user_name, user_email } });
 
       } catch (error) {
-        console.error(error);
+        if (error instanceof Error) {
+          console.error(error.message);
+        } else {
+          console.error(error);
+        }
       }
     })();    
   }, [userId, dispatch, token]);

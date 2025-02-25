@@ -67,7 +67,7 @@ const useAddSetData = () => {
       }
     } catch (error) {
       if ( error instanceof Error) {
-        console.error(`Set data fetch ${error.message}`);
+        console.error(`Error: Set data fetch ${error.message}`);
       } else {
         console.error('Set data fetch ', error);
       }

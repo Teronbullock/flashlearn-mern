@@ -131,7 +131,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
             user_name: userName,
             user_pass: userPass,
           },
-        }, 'all');
+        });
 
         // check if the response is valid
         if (!res.data && res.status !== 200) {
@@ -146,7 +146,11 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         // navigate to the dashboard
         navigate(`/dashboard/${userSlug}`);
       } catch (error) {
-        console.error('Error logging in user:', error);
+        if (error instanceof Error) {
+          console.error('Error logging in user: ' + error.message);
+        } else {
+          console.error(error);
+        }
         alert(`Login Error: ${error}`);
       }
     },
@@ -175,7 +179,11 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
           console.log('User logged out successfully');
         }
       } catch (error) {
-        console.error('Error logging out user from backend:', error);
+        if (error instanceof Error) {
+          console.error('Error loggin out user from backend: ' + error.message);
+        } else {
+          console.error(error);
+        }
       }
     })();
   }, [navigate]);
@@ -196,7 +204,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
           },
         }
       );
-
+      console.log('TEST', res.data);
       if (res.status === 200 && res.data && res.data.token && userId && userSlug) {
         const { token } = res.data;
         setUserAndToken(dispatch, userId, userSlug, token);
@@ -214,7 +222,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   useEffect(() => {
     if (token) {
       // Set interval to refresh token periodically (every 10min )
-      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 15);
+      refreshInterval.current = setInterval(refreshAuthToken, 1000 * 60 * 10);
       return () => {
         // Cleanup on unmount or token change
         if (refreshInterval.current) {

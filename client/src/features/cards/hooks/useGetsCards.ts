@@ -33,7 +33,11 @@ const useGetsCards = () => {
             setCards(cards);
           }
         } catch (error) {
-          console.error(error);
+          if (error instanceof Error) {
+            console.error(error.message);
+          } else {
+            console.error(error);
+          }
         }
       })();
     }

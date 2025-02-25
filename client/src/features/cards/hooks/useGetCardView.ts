@@ -27,7 +27,11 @@ const { token } = useAuthContext();
           throw new Error(`Error fetching cards ${res.status}`, );
         }
       } catch (error) {
-        console.log(error);
+        if (error instanceof Error) {
+          console.error(error.message);
+        } else {
+          console.error(error);
+        }
       }
 
     })();

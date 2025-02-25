@@ -79,17 +79,7 @@ const Profile = () => {
       if (state.user_pass !== state.user_pass_confirm) {
         throw new Error('Passwords do not match');
       }
-    } catch (error) {
-      console.error(error);
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('User register Error,' + error);
-      }
-      return;
-    }
-
-    try {
+  
       const res = await apiRequest({
         method: 'put',
         url: `/api/user/${userSlug}/profile`,
@@ -113,8 +103,12 @@ const Profile = () => {
       }
 
     } catch (error) {
-      console.error(error);
-      alert(`Error updating profile: ${error}`);
+      if (error instanceof Error) {
+        console.error('Error:', error.message);
+      } else {
+        console.error(error);
+      }
+      alert(error);
     }
   };
 

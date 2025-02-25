@@ -60,8 +60,12 @@ const useEditSetData = (setId: string | undefined) => {
         alert(msg);
       }
     } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error(error);
+      }
       alert(`Error updating set ${error}`);
-      console.error('Set data fetch error', error);
     }
 
   }

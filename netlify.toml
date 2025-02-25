@@ -4,7 +4,7 @@
 [build]
   base = "."
   publish = "client/dist"
-  command = "npm run install:all && npm run client:build && npm run db:migrate"
+  command = "npm run install:all && npm run db:migrate && npm run client:build"
 
 [functions]
   node_bundler = "esbuild"
@@ -40,3 +40,5 @@
 [dev]
   host = "$HOST"
   port = 8888
+  targetPort = 5173
+  command = "npm run client:dev:prod"

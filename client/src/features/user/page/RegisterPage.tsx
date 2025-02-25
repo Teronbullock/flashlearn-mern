@@ -69,17 +69,8 @@ const Register = () => {
       if (state.user_pass !== state.user_pass_confirm) {
         throw new Error('Passwords do not match');
       }
-    } catch (error) {
-      console.error(error);
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('User register Error,' + error);
-      }
-      return;
-    }
 
-    try {
+      // sending the request to register the user
       const res = await apiRequest({
         method: 'post',
         url: '/api/user/register',
@@ -87,6 +78,7 @@ const Register = () => {
         src: 'RegistrationForm - handleFormSubmit',
       });
 
+      // if the response is successful, alert the user and log them in
       if (res.status === 200 && login) {
         alert('Registration successful');
         login(state.user_name, state.user_pass);
@@ -94,14 +86,14 @@ const Register = () => {
       } else {
         throw new Error('Registration Error');
       }
-    } catch (error) {
-      console.error(error);
 
+    } catch (error) {
       if (error instanceof Error) {
-        alert('Registration Error: ' + error.message);
+        console.error('Error: ' + error.message);
       } else {
-        alert('Registration Error: ' + error);
+        console.error(error);
       }
+      alert(error);
     }
   };
 
