@@ -204,11 +204,10 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
           },
         }
       );
-      console.log('TEST', res.data);
+
       if (res.status === 200 && res.data && res.data.token && userId && userSlug) {
         const { token } = res.data;
         setUserAndToken(dispatch, userId, userSlug, token);
-        console.log('Token refreshed successfully', token);
       } else {
         throw new Error('Failed to refresh token');
       }
