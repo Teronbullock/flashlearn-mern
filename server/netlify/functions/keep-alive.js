@@ -3,18 +3,15 @@ export const handler = async () => {
 
   try {
     console.log('Pinging Supabase...');
-    // https://<PROJECT_REF>.supabase.co/rest/v1/todos?apikey=<ANON_KEY>
-    const response = await fetch(
-      `https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/fc_users?apikey=${SUPABASE_ANON_KEY}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-          apikey: SUPABASE_ANON_KEY,
-        },
-      }
-    );
+
+    const response = await fetch(`https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/fc_users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        apikey: SUPABASE_ANON_KEY,
+      },
+    });
 
     if (!response.ok) {
       console.error(`Failed to ping Supabase: ${response.statusText}`);
