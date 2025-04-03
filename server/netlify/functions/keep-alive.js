@@ -1,14 +1,17 @@
 export const handler = async () => {
-  const DATABASE_URL = process.env.DATABASE_URL;
+  const { DATABASE_PROJECT_REF, SUPABASE_ANON_KEY } = process.env;
 
   try {
     console.log('Pinging Supabase...');
 
-    const response = await fetch(`${DATABASE_URL}/rest/v1/`, {
+    // Encode credentials for Basic Auth
+    const basicAuth = Buffer.from(`${username}:${password}`).toString('base64');
+
+    const response = await fetch(`https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        apikey: process.env.SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       },
     });
 
