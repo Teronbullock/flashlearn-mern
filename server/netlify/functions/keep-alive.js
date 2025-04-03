@@ -4,10 +4,7 @@ export const handler = async () => {
   try {
     console.log('Pinging Supabase...');
 
-    // Encode credentials for Basic Auth
-    const basicAuth = Buffer.from(`${username}:${password}`).toString('base64');
-
-    const response = await fetch(`https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/`, {
+    const response = await fetch(`https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/users?limit=1`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
