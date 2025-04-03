@@ -5,7 +5,7 @@ export const handler = async () => {
     console.log('Pinging Supabase...');
     // https://<PROJECT_REF>.supabase.co/rest/v1/todos?apikey=<ANON_KEY>
     const response = await fetch(
-      `https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/users?apikey=${SUPABASE_ANON_KEY}`,
+      `https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/fc_users?apikey=${SUPABASE_ANON_KEY}`,
       {
         method: 'GET',
         headers: {
