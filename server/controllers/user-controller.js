@@ -2,155 +2,136 @@ import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import { nanoid } from 'nanoid';
 import Users from '../models/users-model.js';
+
 import {
-  asyncHandler,
   genAuthToken,
   genRefreshToken,
   setRefreshTokenCookie,
   verifyToken,
   addRefreshToken,
-  deleteRefreshToken
-} from '../lib/utils.js';
+  deleteRefreshToken,
+} from '../services/token-service.js';
 
-
+import authenticateUser from '../services/auth-service.js';
 
 /**
  * post user register
  */
-export const postUserRegister = asyncHandler(async (req, res, next) => {
-  let errors = validationResult(req);
-
+export const postUserRegister = async (req, res) => {
+  let valErrs = validationResult(req);
+  
   // check if all fields are filled
-  if (!errors.isEmpty()) {
-    let err = new Error('All fields required.');
-    err.status = 401;
-    return next(err);
+  if (!valErrs.isEmpty()) {
+    throw new Error('All fields required. ' + valErrs.array()[0].msg);
   }
 
-  const { user_email, user_pass, user_pass_confirm } = req.body;
-  const user_name = req.body.user_name.trim().toLowerCase();
-
+  // get form fields
+  const {user_pass, user_pass_confirm, user_name, user_email } = req.body;
+    
   const formData = {
     user_name,
     user_email,
     user_pass,
+    slug: nanoid(10),
   };
-
-  formData.slug = nanoid(10);
-
+  
   // confirm that user typed same password twice
   if (user_pass !== user_pass_confirm) {
-    let err = new Error('Passwords do not match.');
-    err.status = 401;
-    return next(err);
+    throw new Error('Passwords do not match.');
   }
-
+  
   // check if user and email already exists
   const isUser = await Users.findOne({ where: { user_name } });
   const isUserEmail = await Users.findOne({ where: { user_email } });
-
+  
+  // if user exists, throw error
   if (isUser) {
-    let err = new Error('User already exists.');
-    err.status = 401;
-    return next(err);
+    throw new Error('User already exists.');
   }
-
+  
+  // if email exists, throw error
   if (isUserEmail) {
-    let err = new Error('Email already exists.');
-    err.status = 401;
-    return next(err);
+    throw new Error('Email already exists.');
   }
-
+  
+  // create user
   try {
-    // use schema method to insert document into PSQL
-    await Users.create(formData);
+
+    // await Users.create(formData);
     console.log('User registered successfully.');
+    // send res to client
     res.status(200).json({
       msg: 'User registered successfully.',
     });
-  } catch (error) {
-    let err = new Error('Couldn\'t register user.');
-    err.stack = error;
-    throw err;
+  } catch (err) {
+    const error = new Error("Couldn't register user.");
+    error.cause = err;
+
+    throw error;
   }
-}, 'Creating user', 400);
+};
 
 /**
  * post user login
  */
-export const postUserLogin = asyncHandler( async (req, res, next) => {
-    let errors = validationResult(req);
-    const { user_pass } = req.body;
-    const user_name = req.body.user_name.trim().toLowerCase();
-    
+export const postUserLogin = async (req, res) => {
+  let errors = validationResult(req);
+  const { user_pass, user_email } = req.body;
 
-    if (!errors.isEmpty()) {
-      let err = new Error('Email and password are required.');
-      err.status = 401;
-      return next(err);
-    }
+  if (!errors.isEmpty()) {
+    throw new Error('Email and password are required.');
+  }
 
-    Users.authenticate(user_name, user_pass, (error, user) => {
-      if (error || !user) {
-        const err = new Error('Wrong username or password.');
-        err.status = 401;
-        return next(err);
-      }
+  const user = await authenticateUser(user_email, user_pass);
+  const { id, slug } = user;
 
-      const { id, user_name, slug } = user;
+  try {
+    // create a token
+    const token = genAuthToken(id, user_email);
+    // create a refresh token
+    const refreshToken = genRefreshToken(id);
+    // add refresh token to database
+    addRefreshToken(id, refreshToken);
+    // set refresh token cookie
+    setRefreshTokenCookie(res, refreshToken);
 
-      // create a token
-      try {
-        let token = genAuthToken(id, user_name);
-        let refreshToken = genRefreshToken(id);
-
-        // add refresh token to database
-        addRefreshToken(id, refreshToken);
-
-        // set refresh token cookie
-        setRefreshTokenCookie(res, refreshToken);
-
-        res.status(200).json({
-          msg: 'User logged in successfully.',
-          token,
-          refreshToken,
-          userId: id,
-          userName: user_name,
-          userSlug: slug,
-        });
-      } catch (error) {
-        let err = new Error('Could\'t log user in: ');
-        err.stack = error;
-        throw err;
-      }
+    res.status(200).json({
+      msg: 'User logged in successfully.',
+      token,
+      refreshToken,
+      userId: id,
+      userEmail: user_email,
+      userSlug: slug,
     });
-}, 'Logging in', 401);
+  } catch (error) {
+    console.error('Login Error: ', error);
+    throw new Error('Invalid credentials');
+  }
+};
 
 /**
  * -- get user profile --
  */
-export const getUserProfile = asyncHandler( async (req, res ) => {  
-  const { userId } = req.params;
+export const getUserProfile = async (req, res) => {
+  const { slug } = req.params;
+  const user = await Users.findOne({ where: {slug}});
   
-  const user = await Users.findByPk(userId);
   const { user_name, user_email } = user;
 
   return res.status(200).json({
     user_name,
     user_email,
   });
-}, 'Retrieving user data');
+};
 
 /**
  * -- put user profile --
  */
-export const putEditProfile = asyncHandler( async (req, res, next) => {
+export const putEditProfile = async (req, res) => {
   let errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    let err = new Error('All fields required.');
-    err.status = 400;
-    return next(err);
+    throw new Error('All fields required.');
   }
 
   const { user_email, user_old_pass, user_pass, user_pass_confirm } = req.body;
@@ -169,16 +150,12 @@ export const putEditProfile = asyncHandler( async (req, res, next) => {
   const isOldPassMatch = await bcrypt.compare(user_old_pass, user.user_pass);
 
   if (!isOldPassMatch) {
-    const err = new Error('Old password is incorrect.');
-    err.status = 400;
-    return next(err);
+    throw new Error('Old password is incorrect.');
   }
 
   // confirm that password and confirm password match
   if (user_pass !== user_pass_confirm) {
-    const err = new Error('Passwords do not match.');
-    err.status = 400;
-    return next(err);
+    throw new Error('Passwords do not match.');
   }
 
   // update user data
@@ -190,20 +167,18 @@ export const putEditProfile = asyncHandler( async (req, res, next) => {
 
   // check if user was updated
   if (updatedUser[0] === 0) {
-    const err = new Error('User not found.');
-    err.status = 400;
-    return next(err);
+    throw new Error('User not found.');
   } else {
     res.status(200).json({
       msg: 'User updated successfully.',
     });
   }
-}, 'Updating user data: ');
+};
 
 /**
  * -- refresh token --
  */
-export const postRefresh = asyncHandler( async (req, res) => {
+export const postRefresh = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   let tokenData;
 
@@ -228,13 +203,16 @@ export const postRefresh = asyncHandler( async (req, res) => {
       userSlug: user.slug,
     });
   }
-}, 'Refreshing token', 401);
+};
 
 /**
  *  -- post user logout --
  */
-export const postUserLogout = asyncHandler( async (req, res) => {
-  const token = verifyToken(req.cookies.refreshToken, process.env.REFRESH_TOKEN_SECRET);
+export const postUserLogout = async (req, res) => {
+  const token = verifyToken(
+    req.cookies.refreshToken,
+    process.env.REFRESH_TOKEN_SECRET
+  );
 
   const userId = token.userId;
 
@@ -243,11 +221,11 @@ export const postUserLogout = asyncHandler( async (req, res) => {
 
   if (deletedRefreshToken >= 1) {
     res.clearCookie('refreshToken');
-    
-    res.status(200).json({ 
-      msg: 'User is logged out.'
+
+    res.status(200).json({
+      msg: 'User is logged out.',
     });
   } else {
     throw new Error('Error logging out: refresh token not found.');
   }
-}, 'Logging out', 401);
+};

@@ -1,13 +1,9 @@
 import { Router } from 'express';
+import asyncHandler from '../middleware/asyncHandler.js';
 import { body, param } from 'express-validator';
+import getUserId from '../middleware/getUserId.js';
 
-import {
-  getSets,
-  getEditSet,
-  putEditSet,
-  postCreateSet,
-  deleteSet,
-} from '../controllers/set-controller.js';
+import { getSets, getEditSet, putEditSet, postCreateSet, deleteSet } from '../controllers/set-controller.js';
 
 import {
   getCardsAllCards,
@@ -20,18 +16,20 @@ import {
 
 const router = Router();
 
-// routes
-router.get('/user/:userId', getSets);
-router.post('/user/:userId/add', [body('title').notEmpty()], postCreateSet);
-router.delete('/user/:userId/:setId/delete', deleteSet);
-router.get('/:setId/card/:cardId/edit', getEditCard);
-router.put('/:setId/card/:cardId/edit', putEditCard);
-router.delete('/:setId/card/:cardId/delete', deleteCard);
-router.post('/:setId/card/add', [body('term').notEmpty()], postAddCard);
-router.get('/:setId/cards', getViewCards);
-router.put('/:setId/edit', [body('title').notEmpty()], putEditSet);
-router.get('/:setId/edit', getEditSet);
-router.get('/:setId', getCardsAllCards);
+// set routes
+router.get('/user/:userSlug', getUserId, asyncHandler(getSets, 400));
+router.post('/user/:userSlug/add', [body('title').notEmpty()], getUserId, asyncHandler(postCreateSet, 422));
+router.get('/user/:userSlug/:setId/edit', getUserId, asyncHandler(getEditSet));
+router.put('/user/:userSlug/:setId/edit', [body('title').notEmpty()], getUserId, asyncHandler(putEditSet));
+router.delete('/user/:userSlug/:setId/delete', getUserId, asyncHandler(deleteSet, 403));
+
+// card routes
+router.get('/:setId/cards', asyncHandler(getViewCards));
+router.post('/:setId/card/add', [body('term').notEmpty()], asyncHandler(postAddCard, 422));
+router.get('/:setId/card/:cardId/edit', asyncHandler(getEditCard));
+router.put('/:setId/card/:cardId/edit', asyncHandler(putEditCard, 422));
+router.delete('/:setId/card/:cardId/delete', asyncHandler(deleteCard));
+router.get('/:setId', asyncHandler(getCardsAllCards));
 
 // handle 404
 router.use('*', (req, res, next) => {

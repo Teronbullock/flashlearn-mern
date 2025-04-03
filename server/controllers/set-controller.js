@@ -1,11 +1,10 @@
 import { validationResult } from 'express-validator';
 import Sets from '../models/sets-model.js';
 import Cards from '../models/cards-model.js';
-import { asyncHandler } from '../lib/utils.js';
 import Users from '../models/users-model.js';
 
 // post create set
-export const postCreateSet = asyncHandler(async (req, res) => {
+export const postCreateSet = async (req, res) => {
   const validationErrors = validationResult(req);
 
   if (!validationErrors.isEmpty()) {
@@ -14,7 +13,7 @@ export const postCreateSet = asyncHandler(async (req, res) => {
     throw err;
   }
 
-  const { userId: user_id } = req.params;
+  const { id: user_id } = req.user;
   const { title, description } = req.body;
 
   const setData = {
@@ -23,74 +22,88 @@ export const postCreateSet = asyncHandler(async (req, res) => {
     user_id,
   };
 
-  // Find all users
-  const users = await Users.findAll();
-  const allSets = await Sets.findAll();
-  console.log('All users:', JSON.stringify(users, null, 2));
-  console.log('All sets:', JSON.stringify(allSets, null, 2));
-  console.log('setData', setData);
+  // check if set exist in DB
+  const userSets = await Sets.findOne({
+    raw: true,
+    where: {
+      user_id,
+      title,
+    },
+  });
+
+  // return if set exists
+  if (userSets) {
+    throw new Error('set name already taken');
+  }
+
   try {
     const set = await Sets.create(setData);
     res.status(200).json({
       msg: 'Set created!',
       set,
     });
-    
   } catch (error) {
-    const err = new Error('Error creating set: ', error);
-    console.log('Error creating set: ', err);
-    throw err;
+    throw new Error('Error creating set');
   }
-}, 'creating set: ');
+};
 
 // get sets
-export const getSets = asyncHandler(async (req, res, next) => {
-  const { userId: user_id } = req.params;
+export const getSets = async (req, res, next) => {
+  const { id: user_id } = req.user;
   let sets;
 
   // check for userId
   if (!user_id) {
-    const err = new Error('The userId is required in the URL. /userId');
-    err.status = 400;
-    return next(err);
+    console.Error('The userSlug is required in the URL. /userSlug');
+    throw new Error('Cannot get sets without a userId');
   }
 
-  // fetch all sets
-  sets = await Sets.findAll({
-    raw: true,
-    where: { user_id },
-    order: [['id', 'DESC']],
-  });
-
-  // get card count for each set
-  for (const [index, set] of sets.entries()) {
-    const count = await Cards.count({
-      where: { user_id, set_id: set.id },
+  try {
+    // fetch all sets
+    sets = await Sets.findAll({
+      raw: true,
+      where: { user_id },
+      order: [['id', 'DESC']],
     });
 
-    // add card count to each set
-    sets[index].cardCount = count;
-  }
+    // get card count for each set
+    for (const [index, set] of sets.entries()) {
+      const count = await Cards.count({
+        where: { user_id, set_id: set.id },
+      });
 
-  res.status(200).json({
-    msg: 'success',
-    sets,
-  });
-}, 'retrieving sets data');
+      // add card count to each set
+      sets[index].cardCount = count;
+    }
+
+    res.status(200).json({
+      msg: 'success',
+      sets,
+    });
+  } catch (err) {
+    throw new Error('Error retrieving sets');
+  }
+};
 
 // get edit set
-export const getEditSet = asyncHandler(async (req, res) => {
+export const getEditSet = async (req, res) => {
   const { setId: id } = req.params;
+  const { id: user_id } = req.user;
 
   const set = await Sets.findByPk(id, { raw: true });
+
+  if (set.user_id !== user_id) {
+    throw new Error('unauthorized access to set');
+  }
+
   res.status(200).json({
     set,
     msg: 'success',
   });
-}, 'retrieving  set data: ');
+};
 
 // put edit set
-export const putEditSet = asyncHandler(async (req, res) => {
+export const putEditSet = async (req, res) => {
   const validationErrors = validationResult(req);
 
   if (!validationErrors.isEmpty()) {
@@ -101,23 +114,42 @@ export const putEditSet = asyncHandler(async (req, res) => {
 
   const { title, description } = req.body;
   const { setId: id } = req.params;
+  const { id: user_id } = req.user;
   const setData = {
     title,
     description,
   };
 
-  const set = await Sets.update(setData, {
-    where: { id },
+  // check if set exist in db
+  const userSets = await Sets.findOne({
+    raw: true,
+    where: {
+      title,
+      user_id,
+    },
   });
-  res.status(200).json({
-    msg: 'Set updated!',
-    set,
-  });
-}, 'editing set: ');
+
+  if (userSets) {
+    throw new Error('set name already taken');
+  }
+
+  try {
+    const set = await Sets.update(setData, {
+      where: { id },
+    });
+    res.status(200).json({
+      msg: 'Set updated!',
+      set,
+    });
+  } catch (err) {
+    throw new Error('Error: could not update set');
+  }
+};
 
 // delete set
-export const deleteSet = asyncHandler(async (req, res, next) => {
-  const { setId: id, userId: user_id } = req.params;
+export const deleteSet = async (req, res, next) => {
+  const { setId: id } = req.params;
+  const { id: user_id } = req.user;
   let isSetDeleted = false;
   let set = null;
   let deletedCard = null;
@@ -125,30 +157,30 @@ export const deleteSet = asyncHandler(async (req, res, next) => {
 
   // check for set
   try {
-    set = await Sets.findByPk(id, { raw: true });
+    set = await Sets.findOne({
+      raw: true,
+      id,
+      user_id,
+    });
 
-    if (set.user_id !== Number(user_id)) {
-      const err = new Error('Your not authorized to edit this set');
-      err.status = 403;
-      next(err);
+    if (!set) {
+      throw new Error('unauthorized access to set');
     }
-  } catch (error) {
-    const err = new Error(error);
-    err.status = 403;
-    next(err);
+  } catch (err) {
+    console.error('Error retrieving set', err);
+    throw new Error('Error retrieving set');
   }
 
   // delete cards
-  if (set) {
-    try {
-      deletedCard = await Cards.destroy({
-        where: { user_id, set_id: id },
-      });
-      console.log(`All cards were deleted for set ${id} `, deletedCard);
-    } catch (error) {
-      const err = new Error(`Error deleting cards for set ${id}: `, error);
-      throw err;
-    }
+  try {
+    deletedCard = await Cards.destroy({
+      raw: true,
+      where: { user_id, set_id: id },
+    });
+    console.log(`All cards were deleted for set ${id} `, deletedCard);
+  } catch (err) {
+    console.error(err);
+    throw new Error(`Error deleting cards for set ${id}: `);
   }
 
   // delete set
@@ -160,6 +192,7 @@ export const deleteSet = asyncHandler(async (req, res, next) => {
 
     if (newCards.length === 0) {
       isSetDeleted = await Sets.destroy({
+        raw: true,
         where: { id, user_id },
       });
 
@@ -170,8 +203,8 @@ export const deleteSet = asyncHandler(async (req, res, next) => {
         isSetDeleted,
       });
     }
-  } catch (error) {
-    const err = new Error(`Error deleting set ${id}: `, error);
-    throw err;
+  } catch (err) {
+    console.error(err);
+    throw new Error(`Error deleting set ${id}: `);
   }
-}, 'Error deleting set - ');
+};

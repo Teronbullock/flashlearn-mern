@@ -22,7 +22,16 @@
 
     /* Allow importing JSON modules */
     "resolveJsonModule": true,
-    "esModuleInterop": true 
+    "esModuleInterop": true,
+    
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@features/*": ["src/features/*"],
+      "@layouts/*": ["src/layouts/*"]
+    }
   },
   "include": ["src"]
 }

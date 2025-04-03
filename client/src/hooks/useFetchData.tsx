@@ -1,16 +1,19 @@
-import axios, { AxiosRequestConfig, AxiosError } from 'axios';
+import { useState } from 'react';
+import axios, { AxiosRequestConfig } from 'axios';
 
 interface IApiRequest {
   method?: 'get' | 'post' | 'put' | 'delete';
   url: string;
   data?: object;
+  src?: string;
   config?: AxiosRequestConfig;
 }
 
 
+
 /**
- *  -- API Request Function --
- * The function takes an object with the following properties:
+ *  -- useFetchData --
+ * This hook takes an object with the following properties:
  * @param req - The request object
  *
  * The get request is the default method.
@@ -18,8 +21,13 @@ interface IApiRequest {
  *  - method[optional] : 'get' | 'post' | 'put' | 'delete'
  *  - url: string
  *  - data[optional]: The data to be sent with the request
+ *  - src[optional]: The source of the request
  * - config[optional]: The configuration object for the request
  *
+ * @param debugMode - The debug mode option
+ * - 'all': Show input and output
+ * - 'input': Show input only
+ * - 'output': Show output only
  *
  * @returns The response from the API (res)
  *
@@ -30,10 +38,11 @@ interface IApiRequest {
  *  method: 'get',
  *  url: '/api/set/user/1',
  *  data: { id: 1 },
+ *  src: 'Dashboard'
  *  });
  */
-const apiRequest = async ({method = 'get', url, data, config }: IApiRequest ) => {
-  
+const useFetchData = ({ method = 'get', url, data, config }: IApiRequest) => {
+
   if (import.meta.env.MODE === 'production') {
     const apiUrl = import.meta.env.VITE_API_URL;
   
@@ -43,27 +52,22 @@ const apiRequest = async ({method = 'get', url, data, config }: IApiRequest ) =>
       url = url.replace('/api', apiUrl);
     }
   }
+  
+  const fetchData = async () => {
+    try {
+      const axiosConfig = {...config, withCredentials: true }
+      const res = await axios[method](url, method === 'get' ? axiosConfig : data, axiosConfig);
 
-  try {
-    const axiosConfig = {...config, withCredentials: true }
-    const res = await axios[method](url, method === 'get' || method === 'delete' ? axiosConfig : data, axiosConfig);
-
-    if(!res.data) {
-      throw new Error('No data founded');
+      return res.data;
+    } catch (err) {
+      console.error(err);
+      return null;
     }
-    return res;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      if (error.response?.status === 401 && error.response?.data?.message === 'Not authorized') {
-        throw error.response.data.error;
-      }
+  };
 
-      throw error.response?.data?.error || error.message;
-    } else {
-      console.log('error', error);
-      throw error;
-    }
-  }
+
+  console.log('useFetchData Ran: ');
+  return { fetchData,  error };
 };
 
-export default apiRequest;
+export default useFetchData;

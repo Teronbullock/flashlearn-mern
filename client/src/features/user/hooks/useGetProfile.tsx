@@ -1,32 +1,29 @@
-import { useEffect,  } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import apiRequest from '../../../lib/api';
-import { useAuthContext } from '../../../context/hooks/useAuthContext';
+import apiRequest from '@/lib/api';
+import { useAuthContext } from '@/context/hooks/useAuthContext';
 
 interface UserAction {
   type: 'GET_PROFILE';
   payload: {
-    user_name: string;
     user_email: string;
   };
 }
 
-const useGetProfile = (dispatch: React.Dispatch<UserAction>) => { 
-  const { userId } = useParams();
+const useGetProfile = (dispatch: React.Dispatch<UserAction>) => {
+  const { userSlug } = useParams();
   const { token } = useAuthContext()!;
 
   useEffect(() => {
-    ( async () => {
+    (async () => {
       try {
         const res = await apiRequest({
-          url: `/api/user/${userId}/profile`,
-          src: 'useGetProfile',
+          url: `/api/user/${userSlug}/profile`,
           config: { headers: { Authorization: `Bearer ${token}` } },
         });
 
-        const { user_name, user_email } = res.data;
-        dispatch({ type: 'GET_PROFILE', payload: { user_name, user_email } });
-
+        const { user_email } = res.data;
+        dispatch({ type: 'GET_PROFILE', payload: { user_email } });
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);
@@ -34,11 +31,10 @@ const useGetProfile = (dispatch: React.Dispatch<UserAction>) => {
           console.error(error);
         }
       }
-    })();    
-  }, [userId, dispatch, token]);
+    })();
+  }, [userSlug, dispatch, token]);
 
   return;
-
 };
 
 export default useGetProfile;

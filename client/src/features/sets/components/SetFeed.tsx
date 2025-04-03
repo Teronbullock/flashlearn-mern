@@ -1,10 +1,9 @@
-import Card from '../../../components/Card/Card';
-import ListCardForm from '../../../components/Forms/ListCardForm';
-import useDeleteSet from '../hooks/useDeleteSet';
-import useGetSets from '../hooks/useGetSets';
-import Btn from '../../../components/Btn/Btn';
+import Card from '@components/Card/Card';
+import ListCardForm from '@components/Forms/ListCardForm';
+import useManageSetData from '@features/sets/hooks/useManageSetData';
+import Btn from '@components/Btn/Btn';
 
-interface SetDataBase {
+interface ISetData {
   title: string;
   description?: string;
   cardCount?: number;
@@ -13,13 +12,12 @@ interface SetDataBase {
 }
 
 const SetFeed = () => {
-  const { sets, refreshSets } = useGetSets();
-  const { handlerDelete } = useDeleteSet(refreshSets);
+  const { sets, deleteSetHandler } = useManageSetData({ isGetSets: true });
 
   return (
     <section className='container py-12'>
       {sets && sets.length > 0 ? (
-        sets.map((setData: SetDataBase) => {
+        sets.map((setData: ISetData) => {
           const { id } = setData;
           const data = {
             ...setData,
@@ -27,31 +25,14 @@ const SetFeed = () => {
           } as const;
 
           return (
-            <ListCardForm
-              onSubmit={e => handlerDelete(e, id)}
-              key={id}
-              {...data}
-            >
-              <Btn
-                className='btn--outline-black btn--medium mr-3 md:mr-6'
-                to={`/set/${id}`}
-                isListItem={true}
-              >
+            <ListCardForm onSubmit={e => deleteSetHandler(e, id)} key={id} isSetFeed={true} {...data}>
+              <Btn className='btn--outline-black btn--small mr-4 md:mr-6' to={`/set/${id}`} isListItem={true}>
                 View Set
               </Btn>
-              <Btn
-                className='btn--outline-black btn--medium mr-3 md:mr-6'
-                to={`/set/${id}/edit`}
-                isListItem={true}
-              >
+              <Btn className='btn--outline-black btn--small mr-4 md:mr-6' to={`/set/${id}/edit`} isListItem={true}>
                 Edit Set
               </Btn>
-              <Btn
-                tag='button'
-                type='submit'
-                className='btn--outline-black btn--medium'
-                isListItem={true}
-              >
+              <Btn tag='button' type='submit' className='btn--outline-black btn--small' isListItem={true}>
                 Delete Set
               </Btn>
             </ListCardForm>
