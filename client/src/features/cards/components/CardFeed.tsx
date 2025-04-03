@@ -30,7 +30,6 @@ const CardFeed = ({ cards, deleteCardHandler }: ICardFeed) => {
                 className='btn--outline-black btn--small mr-3 md:mr-6'
                 to={`/set/${set_id}/card/${id}/edit`}
                 isListItem={true}
-                data-Test='edit-card'
               >
                 Edit Card
               </Btn>
