@@ -20,14 +20,12 @@ const router = Router();
 router.post(
   '/register',
   [
-    body('user_name')
-      .trim()
-      .toLowerCase()
-      .notEmpty().withMessage('Name is required.'),
     body('user_email')
       .trim()
-      .isEmail().withMessage('Invalid email format.')
-      .notEmpty().withMessage('Email is required.')
+      .isEmail()
+      .withMessage('Invalid email format.')
+      .notEmpty()
+      .withMessage('Email is required.')
       .normalizeEmail(),
     body('user_pass').notEmpty(),
     body('user_pass_confirm').notEmpty(),
@@ -43,11 +41,13 @@ router.post(
   [
     body('user_email')
       .trim()
-      .isEmail().withMessage('Invalid email format.')
-      .notEmpty().withMessage('Email is required.')
+      .isEmail()
+      .withMessage('Invalid email format.')
+      .notEmpty()
+      .withMessage('Email is required.')
       .normalizeEmail(),
-    body('user_pass')
-      .notEmpty()],
+    body('user_pass').notEmpty(),
+  ],
   asyncHandler(postUserLogin, 401)
 );
 

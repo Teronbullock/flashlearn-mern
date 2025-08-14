@@ -5,15 +5,13 @@ import RefreshTokens from '../models/refresh-token-model.js';
  * The genAuthToken function will create a token for the user.
  *
  * param {*} userId - The user ID.
- * param {*} userName - The user name.
  *
  * @returns - The token. or an error.
  */
-export const genAuthToken = (userId, userName) => {
+export const genAuthToken = userId => {
   return jwt.sign(
     {
       userId: userId,
-      userName: userName,
     },
     process.env.JWT_SECRET,
     { expiresIn: '15m' }

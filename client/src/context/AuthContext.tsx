@@ -47,7 +47,6 @@ type AuthReducerAction =
       type: 'LOGOUT';
     };
 
-
 export const AuthContext = createContext<AuthContextValue>({
   userId: null,
   userSlug: null,
@@ -103,7 +102,9 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   const { userId, token, tokenExpTime, isAuthenticated, userSlug } = authState;
 
   // Logout timer
-  const logoutTimer = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const logoutTimer = useRef<ReturnType<typeof setInterval> | undefined>(
+    undefined
+  );
 
   // Token refresh interval
   const refreshInterval = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -111,14 +112,14 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   /**
    *  -- Login function --
    *
-   * @param userName - The user name
+   * @param userEmail - The user email
    * @param userPass - The user password
    * @param expirationDate - The expiration date of the token
    */
   const login = useCallback(
     async (userEmail: string, userPass: string) => {
       if (!userEmail || !userPass) {
-        throw new Error('user name and password are required');
+        throw new Error('email and password are required');
       }
 
       // call the api to login the user
@@ -186,18 +187,22 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
    */
   const refreshAuthToken = useCallback(async () => {
     try {
-      const res = await apiRequest(
-        {
-          url: '/api/user/refresh',
-          method: 'post',
-          data: { userId },
-          config: {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        }
-      );
+      const res = await apiRequest({
+        url: '/api/user/refresh',
+        method: 'post',
+        data: { userId },
+        config: {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      });
 
-      if (res.status === 200 && res.data && res.data.token && userId && userSlug) {
+      if (
+        res.status === 200 &&
+        res.data &&
+        res.data.token &&
+        userId &&
+        userSlug
+      ) {
         const { token } = res.data;
         setUserAndToken(dispatch, userId, userSlug, token);
       } else {
@@ -247,14 +252,12 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   useEffect(() => {
     if (token && tokenExpTime) {
       const remainingTime = tokenExpTime.getTime() - new Date().getTime();
-  
+
       clearTimeout(logoutTimer.current);
       logoutTimer.current = setTimeout(logout, remainingTime);
-
     } else {
       clearTimeout(logoutTimer.current);
     }
-
   }, [token, logout, login, tokenExpTime]);
 
   // value object for the context

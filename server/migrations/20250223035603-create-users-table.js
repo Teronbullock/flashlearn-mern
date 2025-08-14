@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add altering commands here.
      *
@@ -16,21 +16,16 @@ export default {
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         unique: true,
-        primaryKey: true
-      },
-      user_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        primaryKey: true,
       },
       user_email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-        
       },
       user_pass: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       slug: {
         type: Sequelize.STRING,
@@ -48,7 +43,7 @@ export default {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
      *
@@ -56,5 +51,5 @@ export default {
      * await queryInterface.dropTable('users');
      */
     await queryInterface.dropTable('fc_users');
-  }
+  },
 };

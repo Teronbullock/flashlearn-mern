@@ -6,7 +6,6 @@ import { useAuthContext } from '@/context/hooks/useAuthContext';
 import apiRequest from '@/lib/api';
 
 interface UserState {
-  user_name: string;
   user_email: string;
   user_pass: string;
   user_pass_confirm: string;
@@ -15,7 +14,6 @@ interface UserState {
 interface RegisterReducerAction {
   type: 'ON_CHANGE' | 'SUBMIT';
   payload?: {
-    user_name?: string;
     user_email?: string;
     user_pass?: string;
     user_pass_confirm?: string;
@@ -32,7 +30,6 @@ const registerReducer = (state: UserState, action: RegisterReducerAction) => {
       };
     case 'SUBMIT':
       return {
-        user_name: '',
         user_email: '',
         user_pass: '',
         user_pass_confirm: '',
@@ -50,7 +47,6 @@ const registerReducer = (state: UserState, action: RegisterReducerAction) => {
 const Register = () => {
   const { login } = useAuthContext();
   const [state, dispatch] = useReducer(registerReducer, {
-    user_name: '',
     user_email: '',
     user_pass: '',
     user_pass_confirm: '',
@@ -80,7 +76,7 @@ const Register = () => {
       // if the response is successful, alert the user and log them in
       if (res.status === 200 && login) {
         alert('Registration successful');
-        login(state.user_name, state.user_pass);
+        login(state.user_email, state.user_pass);
         dispatch({ type: 'SUBMIT' });
       } else {
         throw new Error('Registration Error');
@@ -98,21 +94,11 @@ const Register = () => {
   return (
     <main className='main main--register'>
       <section className='container py-12 md:w-1/2 min-h-[calc(100vh-11rem)]'>
-        <Form className='bg-white card--login-form' onSubmit={handleFormSubmit} title='Register'>
-          <FormInput
-            labelName='Username'
-            type='text'
-            name='user_name'
-            value={state.user_name}
-            placeholder='Enter your username'
-            required={true}
-            onChange={e =>
-              dispatch({
-                type: 'ON_CHANGE',
-                payload: { user_name: e.target.value },
-              })
-            }
-          />
+        <Form
+          className='bg-white card--login-form'
+          onSubmit={handleFormSubmit}
+          title='Register'
+        >
           <FormInput
             labelName='Email'
             type='email'
@@ -155,7 +141,11 @@ const Register = () => {
               })
             }
           />
-          <Btn className='btn--large btn--tertiary text-white' tag='button' type='submit'>
+          <Btn
+            className='btn--large btn--tertiary text-white'
+            tag='button'
+            type='submit'
+          >
             Register
           </Btn>
         </Form>

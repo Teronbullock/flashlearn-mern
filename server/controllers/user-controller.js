@@ -19,46 +19,39 @@ import authenticateUser from '../services/auth-service.js';
  */
 export const postUserRegister = async (req, res) => {
   let valErrs = validationResult(req);
-  
+
   // check if all fields are filled
   if (!valErrs.isEmpty()) {
     throw new Error('All fields required. ' + valErrs.array()[0].msg);
   }
 
   // get form fields
-  const {user_pass, user_pass_confirm, user_name, user_email } = req.body;
-    
+  const { user_pass, user_pass_confirm, user_email } = req.body;
+
   const formData = {
-    user_name,
     user_email,
     user_pass,
     slug: nanoid(10),
   };
-  
+
   // confirm that user typed same password twice
   if (user_pass !== user_pass_confirm) {
     throw new Error('Passwords do not match.');
   }
-  
+
   // check if user and email already exists
-  const isUser = await Users.findOne({ where: { user_name } });
   const isUserEmail = await Users.findOne({ where: { user_email } });
-  
-  // if user exists, throw error
-  if (isUser) {
-    throw new Error('User already exists.');
-  }
-  
+
   // if email exists, throw error
   if (isUserEmail) {
     throw new Error('Email already exists.');
   }
-  
+
   // create user
   try {
-
-    // await Users.create(formData);
+    await Users.create(formData);
     console.log('User registered successfully.');
+
     // send res to client
     res.status(200).json({
       msg: 'User registered successfully.',
@@ -76,6 +69,7 @@ export const postUserRegister = async (req, res) => {
  */
 export const postUserLogin = async (req, res) => {
   let errors = validationResult(req);
+
   const { user_pass, user_email } = req.body;
 
   if (!errors.isEmpty()) {
@@ -114,12 +108,11 @@ export const postUserLogin = async (req, res) => {
  */
 export const getUserProfile = async (req, res) => {
   const { slug } = req.params;
-  const user = await Users.findOne({ where: {slug}});
-  
-  const { user_name, user_email } = user;
+  const user = await Users.findOne({ where: { slug } });
+
+  const { user_email } = user;
 
   return res.status(200).json({
-    user_name,
     user_email,
   });
 };
@@ -196,7 +189,7 @@ export const postRefresh = async (req, res) => {
       throw new Error('User not found');
     }
     // Generate a new access token
-    const token = genAuthToken(user.id, user.user_name);
+    const token = genAuthToken(user.id);
     return res.status(200).json({
       token,
       userId: user.id,
