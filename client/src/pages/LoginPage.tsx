@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import Form from '@components/Forms/Form';
-import Btn from '@components/Btn/Btn';
+import { Btn } from '@components/Btn/Btn';
 import FormInput from '@components/Forms/FormInput';
 import { useAuthContext } from '../context/hooks/useAuthContext';
 
@@ -60,7 +60,11 @@ const LoginPage = () => {
   return (
     <main className='main main--login'>
       <section className='container py-12 md:w-1/2 min-h-[calc(100vh-11rem)]'>
-        <Form className='bg-white card--login-form' onSubmit={handleFormSubmit} title='Login'>
+        <Form
+          className='bg-white card--login-form'
+          onSubmit={handleFormSubmit}
+          title='Login'
+        >
           <>
             <FormInput
               labelName='Email'
@@ -91,7 +95,7 @@ const LoginPage = () => {
                 })
               }
             />
-            <Btn className='btn--large btn--tertiary text-white' tag='button' type='submit'>
+            <Btn className='btn--large btn--tertiary text-white' type='submit'>
               Login
             </Btn>
           </>

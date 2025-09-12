@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import PageHeader from '../layouts/PageComponents/PageHeader';
 import PageHero from '../layouts/PageComponents/PageHero';
-import Btn from '../components/Btn/Btn';
+import { ListLinkItem } from '../components/ListLinkItem/ListLinkItem';
 import useManageCardData from '@/features/cards/hooks/useManageCardData';
 import FormAction from '../components/Forms/FormAction';
 import FormColorPicker from '../components/Forms/FormColorPicker';
@@ -11,15 +11,22 @@ import FormInput from '../components/Forms/FormInput';
 const EditCardPage = () => {
   const { setId, cardId } = useParams();
   const currentPage = 'editCardPage';
-  const { state, dispatch, editCardHandler } = useManageCardData({ isEditCard: true, cardId, setId });
+  const { state, dispatch, editCardHandler } = useManageCardData({
+    isEditCard: true,
+    cardId,
+    setId,
+  });
 
   return (
     <main className='main main--edit-card-page'>
       <PageHero currentPage={currentPage} className='hidden md:block' />
       <PageHeader currentPage={currentPage}>
-        <Btn className='btn--outline-black btn--large mr-6' to={`/set/${setId}`} isListItem={true}>
+        <ListLinkItem
+          className='btn--outline-black btn--large mr-6'
+          to={`/set/${setId}`}
+        >
           Set Page
-        </Btn>
+        </ListLinkItem>
       </PageHeader>
       <section className='container pt-8 pb-4 md:pt-12 lg:max-w-screen-lg'>
         {state ? (
@@ -52,7 +59,11 @@ const EditCardPage = () => {
                 })
               }
             />
-            <FormColorPicker bgColor={state.bgColor} textColor={state.textColor} dispatch={dispatch} />
+            <FormColorPicker
+              bgColor={state.bgColor}
+              textColor={state.textColor}
+              dispatch={dispatch}
+            />
             <FormAction submitBtnText='Update' cancelBtnTo={`/set/${setId}`} />
           </Form>
         ) : (

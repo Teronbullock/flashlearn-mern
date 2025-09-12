@@ -4,7 +4,7 @@ import PageHero from '@layouts/PageComponents/PageHero';
 import PageHeader from '@layouts/PageComponents/PageHeader';
 import Form from '@components/Forms/Form';
 import FormInput from '@components/Forms/FormInput';
-import Btn from '@components/Btn/Btn';
+import { Btn } from '@components/Btn/Btn';
 import apiRequest from '@/lib/api';
 import { useAuthContext } from '@/context/hooks/useAuthContext';
 
@@ -111,7 +111,11 @@ const Profile = () => {
       <PageHero currentPage={currentPage} className='hidden md:block' />
       <PageHeader currentPage={currentPage}></PageHeader>
       <section className='container py-12'>
-        <Form className='bg-white card--login-form' onSubmit={handleFormSubmit} title='Update Profile'>
+        <Form
+          className='bg-white card--login-form'
+          onSubmit={handleFormSubmit}
+          title='Update Profile'
+        >
           <FormInput
             labelName='Email'
             type='email'
@@ -168,7 +172,7 @@ const Profile = () => {
               })
             }
           />
-          <Btn className='btn--large btn--tertiary text-white' type='submit' tag='button'>
+          <Btn className='btn--large btn--tertiary text-white' type='submit'>
             Update
           </Btn>
         </Form>

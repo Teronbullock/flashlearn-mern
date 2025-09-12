@@ -1,4 +1,4 @@
-import Btn from '../Btn/Btn';
+import { Btn } from '@components/Btn/Btn';
 import FormInput from './FormInput';
 
 interface CardState {
@@ -10,7 +10,11 @@ interface CardState {
 
 type CardAction =
   | {
-      type: 'SET_INPUT_ONE' | 'SET_INPUT_TWO' | 'SET_BG_COLOR' | 'SET_TEXT_COLOR';
+      type:
+        | 'SET_INPUT_ONE'
+        | 'SET_INPUT_TWO'
+        | 'SET_BG_COLOR'
+        | 'SET_TEXT_COLOR';
       payload: {
         inputOneValue?: string;
         inputTwoValue?: string;
@@ -30,7 +34,11 @@ type FormColorPickerProps = {
   dispatch: (action: CardAction) => void;
 };
 
-export const FormColorPicker = ({ bgColor = 'ffffff', textColor = '000000', dispatch }: FormColorPickerProps) => {
+export const FormColorPicker = ({
+  bgColor = 'ffffff',
+  textColor = '000000',
+  dispatch,
+}: FormColorPickerProps) => {
   const handleResetColors = () => {
     dispatch({
       type: 'RESET_COLORS',
@@ -40,7 +48,10 @@ export const FormColorPicker = ({ bgColor = 'ffffff', textColor = '000000', disp
   return (
     <div className='form__group'>
       <div>
-        <Btn className='btn--small bg-black text-white mb-4' onClick={handleResetColors}>
+        <Btn
+          className='btn--small bg-black text-white mb-4'
+          onClick={handleResetColors}
+        >
           Reset Colors
         </Btn>
       </div>

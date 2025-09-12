@@ -6,25 +6,24 @@ import PageHero from '../layouts/PageComponents/PageHero';
 import Form from '@components/Forms/Form';
 import FormInput from '@components/Forms/FormInput';
 import FormAction from '@components/Forms/FormAction';
-import Btn from '@components/Btn/Btn';
+import { ListLinkItem } from '@components/ListLinkItem/ListLinkItem';
 
 const AddSetPage = () => {
   const { userSlug } = useAuthContext();
   // const { state, addSetHander, dispatch } = useAddSetData();
-  const {state, addSetHandler, dispatch } = useManageSetData();
+  const { state, addSetHandler, dispatch } = useManageSetData();
   const currentPage = 'createSetPage';
 
   return (
     <main className={classNames('main', `main-${currentPage}`)}>
       <PageHero currentPage={currentPage} />
       <PageHeader currentPage={currentPage}>
-        <Btn
+        <ListLinkItem
           className='btn--outline-black btn--large'
           to={`/dashboard/${userSlug}/`}
-          isListItem={true}
         >
           Dashboard Page
-        </Btn>
+        </ListLinkItem>
       </PageHeader>
       <section className='container py-12 lg:max-w-screen-lg'>
         {!state && <h2 className='text-2xl text-center'>No set found</h2>}

@@ -1,6 +1,7 @@
 import Card from '@components/Card/Card';
-import ListCardForm from '@components/Forms/ListCardForm';
-import Btn from '@components/Btn/Btn';
+import { ListCardForm } from '@components/Forms/ListCardForm';
+import { ListLinkBtn } from '@/components/ListLinkBtn/ListLinkBtn';
+import { ListLinkItem } from '@components/ListLinkItem/ListLinkItem';
 
 interface ICardFeed {
   cards: {
@@ -9,7 +10,11 @@ interface ICardFeed {
     definition: string;
     set_id: string;
   }[];
-  deleteCardHandler: (e: React.FormEvent<HTMLFormElement>, cardId: string, setId: string) => void;
+  deleteCardHandler: (
+    e: React.FormEvent<HTMLFormElement>,
+    cardId: string,
+    setId: string
+  ) => void;
 }
 
 const CardFeed = ({ cards, deleteCardHandler }: ICardFeed) => {
@@ -26,16 +31,18 @@ const CardFeed = ({ cards, deleteCardHandler }: ICardFeed) => {
               description={definition}
               onSubmit={e => deleteCardHandler(e, id, set_id)}
             >
-              <Btn
+              <ListLinkItem
                 className='btn--outline-black btn--small mr-3 md:mr-6'
                 to={`/set/${set_id}/card/${id}/edit`}
-                isListItem={true}
               >
                 Edit Card
-              </Btn>
-              <Btn tag='button' type='submit' className='btn--outline-black btn--small' isListItem={true}>
+              </ListLinkItem>
+              <ListLinkBtn
+                type='submit'
+                className='btn--outline-black btn--small'
+              >
                 Delete Card
-              </Btn>
+              </ListLinkBtn>
             </ListCardForm>
           );
         })

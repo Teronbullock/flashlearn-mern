@@ -1,7 +1,7 @@
 // button
 
-@use '../../assets/scss/01-helpers/variables' as var;
-@use '../../assets/scss/01-helpers/breakpoints' as bp;
+@use '@sass/variables' as var;
+@use '@sass/breakpoints' as bp;
 
 .btn {
   min-width: 60px;

@@ -1,6 +1,6 @@
 import { useState, memo } from 'react';
 import classnames from 'classnames';
-import Btn from '../../../components/Btn/Btn';
+import { BtnLink } from '@components/BtnLink/BtnLink';
 import './view-card-section.scss';
 import CardFace from './CardFace';
 
@@ -30,8 +30,6 @@ const ViewCardSection = ({
   let disableBackBtnStyle;
   let disableNextBtnStyle;
 
-
-  
   if (card) {
     term = card.term;
     definition = card.definition;
@@ -56,7 +54,7 @@ const ViewCardSection = ({
   }
 
   const handFlipAction = () => {
-    if(flashcardClass) {
+    if (flashcardClass) {
       setFlashcardClass('');
     } else {
       setFlashcardClass('flashcard--flipped');
@@ -79,26 +77,30 @@ const ViewCardSection = ({
                 BtnText='Definition'
               >
                 <div className='flashcard__footer d-flex justify-content-center p-4'>
-                  <Btn
+                  <BtnLink
                     className={classnames(
                       'btn btn--outline-secondary mr-4',
                       disableBackBtnStyle
                     )}
-                    onClick={()=>{setFlashcardClass('')}}
+                    onClick={() => {
+                      setFlashcardClass('');
+                    }}
                     to={backBtnUrl}
                   >
                     &lt;
-                  </Btn>
-                  <Btn
+                  </BtnLink>
+                  <BtnLink
                     className={classnames(
                       'btn btn--black',
                       disableNextBtnStyle
                     )}
-                    onClick={()=>{setFlashcardClass('')}}
+                    onClick={() => {
+                      setFlashcardClass('');
+                    }}
                     to={nextBtnUrl}
                   >
                     &gt;
-                  </Btn>
+                  </BtnLink>
                 </div>
               </CardFace>
             )}
@@ -113,26 +115,30 @@ const ViewCardSection = ({
                 BtnText='Term'
               >
                 <div className='flashcard__footer d-flex justify-content-center p-4'>
-                  <Btn
+                  <BtnLink
                     className={classnames(
                       'btn btn--outline-secondary mr-4',
                       disableBackBtnStyle
                     )}
-                    onClick={()=>{setFlashcardClass('')}}
+                    onClick={() => {
+                      setFlashcardClass('');
+                    }}
                     to={backBtnUrl}
                   >
                     &lt;
-                  </Btn>
-                  <Btn
+                  </BtnLink>
+                  <BtnLink
                     className={classnames(
                       'btn btn--black',
                       disableNextBtnStyle
                     )}
-                    onClick={()=>{setFlashcardClass('')}}
+                    onClick={() => {
+                      setFlashcardClass('');
+                    }}
                     to={nextBtnUrl}
                   >
                     &gt;
-                  </Btn>
+                  </BtnLink>
                 </div>
               </CardFace>
             )}

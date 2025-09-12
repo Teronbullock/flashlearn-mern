@@ -14,7 +14,7 @@ interface ListCardFormProps {
  * @param children - type form
  * @returns
  */
-const ListCardForm = ({
+export const ListCardForm = ({
   title,
   description,
   cardCount = 0,
@@ -28,11 +28,15 @@ const ListCardForm = ({
         <div className='card__info flex justify-between flex-wrap'>
           <h3>{title}</h3>
           {isSetFeed &&
-            (cardCount || cardCount === 0 ? <p className='card__body-info-title my-0'>Terms: {cardCount}</p> : null)}
+            (cardCount || cardCount === 0 ? (
+              <p className='card__body-info-title my-0'>Terms: {cardCount}</p>
+            ) : null)}
         </div>
         <div className='divider-h my-3'></div>
         <div className='card__body mb-6'>
-          <p className='card__desc mb-0 line-clamp line-clamp--2'>{description}</p>
+          <p className='card__desc mb-0 line-clamp line-clamp--2'>
+            {description}
+          </p>
         </div>
         <ul className='card__action mb-3 flex'>{children}</ul>
         <input type='hidden' name='_method' value='DELETE' />
@@ -40,5 +44,3 @@ const ListCardForm = ({
     </Card>
   );
 };
-
-export default ListCardForm;

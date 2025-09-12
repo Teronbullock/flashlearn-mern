@@ -3,6 +3,7 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "types": ["vitest/globals"],
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -30,8 +31,10 @@
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@features/*": ["src/features/*"],
-      "@layouts/*": ["src/layouts/*"]
+      "@layouts/*": ["src/layouts/*"],
+      "@sass/*": ["src/assets/scss/*"],
+       "@app-types/*": ["src/types/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "test","src/**/*.test.ts", "src/**/*.spec.ts"]
 }

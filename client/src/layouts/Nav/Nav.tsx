@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import './nav.scss';
-import Btn from '../../components/Btn/Btn';
+import { Btn } from '../../components/Btn/Btn';
 import { useAuthContext } from '../../context/hooks/useAuthContext';
+import { ListLinkItem } from '@components/ListLinkItem/ListLinkItem';
+import { ListLinkBtn } from '@components/ListLinkBtn/ListLinkBtn';
 
 type NavProps = {
   showMobileMenu: string;
@@ -49,54 +51,49 @@ const Nav = ({ showMobileMenu, onclick }: NavProps) => {
                 </Link>
               </li>
               {userSlug && (
-                <li className='nav-mobile__item'>
-                  <Btn
-                    to={`/profile/${userSlug}`}
-                    className='nav-mobile__link'
-                    defaultStyle={false}
-                    onClick={onclick}
-                  >
-                    Profile
-                  </Btn>
-                </li>
-              )}
-              <li className='nav-mobile__item'>
-                <Btn
+                <ListLinkItem
+                  listClassName='nav-mobile__item'
+                  to={`/profile/${userSlug}`}
                   className='nav-mobile__link'
-                  to='/'
-                  onClick={handleLogout}
                   defaultStyle={false}
+                  onClick={onclick}
                 >
-                  Logout
-                </Btn>
-              </li>
+                  Profile
+                </ListLinkItem>
+              )}
+              <ListLinkBtn
+                listClassName='nav-mobile__item'
+                className='nav-mobile__link'
+                onClick={handleLogout}
+                defaultStyle={false}
+              >
+                Logout
+              </ListLinkBtn>
             </>
           ) : (
             <>
-              <li className='nav-mobile__item'>
-                <Link className='nav-mobile__link' to='/' onClick={onclick}>
-                  Home
-                </Link>
-              </li>
-              <li className='nav-mobile__item'>
-                <Link
-                  className='nav-mobile__link'
-                  to='/register'
-                  onClick={onclick}
-                >
-                  Sign Up
-                </Link>
-              </li>
-              <li className='nav-mobile__item'>
-                <Btn
-                  to='/login'
-                  className='nav-mobile__link border border-black rounded-[15px] p-1 mx-2 mt-2'
-                  onClick={onclick}
-                  defaultStyle={false}
-                >
-                  Login
-                </Btn>
-              </li>
+              <ListLinkItem
+                listClassName='nav-mobile__link'
+                to='/'
+                onClick={onclick}
+              >
+                Home
+              </ListLinkItem>
+              <ListLinkItem
+                className='nav-mobile__link'
+                to='/register'
+                onClick={onclick}
+              >
+                Sign Up
+              </ListLinkItem>
+              <ListLinkItem
+                to='/login'
+                className='nav-mobile__link border border-black rounded-[15px] p-1 mx-2 mt-2'
+                onClick={onclick}
+                defaultStyle={false}
+              >
+                Login
+              </ListLinkItem>
             </>
           )}
         </ul>
@@ -116,11 +113,7 @@ const Nav = ({ showMobileMenu, onclick }: NavProps) => {
                   <Link to={`/profile/${userSlug}`}>Profile</Link>
                 </li>
               )}
-              <Btn
-                className='btn--black p-3'
-                tag='button'
-                onClick={handleLogout}
-              >
+              <Btn className='btn--black p-3' onClick={handleLogout}>
                 Logout
               </Btn>
             </>

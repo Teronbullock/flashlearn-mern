@@ -1,13 +1,11 @@
-@use '../../assets/scss/01-helpers/variables' as var;
-@use '../../assets/scss/01-helpers/breakpoints' as bp;
-
+@use '@sass/variables' as var;
+@use '@sass/breakpoints' as bp;
 
 .page-hero--half-mask {
-
   &::before {
-    content: " ";
+    content: ' ';
     width: 100%;
-    background: rgba(0,0,0,.4);
+    background: rgba(0, 0, 0, 0.4);
     position: absolute;
     top: 0;
     left: 0;
@@ -30,7 +28,6 @@
         rgba(0, 0, 0, 0) 40%
       );
     }
-
   }
 }
 

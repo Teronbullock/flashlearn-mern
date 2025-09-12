@@ -1,6 +1,6 @@
 // flashcard
-@use '../../../assets//scss/01-helpers/variables' as var;
-@use '../../../assets/scss/01-helpers/breakpoints' as bp;
+@use '@sass/variables' as var;
+@use '@sass/breakpoints' as bp;
 
 .flashcard {
   background-color: transparent;
@@ -11,7 +11,6 @@
   // transition: transform 0.6s;
   // transform-style: preserve-3d;
 
-  
   @include bp.media-breakpoint-up(md) {
     max-width: 700px;
   }
@@ -40,25 +39,24 @@
   overflow: hidden;
   box-shadow: var.$black-shadow-1;
 
-
   @include bp.media-breakpoint-up(md) {
     min-height: 560px;
   }
 }
-
 
 .flashcard--back {
   z-index: 50;
   transform: rotateY(180deg);
 }
 
-
 .flashcard--front .flashcard__aside {
-  background: var.$color-black url('/assets/img/zach-lucero-unsplash.jpg') no-repeat;
+  background: var.$color-black url('/assets/img/zach-lucero-unsplash.jpg')
+    no-repeat;
 }
 
 .flashcard--back .flashcard__aside {
-  background: var.$color-black url('/assets/img/nik-shuliahin-cp1k4Cmx4OE-unsplash.jpg') no-repeat;
+  background: var.$color-black
+    url('/assets/img/nik-shuliahin-cp1k4Cmx4OE-unsplash.jpg') no-repeat;
 }
 
 .flashcard--front .flashcard__aside,
@@ -73,8 +71,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  @include bp.media-breakpoint-up(md) { 
+
+  @include bp.media-breakpoint-up(md) {
     height: 250px;
   }
 

@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import Form from '@components/Forms/Form';
-import Btn from '@components/Btn/Btn';
+import { Btn } from '@components/Btn/Btn';
 import FormInput from '@components/Forms/FormInput';
 import { useAuthContext } from '@/context/hooks/useAuthContext';
 import apiRequest from '@/lib/api';
@@ -141,11 +141,7 @@ const Register = () => {
               })
             }
           />
-          <Btn
-            className='btn--large btn--tertiary text-white'
-            tag='button'
-            type='submit'
-          >
+          <Btn className='btn--large btn--tertiary text-white' type='submit'>
             Register
           </Btn>
         </Form>

@@ -1,5 +1,5 @@
-@use '../../assets/scss/01-helpers/variables' as var;
-@use '../../assets/scss/01-helpers/breakpoints' as bp;
+@use '@sass/variables' as var;
+@use '@sass/breakpoints' as bp;
 
 .btn-mobile-toggle.change {
   padding: 0;
@@ -14,7 +14,9 @@
 }
 
 .change {
-  .btn-bar1, .btn-bar2, .btn-bar3 {
+  .btn-bar1,
+  .btn-bar2,
+  .btn-bar3 {
     width: 40px;
     margin: 0;
   }

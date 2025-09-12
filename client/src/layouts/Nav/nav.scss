@@ -1,7 +1,7 @@
 //  nav
 
-@use '../../assets/scss/01-helpers/variables' as var;
-@use '../../assets/scss/01-helpers/breakpoints' as bp;
+@use '@sass/variables' as var;
+@use '@sass/breakpoints' as bp;
 
 .nav-mobile__item,
 .nav-mobile__link {
@@ -51,7 +51,7 @@
 
 .nav-mobile--remove-border {
   border: none;
-}  
+}
 
 // desktop nav
 
@@ -77,7 +77,6 @@
 
 .nav-desktop__link {
   color: var.$color-black;
-  
 }
 
 // -- modifier --
@@ -85,7 +84,6 @@
 .nav-desktop--flex {
   display: flex;
   justify-content: flex-end;
-
 }
 
 .nav__list-item {

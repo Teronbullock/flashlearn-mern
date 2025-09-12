@@ -1,7 +1,8 @@
 import Card from '@components/Card/Card';
-import ListCardForm from '@components/Forms/ListCardForm';
+import { ListCardForm } from '@components/Forms/ListCardForm';
 import useManageSetData from '@features/sets/hooks/useManageSetData';
-import Btn from '@components/Btn/Btn';
+import { ListLinkItem } from '@components/ListLinkItem/ListLinkItem';
+import { ListLinkBtn } from '@components/ListLinkBtn/ListLinkBtn';
 
 interface ISetData {
   title: string;
@@ -25,16 +26,30 @@ const SetFeed = () => {
           } as const;
 
           return (
-            <ListCardForm onSubmit={e => deleteSetHandler(e, id)} key={id} isSetFeed={true} {...data}>
-              <Btn className='btn--outline-black btn--small mr-4 md:mr-6' to={`/set/${id}`} isListItem={true}>
+            <ListCardForm
+              onSubmit={e => deleteSetHandler(e, id)}
+              key={id}
+              isSetFeed={true}
+              {...data}
+            >
+              <ListLinkItem
+                className='btn--outline-black btn--small mr-4 md:mr-6'
+                to={`/set/${id}`}
+              >
                 View Set
-              </Btn>
-              <Btn className='btn--outline-black btn--small mr-4 md:mr-6' to={`/set/${id}/edit`} isListItem={true}>
+              </ListLinkItem>
+              <ListLinkItem
+                className='btn--outline-black btn--small mr-4 md:mr-6'
+                to={`/set/${id}/edit`}
+              >
                 Edit Set
-              </Btn>
-              <Btn tag='button' type='submit' className='btn--outline-black btn--small' isListItem={true}>
+              </ListLinkItem>
+              <ListLinkBtn
+                type='submit'
+                className='btn--outline-black btn--small'
+              >
                 Delete Set
-              </Btn>
+              </ListLinkBtn>
             </ListCardForm>
           );
         })

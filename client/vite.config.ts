@@ -1,10 +1,9 @@
-import { defineConfig, loadEnv } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-
   const env = loadEnv(mode, path.resolve(__dirname, '../'), '');
   const isDev = mode === 'development';
 
@@ -29,7 +28,7 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: `${isDev ? 'http' : 'https'}://${env.VITE_DEV_API_URL}`,
           secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: path => path.replace(/^\/api/, ''),
         },
       },
     },
@@ -40,6 +39,8 @@ export default defineConfig(({ mode }) => {
         '@pages': path.resolve(__dirname, 'src/pages'),
         '@features': path.resolve(__dirname, 'src/features'),
         '@layouts': path.resolve(__dirname, 'src/layouts'),
+        '@sass': path.resolve(__dirname, 'src/assets/scss'),
+        '@app-types': path.resolve(__dirname, 'src/types'),
       },
     },
   };
