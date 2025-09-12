@@ -5,10 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "install:client": "npm --prefix ./client install",
     "install:server": "npm --prefix ./server install",
-    "install:all": "npm-run-all -p install:client install:server",
+    "install:all": "concurrently \"npm run install:client\" \"npm run install:server\"",
     "client:build": "npm --prefix ./client run build",
     "client:dev": "npm --prefix ./client run dev:start",
     "client:dev:prod": "npm --prefix ./client run dev:prod",
@@ -18,15 +17,15 @@
     "db:migrate": "npm --prefix ./server run migrate",
     "db:migrate:undo": "npm --prefix ./server run migrate:undo",
     "db:migrate:undo:all": "npm --prefix ./server run migrate:undo:all",
-    "dev": "npm-run-all -p client:dev server:dev",
-    "dev:https": "npm-run-all -p client:dev:prod server:prod",
+    "dev": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
+    "dev:https": "concurrently \"npm run client:dev:prod\" \"npm run server:prod\"",
     "netlify:build": "npm run client:build && netlify dev",
     "netlify:dev": "netlify dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "npm-run-all": "^4.1.5"
+  "dependencies": {
+    "concurrently": "^9.2.1"
   }
 }
