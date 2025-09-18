@@ -1,7 +1,7 @@
 import { useReducer, useEffect, useCallback, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import apiRequest from '@/lib/api';
-import { useAuthContext } from '@/context/hooks/useAuthContext';
+import { useAuthContext } from '@hooks/useAuthContext';
 
 interface ISetReducerState {
   inputOneValue?: string;
@@ -41,7 +41,11 @@ const SetReducer = (state: ISetReducerState, action: ISetReducerAction) => {
   }
 };
 
-const useManageSetData = ({ isEditSet, isGetSets, setId }: ImanageSetData = {}) => {
+const useManageSetData = ({
+  isEditSet,
+  isGetSets,
+  setId,
+}: ImanageSetData = {}) => {
   const navigate = useNavigate();
   const { userId, userSlug, token } = useAuthContext();
   const [sets, setSets] = useState<ISetData[]>([]);

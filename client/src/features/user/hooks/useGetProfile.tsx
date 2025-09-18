@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import apiRequest from '@/lib/api';
-import { useAuthContext } from '@/context/hooks/useAuthContext';
+import { useAuthContext } from '@hooks/useAuthContext';
 
 interface UserAction {
   type: 'GET_PROFILE';

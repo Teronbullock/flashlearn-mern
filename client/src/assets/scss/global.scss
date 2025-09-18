@@ -1,11 +1,7 @@
 // Global
 
-@use '@sass/variables' as var;
-@use '@sass/breakpoints' as bp;
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@use './variables' as var;
+@use './breakpoints' as bp;
 
 html {
   font-size: 16px;

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo, useReducer } from 'react';
 import apiRequest from '@/lib/api';
-import { useAuthContext } from '@/context/hooks/useAuthContext';
+import { useAuthContext } from '@hooks/useAuthContext';
 
 interface ICardReducerState {
   inputOneValue?: string;
@@ -45,7 +45,12 @@ const CardReducer = (state: ICardReducerState, action: ICardReducerAction) => {
     case 'SET_TEXT_COLOR':
       return { ...state, ...action.payload };
     case 'RESET':
-      return { inputOneValue: '', inputTwoValue: '', bgColor: '#ffffff', textColor: '#000000' };
+      return {
+        inputOneValue: '',
+        inputTwoValue: '',
+        bgColor: '#ffffff',
+        textColor: '#000000',
+      };
     case 'ON_CARD_RELOAD':
       return { ...state, ...action.payload };
     case 'RESET_COLORS':
@@ -55,7 +60,12 @@ const CardReducer = (state: ICardReducerState, action: ICardReducerAction) => {
   }
 };
 
-const useManageCardData = ({ isGetCards, isEditCard, cardId, setId }: IManageCardData = {}) => {
+const useManageCardData = ({
+  isGetCards,
+  isEditCard,
+  cardId,
+  setId,
+}: IManageCardData = {}) => {
   const [cards, setCards] = useState<ICardData[]>([]);
   const { token } = useAuthContext();
   const [state, dispatch] = useReducer(CardReducer, {
@@ -145,12 +155,24 @@ const useManageCardData = ({ isGetCards, isEditCard, cardId, setId }: IManageCar
         alert(err);
       }
     },
-    [apiConfig, cardId, setId, state.bgColor, state.inputOneValue, state.inputTwoValue, state.textColor]
+    [
+      apiConfig,
+      cardId,
+      setId,
+      state.bgColor,
+      state.inputOneValue,
+      state.inputTwoValue,
+      state.textColor,
+    ]
   );
 
   // Delete Card Handler
   const deleteCardHandler = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>, cardId: string, setId: string) => {
+    async (
+      e: React.FormEvent<HTMLFormElement>,
+      cardId: string,
+      setId: string
+    ) => {
       e.preventDefault();
 
       if (!setId || !cardId) {
@@ -213,7 +235,14 @@ const useManageCardData = ({ isGetCards, isEditCard, cardId, setId }: IManageCar
     }
   }, [isGetCards, getCardData, setId, token]);
 
-  return { cards, addCardHandler, editCardHandler, deleteCardHandler, state, dispatch };
+  return {
+    cards,
+    addCardHandler,
+    editCardHandler,
+    deleteCardHandler,
+    state,
+    dispatch,
+  };
 };
 
 export default useManageCardData;

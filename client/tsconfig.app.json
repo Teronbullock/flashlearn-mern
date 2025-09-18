@@ -33,7 +33,9 @@
       "@features/*": ["src/features/*"],
       "@layouts/*": ["src/layouts/*"],
       "@sass/*": ["src/assets/scss/*"],
-       "@app-types/*": ["src/types/*"]
+      "@app-types/*": ["src/types/*"],
+      "@context/*": ["src/context/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src", "test","src/**/*.test.ts", "src/**/*.spec.ts"]

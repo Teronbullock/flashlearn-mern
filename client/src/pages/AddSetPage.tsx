@@ -1,63 +1,63 @@
-import classNames from 'classnames';
-import useManageSetData from '../features/sets/hooks/useManageSetData';
-import { useAuthContext } from '../context/hooks/useAuthContext';
-import PageHeader from '../layouts/PageComponents/PageHeader';
-import PageHero from '../layouts/PageComponents/PageHero';
-import Form from '@components/Forms/Form';
-import FormInput from '@components/Forms/FormInput';
-import FormAction from '@components/Forms/FormAction';
-import { ListLinkItem } from '@components/ListLinkItem/ListLinkItem';
+import classNames from "classnames";
+import useManageSetData from "../features/sets/hooks/useManageSetData";
+import { useAuthContext } from "@hooks/useAuthContext";
+import PageHeader from "../layouts/PageComponents/PageHeader";
+import PageHero from "../layouts/PageComponents/PageHero";
+import Form from "@components/Forms/Form";
+import FormInput from "@components/Forms/FormInput";
+import FormAction from "@components/Forms/FormAction";
+import { ListItemLink } from "@components/ListItemLink/ListItemLink";
 
 const AddSetPage = () => {
   const { userSlug } = useAuthContext();
   // const { state, addSetHander, dispatch } = useAddSetData();
   const { state, addSetHandler, dispatch } = useManageSetData();
-  const currentPage = 'createSetPage';
+  const currentPage = "createSetPage";
 
   return (
-    <main className={classNames('main', `main-${currentPage}`)}>
+    <main className={classNames("main", `main-${currentPage}`)}>
       <PageHero currentPage={currentPage} />
       <PageHeader currentPage={currentPage}>
-        <ListLinkItem
-          className='btn--outline-black btn--large'
+        <ListItemLink
+          className="btn--outline-black btn--large"
           to={`/dashboard/${userSlug}/`}
         >
           Dashboard Page
-        </ListLinkItem>
+        </ListItemLink>
       </PageHeader>
-      <section className='container py-12 lg:max-w-screen-lg'>
-        {!state && <h2 className='text-2xl text-center'>No set found</h2>}
-        <Form onSubmit={addSetHandler} className='bg-white'>
+      <section className="container py-12 lg:max-w-screen-lg">
+        {!state && <h2 className="text-center text-2xl">No set found</h2>}
+        <Form onSubmit={addSetHandler} className="bg-white">
           <FormInput
-            labelName='Title'
-            type='textarea'
-            name='title'
+            labelName="Title"
+            type="textarea"
+            name="title"
             value={state.inputOneValue}
             required={true}
-            placeholder='Enter Title'
-            onChange={e =>
+            placeholder="Enter Title"
+            onChange={(e) =>
               dispatch({
-                type: 'ON_INPUT_ONE_CHANGE',
+                type: "ON_INPUT_ONE_CHANGE",
                 payload: { inputOneValue: e.target.value },
               })
             }
             autoFocus={true}
           />
           <FormInput
-            labelName='Description'
-            type='textarea'
-            name='description'
+            labelName="Description"
+            type="textarea"
+            name="description"
             value={state.inputTwoValue}
-            placeholder='Enter Description'
-            onChange={e =>
+            placeholder="Enter Description"
+            onChange={(e) =>
               dispatch({
-                type: 'ON_INPUT_TWO_CHANGE',
+                type: "ON_INPUT_TWO_CHANGE",
                 payload: { inputTwoValue: e.target.value },
               })
             }
           />
           <FormAction
-            submitBtnText='Create'
+            submitBtnText="Create"
             cancelBtnTo={`/dashboard/${userSlug}/`}
           />
         </Form>

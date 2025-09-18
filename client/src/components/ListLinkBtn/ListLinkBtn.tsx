@@ -1,14 +1,14 @@
-import { Btn } from '@components/Btn/Btn';
-import { BtnProps } from '@app-types/btnTypes';
-import classNames from 'classnames';
+import { Btn } from "@components/Btn/Btn";
+import { BtnProps } from "@app-types/btnTypes";
+import classNames from "classnames";
 
 interface ListProps extends BtnProps {
-  listClassName?: string;
+  listItemClass?: string;
 }
 
-export const ListLinkBtn = ({ listClassName, ...props }: ListProps) => {
+export const ListLinkBtn = ({ listItemClass, ...props }: ListProps) => {
   return (
-    <li className={classNames(listClassName)}>
+    <li className={classNames(listItemClass)}>
       <Btn {...props} />
     </li>
   );

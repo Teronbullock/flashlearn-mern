@@ -1,13 +1,13 @@
-import { To } from 'react-router-dom';
+import { To } from "react-router-dom";
 
 interface BtnBase {
   children: React.ReactNode;
   className?: string;
-  defaultStyle?: boolean;
+  variant?: "primary" | "secondary" | "tertiary" | "outline" | "none";
 }
 
 export interface BtnProps extends BtnBase {
-  type?: 'submit' | 'reset' | 'button';
+  type?: "submit" | "reset" | "button";
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -15,3 +15,9 @@ export interface BtnLinkProps extends BtnBase {
   to: To;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
+
+export type ListItemProps = (BtnProps | BtnLinkProps) & {
+  isLink?: boolean;
+  type?: string;
+  itemClass?: string;
+};

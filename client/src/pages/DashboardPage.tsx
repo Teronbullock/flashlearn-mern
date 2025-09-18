@@ -1,23 +1,23 @@
-import { useParams } from 'react-router-dom';
-import PageHero from '@layouts/PageComponents/PageHero';
-import PageHeader from '@layouts/PageComponents/PageHeader';
-import SetFeed from '@features/sets/components/SetFeed';
-import { ListLinkItem } from '@components/ListLinkItem/ListLinkItem';
+import { useParams } from "react-router-dom";
+import PageHero from "@layouts/PageComponents/PageHero";
+import PageHeader from "@layouts/PageComponents/PageHeader";
+import SetFeed from "@features/sets/components/SetFeed";
+import { ListItemLink } from "@components/ListItemLink/ListItemLink";
 
 const Dashboard = () => {
   const { userSlug } = useParams();
-  const currentPage = 'dashboardPage';
+  const currentPage = "dashboardPage";
 
   return (
-    <main className='main main-dashboard-page'>
+    <main className="main main-dashboard-page">
       <PageHero currentPage={currentPage} />
       <PageHeader currentPage={currentPage}>
-        <ListLinkItem
-          className='btn--tertiary btn--large'
+        <ListItemLink
+          className="btn--tertiary btn--large"
           to={`/set/user/${userSlug}/add`}
         >
           Create Set
-        </ListLinkItem>
+        </ListItemLink>
       </PageHeader>
       <SetFeed />
     </main>

@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import Form from '@components/Forms/Form';
 import { Btn } from '@components/Btn/Btn';
 import FormInput from '@components/Forms/FormInput';
-import { useAuthContext } from '../context/hooks/useAuthContext';
+import { useAuthContext } from '@hooks/useAuthContext';
 
 interface UserState {
   user_email: string;

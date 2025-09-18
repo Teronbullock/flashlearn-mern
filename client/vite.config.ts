@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 // https://vitejs.dev/config/
@@ -12,7 +13,7 @@ export default defineConfig(({ mode }) => {
       'process.env': process.env,
     },
     envDir: '../',
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     css: {
       preprocessorOptions: {
         scss: {
@@ -41,6 +42,8 @@ export default defineConfig(({ mode }) => {
         '@layouts': path.resolve(__dirname, 'src/layouts'),
         '@sass': path.resolve(__dirname, 'src/assets/scss'),
         '@app-types': path.resolve(__dirname, 'src/types'),
+        '@context': path.resolve(__dirname, 'src/context'),
+        '@hooks': path.resolve(__dirname, 'src/hooks'),
       },
     },
   };

@@ -1,12 +1,7 @@
 //  nav
 
-@use '@sass/variables' as var;
-@use '@sass/breakpoints' as bp;
-
-.nav-mobile__item,
-.nav-mobile__link {
-  display: block;
-}
+@use "@sass/variables" as var;
+@use "@sass/breakpoints" as bp;
 
 .open .nav-mobile {
   width: 100%;
@@ -19,7 +14,6 @@
   height: 100%;
   width: 0;
   z-index: 100;
-  background-color: var.$color-white;
   transition: 0.2s;
   overflow-x: hidden;
   text-align: center;
@@ -31,22 +25,6 @@
 
 .nav-mobile__list {
   padding: 4rem 1rem 2rem;
-}
-
-.nav-mobile__item {
-  border-bottom: 1px solid;
-  padding: 1rem 0;
-}
-
-.nav-mobile__item:last-child {
-  border-bottom: none;
-}
-
-.nav-mobile__link {
-  transition: 0.3s;
-  text-decoration: none;
-  cursor: pointer;
-  color: var.$color-black;
 }
 
 .nav-mobile--remove-border {

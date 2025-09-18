@@ -2,17 +2,16 @@
 
 // colors
 $color-primary: #c93916;
-$color-secondary: #ADAAA6;
+$color-secondary: #adaaa6;
 $color-tertiary: #6e8875;
-$color-dark-brown: #361D14;
+$color-dark-brown: #361d14;
 $color-white: #ffffff;
 $color-black: #000000;
 $color-light-gray: #e3e6ef;
 $color-green: #46544a;
 $color-mustard: #dd9243;
-$color-dark-shade: #2A2B2D;
-$color-light-shade: #6A6F6F;
-
+$color-dark-shade: #2a2b2d;
+$color-light-shade: #6a6f6f;
 
 $colors: (
   "primary": $color-primary,
@@ -28,26 +27,30 @@ $colors: (
   "dark-shade": $color-dark-shade,
 );
 
-
 // shadows
 $black-shadow-1: 4px 7px 8px -2px rgba(0, 0, 0, 0.17);
 $black-shadow-2: 4px 4px 5px 0px rgba(0, 0, 0, 0.17);
 
-
 // font-family
-$font-main: averta, avenir w02, avenir, Helvetica, Arial, sans-serif;
-$font-header: 'Courgette', cursive;
-
+$font-main: Manrope, Helvetica, Arial, sans-serif;
+$font-sec:
+  averta,
+  avenir w02,
+  avenir,
+  Helvetica,
+  Arial,
+  sans-serif;
+$font-header: "Courgette", cursive;
 
 // media sizes
 $breakpoints: (
-  0:        0,
-  i4:       320px,
-  xs:       375px,
-  sm:       576px,
-  md:       768px,
-  lg:       992px,
-  xl:       1200px,
-  2xl:      1440px,
-  3xl:      1920px,
+  0: 0,
+  i4: 320px,
+  xs: 375px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  2xl: 1440px,
+  3xl: 1920px,
 );

@@ -6,7 +6,7 @@ import Form from '@components/Forms/Form';
 import FormInput from '@components/Forms/FormInput';
 import { Btn } from '@components/Btn/Btn';
 import apiRequest from '@/lib/api';
-import { useAuthContext } from '@/context/hooks/useAuthContext';
+import { useAuthContext } from '@hooks/useAuthContext';
 
 interface UserState {
   user_email: string;

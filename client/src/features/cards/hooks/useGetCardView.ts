@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiRequest from '@/lib/api';
-import { useAuthContext } from '../../../context/hooks/useAuthContext';
+import { useAuthContext } from '@hooks/useAuthContext';
 
 const useGetCardView = (setId: string | undefined, pageNum: string | null) => {
   const [card, setCard] = useState();

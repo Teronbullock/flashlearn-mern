@@ -1,0 +1,67 @@
+@font-face {
+  font-family: "Manrope";
+  src: url(./assets/fonts/manrope-v20-latin-300.woff2);
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url(./assets/fonts/manrope-v20-latin-500.woff2);
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url(./assets/fonts/manrope-v20-latin-600.woff2);
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url(./assets/fonts/manrope-v20-latin-700.woff2);
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url(./assets/fonts/manrope-v20-latin-regular.woff2);
+  font-weight: 400; /* Regular is typically 400 */
+  font-style: normal;
+}
+
+@import "tailwindcss";
+@import "./assets/scss/global.css";
+@source "./src/**/*.{js,jsx,ts,tsx,json}";
+
+@theme {
+  /* font */
+  --font-manrope: "Manrope", sans-serif;
+
+  /* Colors */
+  --color-primary: #ca3916;
+  --color-primary-dark: #a22e12;
+  --color-secondary: #e5e5ea;
+  --color-tertiary: #faebe8;
+  --color-dark-brown: #361d14;
+  --color-light-gray: #e3e6ef;
+  --color-green: #46544a;
+  --color-mustard: #dd9243;
+  --color-dark-shade: #2a2b2d;
+  --color-light-shade: #6a6f6f;
+  --color-light: #f2f2f7;
+  --color-dark: #262626;
+
+  /* Breakpoint */
+  --breakpoint-1xl: 1440px;
+
+  /* container */
+  --container-center: true;
+  --container-padding: 1rem;
+
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-1xl: 1320px;
+  --container-2xl: 1400px;
+}

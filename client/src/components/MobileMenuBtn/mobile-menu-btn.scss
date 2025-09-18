@@ -1,29 +1,18 @@
-@use '@sass/variables' as var;
-@use '@sass/breakpoints' as bp;
-
-.btn-mobile-toggle.change {
-  padding: 0;
-}
+@use "@sass/variables" as var;
+@use "@sass/breakpoints" as bp;
 
 .btn-bar1,
 .btn-bar2,
 .btn-bar3 {
-  width: 28px;
+  width: 100%;
   height: 2px;
   transition: transform 0.4s;
 }
 
 .change {
-  .btn-bar1,
-  .btn-bar2,
-  .btn-bar3 {
-    width: 40px;
-    margin: 0;
-  }
-
   .btn-bar1 {
     -webkit-transform: rotate(-45deg) translate(-1px, 1px);
-    transform: rotate(-45deg) translate(-1px, 1px);
+    transform: rotate(-45deg) translate(-4px, 4px);
   }
 
   .btn-bar2 {
@@ -32,6 +21,6 @@
 
   .btn-bar3 {
     -webkit-transform: rotate(45deg) translate(-1px, -1px);
-    transform: rotate(45deg) translate(-1px, -1px);
+    transform: rotate(45deg) translate(-4px, -4px);
   }
 }
