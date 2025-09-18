@@ -17,10 +17,11 @@
     "db:migrate": "npm --prefix ./server run migrate",
     "db:migrate:undo": "npm --prefix ./server run migrate:undo",
     "db:migrate:undo:all": "npm --prefix ./server run migrate:undo:all",
-    "dev": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
-    "dev:https": "concurrently \"npm run client:dev:prod\" \"npm run server:prod\"",
     "netlify:build": "npm run client:build && netlify dev",
-    "netlify:dev": "netlify dev"
+    "netlify:dev": "netlify dev",
+    "dev:local": "conc 'npm run client:dev' 'npm run server:dev' ",
+    "dev:https": "conc 'npm run client:dev:prod' 'npm run server:prod' ",
+    "dev": "npm run netlify:dev"
   },
   "keywords": [],
   "author": "",
