@@ -1,0 +1,13 @@
+{
+  "pageType": "createSet",
+  "mainClass": "main--create-set",
+  "hero": {
+    "className": "page-header--create-set",
+    "ariaLabel": "Create Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person sits on padded chair while using MacBook during daytime. Photo by Christina @ wocintechchat on Unsplash.",
+    "img": "/assets/img/christina-wocintechchat-com-vLwH8bWoi_8-unsplash.jpg"
+  },
+  "header": {
+    "title": "Create Set",
+    "copy": "Create a new set of flashcards. Add a title and description to get started."
+  }
+}

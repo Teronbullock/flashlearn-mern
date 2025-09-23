@@ -2,12 +2,11 @@ import { useParams } from "react-router-dom";
 import classNames from "classnames";
 import { useAuthContext } from "@hooks/useAuthContext";
 import PageHeader from "../layouts/PageComponents/PageHeader";
-import { ListItemLink } from "@components/ListItemLink/ListItemLink";
-import PageHero from "../layouts/PageComponents/PageHero";
 import useManageSetData from "../features/sets/hooks/useManageSetData";
 import Form from "@components/Forms/Form";
 import FormInput from "@components/Forms/FormInput";
 import FormAction from "@components/Forms/FormAction";
+import { Btn } from "@components/Btn/Btn";
 
 const EditSetPage = () => {
   const { userSlug } = useAuthContext();
@@ -20,20 +19,27 @@ const EditSetPage = () => {
 
   return (
     <main className={classNames("main", `main-${currentPage}`)}>
-      <PageHero currentPage={currentPage} className="hidden md:block" />
       <PageHeader currentPage={currentPage}>
-        <ListItemLink
-          className="btn--large btn--outline-black mr-6"
-          to={`/set/${setId}/`}
-        >
-          View Set
-        </ListItemLink>
-        <ListItemLink
-          className="btn--large btn--outline-black"
-          to={`/dashboard/${userSlug}/`}
-        >
-          Dashboard Page
-        </ListItemLink>
+        <li>
+          <Btn
+            el="link"
+            variants={{ style: "btn" }}
+            className="btn--large btn--outline-black mr-6"
+            to={`/set/${setId}/`}
+          >
+            View Set
+          </Btn>
+        </li>
+        <li>
+          <Btn
+            el="link"
+            variants={{ style: "btn" }}
+            className="btn--large btn--outline-black"
+            to={`/dashboard/${userSlug}/`}
+          >
+            Dashboard Page
+          </Btn>
+        </li>
       </PageHeader>
       <section className="container py-12 lg:max-w-screen-lg">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}

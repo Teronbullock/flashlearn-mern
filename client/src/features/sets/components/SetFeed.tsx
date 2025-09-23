@@ -1,8 +1,7 @@
+import { Btn } from "@/components/Btn/Btn";
 import Card from "@components/Card/Card";
 import { ListCardForm } from "@components/Forms/ListCardForm";
 import useManageSetData from "@features/sets/hooks/useManageSetData";
-import { ListItemLink } from "@components/ListItemLink/ListItemLink";
-import { ListLinkBtn } from "@components/ListLinkBtn/ListLinkBtn";
 
 interface ISetData {
   title: string;
@@ -32,24 +31,31 @@ const SetFeed = () => {
               isSetFeed={true}
               {...data}
             >
-              <ListItemLink
-                className="btn--outline-black btn--small mr-4 md:mr-6"
-                to={`/set/${id}`}
-              >
-                View Set
-              </ListItemLink>
-              <ListItemLink
-                className="btn--outline-black btn--small mr-4 md:mr-6"
-                to={`/set/${id}/edit`}
-              >
-                Edit Set
-              </ListItemLink>
-              <ListLinkBtn
-                type="submit"
-                className="btn--outline-black btn--small"
-              >
-                Delete Set
-              </ListLinkBtn>
+              <li>
+                <Btn
+                  el="link"
+                  variants={{ style: "btn" }}
+                  className="btn--outline-black btn--small mr-4 md:mr-6"
+                  to={`/set/${id}`}
+                >
+                  View Set
+                </Btn>
+              </li>
+              <li>
+                <Btn
+                  el="link"
+                  variants={{ style: "btn" }}
+                  className="btn--outline-black btn--small mr-4 md:mr-6"
+                  to={`/set/${id}/edit`}
+                >
+                  Edit Set
+                </Btn>
+              </li>
+              <li>
+                <Btn type="submit" className="btn--outline-black btn--small">
+                  Delete Set
+                </Btn>
+              </li>
             </ListCardForm>
           );
         })

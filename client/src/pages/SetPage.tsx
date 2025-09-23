@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
 import CardFeed from "@features/cards/components/CardFeed";
 import { useAuthContext } from "@hooks/useAuthContext";
-import PageHero from "@layouts/PageComponents/PageHero";
 import PageHeader from "@layouts/PageComponents/PageHeader";
-import { ListItemLink } from "@components/ListItemLink/ListItemLink";
 import useManageCardData from "@/features/cards/hooks/useManageCardData";
+import { Btn } from "@components/Btn/Btn";
 
 const SetPage = () => {
   const { userSlug } = useAuthContext();
@@ -17,26 +16,37 @@ const SetPage = () => {
 
   return (
     <main className="main main-setPage">
-      <PageHero currentPage={currentPage} />
       <PageHeader currentPage={currentPage}>
-        <ListItemLink
-          className="btn--tertiary btn--page-header mr-4"
-          to={`/set/${setId}/card/add`}
-        >
-          Add Card
-        </ListItemLink>
-        <ListItemLink
-          className="btn--outline-black btn--page-header mr-4"
-          to={`/set/${setId}/cards/?page=1`}
-        >
-          View Cards
-        </ListItemLink>
-        <ListItemLink
-          className="btn--outline-black btn--page-header"
-          to={`/dashboard/${userSlug}/`}
-        >
-          Dashboard
-        </ListItemLink>
+        <li>
+          <Btn
+            el="link"
+            variants={{ style: "btn" }}
+            className="btn--tertiary btn--page-header mr-4"
+            to={`/set/${setId}/card/add`}
+          >
+            Add Card
+          </Btn>
+        </li>
+        <li>
+          <Btn
+            el="link"
+            variants={{ style: "btn" }}
+            className="btn--outline-black btn--page-header mr-4"
+            to={`/set/${setId}/cards/?page=1`}
+          >
+            View Cards
+          </Btn>
+        </li>
+        <li>
+          <Btn
+            el="link"
+            variants={{ style: "btn" }}
+            className="btn--outline-black btn--page-header"
+            to={`/dashboard/${userSlug}/`}
+          >
+            Dashboard
+          </Btn>
+        </li>
       </PageHeader>
       <CardFeed cards={cards} deleteCardHandler={deleteCardHandler} />
     </main>

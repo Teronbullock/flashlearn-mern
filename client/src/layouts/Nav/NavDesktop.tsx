@@ -1,6 +1,4 @@
-import { Btn } from "../../components/Btn/Btn";
-import { ListItemLink } from "@components/ListItemLink/ListItemLink";
-import { ListLinkBtn } from "@components/ListLinkBtn/ListLinkBtn";
+import { Btn } from "@components/Btn/Btn";
 import { useAuthContext } from "@hooks/useAuthContext";
 import { LogoutFn } from "@app-types/navTypes";
 import "./nav.scss";
@@ -13,49 +11,66 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
       <ul className="nav-desktop__list nav-desktop--flex">
         {token ? (
           <>
-            <ListItemLink
-              className="nav-desktop__item"
-              to={`/dashboard/${userSlug}`}
-            >
-              Home
-            </ListItemLink>
-            <ListItemLink
-              className="nav-desktop__item"
-              to={`/set/user/${userSlug}/add`}
-            >
-              Create Set
-            </ListItemLink>
-            {userSlug && (
-              <ListItemLink
+            userSlug && (
+            <li>
+              <Btn
+                el="link"
+                variants={{ style: "btn" }}
+                className="nav-desktop__item"
+                to={`/dashboard/${userSlug}`}
+              >
+                Home
+              </Btn>
+            </li>
+            <li>
+              <Btn
+                el="link"
+                variants={{ style: "btn" }}
+                className="nav-desktop__item"
+                to={`/set/user/${userSlug}/add`}
+              >
+                Create Set
+              </Btn>
+            </li>
+            <li>
+              <Btn
+                el="link"
+                variants={{ style: "btn" }}
                 className="nav-desktop__item"
                 to={`/profile/${userSlug}`}
               >
                 Profile
-              </ListItemLink>
-            )}
-            <Btn className="btn--black p-3" onClick={onLogout}>
-              Logout
-            </Btn>
+              </Btn>
+            </li>
+            <li>
+              <Btn className="btn--black p-3" onClick={onLogout}>
+                Logout
+              </Btn>
+            </li>
+            )
           </>
         ) : (
           <>
-            <ListItemLink listClassName="nav-desktop__item" to="/">
-              Home
-            </ListItemLink>
-            <ListItemLink
-              listClassName="nav-desktop__item"
-              className="nav__list-link"
-              to="/register"
-            >
-              Sign Up
-            </ListItemLink>
-            <ListLinkBtn
-              listClassName="nav-desktop__item mr-0"
-              className="p-3"
-              variant="primary"
-            >
-              Login
-            </ListLinkBtn>
+            <li className="nav-desktop__item">
+              <Btn el="link" variants={{ style: "btn" }} to="/">
+                Home
+              </Btn>
+            </li>
+            <li className="nav-desktop__item">
+              <Btn
+                el="link"
+                variants={{ style: "btn" }}
+                className="nav__list-link"
+                to="/register"
+              >
+                Sign Up
+              </Btn>
+            </li>
+            <li className="nav-desktop__item mr-0">
+              <Btn className="p-3" variants={{ type: "primary" }}>
+                Login
+              </Btn>
+            </li>
           </>
         )}
       </ul>

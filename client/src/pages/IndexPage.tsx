@@ -1,21 +1,46 @@
-import PageHero from '@layouts/PageComponents/PageHero';
-import PageHeader from '@layouts/PageComponents/PageHeader';
-import SectionFeat from '@components/SectionFeat/SectionFeat';
-import PageContentFile from '../data/page-content.json';
+import { SectionOneCol } from "@components/SectionOneCol";
+import { PageHero } from "@layouts/PageComponents/PageHero";
+import indexPageContext from "@content/indexPage.json";
+import { TwoColImage } from "@components/TwoColImage";
+import { SectionTwoCol } from "@components/SectionTwoCol";
+import { TimelineCard } from "@components/TimelineCard";
 
-const IndexPage = () => {
-  const pageContent = PageContentFile.indexPage;
-  const sections = pageContent.sections;
-  const currentPage = 'indexPage';
+export const IndexPage = () => {
+  const { hero, sectionOne, sectionTwo, sectionThree, sectionFour } =
+    indexPageContext;
 
   return (
-    <main className='main main--index'>
-      <PageHero currentPage={currentPage} />
-      <PageHeader currentPage={currentPage} />
-      <SectionFeat {...sections[0]} />
-      <SectionFeat {...sections[1]} />
+    <main className="main main--index">
+      <PageHero
+        title={hero.title}
+        copy={hero.copy}
+        img={hero.img}
+        ariaLabel={hero.ariaLabel}
+      />
+      <SectionOneCol data={sectionOne} className="mt-[3.75rem]" />
+      <TwoColImage {...sectionTwo} />
+      <TwoColImage isReversed={true} {...sectionThree} />
+      <SectionTwoCol
+        className={{ container: "bg-light rounded-[20px] p-8" }}
+        header={{ title: sectionFour.header, className: "mb-[5rem]" }}
+      >
+        <div
+          className="md:mb- mb-[4rem] justify-items-center md:basis-[50%]"
+          data-js="section-two-col-left"
+        >
+          <div className="border-primary rotate-11 h-[350px] w-[400px] rounded-[20px] border bg-[url(assets/img/woman-with-tablet.webp)] bg-no-repeat"></div>
+          <div className="border-primary -rotate-11 h-[350px] w-[400px] rounded-[20px] border bg-[url(assets/img/student-with-a-book.webp)] bg-cover bg-no-repeat"></div>
+        </div>
+        <div data-js="section-two-col-right">
+          <TimelineCard
+            number={1}
+            // title={sectionFour.cardOne.title}
+            {...sectionFour.cardOne}
+          />
+          <TimelineCard number={2} {...sectionFour.cardTwo} />
+          <TimelineCard number={3} isLast {...sectionFour.cardThree} />
+        </div>
+      </SectionTwoCol>
     </main>
   );
 };
-
-export default IndexPage;

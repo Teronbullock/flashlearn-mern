@@ -1,12 +1,11 @@
 import { useParams } from "react-router-dom";
 import PageHeader from "../layouts/PageComponents/PageHeader";
-import PageHero from "../layouts/PageComponents/PageHero";
-import { ListItemLink } from "../components/ListItemLink/ListItemLink";
 import useManageCardData from "@/features/cards/hooks/useManageCardData";
 import FormAction from "../components/Forms/FormAction";
 import FormColorPicker from "../components/Forms/FormColorPicker";
 import Form from "../components/Forms/Form";
 import FormInput from "../components/Forms/FormInput";
+import { Btn } from "@/components/Btn/Btn";
 
 const EditCardPage = () => {
   const { setId, cardId } = useParams();
@@ -19,14 +18,17 @@ const EditCardPage = () => {
 
   return (
     <main className="main main--edit-card-page">
-      <PageHero currentPage={currentPage} className="hidden md:block" />
       <PageHeader currentPage={currentPage}>
-        <ListItemLink
-          className="btn--outline-black btn--large mr-6"
-          to={`/set/${setId}`}
-        >
-          Set Page
-        </ListItemLink>
+        <li>
+          <Btn
+            el="link"
+            variants={{ style: "btn" }}
+            className="btn--outline-black btn--large mr-6"
+            to={`/set/${setId}`}
+          >
+            Set Page
+          </Btn>
+        </li>
       </PageHeader>
       <section className="container pb-4 pt-8 md:pt-12 lg:max-w-screen-lg">
         {state ? (

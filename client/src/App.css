@@ -31,11 +31,17 @@
 
 @import "tailwindcss";
 @import "./assets/scss/global.css";
-@source "./src/**/*.{js,jsx,ts,tsx,json}";
 
-@theme {
+@theme inline {
   /* font */
-  --font-manrope: "Manrope", sans-serif;
+  --font-manrope: "Manrope", Helvetica, Arial, sans-serif;
+
+  /* font-size */
+  --text-xs: 0.875rem; /* 14px */
+  --text-sm: 1.125rem; /* 18px */
+  --text-base: clamp(1rem, 0.734vw + 0.839rem, 1.5rem); /* 16px to 24px */
+  --text-lg: clamp(1rem, 1.5rem + 1vw, 2rem); /* 16px to 32px */
+  --text-xl: clamp(1.62rem, 1.141rem + 2.2vw, 3.12rem); /* 1.62 to 3.12 */
 
   /* Colors */
   --color-primary: #ca3916;
@@ -52,16 +58,16 @@
   --color-dark: #262626;
 
   /* Breakpoint */
-  --breakpoint-1xl: 1440px;
+  /* --breakpoint-*: initial; */
+  --breakpoint-1xl: 90rem; /* 1440px */
 
   /* container */
   --container-center: true;
   --container-padding: 1rem;
 
-  --container-sm: 540px;
-  --container-md: 720px;
-  --container-lg: 960px;
-  --container-xl: 1140px;
-  --container-1xl: 1320px;
-  --container-2xl: 1400px;
+  --container-8xl: 1440px;
+
+  /* Headers */
+  --text-h2:              
+;
 }

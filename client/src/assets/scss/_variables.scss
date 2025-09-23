@@ -32,7 +32,7 @@ $black-shadow-1: 4px 7px 8px -2px rgba(0, 0, 0, 0.17);
 $black-shadow-2: 4px 4px 5px 0px rgba(0, 0, 0, 0.17);
 
 // font-family
-$font-main: Manrope, Helvetica, Arial, sans-serif;
+$font-main: var(--font-manrope);
 $font-sec:
   averta,
   avenir w02,
@@ -44,13 +44,10 @@ $font-header: "Courgette", cursive;
 
 // media sizes
 $breakpoints: (
-  0: 0,
-  i4: 320px,
-  xs: 375px,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  2xl: 1440px,
-  3xl: 1920px,
+  sm: var(--breakpoint-sm),
+  md: var(--breakpoint-md),
+  lg: var(--breakpoint-lg),
+  xl: var(--breakpoint-xl),
+  1xl: var(--breakpoint-1xl),
+  2xl: var(--breakpoint-2xl),
 );

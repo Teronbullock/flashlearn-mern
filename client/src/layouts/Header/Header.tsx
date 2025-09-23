@@ -11,7 +11,7 @@ export default function Header() {
 
   return (
     <header className="header fixed left-0 top-0 z-[500] h-[64px] w-full bg-[#ffffff80] px-[1rem] md:h-[70px]">
-      <div className="header__container container relative mx-auto flex h-full items-center justify-between">
+      <div className="header__container max-w-8xl relative mx-auto flex h-full items-center justify-between">
         <h2 className="header__site-title m-0 font-normal md:w-[180px]">
           {token ? (
             <Link

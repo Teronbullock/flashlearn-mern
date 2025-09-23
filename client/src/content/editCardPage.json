@@ -1,0 +1,13 @@
+{
+  "pageType": "editCard",
+  "mainClass": "main--edit-card",
+  "hero": {
+    "className": "page-header--edit-card",
+    "ariaLabel": "Edit Card Page Header. This section contains the title, description, and actions for the edit card page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
+    "img": "/assets/img/lala-azizli-qANvvc543Tg-unsplash.jpg"
+  },
+  "header": {
+    "title": "Edit Card",
+    "copy": "Edit your flashcard. Add a question and answer to get started."
+  }
+}

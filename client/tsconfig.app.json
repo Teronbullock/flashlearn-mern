@@ -24,10 +24,9 @@
     /* Allow importing JSON modules */
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    
+
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@features/*": ["src/features/*"],
@@ -35,8 +34,10 @@
       "@sass/*": ["src/assets/scss/*"],
       "@app-types/*": ["src/types/*"],
       "@context/*": ["src/context/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@content/*": ["src/content/*"],
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src", "test","src/**/*.test.ts", "src/**/*.spec.ts"]
+  "include": ["src", "test", "src/**/*.test.ts", "src/**/*.spec.ts"]
 }

@@ -1,30 +1,25 @@
-import { CurrentPageInterface } from './types/page-types';
-import './page-components.scss';
-import { BtnLink } from '@components/BtnLink/BtnLink';
-import classNames from 'classnames';
-import PageContentFile from '../../data/page-content.json';
+import "./page-components.scss";
+import { Btn } from "@components/Btn/Btn";
+import classNames from "classnames";
 
-const PageHero = ({ currentPage, className }: CurrentPageInterface) => {
-  const currentPageContent = PageContentFile[currentPage];
-  const { ariaLabel, img } = currentPageContent.hero;
-  const { title, copy } = currentPageContent.header;
+interface HeroProps {
+  title: string;
+  copy?: string;
+  className?: string;
+  img: string;
+  ariaLabel: string;
+}
 
+export const PageHero = ({
+  className,
+  title,
+  copy,
+  img,
+  ariaLabel,
+}: HeroProps) => {
   const heroClass = classNames(
-    'page-hero bg-black text-white relative bg-no-repeat bg-center bg-cover',
-    {
-      'page-hero--half-mask h-[calc(100vh-3.56rem)] md:h-[calc(100vh-4.37rem)] px-4':
-        currentPage === 'indexPage',
-    },
-    { 'h-[20vh]': currentPage !== 'indexPage' },
-    { 'bg-[50%_65%]': currentPage == 'setPage' },
-    { 'h-[20vh]': currentPage == 'viewCardsPage' },
-    {
-      'bg-[50%_30%]':
-        currentPage !== 'viewCardsPage' &&
-        currentPage !== 'indexPage' &&
-        currentPage !== 'setPage',
-    },
-    className
+    "page-hero bg-black text-white relative bg-no-repeat bg-center bg-cover page-hero--half-mask h-screen px-4",
+    className,
   );
 
   return (
@@ -33,19 +28,36 @@ const PageHero = ({ currentPage, className }: CurrentPageInterface) => {
       aria-label={ariaLabel && ariaLabel}
       style={{ backgroundImage: `url(${img})` }}
     >
-      {currentPage === 'indexPage' && (
-        <div className='page-hero__container container relative h-full'>
-          <div className='page-hero_content text-white absolute left-0 bottom-[15%] sm:max-w-[250px] sm:bottom-[10%] md:max-w-[205px] lg:max-w-[375px] xl:max-w-[500px] xl:px-4'>
-            <h1 className='page-hero__title mb-6'>{title}</h1>
-            <p className='mb-6'>{copy}</p>
-            <BtnLink className='btn--primary btn--large' to='/register'>
-              Sign Up
-            </BtnLink>
+      {title && (
+        <div className="page-hero__container max-w-8xl relative mx-auto h-full">
+          <div className="page-hero_content absolute left-0 top-[42%] text-white sm:top-[50%] md:max-w-[600px]">
+            <h2 className="mb-6 text-xl">{title}</h2>
+            <h3 className="mb-7 text-base">{copy}</h3>
+            <Btn
+              el="link"
+              variants={{
+                type: "primary",
+                style: "btn",
+              }}
+              to="/register"
+              className="mr-4"
+            >
+              Get Started for Free
+            </Btn>
+            <Btn
+              el="link"
+              variants={{
+                type: "outline-primary",
+                style: "btn",
+              }}
+              to="/login"
+              className="text-white"
+            >
+              log in
+            </Btn>
           </div>
         </div>
       )}
     </section>
   );
 };
-
-export default PageHero;

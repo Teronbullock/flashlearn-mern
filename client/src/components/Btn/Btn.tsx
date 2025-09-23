@@ -1,40 +1,71 @@
-import "./btn.scss";
+import { Link, To } from "react-router-dom";
 import classNames from "classnames";
-import { BtnProps } from "@app-types/btnTypes";
 
-/**
- * -- Btn Component --
- * @param className {string} - class name for button
- * @param children [React.ReactNode] - children for button
- * @param type {string} - button attribute type (submit, reset, button)
- * The type attribute should only be used when the tag is 'button'.
- * @param onClick {function} - function for button click
- * @param defaultStyle {boolean} - boolean for default style -
- * Default is true
- * @returns
- */
-export const Btn = ({
-  children,
-  variant = "primary",
-  className,
-  onClick,
-  type,
-}: BtnProps) => {
-  const styles = {
-    primary: "bg-primary hover:bg-primary-dark",
-    secondary: "border-primary hover:bg-white",
-    tertiary: "",
-  };
+interface BtnVariants {
+  type?:
+    | "primary"
+    | "secondary"
+    | "tertiary"
+    | "outline-primary"
+    | "outline"
+    | "none";
+  size?: undefined | "sm" | "md" | "lg" | "xl" | "full";
+  style?: "btn";
+}
+
+interface BtnBase {
+  children: React.ReactNode;
+  className?: string;
+  variants?: BtnVariants;
+}
+
+interface HTMLBtnProps extends BtnBase {
+  el?: "btn";
+  type?: "submit" | "reset" | "button";
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+interface LinkProps extends BtnBase {
+  el: "link";
+  to: To;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+}
+
+export type BtnProps = HTMLBtnProps | LinkProps;
+
+export const Btn = (props: BtnProps) => {
+  // default here
+  const el = props.el ?? "btn";
+
+  const { children, className, variants, ...rest } = props;
 
   const btnClass = classNames(
-    { "text-center inline-flex border-[30px]": variant !== "none" },
-    { "bg-primary hover:bg-primary-dark": variant === "primary" },
+    "inline-flex items-center justify-center no-underline hover:duration-[0.3s] hover:cursor-pointer",
+    {
+      "btn p-[0.75rem] rounded-full": variants?.style === "btn",
+      "bg-primary text-white hover:bg-primary-dark":
+        variants?.type === "primary",
+      "border border-primary text-black hover:bg-primary-dark hover:text-white":
+        variants?.type === "outline-primary",
+      "min-w-[100px]": variants?.size === "sm" || variants?.size === undefined,
+    },
+    className,
   );
 
-  return (
-    <button className={btnClass} type={type} onClick={onClick}>
-      {children}
-    </button>
-  );
-  // }
+  // return the link element
+  if (el === "link") {
+    const { to, onClick, ...linkRest } = rest as LinkProps;
+    return (
+      <Link className={btnClass} to={to} onClick={onClick} {...linkRest}>
+        {children}
+      </Link>
+    );
+  } else {
+    const { type, onClick, ...btnRest } = rest as HTMLBtnProps;
+    return (
+      <button className={btnClass} type={type} onClick={onClick} {...btnRest}>
+        {children}
+      </button>
+    );
+  }
 };

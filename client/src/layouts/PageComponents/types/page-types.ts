@@ -1,5 +1,15 @@
 export interface CurrentPageInterface {
-  currentPage: 'indexPage' | 'dashboardPage' | 'setPage' | 'createSetPage' | 'editSetPage' | 'addCardPage' | 'editCardPage' | 'viewCardsPage' | 'profilePage' | 'pageNotFound';
+  currentPage:
+    | "indexPage"
+    | "dashboardPage"
+    | "setPage"
+    | "createSetPage"
+    | "editSetPage"
+    | "addCardPage"
+    | "editCardPage"
+    | "viewCardsPage"
+    | "profilePage"
+    | "pageNotFound";
   className?: string;
 }
 
@@ -14,17 +24,8 @@ export interface HeaderInterface {
     className?: string;
     btnText: string;
     to: string;
-    elementType?: 'anchor' | 'btn';
+    elementType?: "anchor" | "btn";
     ariaLabel: string;
     dataType?: string;
   }[];
-}
-
-export interface PageHeaderNavItem {
-  className?: string;
-  btnText?: string;
-  to?: string;
-  elementType?: 'anchor' | 'btn'| null;
-  ariaLabel?: string;
-  dataType?: string;
 }

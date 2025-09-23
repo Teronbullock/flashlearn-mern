@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import classNames from "classnames";
 import PageHeader from "../layouts/PageComponents/PageHeader";
-import PageHero from "../layouts/PageComponents/PageHero";
-import { ListItemLink } from "../components/ListItemLink/ListItemLink";
+
 import FormAction from "../components/Forms/FormAction";
 import Form from "../components/Forms/Form";
 import FormInput from "../components/Forms/FormInput";
 import useManageCardData from "@/features/cards/hooks/useManageCardData";
+import { Btn } from "@components/Btn/Btn";
 
 const AddCardPage = () => {
   const { setId } = useParams();
@@ -15,14 +15,17 @@ const AddCardPage = () => {
 
   return (
     <main className={classNames("main", `main-${currentPage}`)}>
-      <PageHero currentPage={currentPage} />
       <PageHeader currentPage={currentPage}>
-        <ListItemLink
-          className="btn--outline-black btn--large"
-          to={`/set/${setId}/`}
-        >
-          Set page
-        </ListItemLink>
+        <li>
+          <Btn
+            el="link"
+            variants={{ style: "btn" }}
+            className="btn--outline-black btn--large"
+            to={`/set/${setId}/`}
+          >
+            Set page
+          </Btn>
+        </li>
       </PageHeader>
       <section className="container py-12 lg:max-w-screen-lg">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}

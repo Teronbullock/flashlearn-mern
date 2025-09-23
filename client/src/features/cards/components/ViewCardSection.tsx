@@ -1,8 +1,8 @@
-import { useState, memo } from 'react';
-import classnames from 'classnames';
-import { BtnLink } from '@components/BtnLink/BtnLink';
-import './view-card-section.scss';
-import CardFace from './CardFace';
+import { useState, memo } from "react";
+import classnames from "classnames";
+import { btn } from "@components/btn/btn";
+import "./view-card-section.scss";
+import CardFace from "./CardFace";
 
 interface ViewCardSectionProps {
   page: number;
@@ -23,7 +23,7 @@ const ViewCardSection = ({
   card,
   cardCount,
 }: ViewCardSectionProps) => {
-  const [flashcardClass, setFlashcardClass] = useState('');
+  const [flashcardClass, setFlashcardClass] = useState("");
   let backBtnUrl = `/set/${setId}/cards/?page=${page - 1}`;
   let nextBtnUrl = `/set/${setId}/cards/?page=${page + 1}`;
   let term, definition, bgColor, textColor;
@@ -39,114 +39,114 @@ const ViewCardSection = ({
 
   if (page <= 1) {
     backBtnUrl = `/set/${setId}/cards/?page=${page}`;
-    disableBackBtnStyle = 'pointer-events-none';
+    disableBackBtnStyle = "pointer-events-none";
   } else {
     backBtnUrl = `/set/${setId}/cards/?page=${page - 1}`;
-    disableBackBtnStyle = '';
+    disableBackBtnStyle = "";
   }
 
   if (page >= cardCount) {
     nextBtnUrl = `/set/${setId}/cards/?page=${page}`;
-    disableNextBtnStyle = 'pointer-events-none';
+    disableNextBtnStyle = "pointer-events-none";
   } else {
     nextBtnUrl = `/set/${setId}/cards/?page=${page + 1}`;
-    disableNextBtnStyle = '';
+    disableNextBtnStyle = "";
   }
 
   const handFlipAction = () => {
     if (flashcardClass) {
-      setFlashcardClass('');
+      setFlashcardClass("");
     } else {
-      setFlashcardClass('flashcard--flipped');
+      setFlashcardClass("flashcard--flipped");
     }
   };
 
   return (
-    <section className='section-flash-card p-8 md:w-1/2 mx-auto'>
+    <section className="section-flash-card mx-auto p-8 md:w-1/2">
       {card ? (
-        <div className={classnames('flashcard mx-auto', flashcardClass)}>
-          <div className='flashcard__inner'>
+        <div className={classnames("flashcard mx-auto", flashcardClass)}>
+          <div className="flashcard__inner">
             {term && (
               <CardFace
-                className='flashcard--front'
+                className="flashcard--front"
                 bgColor={bgColor}
                 textColor={textColor}
-                cardHeaderText='Term'
+                cardHeaderText="Term"
                 cardText={term}
                 handFlipAction={handFlipAction}
-                BtnText='Definition'
+                BtnText="Definition"
               >
-                <div className='flashcard__footer d-flex justify-content-center p-4'>
-                  <BtnLink
+                <div className="flashcard__footer d-flex justify-content-center p-4">
+                  <btn
                     className={classnames(
-                      'btn btn--outline-secondary mr-4',
-                      disableBackBtnStyle
+                      "btn btn--outline-secondary mr-4",
+                      disableBackBtnStyle,
                     )}
                     onClick={() => {
-                      setFlashcardClass('');
+                      setFlashcardClass("");
                     }}
                     to={backBtnUrl}
                   >
                     &lt;
-                  </BtnLink>
-                  <BtnLink
+                  </btn>
+                  <btn
                     className={classnames(
-                      'btn btn--black',
-                      disableNextBtnStyle
+                      "btn btn--black",
+                      disableNextBtnStyle,
                     )}
                     onClick={() => {
-                      setFlashcardClass('');
+                      setFlashcardClass("");
                     }}
                     to={nextBtnUrl}
                   >
                     &gt;
-                  </BtnLink>
+                  </btn>
                 </div>
               </CardFace>
             )}
             {definition && (
               <CardFace
-                className='flashcard--back'
+                className="flashcard--back"
                 bgColor={bgColor}
                 textColor={textColor}
-                cardHeaderText='Definition'
+                cardHeaderText="Definition"
                 cardText={definition}
                 handFlipAction={handFlipAction}
-                BtnText='Term'
+                BtnText="Term"
               >
-                <div className='flashcard__footer d-flex justify-content-center p-4'>
-                  <BtnLink
+                <div className="flashcard__footer d-flex justify-content-center p-4">
+                  <btn
                     className={classnames(
-                      'btn btn--outline-secondary mr-4',
-                      disableBackBtnStyle
+                      "btn btn--outline-secondary mr-4",
+                      disableBackBtnStyle,
                     )}
                     onClick={() => {
-                      setFlashcardClass('');
+                      setFlashcardClass("");
                     }}
                     to={backBtnUrl}
                   >
                     &lt;
-                  </BtnLink>
-                  <BtnLink
+                  </btn>
+                  <btn
                     className={classnames(
-                      'btn btn--black',
-                      disableNextBtnStyle
+                      "btn btn--black",
+                      disableNextBtnStyle,
                     )}
                     onClick={() => {
-                      setFlashcardClass('');
+                      setFlashcardClass("");
                     }}
                     to={nextBtnUrl}
                   >
                     &gt;
-                  </BtnLink>
+                  </btn>
                 </div>
               </CardFace>
             )}
           </div>
         </div>
       ) : (
-        <div className='flashcard__body'>
-          <h1 className='flashcard__title'>No Cards Found</h1>
+        <div className="flashcard__body">
+          <h1 className="flashcard__title">No Cards Found</h1>
         </div>
       )}
     </section>

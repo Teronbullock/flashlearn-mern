@@ -1,0 +1,13 @@
+{
+  "pageType": "viewCards",
+  "mainClass": "main--view-cards",
+  "hero": {
+    "className": "page-header--view-cards",
+    "ariaLabel": "View Cards Page Header. This section contains the title, description, and actions for the view card page. The background image is of a Young person reads poetry book. Photo by Thought Catalog on Unsplash.",
+    "img": "/assets/img/thought-catalog-PeRNNIGmoNU-unsplash.jpg"
+  },
+  "header": {
+    "title": "View Cards",
+    "copy": "View your flashcard. Add a question and answer to get started."
+  }
+}

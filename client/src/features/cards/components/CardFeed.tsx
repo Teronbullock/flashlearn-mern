@@ -1,7 +1,6 @@
+import { Btn } from "@/components/Btn/Btn";
 import Card from "@components/Card/Card";
 import { ListCardForm } from "@components/Forms/ListCardForm";
-import { ListLinkBtn } from "@/components/ListLinkBtn/ListLinkBtn";
-import { ListItemLink } from "@components/ListItemLink/ListItemLink";
 
 interface ICardFeed {
   cards: {
@@ -31,18 +30,21 @@ const CardFeed = ({ cards, deleteCardHandler }: ICardFeed) => {
               description={definition}
               onSubmit={(e) => deleteCardHandler(e, id, set_id)}
             >
-              <ListItemLink
-                className="btn--outline-black btn--small mr-3 md:mr-6"
-                to={`/set/${set_id}/card/${id}/edit`}
-              >
-                Edit Card
-              </ListItemLink>
-              <ListLinkBtn
-                type="submit"
-                className="btn--outline-black btn--small"
-              >
-                Delete Card
-              </ListLinkBtn>
+              <li>
+                <Btn
+                  el="link"
+                  variants={{ style: "btn" }}
+                  className="btn--outline-black btn--small mr-3 md:mr-6"
+                  to={`/set/${set_id}/card/${id}/edit`}
+                >
+                  Edit Card
+                </Btn>
+              </li>
+              <li>
+                <Btn type="submit" className="btn--outline-black btn--small">
+                  Delete Card
+                </Btn>
+              </li>
             </ListCardForm>
           );
         })

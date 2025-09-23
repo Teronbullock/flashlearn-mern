@@ -1,0 +1,49 @@
+{
+  "hero": {
+    "title": "A Smarter Way Learn",
+    "copy": "Organize knowledge, practice with digital flashcards, and track your progress, all in one place.",
+    "img": "/assets/img/thought-catalog-Nv-vx3kUR2A-unsplash.jpg",
+    "ariaLabel": "Image of a person sitting on the floor with their back on a couch while using a laptop to study. Photo by Thought Catalog on Unsplash"
+  },
+  "sectionOne": {
+    "header": "Revolutionizing Learning",
+    "subHeader": "We're on a mission to make studying more effective, engaging, and accessible for students worldwide through the power of personalized flashcards."
+  },
+  "sectionTwo": {
+    "img": {
+      "src": "/assets/img/woman-sitting-library.webp",
+      "alt": "Woman sitting in library",
+      "caption": "Create your own flashcards"
+    },
+    "content": {
+      "title": "Studying made Easier",
+      "copy": "Flash Learn helps students study smarter with online flashcards. Create, review, and share decks to make learning faster and easier"
+    }
+  },
+  "sectionThree": {
+    "img": {
+      "src": "/assets/img/man-with-laptop-in-park.webp",
+      "alt": "Man with laptop in city park",
+      "caption": "Save time studying"
+    },
+    "content": {
+      "title": "Learn Anywhere, Anytime",
+      "copy": "Turn every spare moment into a learning opportunity. Your flashcards sync seamlessly across all devices, so your learning never stops."
+    }
+  },
+  "sectionFour": {
+    "header": "How It Works",
+    "cardOne": {
+      "title": "Create Your Flashcards",
+      "copy": "Quickly make digital flashcards for any subject, no more writing by hand."
+    },
+    "cardTwo": {
+      "title": "Organize your Decks",
+      "copy": "Group your cards into decks and keep everything in one place."
+    },
+    "cardThree": {
+      "title": "Study Anywhere",
+      "copy": "Review your flashcards anytime, on any device with smart features."
+    }
+  }
+}

@@ -2,11 +2,10 @@ import classNames from "classnames";
 import useManageSetData from "../features/sets/hooks/useManageSetData";
 import { useAuthContext } from "@hooks/useAuthContext";
 import PageHeader from "../layouts/PageComponents/PageHeader";
-import PageHero from "../layouts/PageComponents/PageHero";
 import Form from "@components/Forms/Form";
 import FormInput from "@components/Forms/FormInput";
 import FormAction from "@components/Forms/FormAction";
-import { ListItemLink } from "@components/ListItemLink/ListItemLink";
+import { Btn } from "@components/Btn/Btn";
 
 const AddSetPage = () => {
   const { userSlug } = useAuthContext();
@@ -16,14 +15,17 @@ const AddSetPage = () => {
 
   return (
     <main className={classNames("main", `main-${currentPage}`)}>
-      <PageHero currentPage={currentPage} />
       <PageHeader currentPage={currentPage}>
-        <ListItemLink
-          className="btn--outline-black btn--large"
-          to={`/dashboard/${userSlug}/`}
-        >
-          Dashboard Page
-        </ListItemLink>
+        <li>
+          <Btn
+            el="link"
+            variants={{ style: "btn" }}
+            className="btn--outline-black btn--large"
+            to={`/dashboard/${userSlug}/`}
+          >
+            Dashboard Page
+          </Btn>
+        </li>
       </PageHeader>
       <section className="container py-12 lg:max-w-screen-lg">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}
