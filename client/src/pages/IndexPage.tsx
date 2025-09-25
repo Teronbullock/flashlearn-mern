@@ -25,20 +25,24 @@ export const IndexPage = () => {
         header={{ title: sectionFour.header, className: "mb-[5rem]" }}
       >
         <div
-          className="md:mb- mb-[4rem] justify-items-center md:basis-[50%]"
+          className="mb-[4rem] justify-items-center md:mb-[2rem] md:basis-[50%]"
           data-js="section-two-col-left"
         >
           <div className="border-primary rotate-11 h-[350px] w-[400px] rounded-[20px] border bg-[url(assets/img/woman-with-tablet.webp)] bg-no-repeat"></div>
           <div className="border-primary -rotate-11 h-[350px] w-[400px] rounded-[20px] border bg-[url(assets/img/student-with-a-book.webp)] bg-cover bg-no-repeat"></div>
         </div>
-        <div data-js="section-two-col-right">
+        <div className="md:pt-[4rem]" data-js="section-two-col-right">
           <TimelineCard
-            number={1}
-            // title={sectionFour.cardOne.title}
+            number="01"
             {...sectionFour.cardOne}
+            className="pb-[6.75rem]"
           />
-          <TimelineCard number={2} {...sectionFour.cardTwo} />
-          <TimelineCard number={3} isLast {...sectionFour.cardThree} />
+          <TimelineCard
+            number="02"
+            {...sectionFour.cardTwo}
+            className="pb-[6.75rem]"
+          />
+          <TimelineCard number="03" isLast {...sectionFour.cardThree} />
         </div>
       </SectionTwoCol>
     </main>

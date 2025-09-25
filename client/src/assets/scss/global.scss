@@ -3,6 +3,10 @@
 @use "./variables" as var;
 @use "./breakpoints" as bp;
 
+html {
+  color: var(--color-dark);
+}
+
 pre {
   width: 80%;
   max-width: 900px;

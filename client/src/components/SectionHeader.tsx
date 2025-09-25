@@ -13,11 +13,21 @@ export const SectionHeader = ({ header, subHeader, className }: Props) => {
     <div className={sectionClass} data-js="section-header">
       <div className="mx-auto mb-4 flex w-[60%] items-center justify-between">
         <span>
-          <img src="/assets/img/star-3.svg" height="30" width="30" alt="" />
+          <img
+            src="/assets/img/star-3.svg"
+            height="42"
+            width="42"
+            alt="star-icon"
+          />
         </span>
         <h2>{header}</h2>
         <span>
-          <img src="/assets/img/star-3.svg" height="30" width="30" alt="" />
+          <img
+            src="/assets/img/star-3.svg"
+            height="42"
+            width="42"
+            alt="star-icon"
+          />
         </span>
       </div>
       <p className="text-center text-base">{subHeader}</p>
