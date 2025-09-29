@@ -1,11 +1,11 @@
-@use '@sass/variables' as var;
-@use '@sass/breakpoints' as bp;
+@use "@sass/variables" as var;
+@use "@sass/breakpoints" as bp;
 
 .page-hero--half-mask {
   &::before {
-    content: ' ';
+    content: " ";
     width: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
     position: absolute;
     top: 0;
     left: 0;
@@ -33,14 +33,14 @@
 
 .page-hero--mask {
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-blend-mode: multiply;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.2);
   }
 }
 

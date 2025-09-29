@@ -1,27 +1,26 @@
-// import classNames from "classnames";
 import { SectionTwoCol } from "@components/SectionTwoCol";
-import { FormCard, FormField } from "@components/FormCard";
-import { SectionHeaderProps } from "@components/SectionHeader";
+import { SectionHeader, SectionHeaderProps } from "@components/SectionHeader";
+import { Btn } from "@components/Btn/Btn";
 
 interface CTASectionProps {
   data: {
-    header: SectionHeaderProps;
-    img: string;
-    isReversed?: boolean;
-    form: {
-      fields: FormField[];
+    img: {
+      src: string;
+      alt: string;
     };
-  };
-  className?: {
-    main?: string;
-    container?: string;
-    inner?: string;
+    isReversed?: boolean;
+    header: SectionHeaderProps;
+    buttonText: string;
   };
 }
 
-export const CTASection = ({ data, className }: CTASectionProps) => {
+export const CTASection = ({ data }: CTASectionProps) => {
+  const sectionClass = {
+    container: "bg-primary relative h-[685px] rounded-[30px]",
+    inner: "md:!gap-0",
+  };
   return (
-    <SectionTwoCol isReversed={data.isReversed} className={className}>
+    <SectionTwoCol isReversed={data.isReversed} className={sectionClass}>
       <span
         className="absolute left-0 top-0 h-[121px] w-[368px] bg-[url('/assets/img/vector-4.png')] bg-contain bg-no-repeat"
         aria-hidden="true"
@@ -30,19 +29,31 @@ export const CTASection = ({ data, className }: CTASectionProps) => {
         className="absolute bottom-0 right-0 h-[145px] w-[197px] bg-[url('/assets/img/vector-3.png')] bg-contain bg-no-repeat"
         aria-hidden="true"
       />
-      <div className="flex items-center justify-center md:basis-[38%]">
+      <div className="flex items-center justify-center md:basis-[63%]">
         <img
-          src={data.img}
-          alt={data.header.header}
-          className="absolute bottom-0 left-[7.5rem] h-auto w-[465px] max-w-full rounded-lg"
+          {...data.img}
+          className="absolute bottom-0 left-[9.5rem] h-auto w-[530px] max-w-full rounded-lg"
         />
       </div>
-      <div className="justify-left flex h-full items-center pt-[4rem]">
-        <FormCard
-          header={data.header}
-          fields={data.form.fields}
-          buttonText="Submit"
-        />
+      <div className="justify-left flex h-full items-center pt-[2.68rem]">
+        <div className="w-full p-6 text-white">
+          <SectionHeader
+            className={{
+              section: "mb-12",
+              header: "!mx-0 text-xl",
+              subHeader: "!text-left",
+            }}
+            {...data.header}
+            icons={false}
+          />
+          <Btn
+            el="link"
+            to="/register"
+            variants={{ style: "btn", type: "white", size: "md" }}
+          >
+            {data.buttonText}
+          </Btn>
+        </div>
       </div>
     </SectionTwoCol>
   );

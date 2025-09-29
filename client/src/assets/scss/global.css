@@ -1,5 +1,6 @@
 html {
   color: var(--color-dark);
+  font-family: var(--font-manrope);
 }
 
 pre {
@@ -57,7 +58,7 @@ ul {
   h2 {
     font-size: var(--text-lg);
     line-height: 1.2;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-normal);
   }
   h3 {
     font-size: var(--text-sm);

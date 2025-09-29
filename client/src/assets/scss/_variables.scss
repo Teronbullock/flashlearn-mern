@@ -40,7 +40,7 @@ $font-sec:
   Helvetica,
   Arial,
   sans-serif;
-$font-header: "Courgette", cursive;
+$font-cursive: var(--font-cursive);
 
 // media sizes
 $breakpoints: (

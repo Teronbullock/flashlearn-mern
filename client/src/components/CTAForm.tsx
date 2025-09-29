@@ -1,4 +1,7 @@
+import Form from "@components/Forms/Form";
 import { SectionHeader, SectionHeaderProps } from "@components/SectionHeader";
+import { useHandleCTAForm } from "@hooks/useHandleCTAForm";
+
 import classNames from "classnames";
 
 export interface FormField {
@@ -16,24 +19,22 @@ interface SlotProp {
 }
 
 interface FormCardProps {
-  header: SectionHeaderProps;
-  fields: FormField[];
-  buttonText: string;
   className?: string;
   slotProps?: SlotProp;
+  data: {
+    header: SectionHeaderProps;
+    fields: FormField[];
+    buttonText: string;
+  };
 }
 
-export const FormCard = ({
-  className,
-  buttonText,
-  header,
-  fields,
-  slotProps,
-}: FormCardProps) => {
+export const CTAForm = ({ className, data, slotProps }: FormCardProps) => {
+  const { handleCTAForm } = useHandleCTAForm();
+
   const containerClass = classNames("w-full p-6 text-white", className);
 
   const inputClass = classNames(
-    "w-full rounded-xl px-4 py-3 text-black focus:outline-none",
+    "w-full rounded-[20px] px-4 py-3 text-black focus:outline-none border-white border",
     slotProps?.inputs,
   );
 
@@ -46,9 +47,11 @@ export const FormCard = ({
 
   return (
     <div className={containerClass}>
-      <SectionHeader {...header} icons={false} className={slotProps?.header} />
-
-      <form className={formClass}>
+      <SectionHeader className="" {...data.header} icons={false} />
+      <Form onSubmit={handleCTAForm}>
+        <></>
+      </Form>
+      {/* <form className={formClass}>
         {fields.map((field) => (
           <div key={field.name} className="relative">
             <input
@@ -67,7 +70,7 @@ export const FormCard = ({
         <button type="submit" className={buttonClass}>
           {buttonText}
         </button>
-      </form>
+      </form> */}
     </div>
   );
 };

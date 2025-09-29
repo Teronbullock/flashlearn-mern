@@ -86,24 +86,14 @@
     ]
   },
   "ctaSection": {
+    "img": {
+      "src": "/assets/img/woman-with-books-2.webp",
+      "alt": "woman holding books"
+    },
     "header": {
       "header": "Create your account at FlashLearn now!",
       "subHeader": "Join 50,000+ students who've transformed their grades with our platform"
     },
-    "img": "/assets/img/woman-with-books.webp",
-    "form": {
-      "fields": [
-        {
-          "name": "fullName",
-          "placeholder": "Full Name",
-          "type": "text"
-        },
-        {
-          "name": "email",
-          "placeholder": "Email Address",
-          "type": "email"
-        }
-      ]
-    }
+    "buttonText": "Submit"
   }
 }

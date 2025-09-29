@@ -18,7 +18,7 @@ export const IndexPage = () => {
   } = indexPageContext;
 
   return (
-    <main className="main main--index">
+    <main className="main main--index mb-12">
       <PageHero
         title={hero.title}
         copy={hero.copy}
@@ -34,14 +34,7 @@ export const IndexPage = () => {
       />
       <TwoColTimeline data={sectionFour} />
       <Testimonials data={sectionFive} />
-      <CTASection
-        data={ctaSection}
-        className={{
-          main: "",
-          container: "bg-primary relative h-[685px] rounded-[30px]",
-          inner: "md:!gap-0",
-        }}
-      />
+      <CTASection data={ctaSection} />
     </main>
   );
 };

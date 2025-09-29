@@ -47,7 +47,7 @@ export const SectionTwoCol = ({
             <SectionHeader
               header={header.title}
               subHeader={header.subTitle}
-              className={header.className}
+              className={{ section: header.className }}
             />
           </>
         )}

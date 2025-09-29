@@ -6,8 +6,10 @@ interface BtnVariants {
     | "primary"
     | "secondary"
     | "tertiary"
-    | "outline-primary"
+    | "white"
     | "outline"
+    | "outline-primary"
+    | "outline-white"
     | "none";
   size?: undefined | "sm" | "md" | "lg" | "xl" | "full";
   style?: "btn";
@@ -45,9 +47,16 @@ export const Btn = (props: BtnProps) => {
       "btn p-[0.75rem] rounded-full": variants?.style === "btn",
       "bg-primary text-white hover:bg-primary-dark":
         variants?.type === "primary",
-      "border border-primary text-black hover:bg-primary-dark hover:text-white":
+      "bg-white text-primary hover:bg-primary-light hover:text-white":
+        variants?.type === "white",
+      "border border-primary text-black hover:bg-white hover:text-black":
         variants?.type === "outline-primary",
+      "border border-white text-white hover:bg-white hover:text-primary":
+        variants?.type === "outline-white",
+    },
+    {
       "min-w-[100px]": variants?.size === "sm" || variants?.size === undefined,
+      "min-w-[141px]": variants?.size === "md",
     },
     className,
   );

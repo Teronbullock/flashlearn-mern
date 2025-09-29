@@ -47,13 +47,13 @@ export const PageHero = ({
             <Btn
               el="link"
               variants={{
-                type: "outline-primary",
+                type: "outline-white",
                 style: "btn",
               }}
               to="/login"
               className="text-white"
             >
-              log in
+              Log in
             </Btn>
           </div>
         </div>
