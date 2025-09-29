@@ -1,5 +1,5 @@
 import { Btn } from "@/components/Btn/Btn";
-import Card from "@components/Card/Card";
+import Card from "@components/Card";
 import { ListCardForm } from "@components/Forms/ListCardForm";
 import useManageSetData from "@features/sets/hooks/useManageSetData";
 

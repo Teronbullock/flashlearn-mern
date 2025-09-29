@@ -34,16 +34,76 @@
   "sectionFour": {
     "header": "How It Works",
     "cardOne": {
+      "number": "01",
       "title": "Create Your Flashcards",
       "copy": "Quickly make digital flashcards for any subject, no more writing by hand."
     },
     "cardTwo": {
+      "number": "02",
       "title": "Organize your Decks",
       "copy": "Group your cards into decks and keep everything in one place."
     },
     "cardThree": {
+      "number": "03",
       "title": "Study Anywhere",
       "copy": "Review your flashcards anytime, on any device with smart features."
+    }
+  },
+  "sectionFive": {
+    "header": {
+      "header": "What our Students Say",
+      "subHeader": "Discover how FlashCard has transformed learning experiences for thousands of Students Worldwide"
+    },
+    "cards": [
+      {
+        "header": {
+          "header": "Tania Chen",
+          "subHeader": "Nursing student & Mother"
+        },
+        "body": "As a working mom studying for my nursing boards, finding time to study was nearly impossible. This app's voice feature lets me listen to flashcards while commuting, and the night mode is perfect for late-night review sessions. I passed on my first try!"
+      },
+      {
+        "header": {
+          "header": "James Thompson",
+          "subHeader": "Graduate school applicant"
+        },
+        "body": "The offline mode saved my GRE prep! During my daily train commute with spotty internet, I could still review vocab cards. The smart shuffle algorithm ensured I saw my weak words more often. Scored 168 on verbal - 15 points higher than my practice tests!"
+      },
+      {
+        "header": {
+          "header": "Bisola Gboye",
+          "subHeader": "Pre-Med Student, UCLA"
+        },
+        "body": "he community marketplace where users share flashcard decks is amazing! I found comprehensive MCAT biology sets created by students who aced the exam. It saved me hundreds of hours of card creation and my score improved dramatically."
+      },
+      {
+        "header": {
+          "header": "Esther John",
+          "subHeader": "International Business Professional"
+        },
+        "body": "Learning Mandarin seemed impossible until I discovered this platform. The built-in pronunciation guide and stroke order animations for characters made all the difference. I went from zero Chinese to conversational level in 8 months!"
+      }
+    ]
+  },
+  "ctaSection": {
+    "header": {
+      "header": "Create your account at FlashLearn now!",
+      "subHeader": "Join 50,000+ students who've transformed their grades with our platform"
+    },
+    "img": "/assets/img/woman-with-books.webp",
+    "form": {
+      "fields": [
+        {
+          "name": "fullName",
+          "placeholder": "Full Name",
+          "type": "text"
+        },
+        {
+          "name": "email",
+          "placeholder": "Email Address",
+          "type": "email"
+        }
+      ]
     }
   }
 }

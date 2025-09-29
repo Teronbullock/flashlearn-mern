@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ContentBlock } from "@components/ContentBlock";
 
-interface TimelineCardProps {
+export interface TimelineCardProps {
   number: string;
   title: string;
   copy: string;
