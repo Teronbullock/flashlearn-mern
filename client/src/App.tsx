@@ -26,27 +26,27 @@ const App = () => {
     routes = (
       <>
         <Route path="/" element={<IndexPage />} />
-        {/* <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<PageNotFound />} /> */}
+        {/* <Route path="*" element={<PageNotFound />} /> */}
       </>
     );
   } else {
     routes = (
       <>
-        {/* <Route path="/dashboard/:userSlug" element={<DashboardPage />} />
+        {/* <Route path="/dashboard/:userSlug" element={<DashboardPage />} /> */}
         <Route path="/profile/:userSlug" element={<ProfilePage />} />
-        <Route path="/set/:setId" element={<SetPage />} />
-        <Route path="/set/user/:userSlug/add" element={<AddSetPage />} />
-        <Route path="/set/:setId/edit" element={<EditSetPage />} />
-        <Route path="/set/:setId/card/add" element={<AddCardPage />} />
-        <Route
+        {/* <Route path="/set/:setId" element={<SetPage />} /> */}
+        {/* <Route path="/set/user/:userSlug/add" element={<AddSetPage />} /> */}
+        {/* <Route path="/set/:setId/edit" element={<EditSetPage />} /> */}
+        {/* <Route path="/set/:setId/card/add" element={<AddCardPage />} /> */}
+        {/* <Route
           path="/set/:setId/card/:cardId/edit"
           element={<EditCardPage />}
-        />
-        <Route path="/set/:setId/cards" element={<ViewCardsPage />} />
-        <Route path="/" element={<Navigate to={`/dashboard/${userSlug}`} />} />*/}
-        <Route path="*" element={<PageNotFound />} />
+        /> */}
+        {/* <Route path="/set/:setId/cards" element={<ViewCardsPage />} /> */}
+        {/* <Route path="/" element={<Navigate to={`/dashboard/${userSlug}`} />} /> */}
+        {/* <Route path="*" element={<PageNotFound />} /> */}
       </>
     );
   }

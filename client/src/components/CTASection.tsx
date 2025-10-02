@@ -8,7 +8,6 @@ interface CTASectionProps {
       src: string;
       alt: string;
     };
-    isReversed?: boolean;
     header: SectionHeaderProps;
     buttonText: string;
   };
@@ -16,31 +15,31 @@ interface CTASectionProps {
 
 export const CTASection = ({ data }: CTASectionProps) => {
   const sectionClass = {
-    container: "bg-primary relative h-[685px] rounded-[30px]",
-    inner: "md:!gap-0",
+    container: "bg-primary relative md:h-[685px] rounded-[30px]",
+    inner: "md:!gap-0 flex-col-reverse md:flex-row",
   };
   return (
-    <SectionTwoCol isReversed={data.isReversed} className={sectionClass}>
+    <SectionTwoCol className={sectionClass}>
       <span
-        className="absolute left-0 top-0 h-[121px] w-[368px] bg-[url('/assets/img/vector-4.png')] bg-contain bg-no-repeat"
+        className="absolute left-0 top-0 z-0 h-[121px] w-[368px] bg-[url('/assets/img/vector-4.png')] bg-contain bg-no-repeat"
         aria-hidden="true"
       />
       <span
-        className="absolute bottom-0 right-0 h-[145px] w-[197px] bg-[url('/assets/img/vector-3.png')] bg-contain bg-no-repeat"
+        className="absolute bottom-0 right-0 z-0 h-[145px] w-[197px] bg-[url('/assets/img/vector-3.png')] bg-contain bg-no-repeat"
         aria-hidden="true"
       />
-      <div className="flex items-center justify-center md:basis-[63%]">
+      <div className="z-10 flex items-center justify-center md:basis-[100%] lg:basis-[63%]">
         <img
           {...data.img}
-          className="absolute bottom-0 left-[9.5rem] h-auto w-[530px] max-w-full rounded-lg"
+          className="-left-[5%] bottom-0 h-auto w-[275px] max-w-full rounded-lg md:absolute md:w-[530px] lg:left-[9.5rem]"
         />
       </div>
-      <div className="justify-left flex h-full items-center pt-[2.68rem]">
+      <div className="justify-left flex h-full items-center pt-12 md:pt-10">
         <div className="w-full p-6 text-white">
           <SectionHeader
             className={{
               section: "mb-12",
-              header: "!mx-0 text-xl",
+              header: "z-10 !mx-0 text-xl",
               subHeader: "!text-left",
             }}
             {...data.header}

@@ -19,13 +19,8 @@ export const IndexPage = () => {
 
   return (
     <main className="main main--index mb-12">
-      <PageHero
-        title={hero.title}
-        copy={hero.copy}
-        img={hero.img}
-        ariaLabel={hero.ariaLabel}
-      />
-      <SectionOneCol data={sectionOne} className="mt-[3.75rem]" />
+      <PageHero {...hero} />
+      <SectionOneCol data={sectionOne} className="px-4 md:mt-[3.75rem]" />
       <TwoColImage {...sectionTwo} />
       <TwoColImage
         isReversed={true}

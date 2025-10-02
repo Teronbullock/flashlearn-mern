@@ -26,7 +26,7 @@ export const TwoColImage = ({ img, content, ...props }: TwoColImageProps) => {
   return (
     <SectionTwoCol {...props}>
       <div
-        className="mb-10 flex flex-col justify-end md:mb-0 md:max-w-[50%] md:flex-1"
+        className="mb-4 flex flex-col justify-end md:mb-0 md:max-w-[50%] md:flex-1"
         data-js="two-col-img-header"
       >
         <img className="w-full rounded-[20px]" src={src} alt={alt} />

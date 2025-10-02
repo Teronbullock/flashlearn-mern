@@ -18,7 +18,13 @@ export const SectionHeader = ({
   icons = true,
 }: SectionHeaderProps) => {
   const sectionClass = classNames("mx-auto max-w-3xl ", className?.section);
-  const headerClass = classNames("mx-[2rem]", className?.header);
+  const headerClass = classNames(
+    "mx-2 md:mx-8",
+    {
+      "text-center": icons,
+    },
+    className?.header,
+  );
   const subHeaderClass = classNames(
     "text-center text-base",
     className?.subHeader,
@@ -30,6 +36,7 @@ export const SectionHeader = ({
         {icons && (
           <span>
             <img
+              className="h-[24px] w-[24px] md:h-[42px] md:w-[42px]"
               src="/assets/img/star-3.svg"
               height="42"
               width="42"
@@ -41,6 +48,7 @@ export const SectionHeader = ({
         {icons && (
           <span>
             <img
+              className="h-[24px] w-[24px] md:h-[42px] md:w-[42px]"
               src="/assets/img/star-3.svg"
               height="42"
               width="42"

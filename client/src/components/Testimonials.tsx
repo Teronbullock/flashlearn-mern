@@ -18,9 +18,9 @@ export const Testimonials = ({ data }: TestimonialProps) => {
   const { header, cards } = data;
 
   return (
-    <div className="max-w-8xl mx-auto mb-[2rem] py-[3.75rem]">
+    <div className="max-w-8xl mx-auto mb-[2rem] px-4 py-[3.75rem]">
       <SectionHeader {...header} className={{ section: "mb-[3.75rem]" }} />
-      <div className="grid grid-cols-2 grid-rows-2 gap-[24px]">
+      <div className="grid grid-cols-1 grid-rows-2 gap-[24px] md:grid-cols-2">
         <Card
           className="bg-light"
           slotOne={

@@ -18,7 +18,7 @@ export const PageHero = ({
   ariaLabel,
 }: HeroProps) => {
   const heroClass = classNames(
-    "page-hero bg-black text-white relative bg-no-repeat bg-center bg-cover page-hero--half-mask h-screen px-4",
+    "page-hero bg-black text-white relative bg-no-repeat bg-center bg-cover page-hero--mask h-screen px-4",
     className,
   );
 

@@ -23,7 +23,10 @@ export const ContentBlock = ({
 
   const mainClasses = classNames(className?.main);
   const titleClasses = classNames("mb-3", className?.title);
-  const copyClasses = classNames("text-base font-normal pb-5", className?.copy);
+  const copyClasses = classNames(
+    "text-base font-normal md:pb-5",
+    className?.copy,
+  );
 
   return (
     <div className={mainClasses} data-js="content-block">

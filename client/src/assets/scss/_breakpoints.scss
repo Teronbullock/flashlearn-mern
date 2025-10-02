@@ -1,14 +1,12 @@
 // Mixins
-@use './variables' as var;
-@use 'sass:map';
-
+@use "./variables" as var;
+@use "sass:map";
 
 // functions
 @function breakpoint-min($name, $breakpoints: var.$breakpoints) {
   $min: map.get($breakpoints, $name);
   @return if($min != 0, $min, null);
 }
-
 
 // media queries
 @mixin media-breakpoint-up($name, $breakpoints: var.$breakpoints) {

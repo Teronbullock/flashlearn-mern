@@ -22,11 +22,23 @@ export function TwoColTimeline({ data }: TwoColTimelineProps) {
       }}
     >
       <div
-        className="mb-[4rem] justify-items-center md:mb-[2rem] md:basis-[50%]"
+        className="mb-[4rem] justify-items-center px-[15%] md:mb-[2rem] md:basis-[50%] md:px-0"
         data-js="section-two-col-left"
       >
-        <div className="border-primary rotate-11 h-[350px] w-[400px] rounded-[20px] border bg-[url(assets/img/woman-with-tablet.webp)] bg-no-repeat"></div>
-        <div className="border-primary -rotate-11 h-[350px] w-[400px] rounded-[20px] border bg-[url(assets/img/student-with-a-book.webp)] bg-cover bg-no-repeat"></div>
+        <div>
+          <img
+            src="assets/img/woman-with-tablet.webp"
+            alt=""
+            className="border-primary rotate-11 w-[100%] rounded-[20px] border md:max-w-[450px]"
+          />
+        </div>
+        <div>
+          <img
+            src="assets/img/student-with-a-book.webp"
+            alt=""
+            className="border-primary -rotate-11 w-[100%] rounded-[20px] border md:max-w-[450px]"
+          />
+        </div>
       </div>
       <div className="md:pt-[4rem]" data-js="section-two-col-right">
         <TimelineCard {...data.cardOne} className="pb-[6.75rem]" />

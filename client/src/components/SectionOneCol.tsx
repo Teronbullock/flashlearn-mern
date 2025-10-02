@@ -17,13 +17,13 @@ export const SectionOneCol = ({
 }: DataProps) => {
   const sectionClass = classNames(
     {
-      "py-[3.75rem]": defaultStyles,
+      "py-8 md:py-15": defaultStyles,
     },
     className,
   );
 
   return (
-    <section className={sectionClass}>
+    <section className={sectionClass} data-js="one-col">
       <SectionHeader header={data.header} subHeader={data.subHeader} />
     </section>
   );

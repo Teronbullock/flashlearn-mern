@@ -41,7 +41,7 @@
   --text-xs: 0.875rem; /* 14px */
   --text-sm: 1.125rem; /* 18px */
   --text-base: clamp(1rem, 0.734vw + 0.839rem, 1.5rem); /* 16px to 24px */
-  --text-lg: clamp(1rem, 1.5rem + 1vw, 2rem); /* 16px to 32px */
+  --text-lg: clamp(1.125rem, 1.17rem + 1vw, 2rem); /* 16px to 32px */
   --text-xl: clamp(1.62rem, 1.141rem + 2.2vw, 3.12rem); /* 25px to 50px */
 
   /* Colors */
@@ -70,6 +70,6 @@
   --container-8xl: 1440px;
 
   /* Headers */
-  --text-h2:                    
+  --text-h2:                            
 ;
 }

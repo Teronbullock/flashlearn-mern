@@ -41,7 +41,7 @@ export const SectionTwoCol = ({
 
   return (
     <section className={mainClassName} data-js="section-two-col">
-      <div className={containerClassName}>
+      <div className={containerClassName} data-js="section-two-col-container">
         {header && (
           <>
             <SectionHeader
