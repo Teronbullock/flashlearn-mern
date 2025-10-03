@@ -35,12 +35,13 @@ export const FormInput = ({
   // }
 
   const containerClass = classNames(
-    "form__input-container mb-4 w-full",
+    "w-full",
+    { "mb-6": !className.container },
     className.container,
   );
 
   const inputClass = classNames(
-    "w-full text-sm rounded-[20px] border border-secondary bg-white md:mx-0 md:mt-1 md:p-4 py-1 px-2 outline-none ",
+    "w-full text-sm rounded-[20px] border border-secondary bg-white md:mx-0 md:mt-1  py-4 px-3 outline-none placeholder:font-light ",
     {
       // "md:ml-4 md:mb-4 md:w-[65px]": isTypeColor,
     },

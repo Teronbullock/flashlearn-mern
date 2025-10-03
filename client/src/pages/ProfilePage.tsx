@@ -105,12 +105,13 @@ const Profile = () => {
   };
 
   return (
-    <main className="main main--profile-page">
+    <main className="main main--profile-page min-h-screen">
       <CTASplitPage
         data={data}
         state={state}
         handleFormSubmit={handleFormSubmit}
         dispatch={dispatch}
+        isProfilePage={true}
       >
         <FormInput
           labelName="Change Email Address"
@@ -141,6 +142,7 @@ const Profile = () => {
           }
         />
         <FormInput
+          className={{ container: "mb-2" }}
           labelName="Change Password"
           type="password"
           name="user_pass"
@@ -154,7 +156,11 @@ const Profile = () => {
             })
           }
         />
+        <p className="mb-5 text-xs">
+          Use at least 8 characters, including a number, a letter, and a symbol.
+        </p>
         <FormInput
+          className={{ container: "mb-2" }}
           labelName="Confirm Password"
           type="password"
           name="user_pass_confirm"
@@ -168,6 +174,7 @@ const Profile = () => {
             })
           }
         />
+        <p className="mb-30 text-xs">Re-enter your password.</p>
       </CTASplitPage>
     </main>
   );
