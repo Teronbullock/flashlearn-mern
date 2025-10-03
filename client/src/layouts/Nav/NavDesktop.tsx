@@ -67,7 +67,7 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
               </Btn>
             </li>
             <li className="nav-desktop__item mr-0">
-              <Btn className="p-3" variants={{ type: "primary" }}>
+              <Btn className="p-3" variants={{ color: "primary" }}>
                 Login
               </Btn>
             </li>

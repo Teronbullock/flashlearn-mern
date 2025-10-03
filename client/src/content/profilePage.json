@@ -1,13 +1,10 @@
 {
-  "pageType": "profile",
-  "mainClass": "main--profile",
-  "hero": {
-    "className": "page-header--profile",
-    "ariaLabel": "Profile Page Header. This section contains the title and description. The background image is of a person with a black shirt studying. Photo by Anthony Riera on Unsplash.",
-    "img": "/assets/img/anthony-riera-kylWNDQFd5A-unsplash.jpg"
+  "image": {
+    "src": "/assets/img/profilePage.png",
+    "alt": "Cartoon of a woman on a laptop with speech bubble that has tools in it. There is a speech bubble over the laptop with 3 vertical sliders in it."
   },
   "header": {
-    "title": "Profile Page",
-    "copy": "Edit your profile information."
-  }
+    "header": "Update your Profile"
+  },
+  "cta": "Save Changes"
 }

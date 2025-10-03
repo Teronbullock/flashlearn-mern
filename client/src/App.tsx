@@ -29,6 +29,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
         {/* <Route path="*" element={<PageNotFound />} /> */}
+        <Route path="/profile/:userSlug" element={<ProfilePage />} />
       </>
     );
   } else {

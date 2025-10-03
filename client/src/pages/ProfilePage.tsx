@@ -1,11 +1,12 @@
 import { useReducer } from "react";
-import useGetProfile from "@features/user/hooks/useGetProfile";
-import PageHeader from "@layouts/PageComponents/PageHeader";
-import Form from "@components/Forms/Form";
-import FormInput from "@components/Forms/FormInput";
-import { Btn } from "@components/Btn/Btn";
-import apiRequest from "@/lib/api";
 import { useAuthContext } from "@hooks/useAuthContext";
+import { CTASplitPage } from "@components/CTASplitPage";
+import { FormInput } from "@components/Forms/FormInput";
+import data from "@content/profilePage.json";
+
+import useGetProfile from "@features/user/hooks/useGetProfile";
+
+import apiRequest from "@/lib/api";
 
 interface UserState {
   user_email: string;
@@ -59,8 +60,6 @@ const Profile = () => {
 
   useGetProfile(dispatch);
 
-  const currentPage = "profilePage";
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -107,74 +106,69 @@ const Profile = () => {
 
   return (
     <main className="main main--profile-page">
-      <PageHeader currentPage={currentPage}></PageHeader>
-      <section className="container py-12">
-        <Form
-          className="card--login-form bg-white"
-          onSubmit={handleFormSubmit}
-          title="Update Profile"
-        >
-          <FormInput
-            labelName="Email"
-            type="email"
-            name="user_email"
-            value={state.user_email}
-            placeholder="Enter your email"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: { user_email: e.target.value },
-              })
-            }
-          />
-          <FormInput
-            labelName="Old Password"
-            type="password"
-            name="user_old_pass"
-            value={state.user_old_pass}
-            placeholder="Enter your password"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: { user_old_pass: e.target.value },
-              })
-            }
-          />
-          <FormInput
-            labelName="New Password"
-            type="password"
-            name="user_pass"
-            value={state.user_pass}
-            placeholder="Enter your password"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: { user_pass: e.target.value },
-              })
-            }
-          />
-          <FormInput
-            labelName="Confirm New Password"
-            type="password"
-            name="user_pass_confirm"
-            value={state.user_pass_confirm}
-            placeholder="Enter your password"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: { user_pass_confirm: e.target.value },
-              })
-            }
-          />
-          <Btn className="btn--large btn--tertiary text-white" type="submit">
-            Update
-          </Btn>
-        </Form>
-      </section>
+      <CTASplitPage
+        data={data}
+        state={state}
+        handleFormSubmit={handleFormSubmit}
+        dispatch={dispatch}
+      >
+        <FormInput
+          labelName="Change Email Address"
+          type="email"
+          name="user_email"
+          value={state.user_email}
+          placeholder="example@gmail.com"
+          required={true}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: { user_email: e.target.value },
+            })
+          }
+        />
+        <FormInput
+          labelName="Enter Old Password"
+          type="password"
+          name="user_old_pass"
+          value={state.user_old_pass}
+          placeholder="Enter Old password"
+          required={true}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: { user_old_pass: e.target.value },
+            })
+          }
+        />
+        <FormInput
+          labelName="Change Password"
+          type="password"
+          name="user_pass"
+          value={state.user_pass}
+          placeholder="Enter New password"
+          required={true}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: { user_pass: e.target.value },
+            })
+          }
+        />
+        <FormInput
+          labelName="Confirm Password"
+          type="password"
+          name="user_pass_confirm"
+          value={state.user_pass_confirm}
+          placeholder="Enter password"
+          required={true}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: { user_pass_confirm: e.target.value },
+            })
+          }
+        />
+      </CTASplitPage>
     </main>
   );
 };

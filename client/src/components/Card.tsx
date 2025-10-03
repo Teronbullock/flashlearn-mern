@@ -1,29 +1,19 @@
 import classNames from "classnames";
 
 export interface CardProps {
-  slotOne: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }
 
-export const Card = ({
-  slotOne,
-  children,
-  className,
-  style,
-  ...props
-}: CardProps) => {
+export const Card = ({ children, className, style, ...props }: CardProps) => {
+  const cardClass = classNames(
+    "mx-auto mb-8 rounded-[20px] p-4 md:p-8",
+    className,
+  );
+
   return (
-    <div
-      className={classNames(
-        "card mx-auto mb-8 w-full rounded-[20px] p-4 md:p-8",
-        className,
-      )}
-      style={style}
-      {...props}
-    >
-      {slotOne}
+    <div className={cardClass} style={style} {...props} data-js="card">
       {children}
     </div>
   );

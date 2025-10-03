@@ -48,7 +48,7 @@ export const CTASection = ({ data }: CTASectionProps) => {
           <Btn
             el="link"
             to="/register"
-            variants={{ style: "btn", type: "white", size: "md" }}
+            variants={{ style: "btn", color: "white", size: "md" }}
           >
             {data.buttonText}
           </Btn>

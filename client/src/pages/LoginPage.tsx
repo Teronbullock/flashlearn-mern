@@ -1,7 +1,9 @@
-import { CTASplitPage } from "./../components/CTASplitPage";
 import { useReducer } from "react";
 import { useAuthContext } from "@hooks/useAuthContext";
+import { CTASplitPage } from "./../components/CTASplitPage";
+import { FormInput } from "@components/Forms/FormInput";
 import data from "@content/loginPage.json";
+import { Btn } from "@components/Btn/Btn";
 
 export interface UserState {
   user_email: string;
@@ -56,15 +58,70 @@ const LoginPage = () => {
     }
   };
 
+  const authContent = (
+    <div>
+      <div className="mb-15 relative flex items-center justify-center">
+        <div className="border-secondary absolute w-full border px-5"></div>
+        <p className="z-10 bg-white px-3 text-center">Or</p>
+      </div>
+      <p className="text-center">
+        Are you a new User?{" "}
+        <Btn el="link" to="/register" className="text-red-500">
+          Create an Account
+        </Btn>
+      </p>
+    </div>
+  );
+
   return (
     <main className="main main--login">
       <CTASplitPage
         data={data}
         state={state}
         handleFormSubmit={handleFormSubmit}
-        // e={e}
         dispatch={dispatch}
-      />
+        bottomOfFormSlot={authContent}
+      >
+        <FormInput
+          labelName="Email Address"
+          type="email"
+          name="user_email"
+          value={state.user_email}
+          placeholder="Enter your email"
+          required={true}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: {
+                user_email: e.target.value,
+              },
+            })
+          }
+          autoFocus={true}
+        />
+        <FormInput
+          className={{ container: "!mb-2" }}
+          labelName="Password"
+          type="password"
+          name="user_pass"
+          value={state.user_pass}
+          placeholder="Enter your password"
+          required={true}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: {
+                user_pass: e.target.value,
+              },
+            })
+          }
+        />
+        <div className="mb-6 flex justify-end">
+          <Btn el="link" to="/" className="text-xs text-red-500">
+            Forgot Password?
+          </Btn>
+        </div>
+      </CTASplitPage>
     </main>
   );
 };

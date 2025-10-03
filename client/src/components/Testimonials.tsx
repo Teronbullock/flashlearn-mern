@@ -3,68 +3,31 @@ import { RatingStars } from "@components/RatingStars";
 import { SectionHeader, SectionHeaderProps } from "@components/SectionHeader";
 
 interface TestimonialCardsProps {
+  id: number;
+  rating: number;
   header: SectionHeaderProps;
   body: string;
 }
 
 interface TestimonialProps {
-  data: {
-    header: SectionHeaderProps;
-    cards: TestimonialCardsProps[];
-  };
+  header: SectionHeaderProps;
+  cards: TestimonialCardsProps[];
 }
 
-export const Testimonials = ({ data }: TestimonialProps) => {
-  const { header, cards } = data;
-
+export const Testimonials = ({ header, cards }: TestimonialProps) => {
   return (
     <div className="max-w-8xl mx-auto mb-[2rem] px-4 py-[3.75rem]">
       <SectionHeader {...header} className={{ section: "mb-[3.75rem]" }} />
       <div className="grid grid-cols-1 grid-rows-2 gap-[24px] md:grid-cols-2">
-        <Card
-          className="bg-light"
-          slotOne={
-            <>
-              <SectionHeader {...cards[0].header} icons={false} />
-              <RatingStars value={5} />
-            </>
-          }
-        >
-          <p className="text-center text-base">{cards[0].body}</p>
-        </Card>
-        <Card
-          className="bg-light"
-          slotOne={
-            <>
-              <SectionHeader {...cards[1].header} icons={false} />
-              <RatingStars value={5} />
-            </>
-          }
-        >
-          <p className="text-center text-base">{cards[1].body}</p>
-        </Card>
-        <Card
-          className="bg-light"
-          slotOne={
-            <>
-              <SectionHeader {...cards[2].header} icons={false} />
-              <RatingStars value={5} />
-            </>
-          }
-        >
-          <p className="text-center text-base">{cards[0].body}</p>
-        </Card>
-        <Card
-          className="bg-light"
-          slotOne={
-            <>
-              <SectionHeader {...cards[3].header} icons={false} />
-              <RatingStars value={5} />
-            </>
-          }
-        >
-          <p className="text-center text-base">{cards[3].body}</p>
-        </Card>
+        {cards.map((card) => {
+          return (
+            <Card key={card.id} className="bg-light">
+              <SectionHeader {...card.header} icons={false} />
+              <RatingStars value={card.rating} />
+              <p className="text-center text-base">{card.body}</p>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

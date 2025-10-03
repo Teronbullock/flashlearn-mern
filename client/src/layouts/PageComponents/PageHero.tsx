@@ -36,7 +36,7 @@ export const PageHero = ({
             <Btn
               el="link"
               variants={{
-                type: "primary",
+                color: "primary",
                 style: "btn",
               }}
               to="/register"
@@ -47,7 +47,7 @@ export const PageHero = ({
             <Btn
               el="link"
               variants={{
-                type: "outline-white",
+                color: "outline-white",
                 style: "btn",
               }}
               to="/login"

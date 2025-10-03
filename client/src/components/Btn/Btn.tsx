@@ -2,7 +2,7 @@ import { Link, To } from "react-router-dom";
 import classNames from "classnames";
 
 interface BtnVariants {
-  type?:
+  color?:
     | "primary"
     | "secondary"
     | "tertiary"
@@ -24,7 +24,7 @@ interface BtnBase {
 interface HTMLBtnProps extends BtnBase {
   el?: "btn";
   type?: "submit" | "reset" | "button";
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 interface LinkProps extends BtnBase {
@@ -44,19 +44,22 @@ export const Btn = (props: BtnProps) => {
   const btnClass = classNames(
     "inline-flex items-center justify-center no-underline hover:duration-[0.3s] hover:cursor-pointer",
     {
-      "btn p-[0.75rem] rounded-full": variants?.style === "btn",
+      "btn p-[0.75rem] rounded-full h-[39px] md:h-[45px]": el === "btn",
+    },
+    {
       "bg-primary text-white hover:bg-primary-dark":
-        variants?.type === "primary",
+        variants?.color === "primary",
       "bg-white text-primary hover:bg-primary-light hover:text-white":
-        variants?.type === "white",
+        variants?.color === "white",
       "border border-primary text-black hover:bg-white hover:text-black":
-        variants?.type === "outline-primary",
+        variants?.color === "outline-primary",
       "border border-white text-white hover:bg-white hover:text-primary":
-        variants?.type === "outline-white",
+        variants?.color === "outline-white",
     },
     {
       "min-w-[100px]": variants?.size === "sm" || variants?.size === undefined,
       "min-w-[141px]": variants?.size === "md",
+      "w-full": variants?.size === "full",
     },
     className,
   );

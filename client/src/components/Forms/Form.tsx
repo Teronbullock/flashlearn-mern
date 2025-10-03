@@ -5,7 +5,11 @@ interface FormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
   title?: string;
-  className?: string;
+  className?: {
+    container?: string;
+    header?: string;
+  };
+  card?: boolean;
 }
 
 /**
@@ -16,19 +20,29 @@ interface FormProps {
  * @param {string} props.className - Optional
  * @returns
  */
-const Form = ({ children, onSubmit, title, className }: FormProps) => {
-  return (
-    <Card className={classNames("form-container", className)}>
-      <form onSubmit={onSubmit} className="form">
-        {title && (
-          <div className="form__title-container">
-            <h2 className={classNames("form__title mx-0 mb-4")}>{title}</h2>
-          </div>
-        )}
-        {children}
-      </form>
-    </Card>
+export const Form = ({
+  children,
+  onSubmit,
+  title,
+  className,
+  card = true,
+}: FormProps) => {
+  const headerClass = classNames("mx-0 mb-4", className?.header);
+
+  const formContent = (
+    <form onSubmit={onSubmit} className="form">
+      {title && (
+        <div className="form__title-container">
+          <h2 className={headerClass}>{title}</h2>
+        </div>
+      )}
+      {children}
+    </form>
+  );
+
+  return card ? (
+    <Card className={className?.container}>{formContent}</Card>
+  ) : (
+    <div className={className?.container}>{formContent}</div>
   );
 };
-
-export default Form;

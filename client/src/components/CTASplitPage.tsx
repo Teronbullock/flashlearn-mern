@@ -1,85 +1,72 @@
-import Form from "@components/Forms/Form";
+import { Form } from "@components/Forms/Form";
 import { Btn } from "@components/Btn/Btn";
-import FormInput from "@components/Forms/FormInput";
 import { UserState, LoginReducerAction } from "@pages/LoginPage";
 import { Dispatch } from "react";
 import { SectionHeader } from "@components/SectionHeader";
 
 interface CTASplitPageProps {
+  children: React.ReactNode;
+  bottomOfFormSlot?: React.ReactNode;
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   dispatch: Dispatch<LoginReducerAction>;
   state: UserState;
   data: {
+    header: {
+      header: string;
+      subHeader?: string;
+    };
     image: {
       src: string;
       alt: string;
     };
+    cta: string;
   };
 }
 
 export const CTASplitPage = ({
   handleFormSubmit,
-  // e,
-  dispatch,
-  state,
+  bottomOfFormSlot,
   data,
+  children,
 }: CTASplitPageProps) => {
-  const { image, header } = data;
+  const { image, header, cta } = data;
 
   return (
-    <section className="max-w-8xl container mx-auto mt-8 flex px-4 py-12">
-      <div className="hidden w-[45%] md:mr-20 md:block">
+    <section className="max-w-8xl mb-15 container mx-auto mt-8 flex px-4 py-12">
+      <div className="hidden md:block md:w-[50%]">
         <img
           src={image.src}
           alt={image.alt}
           className="w-[100%] rounded-[20px]"
         />
       </div>
-      <Form className="card--login-form !w-[50%]" onSubmit={handleFormSubmit}>
-        <>
-          <SectionHeader
-            icons={false}
-            {...header}
-            className={{ section: "mb-10" }}
-          />
-          <FormInput
-            labelName="Email"
-            type="email"
-            name="user_email"
-            value={state.user_email}
-            placeholder="Enter your email"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: {
-                  user_email: e.target.value,
-                },
-              })
-            }
-            autoFocus={true}
-          />
-          <FormInput
-            labelName="Password"
-            type="password"
-            name="user_pass"
-            value={state.user_pass}
-            placeholder="Enter your password"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: {
-                  user_pass: e.target.value,
-                },
-              })
-            }
-          />
-          {/* <Btn className="btn--large btn--tertiary text-white" type="submit">
-            Login
-          </Btn> */}
-        </>
-      </Form>
+      <div className="w-full md:mt-11 md:w-[50%]">
+        <div className="mx-auto max-w-[532px]">
+          <Form
+            onSubmit={handleFormSubmit}
+            card={false}
+            className={{ container: "mb-7" }}
+          >
+            <SectionHeader
+              icons={false}
+              {...header}
+              className={{ section: "mb-10" }}
+            />
+            {children}
+
+            <Btn
+              type="submit"
+              variants={{
+                size: "full",
+                color: "primary",
+              }}
+            >
+              {cta}
+            </Btn>
+          </Form>
+          {bottomOfFormSlot}
+        </div>
+      </div>
     </section>
   );
 };

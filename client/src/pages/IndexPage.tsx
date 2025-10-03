@@ -13,7 +13,7 @@ export const IndexPage = () => {
     sectionTwo,
     sectionThree,
     sectionFour,
-    sectionFive,
+    testimonials,
     ctaSection,
   } = indexPageContext;
 
@@ -28,7 +28,7 @@ export const IndexPage = () => {
         className={{ main: "mb-[3.5rem]" }}
       />
       <TwoColTimeline data={sectionFour} />
-      <Testimonials data={sectionFive} />
+      <Testimonials {...testimonials} />
       <CTASection data={ctaSection} />
     </main>
   );

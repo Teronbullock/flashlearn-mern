@@ -33,7 +33,7 @@ export const NavMobile = ({ onToggle, onLogout }: NavBase) => {
             <li className="nav-mobile__list-item mb-[1.75rem]">
               <Btn
                 el="link"
-                variants={{ type: "primary", style: "btn" }}
+                variants={{ color: "primary", style: "btn" }}
                 to="/register"
                 onClick={onToggle}
               >
@@ -44,7 +44,7 @@ export const NavMobile = ({ onToggle, onLogout }: NavBase) => {
               <Btn
                 el="link"
                 to="/login"
-                variants={{ type: "outline-primary", style: "btn" }}
+                variants={{ color: "outline-primary", style: "btn" }}
                 onClick={onToggle}
               >
                 Log in
