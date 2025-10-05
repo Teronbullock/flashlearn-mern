@@ -21,7 +21,7 @@ export const Testimonials = ({ header, cards }: TestimonialProps) => {
       <div className="grid grid-cols-1 grid-rows-2 gap-[24px] md:grid-cols-2">
         {cards.map((card) => {
           return (
-            <Card key={card.id} className="bg-light">
+            <Card key={card.id} className="bg-light" border={false}>
               <SectionHeader {...card.header} icons={false} />
               <RatingStars value={card.rating} />
               <p className="text-center text-base">{card.body}</p>

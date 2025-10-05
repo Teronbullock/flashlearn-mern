@@ -3,7 +3,7 @@ import classNames from "classnames";
 import PageHeader from "../layouts/PageComponents/PageHeader";
 
 import FormAction from "../components/Forms/FormAction";
-import Form from "../components/Forms/Form";
+import Form from "../components/Forms/FormLayout";
 import FormInput from "../components/Forms/FormInput";
 import useManageCardData from "@/features/cards/hooks/useManageCardData";
 import { Btn } from "@components/Btn/Btn";

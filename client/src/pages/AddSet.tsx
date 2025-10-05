@@ -1,21 +1,17 @@
-import { useParams } from "react-router-dom";
 import classNames from "classnames";
+import useManageSetData from "../features/sets/hooks/useManageSetData";
 import { useAuthContext } from "@hooks/useAuthContext";
 import PageHeader from "../layouts/PageComponents/PageHeader";
-import useManageSetData from "../features/sets/hooks/useManageSetData";
-import Form from "@components/Forms/Form";
+import Form from "@components/Forms/FormLayout";
 import FormInput from "@components/Forms/FormInput";
 import FormAction from "@components/Forms/FormAction";
 import { Btn } from "@components/Btn/Btn";
 
-const EditSetPage = () => {
+const AddSetPage = () => {
   const { userSlug } = useAuthContext();
-  const { setId } = useParams();
-  const { state, editSetHandler, dispatch } = useManageSetData({
-    isEditSet: true,
-    setId,
-  });
-  const currentPage = "editSetPage";
+  // const { state, addSetHander, dispatch } = useAddSetData();
+  const { state, addSetHandler, dispatch } = useManageSetData();
+  const currentPage = "createSetPage";
 
   return (
     <main className={classNames("main", `main-${currentPage}`)}>
@@ -24,17 +20,7 @@ const EditSetPage = () => {
           <Btn
             el="link"
             variants={{ style: "btn" }}
-            className="btn--large btn--outline-black mr-6"
-            to={`/set/${setId}/`}
-          >
-            View Set
-          </Btn>
-        </li>
-        <li>
-          <Btn
-            el="link"
-            variants={{ style: "btn" }}
-            className="btn--large btn--outline-black"
+            className="btn--outline-black btn--large"
             to={`/dashboard/${userSlug}/`}
           >
             Dashboard Page
@@ -43,7 +29,7 @@ const EditSetPage = () => {
       </PageHeader>
       <section className="container py-12 lg:max-w-screen-lg">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}
-        <Form onSubmit={editSetHandler} className="bg-white">
+        <Form onSubmit={addSetHandler} className="bg-white">
           <FormInput
             labelName="Title"
             type="textarea"
@@ -73,7 +59,7 @@ const EditSetPage = () => {
             }
           />
           <FormAction
-            submitBtnText="Update"
+            submitBtnText="Create"
             cancelBtnTo={`/dashboard/${userSlug}/`}
           />
         </Form>
@@ -82,4 +68,4 @@ const EditSetPage = () => {
   );
 };
 
-export default EditSetPage;
+export default AddSetPage;

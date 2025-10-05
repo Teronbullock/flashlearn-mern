@@ -6,8 +6,8 @@
   "scripts": {
     "sass:build": "sass src/assets/scss/global.scss:src/assets/scss/global.css",
     "sass:watch": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
-    "dev": "conc 'npm run sass:watch' 'npm run vite:dev' ",
-    "dev:start": "conc 'NODE_ENV=development npm run sass:watch' 'NODE_ENV=development npm run vite:dev' ",
+    "dev": "conc 'npm run sass:watch' 'vite' ",
+    "dev:start": "conc 'NODE_ENV=development npm run sass:watch' 'NODE_ENV=development vite' ",
     "dev:prod": "conc 'NODE_ENV=production npm run sass:watch' 'NODE_ENV=production vite --mode production' ",
     "build": "tsc -b && npm run sass:build && vite build",
     "test": "vitest",

@@ -1,8 +1,8 @@
 import { Dispatch } from "react";
 import classNames from "classnames";
-import { Form } from "@components/Forms/Form";
+import { FormLayout } from "@components/Forms/FormLayout";
 import { Btn } from "@components/Btn/Btn";
-import { UserState, LoginReducerAction } from "@pages/LoginPage";
+import { UserState, LoginReducerAction } from "@pages/Login";
 import { SectionHeader } from "@components/SectionHeader";
 
 interface CTASplitPageProps {
@@ -51,9 +51,8 @@ export const CTASplitPage = ({
       </div>
       <div className={rightColClass}>
         <div className="mx-auto max-w-[532px]">
-          <Form
+          <FormLayout
             onSubmit={handleFormSubmit}
-            card={false}
             className={{ container: "mb-7" }}
           >
             <SectionHeader
@@ -71,7 +70,7 @@ export const CTASplitPage = ({
             >
               {cta}
             </Btn>
-          </Form>
+          </FormLayout>
           {bottomOfFormSlot}
         </div>
       </div>

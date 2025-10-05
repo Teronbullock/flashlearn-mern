@@ -44,7 +44,8 @@ export const Btn = (props: BtnProps) => {
   const btnClass = classNames(
     "inline-flex items-center justify-center no-underline hover:duration-[0.3s] hover:cursor-pointer",
     {
-      "btn p-[0.75rem] rounded-full h-[39px] md:h-[45px]": el === "btn",
+      "btn p-[0.75rem] rounded-full h-[39px] md:h-[45px]":
+        el === "btn" || variants?.style === "btn",
     },
     {
       "bg-primary text-white hover:bg-primary-dark":

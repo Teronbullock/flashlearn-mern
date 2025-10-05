@@ -33,14 +33,6 @@
 
 // desktop nav
 
-.nav-desktop {
-  display: none;
-
-  @include bp.media-breakpoint-up(md) {
-    display: block;
-  }
-}
-
 .nav-desktop__list {
   align-items: center;
   list-style-type: none;

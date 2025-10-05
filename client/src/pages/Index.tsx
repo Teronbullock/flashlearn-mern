@@ -1,12 +1,12 @@
-import { Testimonials } from "./../components/Testimonials";
-import { TwoColTimeline } from "./../components/TwoColTimeline";
+import { Testimonials } from "../components/Testimonials";
+import { TwoColTimeline } from "../components/TwoColTimeline";
 import { SectionOneCol } from "@components/SectionOneCol";
 import { PageHero } from "@layouts/PageComponents/PageHero";
 import indexPageContext from "@content/indexPage.json";
 import { TwoColImage } from "@components/TwoColImage";
 import { CTASection } from "@components/CTASection";
 
-export const IndexPage = () => {
+export const Index = () => {
   const {
     hero,
     sectionOne,

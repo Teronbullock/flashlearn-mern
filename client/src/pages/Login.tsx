@@ -4,6 +4,7 @@ import { CTASplitPage } from "./../components/CTASplitPage";
 import { FormInput } from "@components/Forms/FormInput";
 import data from "@content/loginPage.json";
 import { Btn } from "@components/Btn/Btn";
+import { FormGroup } from "@components/Forms/FormGroup";
 
 export interface UserState {
   user_email: string;
@@ -82,40 +83,41 @@ const LoginPage = () => {
         dispatch={dispatch}
         bottomOfFormSlot={authContent}
       >
-        <FormInput
-          labelName="Email Address"
-          type="email"
-          name="user_email"
-          value={state.user_email}
-          placeholder="Enter your email"
-          required={true}
-          onChange={(e) =>
-            dispatch({
-              type: "ON_CHANGE",
-              payload: {
-                user_email: e.target.value,
-              },
-            })
-          }
-          autoFocus={true}
-        />
-        <FormInput
-          className={{ container: "!mb-2" }}
-          labelName="Password"
-          type="password"
-          name="user_pass"
-          value={state.user_pass}
-          placeholder="Enter your password"
-          required={true}
-          onChange={(e) =>
-            dispatch({
-              type: "ON_CHANGE",
-              payload: {
-                user_pass: e.target.value,
-              },
-            })
-          }
-        />
+        <FormGroup labelName="Email Address" name="user_email">
+          <FormInput
+            type="email"
+            name="user_email"
+            value={state.user_email}
+            placeholder="Enter your email"
+            required={true}
+            onChange={(e) =>
+              dispatch({
+                type: "ON_CHANGE",
+                payload: {
+                  user_email: e.target.value,
+                },
+              })
+            }
+            autoFocus={true}
+          />
+        </FormGroup>
+        <FormGroup labelName="Password" className={{ group: "!mb-2" }}>
+          <FormInput
+            type="password"
+            name="user_pass"
+            value={state.user_pass}
+            placeholder="Enter your password"
+            required={true}
+            onChange={(e) =>
+              dispatch({
+                type: "ON_CHANGE",
+                payload: {
+                  user_pass: e.target.value,
+                },
+              })
+            }
+          />
+        </FormGroup>
         <div className="mb-6 flex justify-end">
           <Btn el="link" to="/" className="text-xs text-red-500">
             Forgot Password?

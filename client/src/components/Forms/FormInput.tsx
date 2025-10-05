@@ -1,71 +1,27 @@
 import classNames from "classnames";
+import { FormInputBaseProps } from "@components/Forms/FormTypes";
 
-interface classNameProps {
-  input?: string;
-  container?: string;
-}
-
-interface FormInputProps {
-  labelName: string;
+interface FormInputProps extends FormInputBaseProps {
   type?: "text" | "textarea" | "email" | "password";
-  name: string;
-  value: string | undefined | "";
-  className?: classNameProps;
-  placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
-  autoFocus?: boolean;
-  datatype?: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
 }
 
 export const FormInput = ({
-  labelName,
   type = "text",
-  className = { input: "text-black bg-white" },
+  className = "text-black bg-white",
   name,
   ...props
 }: FormInputProps) => {
-  // let isTypeColor;
-
-  // if (type === "color") {
-  //   isTypeColor = true;
-  // }
-
-  const containerClass = classNames(
-    "w-full",
-    { "mb-6": !className.container },
-    className.container,
-  );
-
   const inputClass = classNames(
     "w-full text-sm rounded-[20px] border border-secondary bg-white md:mx-0 md:mt-1  py-4 px-3 outline-none placeholder:font-light ",
     {
       // "md:ml-4 md:mb-4 md:w-[65px]": isTypeColor,
     },
-    className.input,
+    className,
   );
 
   return (
-    <div className={containerClass}>
-      {labelName && name && (
-        <label htmlFor={name} className="form__label w-full text-sm">
-          {labelName}
-        </label>
-      )}
-      {type === "textarea" ? (
-        <textarea
-          id={name}
-          cols={30}
-          rows={2}
-          className={inputClass}
-          {...props}
-        />
-      ) : (
-        <input id={name} className={inputClass} type={type} {...props} />
-      )}
-    </div>
+    <>
+      <input id={name} className={inputClass} type={type} {...props} />
+    </>
   );
 };

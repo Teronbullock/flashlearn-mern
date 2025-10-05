@@ -24,7 +24,7 @@ export const SectionTwoCol = ({
   header,
 }: SectionTwoColProps) => {
   const mainClassName = classNames(
-    "section section-feature py-8 px-4",
+    "section section-feature py-8",
     className?.main,
   );
 

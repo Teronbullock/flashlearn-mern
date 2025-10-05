@@ -1,4 +1,5 @@
-import Form from "@components/Forms/Form";
+import { Card } from "@components/Card";
+import { FormLayout } from "@components/Forms/FormLayout";
 import { SectionHeader, SectionHeaderProps } from "@components/SectionHeader";
 import { useHandleCTAForm } from "@hooks/useHandleCTAForm";
 
@@ -48,9 +49,11 @@ export const CTAForm = ({ className, data, slotProps }: FormCardProps) => {
   return (
     <div className={containerClass}>
       <SectionHeader className="" {...data.header} icons={false} />
-      <Form onSubmit={handleCTAForm}>
-        <></>
-      </Form>
+      <Card>
+        <FormLayout onSubmit={handleCTAForm}>
+          <></>
+        </FormLayout>
+      </Card>
       {/* <form className={formClass}>
         {fields.map((field) => (
           <div key={field.name} className="relative">

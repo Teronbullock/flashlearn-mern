@@ -1,13 +1,10 @@
 {
-  "pageType": "dashboard",
-  "mainClass": "main--dashboard",
-  "hero": {
-    "className": "page-header--dashboard",
-    "ariaLabel": "Dashboard Page Header. This section contains the title and description. The background image is of a person with a black shirt studying. Photo by Anthony Riera on Unsplash.",
-    "img": "/assets/img/anthony-riera-kylWNDQFd5A-unsplash.jpg"
-  },
   "header": {
-    "title": "Dashboard",
-    "copy": "Welcome to your dashboard. Here you can view your card sets, create new ones, and study them. To get started create a Set."
+    "title": "Hi",
+    "copy": "Ready to Study?"
+  },
+  "setSection": {
+    "title": "Study sets",
+    "buttonText": "Create new set"
   }
 }
