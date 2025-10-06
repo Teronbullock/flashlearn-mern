@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { useAuthContext } from '@hooks/useAuthContext';
-import { useNavType } from '@app-types/navTypes';
+import { useState } from "react";
+import { useAuthContext } from "@hooks/useAuthContext";
+import { useNavType } from "@app-types/navTypes";
 
 export const useNav = (): useNavType => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { logout } = useAuthContext();
 
-  const handleMobileMenu = () => {
-    setIsMobileMenuOpen(prev => !prev);
+  const handleMobileToggle = () => {
+    setIsMobileMenuOpen((prev) => !prev);
   };
 
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -15,12 +15,12 @@ export const useNav = (): useNavType => {
 
     if (logout) {
       logout();
-      handleMobileMenu();
+      handleMobileToggle();
     }
   };
 
   return {
-    handleMobileMenu,
+    handleMobileToggle,
     handleLogout,
     isMobileMenuOpen,
   };

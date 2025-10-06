@@ -13,7 +13,7 @@ export interface NavType extends NavBase {
 }
 
 export interface useNavType {
-  handleMobileMenu: ToggleFn;
+  handleMobileToggle: ToggleFn;
   handleLogout: LogoutFn;
   isMobileMenuOpen: IsMobileMenuOpen;
 }

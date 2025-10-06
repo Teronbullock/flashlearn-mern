@@ -1,7 +1,7 @@
-import { useReducer, useEffect, useCallback, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router';
-import apiRequest from '@/lib/api';
-import { useAuthContext } from '@hooks/useAuthContext';
+import { useReducer, useEffect, useCallback, useState, useMemo } from "react";
+import { useNavigate } from "react-router";
+import apiRequest from "@/lib/api";
+import { useAuthContext } from "@hooks/useAuthContext";
 
 interface ISetReducerState {
   inputOneValue?: string;
@@ -9,7 +9,7 @@ interface ISetReducerState {
 }
 
 interface ISetReducerAction {
-  type: 'ON_INPUT_ONE_CHANGE' | 'ON_INPUT_TWO_CHANGE' | 'ON_LOAD' | 'SUBMIT';
+  type: "ON_INPUT_ONE_CHANGE" | "ON_INPUT_TWO_CHANGE" | "ON_LOAD" | "SUBMIT";
   payload: ISetReducerState;
 }
 
@@ -28,14 +28,14 @@ interface ImanageSetData {
 
 const SetReducer = (state: ISetReducerState, action: ISetReducerAction) => {
   switch (action.type) {
-    case 'ON_LOAD':
+    case "ON_LOAD":
       return { ...state, ...action.payload };
-    case 'ON_INPUT_ONE_CHANGE':
+    case "ON_INPUT_ONE_CHANGE":
       return { ...state, inputOneValue: action.payload.inputOneValue };
-    case 'ON_INPUT_TWO_CHANGE':
+    case "ON_INPUT_TWO_CHANGE":
       return { ...state, inputTwoValue: action.payload.inputTwoValue };
-    case 'SUBMIT':
-      return { ...state, inputOneValue: '', inputTwoValue: '' };
+    case "SUBMIT":
+      return { ...state, inputOneValue: "", inputTwoValue: "" };
     default:
       return state;
   }
@@ -50,8 +50,8 @@ const useManageSetData = ({
   const { userId, userSlug, token } = useAuthContext();
   const [sets, setSets] = useState<ISetData[]>([]);
   const [state, dispatch] = useReducer(SetReducer, {
-    inputOneValue: '',
-    inputTwoValue: '',
+    inputOneValue: "",
+    inputTwoValue: "",
   });
 
   // api Config
@@ -59,7 +59,7 @@ const useManageSetData = ({
     () => ({
       headers: { authorization: `Bearer ${token}` },
     }),
-    [token]
+    [token],
   );
 
   // Get Set Data
@@ -83,6 +83,8 @@ const useManageSetData = ({
     }
   }, [userSlug, token, apiConfig]);
 
+  //
+
   // Add Set handler
   const addSetHandler = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -90,7 +92,7 @@ const useManageSetData = ({
 
       try {
         const res = await apiRequest({
-          method: 'post',
+          method: "post",
           url: `/api/set/user/${userSlug}/add`,
           data: {
             title: state.inputOneValue,
@@ -102,14 +104,14 @@ const useManageSetData = ({
         if (res.data) {
           const { msg } = res.data;
           alert(msg);
-          dispatch({ type: 'SUBMIT', payload: {} });
+          dispatch({ type: "SUBMIT", payload: {} });
         }
       } catch (error) {
         console.error(error);
         alert(error);
       }
     },
-    [userSlug, apiConfig, state.inputOneValue, state.inputTwoValue]
+    [userSlug, apiConfig, state.inputOneValue, state.inputTwoValue],
   );
 
   // Edit Set Handler
@@ -119,7 +121,7 @@ const useManageSetData = ({
 
       try {
         const res = await apiRequest({
-          method: 'put',
+          method: "put",
           url: `/api/set/user/${userSlug}/${setId}/edit`,
           data: {
             title: state.inputOneValue,
@@ -143,7 +145,7 @@ const useManageSetData = ({
         alert(`Error updating set, ${error}`);
       }
     },
-    [userSlug, setId, apiConfig, state.inputOneValue, state.inputTwoValue]
+    [userSlug, setId, apiConfig, state.inputOneValue, state.inputTwoValue],
   );
 
   // Delete Set Handler
@@ -153,9 +155,9 @@ const useManageSetData = ({
 
       if (setId && userSlug) {
         try {
-          console.log('config', apiConfig);
+          console.log("config", apiConfig);
           const res = await apiRequest({
-            method: 'delete',
+            method: "delete",
             url: `/api/set/user/${userSlug}/${setId}/delete`,
             config: apiConfig,
           });
@@ -167,7 +169,7 @@ const useManageSetData = ({
         }
       }
     },
-    [userSlug, apiConfig, getSetData]
+    [userSlug, apiConfig, getSetData],
   );
 
   // useEffect for edit set functions
@@ -182,7 +184,7 @@ const useManageSetData = ({
 
           const { title, description } = res.data.set;
           dispatch({
-            type: 'ON_LOAD',
+            type: "ON_LOAD",
             payload: {
               inputOneValue: title,
               inputTwoValue: description,
@@ -190,8 +192,8 @@ const useManageSetData = ({
           });
           return;
         } catch (err) {
-          console.error('Error: retrieving set', err);
-          alert('Error: retrieving set');
+          console.error("Error: retrieving set", err);
+          alert("Error: retrieving set");
           navigate(`/dashboard/${userSlug}`);
         }
       };

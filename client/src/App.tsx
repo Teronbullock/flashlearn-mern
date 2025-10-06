@@ -38,7 +38,7 @@ const App = () => {
         <Route path="/dashboard/:userSlug" element={<Dashboard />} />
         <Route path="/profile/:userSlug" element={<ProfilePage />} />
         {/* <Route path="/set/:setId" element={<SetPage />} /> */}
-        {/* <Route path="/set/user/:userSlug/add" element={<AddSetPage />} /> */}
+        <Route path="/set/user/:userSlug/add" element={<AddSetPage />} />
         {/* <Route path="/set/:setId/edit" element={<EditSetPage />} /> */}
         {/* <Route path="/set/:setId/card/add" element={<AddCardPage />} /> */}
         {/* <Route

@@ -6,11 +6,17 @@ import { useNav } from "@hooks/useNav";
 
 export default function Header() {
   const { token, userSlug } = useAuthContext();
-  const { isMobileMenuOpen, handleMobileMenu, handleLogout } = useNav();
+  const { isMobileMenuOpen, handleMobileToggle, handleLogout } = useNav();
 
   return (
-    <header className="header fixed left-0 top-0 z-[500] h-[64px] w-full px-[1rem] md:h-[70px] md:bg-white">
-      <div className="header__container max-w-8xl relative mx-auto flex h-full items-center justify-between px-4">
+    <header
+      id="header"
+      className="fixed left-0 top-0 z-[500] h-[64px] w-full md:h-[70px] md:bg-white"
+    >
+      <div
+        data-name="header__container"
+        className="max-w-8xl relative mx-auto flex h-full items-center justify-between px-4"
+      >
         <h2 className="md:text-dark-shade font-cursive m-0 font-normal text-white md:w-[180px]">
           {token ? (
             <Link className="text-lg" to={`/dashboard/${userSlug}`}>
@@ -23,11 +29,11 @@ export default function Header() {
           )}
         </h2>
         <MobileMenuBtn
-          onToggle={handleMobileMenu}
+          onToggle={handleMobileToggle}
           isMobileMenuOpen={isMobileMenuOpen}
         />
         <Nav
-          onToggle={handleMobileMenu}
+          onToggle={handleMobileToggle}
           onLogout={handleLogout}
           isMobileMenuOpen={isMobileMenuOpen}
         />

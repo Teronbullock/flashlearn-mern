@@ -1,9 +1,8 @@
 import { Btn } from "@/components/Btn/Btn";
 import { Card } from "@components/Card";
 import { ListCardForm } from "@components/Forms/ListCardForm";
-import useManageSetData from "@features/sets/hooks/useManageSetData";
 
-interface SetDataProps {
+interface Sets {
   title: string;
   description?: string;
   cardCount?: number;
@@ -11,63 +10,68 @@ interface SetDataProps {
   user_id?: number;
 }
 
-export const SetFeed = () => {
-  const { sets, deleteSetHandler } = useManageSetData({ isGetSets: true });
+interface SetFeedProps {
+  sets: Sets[];
+  deleteSetHandler: (
+    e: React.FormEvent<HTMLFormElement>,
+    setId: number,
+  ) => Promise<void>;
+}
 
+export const SetFeed = ({ sets, deleteSetHandler }: SetFeedProps) => {
   return (
     <section>
-      {sets && sets.length > 0 ? (
-        sets.map((setData: SetDataProps) => {
-          const { id } = setData;
-          const data = {
-            ...setData,
-            listType: "set",
-          } as const;
+      {sets && sets.length > 0
+        ? sets.map((setData) => {
+            const { id } = setData;
+            const data = {
+              ...setData,
+              listType: "set",
+            } as const;
 
-          return (
-            <ListCardForm
-              onSubmit={(e) => deleteSetHandler(e, id)}
-              key={id}
-              isSetFeed={true}
-              {...data}
-            >
-              <ul className="flex justify-between">
-                <div className="flex">
-                  <li>
+            return (
+              <ListCardForm
+                onSubmit={(e) => deleteSetHandler(e, id)}
+                key={id}
+                isSetFeed={true}
+                {...data}
+              >
+                <div className="flex flex-wrap justify-between">
+                  <div className="mb-2 flex">
                     <Btn
                       el="link"
                       variants={{ style: "btn", color: "primary" }}
-                      className="mr-4 px-[1.25rem] md:mr-6"
+                      className="mr-2 p-0 md:mr-6 md:px-[1.25rem]"
                       to={`/set/${id}`}
                     >
                       View Set
                     </Btn>
-                  </li>
-                  <li>
+
                     <Btn
                       el="link"
                       variants={{ style: "btn", color: "outline-primary" }}
-                      className="mr-4 px-[1.6rem] md:mr-6"
+                      className="p-0 md:mr-6 md:px-[1.6rem]"
                       to={`/set/${id}/edit`}
                     >
                       Edit Set
                     </Btn>
-                  </li>
-                </div>
-                <li>
-                  <Btn type="submit" className="!justify-end !p-0">
-                    <img src="/assets/img/Vector.png" alt="icon of trash can" />
+                  </div>
+
+                  <Btn
+                    type="submit"
+                    className="!min-w-[39px] !justify-end !p-0"
+                  >
+                    <img
+                      src="/assets/img/Vector.png"
+                      alt="icon of trash can"
+                      className="mx-auto"
+                    />
                   </Btn>
-                </li>
-              </ul>
-            </ListCardForm>
-          );
-        })
-      ) : (
-        <Card className="bg-white">
-          <p>No sets found</p>
-        </Card>
-      )}
+                </div>
+              </ListCardForm>
+            );
+          })
+        : null}
     </section>
   );
 };

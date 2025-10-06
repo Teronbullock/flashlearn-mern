@@ -1,15 +1,42 @@
 import { Btn } from "@components/Btn/Btn";
 import { useAuthContext } from "@hooks/useAuthContext";
 import { LogoutFn } from "@app-types/navTypes";
-import "./nav.scss";
 
 export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
   const { token, userSlug } = useAuthContext();
 
   return (
-    <div className="hidden md:block">
-      <ul className="nav-desktop__list nav-desktop--flex">
-        {token ? (
+    <div data-name="nav-desktop" className="hidden md:block">
+      <ul className="text-dark m-0 flex list-none items-center justify-end ps-0">
+        {!token ? (
+          <>
+            <li className="mx-4 my-0">
+              <Btn el="link" variants={{ style: "btn" }} to="/">
+                Home
+              </Btn>
+            </li>
+            <li className="mx-4 my-0">
+              <Btn
+                el="link"
+                variants={{ style: "btn" }}
+                className="text-black"
+                to="/register"
+              >
+                Sign Up
+              </Btn>
+            </li>
+            <li className="mx-4 my-0 mr-0">
+              <Btn
+                el="link"
+                to="/login"
+                className="p-3"
+                variants={{ color: "primary", style: "btn" }}
+              >
+                Login
+              </Btn>
+            </li>
+          </>
+        ) : (
           <>
             {userSlug && (
               <>
@@ -17,7 +44,7 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
                   <Btn
                     el="link"
                     variants={{ style: "btn" }}
-                    className="nav-desktop__item"
+                    className="mx-4 my-0"
                     to={`/dashboard/${userSlug}`}
                   >
                     Home
@@ -27,7 +54,7 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
                   <Btn
                     el="link"
                     variants={{ style: "btn" }}
-                    className="nav-desktop__item"
+                    className="mx-4 my-0"
                     to={`/set/user/${userSlug}/add`}
                   >
                     Create Set
@@ -37,7 +64,7 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
                   <Btn
                     el="link"
                     variants={{ style: "btn" }}
-                    className="nav-desktop__item"
+                    className="mx-4 my-0"
                     to={`/profile/${userSlug}`}
                   >
                     Profile
@@ -50,34 +77,6 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
                 </li>
               </>
             )}
-          </>
-        ) : (
-          <>
-            <li className="nav-desktop__item">
-              <Btn el="link" variants={{ style: "btn" }} to="/">
-                Home
-              </Btn>
-            </li>
-            <li className="nav-desktop__item">
-              <Btn
-                el="link"
-                variants={{ style: "btn" }}
-                className="nav__list-link"
-                to="/register"
-              >
-                Sign Up
-              </Btn>
-            </li>
-            <li className="nav-desktop__item mr-0">
-              <Btn
-                el="link"
-                to="/login"
-                className="p-3"
-                variants={{ color: "primary", style: "btn" }}
-              >
-                Login
-              </Btn>
-            </li>
           </>
         )}
       </ul>

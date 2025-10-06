@@ -15,7 +15,7 @@ export const Card = ({
   ...props
 }: CardProps) => {
   const cardClass = classNames(
-    "mx-auto rounded-[20px] overflow-auto",
+    "rounded-[20px] overflow-auto",
     {
       "mb-8 p-4 md:p-8": spacing,
       border: border,

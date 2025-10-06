@@ -28,7 +28,7 @@ export const ListCardForm = ({
   return (
     <Card
       spacing={false}
-      className="border-primary mb-5 border bg-white p-4 text-black"
+      className="border-primary mb-5 border bg-white p-[10px] text-black md:p-4"
     >
       <FormLayout onSubmit={onSubmit}>
         <div className="flex flex-wrap justify-between">
