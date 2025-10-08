@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Btn } from "@components/Btn/Btn";
+import { Btn, BtnLink } from "@components/btn";
 
 type FormActionProps = {
   submitBtnText: string;
@@ -15,30 +15,26 @@ type FormActionProps = {
  * @param param0
  * @returns
  */
-function FormAction({
+export const FormAction = ({
   submitBtnText,
   cancelBtnTo,
   className,
-}: FormActionProps) {
+}: FormActionProps) => {
   return (
     <div className={classNames("form__action flex", className)}>
-      <span className="w-1/2 md:w-1/4">
-        <Btn className="btn--large btn--tertiary text-white" type="submit">
-          {submitBtnText}
-        </Btn>
-      </span>
-      <span className="w-1/2 md:w-1/4">
-        <Btn
-          el="link"
-          variants={{ style: "btn" }}
-          className="btn--large btn--outline-black"
-          to={cancelBtnTo}
-        >
-          Cancel
-        </Btn>
-      </span>
+      <Btn
+        className="mr-7"
+        type="submit"
+        variants={{ style: "btn", color: "primary", size: "lg" }}
+      >
+        {submitBtnText}
+      </Btn>
+      <BtnLink
+        variants={{ style: "btn", color: "outline-black", size: "lg" }}
+        to={cancelBtnTo}
+      >
+        Cancel
+      </BtnLink>
     </div>
   );
-}
-
-export default FormAction;
+};

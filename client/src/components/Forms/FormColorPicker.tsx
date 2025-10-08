@@ -1,5 +1,5 @@
-import { Btn } from '@components/Btn/Btn';
-import FormInput from './FormInput';
+import { Btn } from "@components/btn";
+import FormInput from "./FormInput";
 
 interface CardState {
   inputOneValue?: string;
@@ -11,10 +11,10 @@ interface CardState {
 type CardAction =
   | {
       type:
-        | 'SET_INPUT_ONE'
-        | 'SET_INPUT_TWO'
-        | 'SET_BG_COLOR'
-        | 'SET_TEXT_COLOR';
+        | "SET_INPUT_ONE"
+        | "SET_INPUT_TWO"
+        | "SET_BG_COLOR"
+        | "SET_TEXT_COLOR";
       payload: {
         inputOneValue?: string;
         inputTwoValue?: string;
@@ -22,9 +22,9 @@ type CardAction =
         textColor?: string;
       };
     }
-  | { type: 'RESET_COLORS' }
+  | { type: "RESET_COLORS" }
   | {
-      type: 'ON_CARD_RELOAD';
+      type: "ON_CARD_RELOAD";
       payload: CardState;
     };
 
@@ -35,39 +35,39 @@ type FormColorPickerProps = {
 };
 
 export const FormColorPicker = ({
-  bgColor = 'ffffff',
-  textColor = '000000',
+  bgColor = "ffffff",
+  textColor = "000000",
   dispatch,
 }: FormColorPickerProps) => {
   const handleResetColors = () => {
     dispatch({
-      type: 'RESET_COLORS',
+      type: "RESET_COLORS",
     });
   };
 
   return (
-    <div className='form__group'>
+    <div className="form__group">
       <div>
         <Btn
-          className='btn--small bg-black text-white mb-4'
+          className="btn--small mb-4 bg-black text-white"
           onClick={handleResetColors}
         >
           Reset Colors
         </Btn>
       </div>
-      <div className='flex'>
+      <div className="flex">
         {bgColor && (
           <FormInput
-            containerClassName='w-1/2 md:w-1/4'
-            className='mr-4'
-            labelName='Card Color:'
-            type='color'
-            name='bg_color'
+            containerClassName="w-1/2 md:w-1/4"
+            className="mr-4"
+            labelName="Card Color:"
+            type="color"
+            name="bg_color"
             value={bgColor}
-            datatype='card-color'
-            onChange={e =>
+            datatype="card-color"
+            onChange={(e) =>
               dispatch({
-                type: 'SET_BG_COLOR',
+                type: "SET_BG_COLOR",
                 payload: {
                   bgColor: e.target.value,
                 },
@@ -77,16 +77,16 @@ export const FormColorPicker = ({
         )}
         {textColor && (
           <FormInput
-            containerClassName='w-1/2 md:w-1/4'
-            className='mr-4'
-            labelName='Text Color:'
-            type='color'
-            name='text_color'
+            containerClassName="w-1/2 md:w-1/4"
+            className="mr-4"
+            labelName="Text Color:"
+            type="color"
+            name="text_color"
             value={textColor}
-            datatype='card-text-color'
-            onChange={e =>
+            datatype="card-text-color"
+            onChange={(e) =>
               dispatch({
-                type: 'SET_TEXT_COLOR',
+                type: "SET_TEXT_COLOR",
                 payload: {
                   textColor: e.target.value,
                 },

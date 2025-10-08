@@ -29,7 +29,6 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
-      "@features/*": ["src/features/*"],
       "@layouts/*": ["src/layouts/*"],
       "@sass/*": ["src/assets/scss/*"],
       "@app-types/*": ["src/types/*"],
@@ -44,6 +43,6 @@
     "test",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
-    "src/pages/Profile.tsx"
+    "src/pages/profile/Profile.tsx"
   ]
 }

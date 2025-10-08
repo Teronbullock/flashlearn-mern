@@ -14,7 +14,15 @@ export default defineConfig(({ mode }) => {
       "process.env": process.env,
     },
     envDir: "../",
-    plugins: [react(), tailwindcss(), tsconfigPaths()],
+    plugins: [
+      react({
+        babel: {
+          plugins: ["babel-plugin-react-compiler"],
+        },
+      }),
+      tailwindcss(),
+      tsconfigPaths(),
+    ],
     css: {
       preprocessorOptions: {
         scss: {

@@ -1,4 +1,4 @@
-import { Btn } from "@components/Btn/Btn";
+import { Btn, BtnLink } from "@components/btn";
 import { useAuthContext } from "@hooks/useAuthContext";
 import { LogoutFn } from "@app-types/navTypes";
 
@@ -11,29 +11,27 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
         {!token ? (
           <>
             <li className="mx-4 my-0">
-              <Btn el="link" variants={{ style: "btn" }} to="/">
+              <BtnLink variants={{ style: "btn" }} to="/">
                 Home
-              </Btn>
+              </BtnLink>
             </li>
             <li className="mx-4 my-0">
-              <Btn
-                el="link"
+              <BtnLink
                 variants={{ style: "btn" }}
                 className="text-black"
                 to="/register"
               >
                 Sign Up
-              </Btn>
+              </BtnLink>
             </li>
             <li className="mx-4 my-0 mr-0">
-              <Btn
-                el="link"
+              <BtnLink
                 to="/login"
                 className="p-3"
                 variants={{ color: "primary", style: "btn" }}
               >
                 Login
-              </Btn>
+              </BtnLink>
             </li>
           </>
         ) : (
@@ -41,34 +39,31 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
             {userSlug && (
               <>
                 <li>
-                  <Btn
-                    el="link"
+                  <BtnLink
                     variants={{ style: "btn" }}
                     className="mx-4 my-0"
                     to={`/dashboard/${userSlug}`}
                   >
                     Home
-                  </Btn>
+                  </BtnLink>
                 </li>
                 <li>
-                  <Btn
-                    el="link"
+                  <BtnLink
                     variants={{ style: "btn" }}
                     className="mx-4 my-0"
                     to={`/set/user/${userSlug}/add`}
                   >
                     Create Set
-                  </Btn>
+                  </BtnLink>
                 </li>
                 <li>
-                  <Btn
-                    el="link"
+                  <BtnLink
                     variants={{ style: "btn" }}
                     className="mx-4 my-0"
                     to={`/profile/${userSlug}`}
                   >
                     Profile
-                  </Btn>
+                  </BtnLink>
                 </li>
                 <li>
                   <Btn className="btn--black p-3" onClick={onLogout}>

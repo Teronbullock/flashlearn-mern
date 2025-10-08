@@ -1,6 +1,6 @@
 import { SectionTwoCol } from "@components/SectionTwoCol";
 import { SectionHeader, SectionHeaderProps } from "@components/SectionHeader";
-import { Btn } from "@components/Btn/Btn";
+import { BtnLink } from "@components/btn";
 
 interface CTASectionProps {
   data: {
@@ -45,13 +45,12 @@ export const CTASection = ({ data }: CTASectionProps) => {
             {...data.header}
             icons={false}
           />
-          <Btn
-            el="link"
+          <BtnLink
             to="/register"
             variants={{ style: "btn", color: "white", size: "md" }}
           >
             {data.buttonText}
-          </Btn>
+          </BtnLink>
         </div>
       </div>
     </SectionTwoCol>

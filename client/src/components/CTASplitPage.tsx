@@ -1,8 +1,8 @@
 import { Dispatch } from "react";
 import classNames from "classnames";
-import { FormLayout } from "@components/Forms/FormLayout";
-import { Btn } from "@components/Btn/Btn";
-import { UserState, LoginReducerAction } from "@pages/Login";
+import { FormLayout } from "@components/forms";
+import { Btn } from "@components/btn";
+import { UserState, LoginReducerAction } from "@pages/auth/LoginPage";
 import { SectionHeader } from "@components/SectionHeader";
 
 interface CTASplitPageProps {
@@ -64,6 +64,7 @@ export const CTASplitPage = ({
             <Btn
               type="submit"
               variants={{
+                style: "btn",
                 size: ctaBtnSize,
                 color: "primary",
               }}

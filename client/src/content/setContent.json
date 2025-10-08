@@ -1,0 +1,20 @@
+{
+  "SetPage": {
+    "header": {
+      "title": "Set",
+      "subTitle": "Welcome to your set. Here you can view your flashcards, create new ones, and study them."
+    }
+  },
+  "AddSet": {
+    "header": {
+      "title": "Create Set",
+      "subTitle": "Build your first set and make studying easier."
+    }
+  },
+  "EditSet": {
+    "header": {
+      "title": "Set",
+      "subTitle": "Welcome to your set. Here you can view your flashcards, create new ones, and study them."
+    }
+  }
+}

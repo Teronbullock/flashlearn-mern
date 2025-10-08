@@ -16,7 +16,9 @@ export default function Footer() {
         <div className="mb-5 w-[233px] md:mb-0 md:mr-14">
           <h3 className="mb-3 text-lg font-semibold md:mb-8">Quick Links</h3>
           {quickLinks.map((item) => (
-            <p className="mb-3 text-base md:mb-4">{item}</p>
+            <p key={item.key} className="mb-3 text-base md:mb-4">
+              {item.text}
+            </p>
           ))}
         </div>
         <div className="mb-5 md:mb-0" data-js="footer-right-col">

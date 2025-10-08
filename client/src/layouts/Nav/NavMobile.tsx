@@ -1,6 +1,6 @@
 import { useAuthContext } from "@hooks/useAuthContext";
 import { NavType } from "@app-types/navTypes";
-import { Btn } from "@components/Btn/Btn";
+import { Btn, BtnLink } from "@components/btn";
 import classNames from "classnames";
 
 export const NavMobile = ({
@@ -21,67 +21,61 @@ export const NavMobile = ({
         {!token ? (
           <>
             <li className="mb-[1.75rem]">
-              <Btn el="link" to="/" onClick={onToggle}>
+              <BtnLink to="/" onClick={onToggle}>
                 Home
-              </Btn>
+              </BtnLink>
             </li>
             <li className="mb-[1.75rem]">
-              <Btn el="link" to="/register" onClick={onToggle}>
+              <BtnLink to="/register" onClick={onToggle}>
                 About
-              </Btn>
+              </BtnLink>
             </li>
             <li className="mb-[1.75rem]">
-              <Btn el="link" to="/#how-it-works" onClick={onToggle}>
+              <BtnLink to="/#how-it-works" onClick={onToggle}>
                 How It Works
-              </Btn>
+              </BtnLink>
             </li>
             <li className="mb-[1.75rem]">
-              <Btn el="link" to="/#testimonials" onClick={onToggle}>
+              <BtnLink to="/#testimonials" onClick={onToggle}>
                 Testimonials
-              </Btn>
+              </BtnLink>
             </li>
             <li className="mb-[1.75rem]">
-              <Btn
-                el="link"
+              <BtnLink
                 variants={{ color: "primary", style: "btn" }}
                 to="/register"
                 onClick={onToggle}
               >
                 Sign Up
-              </Btn>
+              </BtnLink>
             </li>
             <li className="">
-              <Btn
-                el="link"
+              <BtnLink
                 to="/login"
                 variants={{ color: "outline-primary", style: "btn" }}
                 onClick={onToggle}
               >
                 Log in
-              </Btn>
+              </BtnLink>
             </li>
           </>
         ) : (
           <>
             userSlug && (
             <li className="">
-              <Btn el="link" to={`/dashboard/${userSlug}`} onClick={onToggle}>
+              <BtnLink to={`/dashboard/${userSlug}`} onClick={onToggle}>
                 Home
-              </Btn>
+              </BtnLink>
             </li>
             <li className="">
-              <Btn
-                el="link"
-                to={`/set/user/${userSlug}/add`}
-                onClick={onToggle}
-              >
+              <BtnLink to={`/set/user/${userSlug}/add`} onClick={onToggle}>
                 Create Set
-              </Btn>
+              </BtnLink>
             </li>
             <li className="">
-              <Btn el="link" to={`/profile/${userSlug}`} onClick={onToggle}>
+              <BtnLink to={`/profile/${userSlug}`} onClick={onToggle}>
                 My Profile
-              </Btn>
+              </BtnLink>
             </li>
             <li className="">
               <Btn onClick={onLogout}>Logout</Btn>

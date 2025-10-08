@@ -1,5 +1,5 @@
 import { Card } from "@components/Card";
-import { FormLayout } from "@components/Forms/FormLayout";
+import { FormLayout } from "@components/forms";
 
 interface ListCardFormProps {
   title: string;
@@ -32,7 +32,7 @@ export const ListCardForm = ({
     >
       <FormLayout onSubmit={onSubmit}>
         <div className="flex flex-wrap justify-between">
-          <h3 className="mb-6 text-base">{title}</h3>
+          <h3 className="mb-3 text-base">{title}</h3>
           {isSetFeed &&
             (cardCount || cardCount === 0 ? (
               <p className="card__body-info-title my-0">Terms: {cardCount}</p>

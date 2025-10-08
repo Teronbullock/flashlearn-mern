@@ -1,16 +1,11 @@
 import classNames from "classnames";
-import { FormInputBaseProps } from "@components/Forms/FormTypes";
-
-interface FormInputProps extends FormInputBaseProps {
-  type?: "text" | "textarea" | "email" | "password";
-}
+import { FormInputBaseProps } from "@components/forms/FormTypes";
 
 export const FormInput = ({
-  type = "text",
   className = "text-black bg-white",
   name,
   ...props
-}: FormInputProps) => {
+}: FormInputBaseProps) => {
   const inputClass = classNames(
     "w-full text-sm rounded-[20px] border border-secondary md:mx-0 md:mt-1 py-4 px-3 outline-none placeholder:font-light ",
     {
@@ -21,7 +16,7 @@ export const FormInput = ({
 
   return (
     <>
-      <input id={name} className={inputClass} type={type} {...props} />
+      <input id={name} className={inputClass} {...props} />
     </>
   );
 };

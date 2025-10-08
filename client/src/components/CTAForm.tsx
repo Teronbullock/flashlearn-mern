@@ -1,5 +1,5 @@
 import { Card } from "@components/Card";
-import { FormLayout } from "@components/Forms/FormLayout";
+import { FormLayout } from "@components/forms";
 import { SectionHeader, SectionHeaderProps } from "@components/SectionHeader";
 import { useHandleCTAForm } from "@hooks/useHandleCTAForm";
 

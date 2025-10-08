@@ -1,5 +1,5 @@
 import "./page-components.scss";
-import { Btn } from "@components/Btn/Btn";
+import { BtnLink } from "@components/btn";
 import classNames from "classnames";
 
 interface HeroProps {
@@ -33,8 +33,7 @@ export const PageHero = ({
           <div className="page-hero_content absolute left-0 top-[42%] text-white sm:top-[50%] md:max-w-[600px]">
             <h2 className="mb-6 text-xl">{title}</h2>
             <h3 className="mb-7 text-base">{copy}</h3>
-            <Btn
-              el="link"
+            <BtnLink
               variants={{
                 color: "primary",
                 style: "btn",
@@ -43,9 +42,8 @@ export const PageHero = ({
               className="mr-4"
             >
               Get Started for Free
-            </Btn>
-            <Btn
-              el="link"
+            </BtnLink>
+            <BtnLink
               variants={{
                 color: "outline-white",
                 style: "btn",
@@ -54,7 +52,7 @@ export const PageHero = ({
               className="text-white"
             >
               Log in
-            </Btn>
+            </BtnLink>
           </div>
         </div>
       )}

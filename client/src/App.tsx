@@ -4,19 +4,14 @@ import "./App.css";
 import Header from "@layouts/Header";
 import Footer from "@layouts/Footer";
 
-import { Index } from "@pages/Index";
-import { Dashboard } from "@pages/Dashboard";
-import AddSetPage from "@pages/AddSet";
-import EditSetPage from "@pages/EditSet";
-import AddCardPage from "@pages/AddCard";
-import EditCardPage from "@pages/EditCard";
+import Index from "@pages/Index";
+import DashboardPage from "@pages/dashboard";
+import { SetPage, AddSetPage, EditSetPage } from "@pages/set";
+import { AddCardPage, EditCardPage, ViewCardsPage } from "@pages/card";
+import { LoginPage, RegisterPage } from "@pages/auth";
+import ProfilePage from "@pages/profile/Profile";
 
 import PageNotFound from "@pages/PageNotFound";
-import SetPage from "@pages/Set";
-import ViewCardsPage from "@pages/ViewCards";
-import LoginPage from "@pages/Login";
-import ProfilePage from "@pages/Profile";
-import Register from "@pages/Register";
 
 const App = () => {
   const { userSlug, token } = useAuthContext()!;
@@ -26,7 +21,7 @@ const App = () => {
     routes = (
       <>
         <Route path="/" element={<Index />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         {/* <Route path="*" element={<PageNotFound />} /> */}
         <Route path="/profile/:userSlug" element={<ProfilePage />} />
@@ -35,9 +30,9 @@ const App = () => {
   } else {
     routes = (
       <>
-        <Route path="/dashboard/:userSlug" element={<Dashboard />} />
+        <Route path="/dashboard/:userSlug" element={<DashboardPage />} />
         <Route path="/profile/:userSlug" element={<ProfilePage />} />
-        {/* <Route path="/set/:setId" element={<SetPage />} /> */}
+        <Route path="/set/:setId" element={<SetPage />} />
         <Route path="/set/user/:userSlug/add" element={<AddSetPage />} />
         {/* <Route path="/set/:setId/edit" element={<EditSetPage />} /> */}
         {/* <Route path="/set/:setId/card/add" element={<AddCardPage />} /> */}

@@ -1,5 +1,5 @@
-import { Btn } from "@components/Btn/Btn";
-import { BtnProps } from "@/components/Btn/btnTypes";
+import { Btn } from "@components/btn";
+import { BtnProps } from "@components/btn/BtnTypes";
 import classNames from "classnames";
 
 interface ListProps extends BtnProps {

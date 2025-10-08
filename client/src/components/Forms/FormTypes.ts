@@ -1,4 +1,5 @@
 export interface FormInputBaseProps {
+  type: "text" | "email" | "password" | "number" | "tel" | "url";
   name: string;
   value?: string | undefined | "";
   className?: string;
