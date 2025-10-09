@@ -1,6 +1,9 @@
-import { Card } from "@components/Card";
+import { Card } from "@components/ui/Card";
 import { FormLayout } from "@components/forms";
-import { SectionHeader, SectionHeaderProps } from "@components/SectionHeader";
+import {
+  SectionHeader,
+  SectionHeaderProps,
+} from "@components/ui/header/SectionHeader";
 import { useHandleCTAForm } from "@hooks/useHandleCTAForm";
 
 import classNames from "classnames";

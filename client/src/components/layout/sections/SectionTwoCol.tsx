@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import { SectionHeader } from "@components/SectionHeader";
+import { SectionHeader } from "@components/ui/header/SectionHeader";
 
 interface SectionTwoColProps {
   children: React.ReactNode;
@@ -40,13 +40,13 @@ export const SectionTwoCol = ({
   );
 
   return (
-    <section className={mainClassName} data-js="section-two-col">
-      <div className={containerClassName} data-js="section-two-col-container">
+    <section className={mainClassName} data-name="section-two-col">
+      <div className={containerClassName} data-name="section-two-col-container">
         {header && (
           <>
             <SectionHeader
-              header={header.title}
-              subHeader={header.subTitle}
+              title={header.title}
+              subTitle={header.subTitle}
               className={{ section: header.className }}
             />
           </>

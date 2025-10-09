@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { SetFeed, DashboardInfo } from "./components";
-import { InnerPageHeader } from "@pages/shared/InnerPageHeader";
+import { InnerPageHeader } from "@components/InnerPageHeader";
 import useManageSetData from "@pages/dashboard/hooks/useManageSetData";
 import { FormLayout, FormGroup, FormInput } from "@components/forms";
 import { Main } from "@layouts/Main";

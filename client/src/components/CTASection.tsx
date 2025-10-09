@@ -1,5 +1,8 @@
-import { SectionTwoCol } from "@components/SectionTwoCol";
-import { SectionHeader, SectionHeaderProps } from "@components/SectionHeader";
+import { SectionTwoCol } from "@components/layout/sections/SectionTwoCol";
+import {
+  SectionHeader,
+  SectionHeaderProps,
+} from "@components/ui/header/SectionHeader";
 import { BtnLink } from "@components/btn";
 
 interface CTASectionProps {
@@ -39,8 +42,8 @@ export const CTASection = ({ data }: CTASectionProps) => {
           <SectionHeader
             className={{
               section: "mb-12",
-              header: "z-10 !mx-0 text-xl",
-              subHeader: "!text-left",
+              title: "z-10 !mx-0 text-xl",
+              subTitle: "!text-left",
             }}
             {...data.header}
             icons={false}

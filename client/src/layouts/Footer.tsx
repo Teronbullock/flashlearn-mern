@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer
       className="footer text-color-black bg-color-white mt-auto w-full text-xl"
-      data-js="footer"
+      data-name="footer"
     >
       <div className="max-w-8xl container mx-auto mb-9 flex flex-col justify-between px-4 md:flex-row">
         <div className="md:flex-3 mb-5 md:mb-0 md:pr-[12%]">
@@ -21,7 +21,7 @@ export default function Footer() {
             </p>
           ))}
         </div>
-        <div className="mb-5 md:mb-0" data-js="footer-right-col">
+        <div className="mb-5 md:mb-0" data-name="footer-right-col">
           <h3 className="mb-3 text-lg font-semibold md:mb-8">Contact Us</h3>
           <p className="text-base">{contactUs.email}</p>
         </div>

@@ -1,4 +1,4 @@
-import { SectionTwoCol } from "@components/SectionTwoCol";
+import { SectionTwoCol } from "@components/layout/sections/SectionTwoCol";
 import { TimelineCard, TimelineCardProps } from "@components/TimelineCard";
 
 interface TwoColTimelineProps {
@@ -23,7 +23,7 @@ export function TwoColTimeline({ data }: TwoColTimelineProps) {
     >
       <div
         className="mb-[4rem] justify-items-center px-[15%] md:mb-[2rem] md:basis-[50%] md:px-0"
-        data-js="section-two-col-left"
+        data-name="section-two-col-left"
       >
         <div>
           <img
@@ -40,7 +40,7 @@ export function TwoColTimeline({ data }: TwoColTimelineProps) {
           />
         </div>
       </div>
-      <div className="md:pt-[4rem]" data-js="section-two-col-right">
+      <div className="md:pt-[4rem]" data-name="section-two-col-right">
         <TimelineCard {...data.cardOne} className="pb-[6.75rem]" />
         <TimelineCard {...data.cardTwo} className="pb-[6.75rem]" />
         <TimelineCard isLast {...data.cardThree} />

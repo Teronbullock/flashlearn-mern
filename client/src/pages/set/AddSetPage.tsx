@@ -8,7 +8,7 @@ import {
   FormAction,
 } from "@components/forms";
 
-import { InnerPageHeader } from "@pages/shared/InnerPageHeader";
+import { InnerPageHeader } from "@components/InnerPageHeader";
 
 import data from "@content/setContent.json";
 

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { FormLayout } from "@components/forms";
 import { Btn } from "@components/btn";
 import { UserState, LoginReducerAction } from "@pages/auth/LoginPage";
-import { SectionHeader } from "@components/SectionHeader";
+import { SectionHeader } from "@components/ui/header/SectionHeader";
 
 interface CTASplitPageProps {
   children: React.ReactNode;

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { InnerPageHeader } from "@pages/shared/InnerPageHeader";
+import { InnerPageHeader } from "@components/InnerPageHeader";
 import { FormLayout, FormGroup, FormInput } from "@components/forms";
 import { CardFeed } from "@pages/card/shared/components/CardFeed";
 import { useAuthContext } from "@hooks/useAuthContext";

@@ -1,39 +1,45 @@
 import classNames from "classnames";
+import {
+  BasicHeader,
+  BasicHeaderClassName,
+  BasicHeaderTitleProps,
+} from "@components/ui/header";
 
-export interface SectionHeaderProps {
-  header: string | undefined;
-  subHeader?: string;
-  className?: {
-    section?: string;
-    header?: string;
-    subHeader?: string;
-  };
-  icons?: boolean;
+interface SectionHeaderClassName extends BasicHeaderClassName {
+  section?: string;
+}
+
+export interface SectionHeaderProps extends BasicHeaderTitleProps {
+  showIcons?: boolean;
+  className?: SectionHeaderClassName;
 }
 
 export const SectionHeader = ({
-  header,
-  subHeader,
+  title,
+  subTitle,
   className,
-  icons = true,
+  showIcons = true,
 }: SectionHeaderProps) => {
   const sectionClass = classNames("mx-auto max-w-3xl ", className?.section);
-  const headerClass = classNames(
+  const basicTitleClass = classNames(
     "mx-2 md:mx-8",
-    {
-      "text-center": icons,
-    },
-    className?.header,
+    { "text-center": showIcons },
+    className?.title,
   );
-  const subHeaderClass = classNames(
+  const basicSubTitleClass = classNames(
     "text-center text-base",
-    className?.subHeader,
+    className?.subtitle,
   );
 
+  const titleClassObj = {
+    title: basicTitleClass,
+    subTitle: basicSubTitleClass,
+  };
+
   return (
-    <div className={sectionClass} data-js="section-header">
+    <div className={sectionClass} data-name="section-header">
       <div className="mx-auto mb-4 flex items-center justify-center">
-        {icons && (
+        {showIcons && (
           <span>
             <img
               className="h-[24px] w-[24px] md:h-[42px] md:w-[42px]"
@@ -44,8 +50,8 @@ export const SectionHeader = ({
             />
           </span>
         )}
-        <h2 className={headerClass}>{header}</h2>
-        {icons && (
+        <BasicHeader classname={titleClassObj} title={title} />
+        {showIcons && (
           <span>
             <img
               className="h-[24px] w-[24px] md:h-[42px] md:w-[42px]"
@@ -57,7 +63,7 @@ export const SectionHeader = ({
           </span>
         )}
       </div>
-      <p className={subHeaderClass}>{subHeader}</p>
+      {subTitle && <p className={basicSubTitleClass}>{subTitle}</p>}
     </div>
   );
 };

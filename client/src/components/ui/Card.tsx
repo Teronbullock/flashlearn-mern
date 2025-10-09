@@ -24,7 +24,7 @@ export const Card = ({
   );
 
   return (
-    <div className={cardClass} {...props} data-js="card">
+    <div className={cardClass} {...props} data-name="card">
       {children}
     </div>
   );

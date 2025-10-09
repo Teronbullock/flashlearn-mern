@@ -1,5 +1,5 @@
 import { BtnLink } from "@components/btn";
-import { Card } from "@components/Card";
+import { Card } from "@components/ui/Card";
 import { ListCardForm } from "@components/forms";
 
 interface ICardFeed {

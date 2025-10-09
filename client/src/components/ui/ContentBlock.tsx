@@ -29,11 +29,11 @@ export const ContentBlock = ({
   );
 
   return (
-    <div className={mainClasses} data-js="content-block">
-      <HeadingTag className={titleClasses} data-js="content-block-title">
+    <div className={mainClasses} data-name="content-block">
+      <HeadingTag className={titleClasses} data-name="content-block-title">
         {title}
       </HeadingTag>
-      <p className={copyClasses} data-js="content-block-copy">
+      <p className={copyClasses} data-name="content-block-copy">
         {copy}
       </p>
       {children}

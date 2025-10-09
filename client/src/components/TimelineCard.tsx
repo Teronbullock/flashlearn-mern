@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ContentBlock } from "@components/ContentBlock";
+import { ContentBlock } from "@components/ui/ContentBlock";
 
 export interface TimelineCardProps {
   number: string;
@@ -25,7 +25,7 @@ export const TimelineCard = ({
   );
 
   return (
-    <div className={cardClasses} data-js={`timeline-card-${number}`}>
+    <div className={cardClasses} data-name={`timeline-card-${number}`}>
       {!isLast && (
         <div className="bg-primary/40 absolute left-7 top-6 h-full w-[1px]"></div>
       )}
