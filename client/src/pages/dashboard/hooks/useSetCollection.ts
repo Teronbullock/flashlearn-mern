@@ -3,30 +3,30 @@ import { useNavigate } from "react-router";
 import apiRequest from "@/lib/api";
 import { useAuthContext } from "@hooks/useAuthContext";
 
-interface ISetReducerState {
+interface SetReducerState {
   inputOneValue?: string;
   inputTwoValue?: string;
 }
 
-interface ISetReducerAction {
+interface SetReducerAction {
   type: "ON_INPUT_ONE_CHANGE" | "ON_INPUT_TWO_CHANGE" | "ON_LOAD" | "SUBMIT";
-  payload: ISetReducerState;
+  payload: SetReducerState;
 }
 
-interface ISetData {
+interface SetData {
   id: number;
   user_id: number;
   title: string;
   description: string;
 }
 
-interface ImanageSetData {
+interface ManageSetData {
   isEditSet?: boolean | undefined;
   isGetSets?: boolean | undefined;
   setId?: string | undefined;
 }
 
-const SetReducer = (state: ISetReducerState, action: ISetReducerAction) => {
+const SetReducer = (state: SetReducerState, action: SetReducerAction) => {
   switch (action.type) {
     case "ON_LOAD":
       return { ...state, ...action.payload };
@@ -41,14 +41,14 @@ const SetReducer = (state: ISetReducerState, action: ISetReducerAction) => {
   }
 };
 
-const useManageSetData = ({
+const useSetCollection = ({
   isEditSet,
   isGetSets,
   setId,
-}: ImanageSetData = {}) => {
+}: ManageSetData = {}) => {
   const navigate = useNavigate();
   const { userId, userSlug, token } = useAuthContext();
-  const [sets, setSets] = useState<ISetData[]>([]);
+  const [sets, setSets] = useState<SetData[]>([]);
   const [state, dispatch] = useReducer(SetReducer, {
     inputOneValue: "",
     inputTwoValue: "",
@@ -103,7 +103,7 @@ const useManageSetData = ({
 
         if (res.data) {
           dispatch({ type: "SUBMIT", payload: {} });
-          navigate(`/dashboard/${userSlug}`);
+          navigate(`/${userSlug}/dashboard`);
         }
       } catch (error) {
         console.error(error);
@@ -193,7 +193,7 @@ const useManageSetData = ({
         } catch (err) {
           console.error("Error: retrieving set", err);
           alert("Error: retrieving set");
-          navigate(`/dashboard/${userSlug}`);
+          navigate(`/${userSlug}/dashboard`);
         }
       };
 
@@ -218,4 +218,4 @@ const useManageSetData = ({
   };
 };
 
-export default useManageSetData;
+export default useSetCollection;

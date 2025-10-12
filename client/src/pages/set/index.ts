@@ -1,3 +1,3 @@
-export { default as SetPage } from "./SetPage";
-export { default as AddSetPage } from "./AddSetPage";
-export { default as EditSetPage } from "./EditSetPage";
+export * from "./SetPage";
+export * from "./AddSetPage";
+export * from "./EditSetPage";

@@ -1,0 +1,20 @@
+{
+  "cardPage": {
+    "header": {
+      "title": "Card",
+      "subTitle": "Welcome to your Card. Here you can view your flashcards, create new ones, and study them."
+    }
+  },
+  "addCard": {
+    "header": {
+      "title": "Create Card",
+      "subTitle": "Build your Card and make studying easier."
+    }
+  },
+  "editCard": {
+    "header": {
+      "title": "Card",
+      "subTitle": "Welcome to your set. Here you can view your flashcards, create new ones, and study them."
+    }
+  }
+}

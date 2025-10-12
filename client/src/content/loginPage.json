@@ -3,9 +3,7 @@
     "src": "/assets/img/college-students-cramming.webp",
     "alt": "Two Students sitting on steps studying, from a laptop"
   },
-  "header": {
-    "header": "Welcome Back!",
-    "subHeader": "Log in to continue your learning journey."
-  },
+  "title": "Welcome Back!",
+  "subTitle": "Log in to continue your learning journey.",
   "cta": "Log in"
 }

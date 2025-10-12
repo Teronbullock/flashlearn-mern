@@ -1,18 +1,5 @@
 import classNames from "classnames";
-import {
-  BasicHeader,
-  BasicHeaderClassName,
-  BasicHeaderTitleProps,
-} from "@components/ui/header";
-
-interface SectionHeaderClassName extends BasicHeaderClassName {
-  section?: string;
-}
-
-export interface SectionHeaderProps extends BasicHeaderTitleProps {
-  showIcons?: boolean;
-  className?: SectionHeaderClassName;
-}
+import { BasicHeader, SectionHeaderProps } from "@components/ui/header";
 
 export const SectionHeader = ({
   title,
@@ -50,7 +37,7 @@ export const SectionHeader = ({
             />
           </span>
         )}
-        <BasicHeader classname={titleClassObj} title={title} />
+        <BasicHeader className={titleClassObj} title={title} />
         {showIcons && (
           <span>
             <img

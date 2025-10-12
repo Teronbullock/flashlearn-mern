@@ -1,15 +1,15 @@
-import { Card } from "@components/ui/Card";
+import { Card } from "@components/ui/card";
 
-export interface DashboardICardProps {
+export interface InfoCardProps {
   number: string;
+  copy: string;
   icon: {
     src: string;
     alt: string;
   };
-  copy: string;
 }
 
-export const DashboardICard = ({ number, icon, copy }: DashboardICardProps) => {
+export const InfoCard = ({ number, icon, copy }: InfoCardProps) => {
   return (
     <Card
       spacing={false}

@@ -49,7 +49,7 @@ const profileReducer = (state: UserState, action: UserAction) => {
   }
 };
 
-const Profile = () => {
+export const ProfilePage = () => {
   const { token, userSlug } = useAuthContext();
   const [state, dispatch] = useReducer(profileReducer, {
     user_email: "",
@@ -184,5 +184,3 @@ const Profile = () => {
     </main>
   );
 };
-
-export default Profile;

@@ -1,16 +1,18 @@
 import { useParams } from "react-router-dom";
-import PageHeader from "../layouts/PageComponents/PageHeader";
-import useManageCardData from "@/features/cards/hooks/useManageCardData";
-import FormAction from "../components/Forms/FormAction";
-import FormColorPicker from "../components/Forms/FormColorPicker";
-import Form from "../components/Forms/FormLayout";
-import FormInput from "../components/Forms/FormInput";
-import { BtnLink } from "@/components/Btn";
+import { useSetData } from "@pages/set/hooks/useSetData";
+import {
+  FormAction,
+  FormColorPicker,
+  FormLayout,
+  FormInput,
+} from "@components/forms";
 
-const EditCardPage = () => {
+import { BtnLink } from "@components/btn";
+
+export const EditCardPage = () => {
   const { setId, cardId } = useParams();
   const currentPage = "editCardPage";
-  const { state, dispatch, editCardHandler } = useManageCardData({
+  const { state, dispatch, editCardHandler } = useSetData({
     isEditCard: true,
     cardId,
     setId,
@@ -74,5 +76,3 @@ const EditCardPage = () => {
     </main>
   );
 };
-
-export default EditCardPage;

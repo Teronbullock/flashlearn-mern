@@ -63,8 +63,8 @@ export const NavMobile = ({
           <>
             userSlug && (
             <li className="">
-              <BtnLink to={`/dashboard/${userSlug}`} onClick={onToggle}>
-                Home
+              <BtnLink to={`/${userSlug}/dashboard`} onClick={onToggle}>
+                Dashboard
               </BtnLink>
             </li>
             <li className="">

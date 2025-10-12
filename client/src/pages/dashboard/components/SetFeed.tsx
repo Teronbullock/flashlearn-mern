@@ -1,16 +1,17 @@
 import { Btn, BtnLink } from "@/components/btn";
-import { Card } from "@components/ui/Card";
 import { ListCardForm } from "@components/forms";
+import { useAuthContext } from "@hooks/useAuthContext";
 
 interface Sets {
+  id: number;
+  user_id?: number;
   title: string;
   description?: string;
   cardCount?: number;
-  id: number;
-  user_id?: number;
 }
 
-interface SetFeedProps {
+interface ItemFeedProps {
+  userSlug: string;
   sets: Sets[];
   deleteSetHandler: (
     e: React.FormEvent<HTMLFormElement>,
@@ -18,17 +19,18 @@ interface SetFeedProps {
   ) => Promise<void>;
 }
 
-export const SetFeed = ({ sets, deleteSetHandler }: SetFeedProps) => {
+export const SetFeed = ({ sets, deleteSetHandler }: ItemFeedProps) => {
+  const { userSlug } = useAuthContext();
+
   return (
     <section className="h-[450px] overflow-auto">
       {sets && sets.length > 0
-        ? sets.map((setData) => {
-            const { id } = setData;
+        ? sets.map((item) => {
+            const { id } = item;
             const data = {
-              ...setData,
+              ...item,
               listType: "set",
             } as const;
-
             return (
               <ListCardForm
                 onSubmit={(e) => deleteSetHandler(e, id)}
@@ -41,7 +43,7 @@ export const SetFeed = ({ sets, deleteSetHandler }: SetFeedProps) => {
                     <BtnLink
                       variants={{ style: "btn", color: "primary", size: "sm" }}
                       className="mr-2 p-0 md:mr-6 md:p-2"
-                      to={`/set/${id}`}
+                      to={`/${userSlug}/set/${id}`}
                     >
                       View Set
                     </BtnLink>
@@ -53,7 +55,7 @@ export const SetFeed = ({ sets, deleteSetHandler }: SetFeedProps) => {
                         size: "sm",
                       }}
                       className="p-0 md:mr-6 md:p-2"
-                      to={`/set/${id}/edit`}
+                      to={`/${userSlug}/set/${id}/edit`}
                     >
                       Edit Set
                     </BtnLink>

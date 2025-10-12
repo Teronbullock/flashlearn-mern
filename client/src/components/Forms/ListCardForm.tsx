@@ -1,4 +1,4 @@
-import { Card } from "@components/ui/Card";
+import { Card } from "@components/ui/card/Card";
 import { FormLayout } from "@components/forms";
 
 interface ListCardFormProps {

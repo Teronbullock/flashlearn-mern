@@ -1,13 +1,16 @@
-import { Testimonials } from "../../components/Testimonials";
-import { TwoColTimeline } from "../../components/TwoColTimeline";
-import { SectionOneCol, TwoColImage } from "@components/layout/sections";
+import {
+  SectionOneCol,
+  TwoColImage,
+  TwoColTimeline,
+  Testimonials,
+} from "@components/layout/sections";
 import { IndexPageHero } from "@pages/index/components";
 import indexPageContext from "@content/indexPage.json";
 import { CTASection } from "@components/CTASection";
 import { BtnLink } from "@components/btn";
 import { Main } from "@layouts/Main";
 
-const Index = () => {
+export const Index = () => {
   const {
     hero,
     sectionOne,
@@ -54,12 +57,13 @@ const Index = () => {
           {...sectionThree}
           className={{ main: "mb-[3.5rem]" }}
         />
-        <TwoColTimeline data={sectionFour} />
+        <TwoColTimeline
+          title={sectionFour.title}
+          cards={sectionFour.timelineCards}
+        />
         <Testimonials {...testimonials} />
-        <CTASection data={ctaSection} />
+        <CTASection {...ctaSection} />
       </>
     </Main>
   );
 };
-
-export default Index;

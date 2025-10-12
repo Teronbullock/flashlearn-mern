@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FormInputBaseProps } from "@components/forms/FormTypes";
+import { FormInputBaseProps } from "@components/forms/types/FormTypes";
 
 export const FormTextArea = ({
   className = "text-black bg-white",

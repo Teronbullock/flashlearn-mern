@@ -7,6 +7,10 @@ export interface CardProps {
   border?: boolean;
 }
 
+/**
+ * A highly reusable container component with standardized spacing and border logic.
+ * @see {@link CardProps} for configuration options.
+ */
 export const Card = ({
   children,
   className,

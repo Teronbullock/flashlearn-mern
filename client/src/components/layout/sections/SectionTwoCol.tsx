@@ -34,7 +34,7 @@ export const SectionTwoCol = ({
   );
 
   const innerClassName = classNames(
-    "flex flex-col md:items-stretch md:gap-20",
+    "flex flex-col md:items-stretch md:gap-20 h-full",
     isReversed ? "md:flex-row-reverse" : "md:flex-row",
     className?.inner,
   );

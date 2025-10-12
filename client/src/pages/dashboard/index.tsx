@@ -1,36 +1,40 @@
-import { useParams } from "react-router-dom";
-import { SetFeed, DashboardInfo } from "./components";
+import { redirect, useNavigate, useParams } from "react-router-dom";
+
 import { InnerPageHeader } from "@components/InnerPageHeader";
-import useManageSetData from "@pages/dashboard/hooks/useManageSetData";
-import { FormLayout, FormGroup, FormInput } from "@components/forms";
-import { Main } from "@layouts/Main";
 import { BtnLink } from "@components/btn";
+import { InfoSection } from "@components/layout/sections/InfoSection";
+import { FormLayout, FormGroup, FormInput } from "@components/forms";
+import useSetCollection from "@pages/dashboard/hooks/useSetCollection";
+import { Main } from "@layouts/Main";
 import data from "@content/dashboardPage.json";
+import { SetFeed } from "./components";
 import { useAuthContext } from "@hooks/useAuthContext";
-import { useDashboard } from "./hooks/useDashboard";
+
+// import { useDashboard } from "./hooks/useDashboard";
 
 // import { Btn } from "@components/btn";
 
 const Dashboard = () => {
+  const { userSlug } = useAuthContext();
   // const {} = useDashboard();
-  const { sets, deleteSetHandler } = useManageSetData({ isGetSets: true });
+  const { sets, deleteSetHandler } = useSetCollection({ isGetSets: true });
 
-  const { userSlug } = useParams();
+  const pageUserSlug = useParams().userSlug;
 
   const { header, setSection } = data;
-  const dashInfoData = [
+  const InfoData = [
     {
       number: sets.length.toString(),
       copy: "Total Sets",
       icon: { src: "/assets/img/Sun.png", alt: "Sun Icon" },
     },
     {
-      number: 12,
+      number: "12",
       copy: "Cards Studied",
       icon: { src: "/assets/img/CardsThree.png", alt: "CardsThree Icon" },
     },
     {
-      number: 3,
+      number: "3",
       copy: "Study Streak",
       icon: { src: "/assets/img/Student-icon.png", alt: "Student Icon" },
     },
@@ -38,7 +42,7 @@ const Dashboard = () => {
 
   return (
     <Main>
-      {sets && sets.length > 0 ? (
+      {userSlug && sets && sets.length > 0 ? (
         <>
           <InnerPageHeader data={header}>
             <FormLayout className={{ container: "w-[568px]" }} onSubmit={null}>
@@ -54,12 +58,12 @@ const Dashboard = () => {
                   className="bg-light w-full !py-[0.55rem] !pl-11 placeholder:text-sm"
                   name="search-bar"
                   onChange={null}
-                  placeholder="Search for sets"
+                  placeholder="Search for set"
                 />
               </FormGroup>
             </FormLayout>
           </InnerPageHeader>
-          <DashboardInfo data={dashInfoData} />
+          <InfoSection data={InfoData} />
           <section className="mb-8 flex flex-wrap justify-between">
             <h2 className="mb-3 md:mb-0">{setSection.title}</h2>
             <BtnLink
@@ -69,7 +73,12 @@ const Dashboard = () => {
               {setSection.buttonText}
             </BtnLink>
           </section>
-          <SetFeed sets={sets} deleteSetHandler={deleteSetHandler} />
+
+          <SetFeed
+            userSlug={userSlug}
+            sets={sets}
+            deleteSetHandler={deleteSetHandler}
+          />
         </>
       ) : (
         <div>

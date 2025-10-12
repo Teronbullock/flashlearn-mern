@@ -1,62 +1,16 @@
-import { useReducer } from "react";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useEffect } from "react";
 import { CTASplitPage } from "../../components/CTASplitPage";
 import { FormInput, FormGroup } from "@components/forms";
-import data from "@content/loginPage.json";
 import { BtnLink } from "@components/btn";
+import { useAuthPage } from "./hooks";
+import data from "@content/loginPage.json";
 
-export interface UserState {
-  user_email: string;
-  user_pass: string;
-}
-
-export interface LoginReducerAction {
-  type: "SUBMIT" | "ON_CHANGE";
-  payload: {
-    user_email?: string;
-    user_pass?: string;
-  };
-}
-
-// Reducer function for the Login component
-const loginReducer = (state: UserState, action: LoginReducerAction) => {
-  switch (action.type) {
-    case "ON_CHANGE":
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case "SUBMIT":
-      return {
-        user_email: "",
-        user_pass: "",
-      };
-    default:
-      return state;
-  }
-};
-
-/**
- *  -- LoginPage --
- *
- * @returns
- */
 const LoginPage = () => {
-  const { login } = useAuthContext();
-  const [state, dispatch] = useReducer(loginReducer, {
-    user_email: "",
-    user_pass: "",
-  });
+  const { handleLoginFormSubmit, dispatch, state, setAuthType } = useAuthPage();
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (login) {
-      login(state.user_email, state.user_pass);
-    } else {
-      throw new Error("Login function not found");
-    }
-  };
+  useEffect(() => {
+    setAuthType("login");
+  }, [setAuthType]);
 
   const authContent = (
     <div>
@@ -76,10 +30,8 @@ const LoginPage = () => {
   return (
     <main className="main main--login">
       <CTASplitPage
-        data={data}
-        state={state}
-        handleFormSubmit={handleFormSubmit}
-        dispatch={dispatch}
+        {...data}
+        handleFormSubmit={handleLoginFormSubmit}
         bottomOfFormSlot={authContent}
       >
         <FormGroup labelName="Email Address" name="user_email">
@@ -118,11 +70,7 @@ const LoginPage = () => {
           />
         </FormGroup>
         <div className="mb-6 flex justify-end">
-          <BtnLink
-            to="/"
-            className="text-xs"
-            variants={{ style: "btn", color: "primary" }}
-          >
+          <BtnLink to="/" className="text-primary text-xs">
             Forgot Password?
           </BtnLink>
         </div>

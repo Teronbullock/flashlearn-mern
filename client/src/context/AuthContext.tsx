@@ -4,10 +4,10 @@ import {
   useEffect,
   useReducer,
   useRef,
-} from 'react';
-import { useNavigate } from 'react-router-dom';
-import apiRequest from '@/lib/api';
-import { setUserAndToken } from '../lib/auth-utils';
+} from "react";
+import { useNavigate } from "react-router-dom";
+import apiRequest from "@/lib/api";
+import { setUserAndToken } from "../lib/auth-utils";
 
 interface AuthContextValue {
   userId?: string | null;
@@ -35,7 +35,7 @@ interface AuthReducerState {
 
 type AuthReducerAction =
   | {
-      type: 'LOGIN';
+      type: "LOGIN";
       payload: {
         userId: string;
         token: string;
@@ -44,7 +44,7 @@ type AuthReducerAction =
       };
     }
   | {
-      type: 'LOGOUT';
+      type: "LOGOUT";
     };
 
 export const AuthContext = createContext<AuthContextValue>({
@@ -59,7 +59,7 @@ export const AuthContext = createContext<AuthContextValue>({
 // Auth reducer
 const authReducer = (state: AuthReducerState, action: AuthReducerAction) => {
   switch (action.type) {
-    case 'LOGIN':
+    case "LOGIN":
       return {
         ...state,
         userId: action.payload.userId,
@@ -68,7 +68,7 @@ const authReducer = (state: AuthReducerState, action: AuthReducerAction) => {
         tokenExpTime: action.payload.tokenExpTime,
         isAuthenticated: true,
       };
-    case 'LOGOUT':
+    case "LOGOUT":
       return {
         ...state,
         userId: null,
@@ -103,7 +103,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
 
   // Logout timer
   const logoutTimer = useRef<ReturnType<typeof setInterval> | undefined>(
-    undefined
+    undefined,
   );
 
   // Token refresh interval
@@ -119,14 +119,14 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   const login = useCallback(
     async (userEmail: string, userPass: string) => {
       if (!userEmail || !userPass) {
-        throw new Error('email and password are required');
+        throw new Error("email and password are required");
       }
 
       // call the api to login the user
       try {
         const res = await apiRequest({
-          url: '/api/user/login',
-          method: 'post',
+          url: "/api/user/login",
+          method: "post",
           data: {
             user_email: userEmail,
             user_pass: userPass,
@@ -139,17 +139,17 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         setUserAndToken(dispatch, userId, userSlug, token);
 
         // navigate to the dashboard
-        navigate(`/dashboard/${userSlug}`);
+        navigate(`/${userSlug}/dashboard`);
       } catch (error) {
         if (error instanceof Error) {
-          console.error('Error logging in user: ' + error.message);
+          console.error("Error logging in user: " + error.message);
         } else {
           console.error(error);
         }
         alert(`Login Error: ${error}`);
       }
     },
-    [dispatch, navigate]
+    [dispatch, navigate],
   );
 
   /**
@@ -157,24 +157,24 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
    */
   const logout = useCallback(() => {
     // sets the auth reducers values to null
-    dispatch({ type: 'LOGOUT' });
-    localStorage.removeItem('flashlearn_userData');
-    navigate('/');
+    dispatch({ type: "LOGOUT" });
+    localStorage.removeItem("flashlearn_userData");
+    navigate("/");
 
     // Deletes the refresh token from the backend
     (async () => {
       try {
         const res = await apiRequest({
-          url: '/api/user/logout',
-          method: 'post',
+          url: "/api/user/logout",
+          method: "post",
         });
 
         if (res.status === 200) {
-          console.log('User logged out successfully');
+          console.log("User logged out successfully");
         }
       } catch (error) {
         if (error instanceof Error) {
-          console.error('Error loggin out user from backend: ' + error.message);
+          console.error("Error loggin out user from backend: " + error.message);
         } else {
           console.error(error);
         }
@@ -188,8 +188,8 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
   const refreshAuthToken = useCallback(async () => {
     try {
       const res = await apiRequest({
-        url: '/api/user/refresh',
-        method: 'post',
+        url: "/api/user/refresh",
+        method: "post",
         data: { userId },
         config: {
           headers: { Authorization: `Bearer ${token}` },
@@ -206,10 +206,10 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
         const { token } = res.data;
         setUserAndToken(dispatch, userId, userSlug, token);
       } else {
-        throw new Error('Failed to refresh token');
+        throw new Error("Failed to refresh token");
       }
     } catch (error) {
-      console.error('Error refreshing token:', error);
+      console.error("Error refreshing token:", error);
       logout();
     }
   }, [dispatch, token, userId, userSlug, logout]);
@@ -230,7 +230,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
 
   // Check if the user is logged in
   useEffect(() => {
-    const storeDataString = localStorage.getItem('flashlearn_userData');
+    const storeDataString = localStorage.getItem("flashlearn_userData");
 
     // Check if the stored data is valid
     if (storeDataString) {
@@ -243,7 +243,7 @@ export const AuthContextProvider: React.FC<ContextProviderProps> = ({
           setUserAndToken?.(dispatch, userId, userSlug, token);
         }
       } catch (error) {
-        console.error('Error parsing stored user data:', error);
+        console.error("Error parsing stored user data:", error);
       }
     }
   }, [token, login, userId, dispatch]);

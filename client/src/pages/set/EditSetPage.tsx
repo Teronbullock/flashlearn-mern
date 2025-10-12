@@ -2,14 +2,14 @@ import { useParams } from "react-router-dom";
 import classNames from "classnames";
 import { useAuthContext } from "@hooks/useAuthContext";
 // import PageHeader from "../layouts/PageComponents/PageHeader";
-// import useManageSetData from "../features/sets/hooks/useManageSetData";
+// import useSetCollection from "../features/sets/hooks/useSetCollection";
 import { FormLayout, FormInput, FormAction } from "@components/forms";
 import { BtnLink } from "@components/btn";
 
-const EditSetPage = () => {
+export const EditSetPage = () => {
   const { userSlug } = useAuthContext();
   const { setId } = useParams();
-  const { state, editSetHandler, dispatch } = useManageSetData({
+  const { state, editSetHandler, dispatch } = useSetCollection({
     isEditSet: true,
     setId,
   });
@@ -31,7 +31,7 @@ const EditSetPage = () => {
           <BtnLink
             variants={{ style: "btn" }}
             className="btn--large btn--outline-black"
-            to={`/dashboard/${userSlug}/`}
+            to={`/${userSlug}/dashboard`}
           >
             Dashboard Page
           </BtnLink>
@@ -70,12 +70,10 @@ const EditSetPage = () => {
           />
           <FormAction
             submitBtnText="Update"
-            cancelBtnTo={`/dashboard/${userSlug}/`}
+            cancelBtnTo={`/${userSlug}/dashboard`}
           />
         </Form>
       </section>
     </main>
   );
 };
-
-export default EditSetPage;

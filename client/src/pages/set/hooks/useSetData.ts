@@ -1,27 +1,27 @@
-import { useEffect, useState, useCallback, useMemo, useReducer } from 'react';
-import apiRequest from '@/lib/api';
-import { useAuthContext } from '@hooks/useAuthContext';
+import { useEffect, useState, useCallback, useMemo, useReducer } from "react";
+import apiRequest from "@/lib/api";
+import { useAuthContext } from "@hooks/useAuthContext";
 
-interface ICardReducerState {
+interface CardReducerState {
   inputOneValue?: string;
   inputTwoValue?: string;
   bgColor?: string;
   textColor?: string;
 }
 
-interface ICardReducerAction {
+interface CardReducerAction {
   type:
-    | 'SET_INPUT_ONE'
-    | 'SET_INPUT_TWO'
-    | 'RESET'
-    | 'RESET_COLORS'
-    | 'ON_CARD_RELOAD'
-    | 'SET_BG_COLOR'
-    | 'SET_TEXT_COLOR';
-  payload?: ICardReducerState;
+    | "SET_INPUT_ONE"
+    | "SET_INPUT_TWO"
+    | "RESET"
+    | "RESET_COLORS"
+    | "ON_CARD_RELOAD"
+    | "SET_BG_COLOR"
+    | "SET_TEXT_COLOR";
+  payload?: CardReducerState;
 }
 
-interface IManageCardData {
+interface ManageCardData {
   isGetCards?: boolean;
   isEditCard?: boolean;
   cardId?: string | undefined;
@@ -35,51 +35,51 @@ interface ICardData {
   set_id: string;
 }
 
-const CardReducer = (state: ICardReducerState, action: ICardReducerAction) => {
-  console.log('payload', action.payload);
+const CardReducer = (state: CardReducerState, action: CardReducerAction) => {
+  console.log("payload", action.payload);
   switch (action.type) {
-    case 'SET_INPUT_ONE':
-    case 'SET_INPUT_TWO':
+    case "SET_INPUT_ONE":
+    case "SET_INPUT_TWO":
       return { ...state, ...action.payload };
-    case 'SET_BG_COLOR':
-    case 'SET_TEXT_COLOR':
+    case "SET_BG_COLOR":
+    case "SET_TEXT_COLOR":
       return { ...state, ...action.payload };
-    case 'RESET':
+    case "RESET":
       return {
-        inputOneValue: '',
-        inputTwoValue: '',
-        bgColor: '#ffffff',
-        textColor: '#000000',
+        inputOneValue: "",
+        inputTwoValue: "",
+        bgColor: "#ffffff",
+        textColor: "#000000",
       };
-    case 'ON_CARD_RELOAD':
+    case "ON_CARD_RELOAD":
       return { ...state, ...action.payload };
-    case 'RESET_COLORS':
-      return { ...state, bgColor: '#ffffff', textColor: '#000000' };
+    case "RESET_COLORS":
+      return { ...state, bgColor: "#ffffff", textColor: "#000000" };
     default:
       return state;
   }
 };
 
-const useManageCardData = ({
+export const useSetData = ({
   isGetCards,
   isEditCard,
   cardId,
   setId,
-}: IManageCardData = {}) => {
+}: ManageCardData = {}) => {
   const [cards, setCards] = useState<ICardData[]>([]);
   const { token } = useAuthContext();
   const [state, dispatch] = useReducer(CardReducer, {
-    inputOneValue: '',
-    inputTwoValue: '',
-    bgColor: '#ffffff',
-    textColor: '#000000',
+    inputOneValue: "",
+    inputTwoValue: "",
+    bgColor: "#FAEBE8",
+    textColor: "#CA3916",
   });
 
   const apiConfig = useMemo(
     () => ({
       headers: { Authorization: `Bearer ${token}` },
     }),
-    [token]
+    [token],
   );
 
   // get Card Data
@@ -105,7 +105,7 @@ const useManageCardData = ({
 
       try {
         const res = await apiRequest({
-          method: 'post',
+          method: "post",
           url: `/api/set/${setId}/card/add`,
           data: {
             term: state.inputOneValue,
@@ -116,9 +116,9 @@ const useManageCardData = ({
         });
 
         alert(res.data.msg);
-        dispatch({ type: 'RESET', payload: {} });
+        dispatch({ type: "RESET", payload: {} });
 
-        const termInput = document.querySelector('#term') as HTMLInputElement;
+        const termInput = document.querySelector("#term") as HTMLInputElement;
 
         if (termInput) {
           termInput.focus();
@@ -128,7 +128,7 @@ const useManageCardData = ({
         alert(err);
       }
     },
-    [apiConfig, setId, state.inputOneValue, state.inputTwoValue]
+    [apiConfig, setId, state.inputOneValue, state.inputTwoValue],
   );
 
   // Edit Card Handler
@@ -137,7 +137,7 @@ const useManageCardData = ({
       e.preventDefault();
       try {
         const res = await apiRequest({
-          method: 'put',
+          method: "put",
           url: `/api/set/${setId}/card/${cardId}/edit`,
           data: {
             term: state.inputOneValue,
@@ -151,7 +151,7 @@ const useManageCardData = ({
 
         alert(res.data.msg);
       } catch (err) {
-        console.error('Set data fetch error:', err);
+        console.error("Set data fetch error:", err);
         alert(err);
       }
     },
@@ -163,7 +163,7 @@ const useManageCardData = ({
       state.inputOneValue,
       state.inputTwoValue,
       state.textColor,
-    ]
+    ],
   );
 
   // Delete Card Handler
@@ -171,16 +171,16 @@ const useManageCardData = ({
     async (
       e: React.FormEvent<HTMLFormElement>,
       cardId: string,
-      setId: string
+      setId: string,
     ) => {
       e.preventDefault();
 
       if (!setId || !cardId) {
-        throw new Error('Error: card not delete');
+        throw new Error("Error: card not delete");
       }
       try {
         const res = await apiRequest({
-          method: 'delete',
+          method: "delete",
           url: `/api/set/${setId}/card/${cardId}/delete`,
           config: apiConfig,
         });
@@ -190,10 +190,10 @@ const useManageCardData = ({
         getCardData();
       } catch (err) {
         console.error(err);
-        alert('Error: card not delete');
+        alert("Error: card not delete");
       }
     },
-    [apiConfig, getCardData]
+    [apiConfig, getCardData],
   );
 
   // useEffect for edit card functions
@@ -209,7 +209,7 @@ const useManageCardData = ({
           const { term, definition, bg_color, text_color } = res.data.card;
 
           dispatch({
-            type: 'ON_CARD_RELOAD',
+            type: "ON_CARD_RELOAD",
             payload: {
               inputOneValue: term,
               inputTwoValue: definition,
@@ -219,8 +219,8 @@ const useManageCardData = ({
           });
           return;
         } catch (err) {
-          console.error('Failed to fetch card data', err);
-          alert('Failed to fetch card data');
+          console.error("Failed to fetch card data", err);
+          alert("Failed to fetch card data");
         }
       };
 
@@ -244,5 +244,3 @@ const useManageCardData = ({
     dispatch,
   };
 };
-
-export default useManageCardData;

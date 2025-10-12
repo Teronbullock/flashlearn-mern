@@ -1,75 +1,73 @@
+import { EmptyFeedSection } from "@components/ui/EmptyFeedSection";
 import { useParams } from "react-router-dom";
 import { InnerPageHeader } from "@components/InnerPageHeader";
 import { FormLayout, FormGroup, FormInput } from "@components/forms";
-import { CardFeed } from "@pages/card/shared/components/CardFeed";
+import { CardFeed } from "./components";
 import { useAuthContext } from "@hooks/useAuthContext";
 import { Main } from "@layouts/Main";
 
-import useManageCardData from "./shared/hooks/useManageCardData";
-import { DashboardInfo } from "@pages/dashboard/components";
+import { useSetData } from "./hooks";
 import { BtnLink } from "@components/btn";
+import { InfoSection } from "@components/layout/sections/InfoSection";
+import data from "@content/addSetPage.json";
 
-const SetPage = () => {
+export const SetPage = () => {
   const { userSlug } = useAuthContext();
   const { setId } = useParams();
+  setId?.toString();
 
-  const { cards, deleteCardHandler } = useManageCardData({
+  const { cards, deleteCardHandler } = useSetData({
     isGetCards: true,
     setId,
   });
 
-  const dashInfoData = [
-    {
-      number: cards.length.toString(),
-      copy: "Total Cards",
-      icon: { src: "/assets/img/Sun.png", alt: "Sun Icon" },
-    },
-    {
-      number: 12,
-      copy: "Cards Studied",
-      icon: { src: "/assets/img/CardsThree.png", alt: "CardsThree Icon" },
-    },
-    {
-      number: 3,
-      copy: "Study Streak",
-      icon: { src: "/assets/img/Student-icon.png", alt: "Student Icon" },
-    },
-  ];
+  const { emptyPage, InfoData } = data;
+
+  const pageInfoData = InfoData;
+  pageInfoData[0]["number"] = cards.length.toString();
 
   return (
     <Main>
-      <InnerPageHeader data={{ title: "Set Page" }}>
-        <FormLayout className={{ container: "w-[568px]" }} onSubmit={null}>
-          <FormGroup name="search-bar" className={{ group: "relative" }}>
-            <img
-              src="/assets/img/Vector-finder.png"
-              alt="icon of a magnifying glass"
-              width="19px"
-              height="19px"
-              className="absolute left-4 top-[35%]"
-            />
-            <FormInput
-              className="bg-light w-full !py-[0.55rem] !pl-11 placeholder:text-sm"
-              name="search-bar"
-              onChange={null}
-              placeholder="Search for sets"
-            />
-          </FormGroup>
-        </FormLayout>
-      </InnerPageHeader>
-      <DashboardInfo data={dashInfoData} />
-      <section className="mb-8 flex flex-wrap justify-between">
-        <h2 className="mb-3 md:mb-0">Study Cards</h2>
-        <BtnLink
-          to={`/set/:${setId}/card/add`}
-          variants={{ style: "btn", color: "primary", size: "lg" }}
-        >
-          Create New Card
-        </BtnLink>
-      </section>
-      <CardFeed cards={cards} deleteCardHandler={deleteCardHandler} />
+      {userSlug && cards && cards.length > 0 ? (
+        <>
+          <InnerPageHeader data={{ title: "Set Page" }}>
+            <FormLayout className={{ container: "w-[568px]" }} onSubmit={null}>
+              <FormGroup name="search-bar" className={{ group: "relative" }}>
+                <img
+                  src="/assets/img/Vector-finder.png"
+                  alt="icon of a magnifying glass"
+                  width="19px"
+                  height="19px"
+                  className="absolute left-4 top-[35%]"
+                />
+                <FormInput
+                  className="bg-light w-full !py-[0.55rem] !pl-11 placeholder:text-sm"
+                  name="search-bar"
+                  onChange={null}
+                  placeholder="Search for card"
+                />
+              </FormGroup>
+            </FormLayout>
+          </InnerPageHeader>
+          <div>
+            <p>{}</p>
+          </div>
+          <InfoSection data={pageInfoData} />
+
+          <section className="mb-8 flex flex-wrap justify-between">
+            <h2 className="mb-3 md:mb-0">Study Cards</h2>
+            <BtnLink
+              to={`/${userSlug}/set/${setId}/card/add`}
+              variants={{ style: "btn", color: "primary", size: "lg" }}
+            >
+              Create New Card
+            </BtnLink>
+          </section>
+          <CardFeed cards={cards} deleteCardHandler={deleteCardHandler} />
+        </>
+      ) : userSlug && setId ? (
+        <EmptyFeedSection userSlug={userSlug} setId={setId} {...emptyPage} />
+      ) : null}
     </Main>
   );
 };
-
-export default SetPage;

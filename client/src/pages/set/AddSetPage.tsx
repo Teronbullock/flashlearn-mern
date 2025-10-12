@@ -1,5 +1,5 @@
-import useManageSetData from "@pages/dashboard/hooks/useManageSetData";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { Main } from "@layouts/Main";
+import useSetCollection from "@pages/dashboard/hooks/useSetCollection";
 import {
   FormTextArea,
   FormInput,
@@ -7,18 +7,18 @@ import {
   FormLayout,
   FormAction,
 } from "@components/forms";
-
 import { InnerPageHeader } from "@components/InnerPageHeader";
 
+import { useAuthContext } from "@hooks/useAuthContext";
 import data from "@content/setContent.json";
 
-const AddSetPage = () => {
+export const AddSetPage = () => {
   const { userSlug } = useAuthContext();
-  const { state, addSetHandler, dispatch } = useManageSetData();
+  const { state, addSetHandler, dispatch } = useSetCollection();
   const { AddSet } = data;
 
   return (
-    <main className="add-set-page md:mt-35 w-8xl mx-auto h-screen px-4">
+    <Main className="md:mt-35" width="content">
       <InnerPageHeader data={AddSet.header} />
       <section className="w-full py-12">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}
@@ -28,6 +28,7 @@ const AddSetPage = () => {
             className={{ label: "font-medium" }}
           >
             <FormInput
+              type="text"
               name="title"
               value={state.inputOneValue}
               required={true}
@@ -60,12 +61,10 @@ const AddSetPage = () => {
           <FormAction
             className="justify-center"
             submitBtnText="Save Set"
-            cancelBtnTo={`/dashboard/${userSlug}/`}
+            cancelBtnTo={`/${userSlug}/dashboard`}
           />
         </FormLayout>
       </section>
-    </main>
+    </Main>
   );
 };
-
-export default AddSetPage;

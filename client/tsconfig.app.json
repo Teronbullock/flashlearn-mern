@@ -43,6 +43,6 @@
     "test",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
-    "src/pages/profile/Profile.tsx"
+    "src/pages/profile/index.tsx"
   ]
 }

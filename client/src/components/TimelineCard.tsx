@@ -16,13 +16,7 @@ export const TimelineCard = ({
   isLast,
   className,
 }: TimelineCardProps) => {
-  const cardClasses = classNames(
-    "timeline-card relative flex",
-    {
-      last: isLast,
-    },
-    className,
-  );
+  const cardClasses = classNames("timeline-card relative flex", className);
 
   return (
     <div className={cardClasses} data-name={`timeline-card-${number}`}>

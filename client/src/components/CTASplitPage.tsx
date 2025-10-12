@@ -1,39 +1,32 @@
-import { Dispatch } from "react";
 import classNames from "classnames";
 import { FormLayout } from "@components/forms";
 import { Btn } from "@components/btn";
-import { UserState, LoginReducerAction } from "@pages/auth/LoginPage";
-import { SectionHeader } from "@components/ui/header/SectionHeader";
+import { SectionHeader } from "@components/ui/header";
 
 interface CTASplitPageProps {
   children: React.ReactNode;
   bottomOfFormSlot?: React.ReactNode;
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  dispatch: Dispatch<LoginReducerAction>;
-  state: UserState;
   isProfilePage?: boolean;
-  data: {
-    header: {
-      header: string;
-      subHeader?: string;
-    };
-    image: {
-      src: string;
-      alt: string;
-    };
-    cta: string;
+  title: string;
+  subTitle?: string;
+  image: {
+    src: string;
+    alt: string;
   };
+  cta: string;
 }
 
 export const CTASplitPage = ({
   handleFormSubmit,
   bottomOfFormSlot,
-  data,
+  image,
+  title,
+  subTitle,
+  cta,
   children,
   isProfilePage = false,
 }: CTASplitPageProps) => {
-  const { image, header, cta } = data;
-
   const rightColClass = classNames("w-full md:w-[50%]", {
     "md:mt-11": !isProfilePage,
   });
@@ -56,9 +49,10 @@ export const CTASplitPage = ({
             className={{ container: "mb-7" }}
           >
             <SectionHeader
-              icons={false}
-              {...header}
-              className={{ section: "mb-10" }}
+              showIcons={false}
+              title={title}
+              subTitle={subTitle}
+              className={{ section: "mb-10", title: "!font-medium" }}
             />
             {children}
             <Btn

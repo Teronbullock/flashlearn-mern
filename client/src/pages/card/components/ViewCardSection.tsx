@@ -1,8 +1,8 @@
 import { useState, memo } from "react";
 import classnames from "classnames";
-import { btn } from "@components/btn";
+import { Btn } from "@components/btn";
 import "./view-card-section.scss";
-import CardFace from "./CardFace";
+import { CardFace } from "./CardFace";
 
 interface ViewCardSectionProps {
   page: number;
@@ -17,7 +17,7 @@ interface ViewCardSectionProps {
   cardLoadClass?: null;
 }
 
-const ViewCardSection = ({
+export const ViewCardSection = ({
   page,
   setId,
   card,
@@ -65,18 +65,16 @@ const ViewCardSection = ({
     <section className="section-flash-card mx-auto p-8 md:w-1/2">
       {card ? (
         <div className={classnames("flashcard mx-auto", flashcardClass)}>
-          <div className="flashcard__inner">
+          <div className="">
             {term && (
               <CardFace
                 className="flashcard--front"
                 bgColor={bgColor}
                 textColor={textColor}
-                cardHeaderText="Term"
                 cardText={term}
                 handFlipAction={handFlipAction}
-                BtnText="Definition"
               >
-                <div className="flashcard__footer d-flex justify-content-center p-4">
+                {/* <div className="flashcard__footer d-flex justify-content-center p-4">
                   <btn
                     className={classnames(
                       "btn btn--outline-secondary mr-4",
@@ -101,10 +99,10 @@ const ViewCardSection = ({
                   >
                     &gt;
                   </btn>
-                </div>
+                </div> */}
               </CardFace>
             )}
-            {definition && (
+            {/* {definition && (
               <CardFace
                 className="flashcard--back"
                 bgColor={bgColor}
@@ -141,7 +139,7 @@ const ViewCardSection = ({
                   </btn>
                 </div>
               </CardFace>
-            )}
+            )} */}
           </div>
         </div>
       ) : (
@@ -152,5 +150,3 @@ const ViewCardSection = ({
     </section>
   );
 };
-
-export default memo(ViewCardSection);

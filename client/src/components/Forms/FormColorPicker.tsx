@@ -1,5 +1,5 @@
 import { Btn } from "@components/btn";
-import FormInput from "./FormInput";
+import { FormInput } from "./FormInput";
 
 interface CardState {
   inputOneValue?: string;
@@ -98,5 +98,3 @@ export const FormColorPicker = ({
     </div>
   );
 };
-
-export default FormColorPicker;

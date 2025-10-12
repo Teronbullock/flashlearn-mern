@@ -1,4 +1,4 @@
-import "./page-components.scss";
+// import "./page-components.scss";
 import classNames from "classnames";
 
 interface IndexPageHeroProps {

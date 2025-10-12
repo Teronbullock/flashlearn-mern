@@ -21,8 +21,8 @@ export const postAddCard = async (req, res, next) => {
     definition,
     user_id,
     set_id,
-    bg_color: '#ffffff',
-    text_color: '#000000',
+    bg_color: '#FAEBE8',
+    text_color: '#CA3916',
   };
 
   try {

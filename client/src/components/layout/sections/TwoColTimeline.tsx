@@ -1,23 +1,19 @@
-import { SectionTwoCol } from "@components/layout/sections/SectionTwoCol";
+import { SectionTwoCol } from "@components/layout/sections";
 import { TimelineCard, TimelineCardProps } from "@components/TimelineCard";
 
 interface TwoColTimelineProps {
-  data: {
-    header: string;
-    cardOne: TimelineCardProps;
-    cardTwo: TimelineCardProps;
-    cardThree: TimelineCardProps;
-  };
+  title: string;
+  cards: TimelineCardProps[];
 }
 
-export function TwoColTimeline({ data }: TwoColTimelineProps) {
+export function TwoColTimeline({ title, cards }: TwoColTimelineProps) {
   return (
     <SectionTwoCol
       className={{
         container: "bg-light mb-[3.75rem] rounded-[20px] p-8",
       }}
       header={{
-        title: data.header,
+        title: title,
         className: "mb-[5rem]",
       }}
     >
@@ -41,9 +37,19 @@ export function TwoColTimeline({ data }: TwoColTimelineProps) {
         </div>
       </div>
       <div className="md:pt-[4rem]" data-name="section-two-col-right">
-        <TimelineCard {...data.cardOne} className="pb-[6.75rem]" />
-        <TimelineCard {...data.cardTwo} className="pb-[6.75rem]" />
-        <TimelineCard isLast {...data.cardThree} />
+        {cards.map((card, index) => {
+          const isLast = index === cards.length - 1;
+          const cardClassName = isLast ? undefined : "pb-[6.75rem]";
+
+          return (
+            <TimelineCard
+              key={card.number}
+              {...card}
+              className={cardClassName}
+              isLast={isLast}
+            />
+          );
+        })}
       </div>
     </SectionTwoCol>
   );

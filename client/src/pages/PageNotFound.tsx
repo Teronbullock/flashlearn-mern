@@ -1,12 +1,9 @@
-import PageHeader from "../layouts/PageComponents/PageHeader";
+import { Main } from "@layouts/Main";
 
-const PageNotFound = () => {
+export const PageNotFound = () => {
   return (
-    <main className="pageNotFound">
-      <PageHeader currentPage="pageNotFound" />
+    <Main width="full">
       <h1>404 Page</h1>
-    </main>
+    </Main>
   );
 };
-
-export default PageNotFound;
