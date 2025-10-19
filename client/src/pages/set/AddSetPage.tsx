@@ -1,5 +1,5 @@
 import { Main } from "@layouts/Main";
-import useSetCollection from "@pages/dashboard/hooks/useSetCollection";
+import { useSetForm } from "@hooks/useSetForm";
 import {
   FormTextArea,
   FormInput,
@@ -14,7 +14,7 @@ import data from "@content/setContent.json";
 
 export const AddSetPage = () => {
   const { userSlug } = useAuthContext();
-  const { state, addSetHandler, dispatch } = useSetCollection();
+  const { state, addSet, dispatch } = useSetForm({});
   const { AddSet } = data;
 
   return (
@@ -22,7 +22,7 @@ export const AddSetPage = () => {
       <InnerPageHeader data={AddSet.header} />
       <section className="w-full py-12">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}
-        <FormLayout onSubmit={addSetHandler}>
+        <FormLayout onSubmit={addSet}>
           <FormGroup
             labelName="Enter Set Title"
             className={{ label: "font-medium" }}

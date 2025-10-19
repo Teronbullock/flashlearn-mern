@@ -1,13 +1,23 @@
 {
-  "pageType": "editSet",
-  "mainClass": "main--edit-set",
-  "hero": {
-    "className": "page-header--edit-set",
-    "ariaLabel": "Edit Set Page Header. This section contains the title, description, and actions for the set page. The background image is of a person sits on padded chair while using MacBook during daytime. Photo by Christina @ wocintechchat on Unsplash.",
-    "img": "/assets/img/christina-wocintechchat-com-vLwH8bWoi_8-unsplash.jpg"
+  "emptyPage": {
+    "title": "Looks a little empty here",
+    "subTitle": " Let’s fix that! Create your first flashcard Card.",
+    "cta": "Create Card"
   },
-  "header": {
-    "title": "Edit Set",
-    "copy": "Edit your set of flashcards. Add a title and description to get started."
-  }
+  "InfoData": [
+    {
+      "copy": "Total Cards",
+      "icon": { "src": "/assets/img/Sun.png", "alt": "Sun Icon" }
+    },
+    {
+      "number": "12",
+      "copy": "Cards Studied",
+      "icon": { "src": "/assets/img/CardsThree.png", "alt": "CardsThree Icon" }
+    },
+    {
+      "number": "3",
+      "copy": "Study Streak",
+      "icon": { "src": "/assets/img/Student-icon.png", "alt": "Student Icon" }
+    }
+  ]
 }

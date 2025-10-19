@@ -1,79 +1,77 @@
-import { useParams } from "react-router-dom";
-import classNames from "classnames";
+import { useParams } from "react-router";
+import { Main } from "@layouts/Main";
+import { useSetForm } from "@hooks/index";
+
+import {
+  FormTextArea,
+  FormInput,
+  FormGroup,
+  FormLayout,
+  FormAction,
+} from "@components/forms";
+import { InnerPageHeader } from "@components/InnerPageHeader";
+
 import { useAuthContext } from "@hooks/useAuthContext";
-// import PageHeader from "../layouts/PageComponents/PageHeader";
-// import useSetCollection from "../features/sets/hooks/useSetCollection";
-import { FormLayout, FormInput, FormAction } from "@components/forms";
-import { BtnLink } from "@components/btn";
+import data from "@content/setContent.json";
 
 export const EditSetPage = () => {
   const { userSlug } = useAuthContext();
   const { setId } = useParams();
-  const { state, editSetHandler, dispatch } = useSetCollection({
-    isEditSet: true,
-    setId,
+  const { state, editSet, dispatch } = useSetForm({
+    useOnLoad: true,
+    setId: setId,
   });
-  const currentPage = "editSetPage";
+
+  const { EditSet } = data;
 
   return (
-    <main className={classNames("main", `main-${currentPage}`)}>
-      <PageHeader currentPage={currentPage}>
-        <li>
-          <BtnLink
-            variants={{ style: "btn" }}
-            className="btn--large btn--outline-black mr-6"
-            to={`/set/${setId}/`}
-          >
-            View Set
-          </BtnLink>
-        </li>
-        <li>
-          <BtnLink
-            variants={{ style: "btn" }}
-            className="btn--large btn--outline-black"
-            to={`/${userSlug}/dashboard`}
-          >
-            Dashboard Page
-          </BtnLink>
-        </li>
-      </PageHeader>
-      <section className="container py-12 lg:max-w-screen-lg">
+    <Main className="md:mt-35" width="content">
+      <InnerPageHeader data={EditSet.header} />
+      <section className="w-full py-12">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}
-        <Form onSubmit={editSetHandler} className="bg-white">
-          <FormInput
-            labelName="Title"
-            type="textarea"
-            name="title"
-            value={state.inputOneValue}
-            required={true}
-            placeholder="Enter Title"
-            onChange={(e) =>
-              dispatch({
-                type: "ON_INPUT_ONE_CHANGE",
-                payload: { inputOneValue: e.target.value },
-              })
-            }
-            autoFocus={true}
-          />
-          <FormInput
-            labelName="Description"
-            type="textarea"
-            name="description"
-            value={state.inputTwoValue}
-            placeholder="Enter Description"
-            onChange={(e) =>
-              dispatch({
-                type: "ON_INPUT_TWO_CHANGE",
-                payload: { inputTwoValue: e.target.value },
-              })
-            }
-          />
+        <FormLayout onSubmit={editSet}>
+          <FormGroup
+            labelName="Enter Set Title"
+            className={{ label: "font-medium" }}
+          >
+            <FormInput
+              type="text"
+              name="title"
+              value={state.inputOneValue}
+              required={true}
+              placeholder="Enter Title"
+              onChange={(e) =>
+                dispatch({
+                  type: "ON_INPUT_ONE_CHANGE",
+                  payload: { inputOneValue: e.target.value },
+                })
+              }
+              autoFocus={true}
+            />
+          </FormGroup>
+          <FormGroup
+            labelName="Enter Description"
+            className={{ group: "mb-9", label: "font-medium" }}
+          >
+            <FormTextArea
+              name="description"
+              value={state.inputTwoValue}
+              placeholder="Enter Description"
+              onChange={(e) =>
+                dispatch({
+                  type: "ON_INPUT_TWO_CHANGE",
+                  payload: { inputTwoValue: e.target.value },
+                })
+              }
+            />
+          </FormGroup>
           <FormAction
-            submitBtnText="Update"
+            className="justify-center"
+            submitBtnText="Save Set"
             cancelBtnTo={`/${userSlug}/dashboard`}
           />
-        </Form>
+        </FormLayout>
       </section>
-    </main>
+    </Main>
   );
 };

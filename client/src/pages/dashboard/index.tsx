@@ -1,26 +1,16 @@
-import { redirect, useNavigate, useParams } from "react-router-dom";
-
 import { InnerPageHeader } from "@components/InnerPageHeader";
 import { BtnLink } from "@components/btn";
 import { InfoSection } from "@components/layout/sections/InfoSection";
 import { FormLayout, FormGroup, FormInput } from "@components/forms";
-import useSetCollection from "@pages/dashboard/hooks/useSetCollection";
+import { useSetCollection } from "./hooks";
 import { Main } from "@layouts/Main";
 import data from "@content/dashboardPage.json";
 import { SetFeed } from "./components";
 import { useAuthContext } from "@hooks/useAuthContext";
 
-// import { useDashboard } from "./hooks/useDashboard";
-
-// import { Btn } from "@components/btn";
-
 const Dashboard = () => {
   const { userSlug } = useAuthContext();
-  // const {} = useDashboard();
-  const { sets, deleteSetHandler } = useSetCollection({ isGetSets: true });
-
-  const pageUserSlug = useParams().userSlug;
-
+  const { sets } = useSetCollection();
   const { header, setSection } = data;
   const InfoData = [
     {
@@ -67,18 +57,13 @@ const Dashboard = () => {
           <section className="mb-8 flex flex-wrap justify-between">
             <h2 className="mb-3 md:mb-0">{setSection.title}</h2>
             <BtnLink
-              to={`/set/user/${userSlug}/add`}
+              to={`/${userSlug}/set/add`}
               variants={{ style: "btn", color: "primary", size: "lg" }}
             >
               {setSection.buttonText}
             </BtnLink>
           </section>
-
-          <SetFeed
-            userSlug={userSlug}
-            sets={sets}
-            deleteSetHandler={deleteSetHandler}
-          />
+          <SetFeed userSlug={userSlug} sets={sets} />
         </>
       ) : (
         <div>

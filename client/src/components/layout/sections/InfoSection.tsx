@@ -6,7 +6,7 @@ interface InfoCardSectionProps {
 
 export const InfoSection = ({ data }: InfoCardSectionProps) => {
   return (
-    <section className="mb-15 overflow-auto">
+    <section className="mb-12 overflow-auto">
       <div className="flex w-[450px] md:w-full">
         {data.map((card) => {
           return <InfoCard {...card} />;

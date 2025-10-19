@@ -19,8 +19,8 @@ const router = Router();
 // set routes
 router.get('/user/:userSlug', getUserId, asyncHandler(getSets, 400));
 router.post('/user/:userSlug/add', [body('title').notEmpty()], getUserId, asyncHandler(postCreateSet, 422));
-router.get('/user/:userSlug/:setId/edit', getUserId, asyncHandler(getEditSet));
-router.put('/user/:userSlug/:setId/edit', [body('title').notEmpty()], getUserId, asyncHandler(putEditSet));
+router.get('/:userSlug/:setId/edit', getUserId, asyncHandler(getEditSet));
+router.put('/:userSlug/:setId/edit', [body('title').notEmpty()], getUserId, asyncHandler(putEditSet));
 router.delete('/user/:userSlug/:setId/delete', getUserId, asyncHandler(deleteSet, 403));
 
 // card routes

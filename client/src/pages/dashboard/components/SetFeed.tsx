@@ -1,6 +1,6 @@
 import { Btn, BtnLink } from "@/components/btn";
 import { ListCardForm } from "@components/forms";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext, useSetForm } from "@hooks/index";
 
 interface Sets {
   id: number;
@@ -13,17 +13,14 @@ interface Sets {
 interface ItemFeedProps {
   userSlug: string;
   sets: Sets[];
-  deleteSetHandler: (
-    e: React.FormEvent<HTMLFormElement>,
-    setId: number,
-  ) => Promise<void>;
 }
 
-export const SetFeed = ({ sets, deleteSetHandler }: ItemFeedProps) => {
+export const SetFeed = ({ sets }: ItemFeedProps) => {
   const { userSlug } = useAuthContext();
+  const { deleteSet } = useSetForm({});
 
   return (
-    <section className="h-[450px] overflow-auto">
+    <section className="max-h-[750px] overflow-auto">
       {sets && sets.length > 0
         ? sets.map((item) => {
             const { id } = item;
@@ -31,9 +28,10 @@ export const SetFeed = ({ sets, deleteSetHandler }: ItemFeedProps) => {
               ...item,
               listType: "set",
             } as const;
+
             return (
               <ListCardForm
-                onSubmit={(e) => deleteSetHandler(e, id)}
+                onSubmit={() => deleteSet(id)}
                 key={id}
                 isSetFeed={true}
                 {...data}

@@ -89,7 +89,6 @@ export const getSets = async (req, res, next) => {
 export const getEditSet = async (req, res) => {
   const { setId: id } = req.params;
   const { id: user_id } = req.user;
-
   const set = await Sets.findByPk(id, { raw: true });
 
   if (set.user_id !== user_id) {
@@ -129,9 +128,9 @@ export const putEditSet = async (req, res) => {
     },
   });
 
-  if (userSets) {
-    throw new Error('set name already taken');
-  }
+  // if (userSets) {
+  //   throw new Error('set name already taken');
+  // }
 
   try {
     const set = await Sets.update(setData, {
