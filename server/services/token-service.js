@@ -9,13 +9,17 @@ import RefreshTokens from '../models/refresh-token-model.js';
  * @returns - The token. or an error.
  */
 export const genAuthToken = userId => {
-  return jwt.sign(
+  const token = jwt.sign(
     {
       userId: userId,
     },
     process.env.JWT_SECRET,
     { expiresIn: '15m' }
   );
+
+  // sets the token expiration time to 15 minutes
+  const tokenExpTime = new Date(new Date().getTime() + 1000 * 60 * 15);
+  return {token, tokenExpTime};
 };
 
 /**

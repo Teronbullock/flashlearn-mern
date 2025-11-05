@@ -7,9 +7,9 @@ import {
   FormLayout,
   FormAction,
 } from "@components/forms";
-import { InnerPageHeader } from "@components/InnerPageHeader";
+import { PageHeader } from "@components/layout/PageHeader";
 
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 import data from "@content/setContent.json";
 
 export const AddSetPage = () => {
@@ -19,7 +19,7 @@ export const AddSetPage = () => {
 
   return (
     <Main className="md:mt-35" width="content">
-      <InnerPageHeader data={AddSet.header} />
+      <PageHeader data={AddSet.header} />
       <section className="w-full py-12">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}
         <FormLayout onSubmit={addSet}>

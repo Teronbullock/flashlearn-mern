@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 import { useNavType } from "@app-types/navTypes";
 
 export const useNav = (): useNavType => {

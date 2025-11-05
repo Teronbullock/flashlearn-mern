@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 import apiRequest from "@/lib/api";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 
 interface SetData {
   id: number;

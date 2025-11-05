@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { Main } from "@layouts/Main";
-import { useSetForm } from "@hooks/index";
+import { useSetForm } from "@/hooks/index";
 
 import {
   FormTextArea,
@@ -9,9 +9,9 @@ import {
   FormLayout,
   FormAction,
 } from "@components/forms";
-import { InnerPageHeader } from "@components/InnerPageHeader";
+import { PageHeader } from "@components/layout/PageHeader";
 
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 import data from "@content/setContent.json";
 
 export const EditSetPage = () => {
@@ -26,7 +26,7 @@ export const EditSetPage = () => {
 
   return (
     <Main className="md:mt-35" width="content">
-      <InnerPageHeader data={EditSet.header} />
+      <PageHeader data={EditSet.header} />
       <section className="w-full py-12">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}
         <FormLayout onSubmit={editSet}>

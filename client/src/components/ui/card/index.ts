@@ -1,2 +1,2 @@
-export { Card } from "./Card";
-export { InfoCard } from "./InfoCard";
+export * from "./Card";
+export * from "./InfoCard";

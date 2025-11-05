@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import apiRequest from "@/lib/api";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 
 interface SetData {
   id: number;
@@ -9,7 +9,7 @@ interface SetData {
   description: string;
 }
 
-export const useSetCollection = () => {
+export const useGetSets = () => {
   const { userSlug, token } = useAuthContext();
   const [sets, setSets] = useState<SetData[]>([]);
 

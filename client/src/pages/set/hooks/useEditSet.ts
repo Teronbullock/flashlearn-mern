@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import apiRequest from "@/lib/api";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 import { useNavigate } from "react-router";
 
 interface UseEditSetProps {

@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import apiRequest from '@/lib/api';
-import { useAuthContext } from '@hooks/useAuthContext';
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import apiRequest from "@/lib/api";
+import { useAuthContext } from "@/hooks/index";
 
 interface UserAction {
-  type: 'GET_PROFILE';
+  type: "GET_PROFILE";
   payload: {
     user_email: string;
   };
@@ -23,7 +23,7 @@ const useGetProfile = (dispatch: React.Dispatch<UserAction>) => {
         });
 
         const { user_email } = res.data;
-        dispatch({ type: 'GET_PROFILE', payload: { user_email } });
+        dispatch({ type: "GET_PROFILE", payload: { user_email } });
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);

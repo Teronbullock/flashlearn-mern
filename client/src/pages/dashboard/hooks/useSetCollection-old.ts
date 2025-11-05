@@ -1,7 +1,7 @@
 import { useReducer, useEffect, useCallback, useState, useMemo } from "react";
 import { useNavigate } from "react-router";
 import apiRequest from "@/lib/api";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 
 interface SetReducerState {
   inputOneValue?: string;

@@ -1,5 +1,5 @@
 import { useReducer, useCallback } from "react";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 import {
   AuthReducerAction,
   RegisterState,

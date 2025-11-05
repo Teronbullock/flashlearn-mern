@@ -1,7 +1,7 @@
 import { useReducer, useCallback, useMemo } from "react";
 import apiRequest from "@/lib/api";
 import { useNavigate } from "react-router";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 
 interface SetReducerState {
   inputOneValue: string;
@@ -34,80 +34,76 @@ const setReducer = (
   }
 };
 
-export const useSetForm = (setId: string, getSetData: GetSetDataFunction) => {
-  const navigate = useNavigate();
-  const { userSlug, token } = useAuthContext();
+export const useSetActions = () =>
+  // setId: string,
+  // getSetData: GetSetDataFunction,
+  {
+    const navigate = useNavigate();
+    const { userSlug, token } = useAuthContext();
 
-  const [state, dispatch] = useReducer(setReducer, {
-    inputOneValue: "",
-    inputTwoValue: "",
-  });
+    const [state, dispatch] = useReducer(setReducer, {
+      inputOneValue: "",
+      inputTwoValue: "",
+    });
 
-  const apiConfig = useMemo(
-    () => ({
-      headers: { authorization: `Bearer ${token ?? ""}` },
-    }),
-    [token],
-  );
+    const apiConfig = useMemo(
+      () => ({
+        headers: { authorization: `Bearer ${token ?? ""}` },
+      }),
+      [token],
+    );
 
-  const editSetHandler = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (!setId) return;
+    const editSetHandler = useCallback(
+      async (e: React.FormEvent<HTMLFormElement>, setId: number) => {
+        e.preventDefault();
+        if (!setId) return;
 
-      try {
-        const res = await apiRequest({
-          method: "put",
-          url: `/api/set/${userSlug}/${setId}/edit`,
-          data: {
-            title: state.inputOneValue,
-            description: state.inputTwoValue,
-          },
-          config: apiConfig,
-        });
-
-        if (res.status === 200) {
-          alert(res.data.msg);
-          navigate(`/${userSlug}/dashboard`);
-        }
-      } catch (error) {
-        console.error(error);
-        alert("Error updating set");
-      }
-    },
-    [
-      userSlug,
-      setId,
-      apiConfig,
-      state.inputOneValue,
-      state.inputTwoValue,
-      navigate,
-    ],
-  );
-
-  // Delete Set Handler
-  const deleteSetHandler = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>, setId: number) => {
-      e.preventDefault();
-
-      if (setId && userSlug) {
         try {
-          console.log("config", apiConfig);
           const res = await apiRequest({
-            method: "delete",
-            url: `/api/set/user/${userSlug}/${setId}/delete`,
+            method: "put",
+            url: `/api/set/${userSlug}/${setId}/edit`,
+            data: {
+              title: state.inputOneValue,
+              description: state.inputTwoValue,
+            },
             config: apiConfig,
           });
-          const { msg } = res.data;
-          alert(msg);
-          getSetData();
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    },
-    [userSlug, apiConfig, getSetData],
-  );
 
-  return { state, dispatch, editSetHandler, deleteSetHandler };
-};
+          if (res.status === 200) {
+            alert(res.data.msg);
+            navigate(`/${userSlug}/dashboard`);
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Error updating set");
+        }
+      },
+      [userSlug, apiConfig, state.inputOneValue, state.inputTwoValue, navigate],
+    );
+
+    // Delete Set Handler
+    const deleteSetHandler = useCallback(
+      async (e: React.FormEvent<HTMLFormElement>, setId: number) => {
+        e.preventDefault();
+
+        if (setId && userSlug) {
+          try {
+            console.log("config", apiConfig);
+            const res = await apiRequest({
+              method: "delete",
+              url: `/api/set/user/${userSlug}/${setId}/delete`,
+              config: apiConfig,
+            });
+            const { msg } = res.data;
+            alert(msg);
+            getSetData();
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      },
+      [userSlug, apiConfig, getSetData],
+    );
+
+    return { state, dispatch, editSetHandler, deleteSetHandler };
+  };

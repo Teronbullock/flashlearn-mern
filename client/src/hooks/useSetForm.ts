@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import apiRequest from "@/lib/api";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 import { useSetReducer } from "./useSetReducer";
 
 interface UseSetFormProps {
@@ -18,6 +18,7 @@ export const useSetForm = ({ setId, useOnLoad = false }: UseSetFormProps) => {
     [token],
   );
 
+  // getSetData
   const getSetData = useCallback(async () => {
     try {
       const res = await apiRequest({
@@ -35,6 +36,7 @@ export const useSetForm = ({ setId, useOnLoad = false }: UseSetFormProps) => {
     }
   }, [apiConfig, setId, userSlug, dispatch, navigate]);
 
+  // addSet
   const addSet = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -67,6 +69,7 @@ export const useSetForm = ({ setId, useOnLoad = false }: UseSetFormProps) => {
     ],
   );
 
+  // editSet
   const editSet = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -99,6 +102,7 @@ export const useSetForm = ({ setId, useOnLoad = false }: UseSetFormProps) => {
     ],
   );
 
+  // deleteSet
   const deleteSet = useCallback(
     async (setId: number) => {
       try {

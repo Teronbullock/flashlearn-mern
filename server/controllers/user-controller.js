@@ -81,7 +81,7 @@ export const postUserLogin = async (req, res) => {
 
   try {
     // create a token
-    const token = genAuthToken(id, user_email);
+    const tokenData = genAuthToken(id, user_email);
     // create a refresh token
     const refreshToken = genRefreshToken(id);
     // add refresh token to database
@@ -91,11 +91,12 @@ export const postUserLogin = async (req, res) => {
 
     res.status(200).json({
       msg: 'User logged in successfully.',
-      token,
-      refreshToken,
       userId: id,
       userEmail: user_email,
       userSlug: slug,
+      token: tokenData.token,
+      tokenExpTime: tokenData.tokenExpTime,
+      refreshToken,
     });
   } catch (error) {
     console.error('Login Error: ', error);
@@ -173,27 +174,28 @@ export const putEditProfile = async (req, res) => {
  */
 export const postRefresh = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-  let tokenData;
 
   if (!refreshToken) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  tokenData = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+  const verifiedTokenData = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-  if (tokenData) {
-    const user = await Users.findByPk(tokenData.userId);
+  if (verifiedTokenData) {
+    const user = await Users.findByPk(verifiedTokenData.userId);
 
     if (!user) {
       res.status(404);
       throw new Error('User not found');
     }
     // Generate a new access token
-    const token = genAuthToken(user.id);
+    const tokenData = genAuthToken(user.id);
+
     return res.status(200).json({
-      token,
       userId: user.id,
       userSlug: user.slug,
+      token: tokenData.token,
+      tokenExpTime: tokenData.tokenExpTime
     });
   }
 };

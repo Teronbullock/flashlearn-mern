@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 import { CTASplitPage } from "@components/CTASplitPage";
 import { FormInput, FormGroup } from "@components/forms";
 import data from "@content/profilePage.json";

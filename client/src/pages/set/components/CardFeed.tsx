@@ -1,7 +1,7 @@
 import { BtnLink, Btn } from "@components/btn";
 import { Card } from "@components/ui/card/Card";
 import { ListCardForm } from "@components/forms";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 
 interface CardFeed {
   cards: {
@@ -21,7 +21,7 @@ export const CardFeed = ({ cards, deleteCardHandler }: CardFeed) => {
   const { userSlug } = useAuthContext();
 
   return (
-    <section className="h-[450px] overflow-auto">
+    <section className="max-h-[750px] overflow-auto">
       {cards && cards.length > 0 ? (
         cards.map((card) => {
           const { id, definition, term, set_id } = card;
@@ -36,14 +36,6 @@ export const CardFeed = ({ cards, deleteCardHandler }: CardFeed) => {
             >
               <div className="flex flex-wrap justify-between">
                 <div className="mb-2 flex">
-                  <BtnLink
-                    variants={{ style: "btn", color: "primary", size: "sm" }}
-                    className="mr-2 p-0 md:mr-6 md:p-2"
-                    to={`/${userSlug}/set/${set_id}/cards/?page=1`}
-                  >
-                    View Cards
-                  </BtnLink>
-
                   <BtnLink
                     variants={{
                       style: "btn",

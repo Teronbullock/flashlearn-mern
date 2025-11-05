@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo, useReducer } from "react";
 import apiRequest from "@/lib/api";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 
 interface CardReducerState {
   inputOneValue?: string;

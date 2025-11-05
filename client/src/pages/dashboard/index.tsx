@@ -1,29 +1,32 @@
-import { InnerPageHeader } from "@components/InnerPageHeader";
+import { PageHeader } from "@components/layout/PageHeader";
 import { BtnLink } from "@components/btn";
 import { InfoSection } from "@components/layout/sections/InfoSection";
 import { FormLayout, FormGroup, FormInput } from "@components/forms";
-import { useSetCollection } from "./hooks";
+import { useGetSets } from "./hooks";
 import { Main } from "@layouts/Main";
 import data from "@content/dashboardPage.json";
 import { SetFeed } from "./components";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 
 const Dashboard = () => {
   const { userSlug } = useAuthContext();
-  const { sets } = useSetCollection();
+  const { sets } = useGetSets();
   const { header, setSection } = data;
   const InfoData = [
     {
+      id: 1,
       number: sets.length.toString(),
       copy: "Total Sets",
       icon: { src: "/assets/img/Sun.png", alt: "Sun Icon" },
     },
     {
+      id: 2,
       number: "12",
       copy: "Cards Studied",
       icon: { src: "/assets/img/CardsThree.png", alt: "CardsThree Icon" },
     },
     {
+      id: 3,
       number: "3",
       copy: "Study Streak",
       icon: { src: "/assets/img/Student-icon.png", alt: "Student Icon" },
@@ -34,7 +37,7 @@ const Dashboard = () => {
     <Main>
       {userSlug && sets && sets.length > 0 ? (
         <>
-          <InnerPageHeader data={header}>
+          <PageHeader data={header}>
             <FormLayout className={{ container: "w-[568px]" }} onSubmit={null}>
               <FormGroup name="search-bar" className={{ group: "relative" }}>
                 <img
@@ -52,7 +55,7 @@ const Dashboard = () => {
                 />
               </FormGroup>
             </FormLayout>
-          </InnerPageHeader>
+          </PageHeader>
           <InfoSection data={InfoData} />
           <section className="mb-8 flex flex-wrap justify-between">
             <h2 className="mb-3 md:mb-0">{setSection.title}</h2>

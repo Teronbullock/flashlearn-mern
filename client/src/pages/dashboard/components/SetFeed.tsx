@@ -1,6 +1,6 @@
 import { Btn, BtnLink } from "@/components/btn";
 import { ListCardForm } from "@components/forms";
-import { useAuthContext, useSetForm } from "@hooks/index";
+import { useAuthContext, useSetForm } from "@/hooks/index";
 
 interface Sets {
   id: number;

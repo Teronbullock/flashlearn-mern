@@ -1,1 +1,1 @@
-export * from "./useSetCollection";
+export * from "./useGetSets";

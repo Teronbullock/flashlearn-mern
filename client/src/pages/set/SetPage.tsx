@@ -1,9 +1,9 @@
 import { EmptyFeedSection } from "@components/ui/EmptyFeedSection";
 import { useParams } from "react-router-dom";
-import { InnerPageHeader } from "@components/InnerPageHeader";
+import { PageHeader } from "@components/layout/PageHeader";
 import { FormLayout, FormGroup, FormInput } from "@components/forms";
 import { CardFeed } from "./components";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 import { Main } from "@layouts/Main";
 
 import { useSetData } from "./hooks";
@@ -30,7 +30,7 @@ export const SetPage = () => {
     <Main>
       {userSlug && cards && cards.length > 0 ? (
         <>
-          <InnerPageHeader data={{ title: "Set Page" }}>
+          <PageHeader data={{ title: "Set Page" }}>
             <FormLayout className={{ container: "w-[568px]" }} onSubmit={null}>
               <FormGroup name="search-bar" className={{ group: "relative" }}>
                 <img
@@ -48,7 +48,7 @@ export const SetPage = () => {
                 />
               </FormGroup>
             </FormLayout>
-          </InnerPageHeader>
+          </PageHeader>
           <div>
             <p>{}</p>
           </div>
@@ -56,12 +56,27 @@ export const SetPage = () => {
 
           <section className="mb-8 flex flex-wrap justify-between">
             <h2 className="mb-3 md:mb-0">Study Cards</h2>
-            <BtnLink
-              to={`/${userSlug}/set/${setId}/card/add`}
-              variants={{ style: "btn", color: "primary", size: "lg" }}
-            >
-              Create New Card
-            </BtnLink>
+            <div>
+              <BtnLink
+                className="md:mr-4"
+                to={`/${userSlug}/set/${setId}/card/add`}
+                variants={{ style: "btn", color: "primary", size: "lg" }}
+              >
+                Create New Card
+              </BtnLink>
+              {cards && (
+                <BtnLink
+                  variants={{
+                    style: "btn",
+                    color: "outline-primary",
+                    size: "lg",
+                  }}
+                  to={`/${userSlug}/set/${setId}/cards/?page=1`}
+                >
+                  View Cards
+                </BtnLink>
+              )}
+            </div>
           </section>
           <CardFeed cards={cards} deleteCardHandler={deleteCardHandler} />
         </>

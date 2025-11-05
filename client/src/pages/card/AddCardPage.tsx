@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useSetData } from "@pages/set/hooks";
-import { InnerPageHeader } from "@components/InnerPageHeader";
+import { PageHeader } from "@components/layout/PageHeader";
 import {
   FormTextArea,
   FormGroup,
@@ -9,7 +9,7 @@ import {
 } from "@components/forms";
 import { Main } from "@layouts/Main";
 import data from "@content/cardContent.json";
-import { useAuthContext } from "@hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/index";
 
 export const AddCardPage = () => {
   const { userSlug } = useAuthContext();
@@ -19,7 +19,7 @@ export const AddCardPage = () => {
 
   return (
     <Main className="md:mt-35" width="content">
-      <InnerPageHeader data={addCard.header} />
+      <PageHeader data={addCard.header} />
       <section className="w-full py-12">
         {!state && <h2 className="text-center text-2xl">No set found</h2>}
         <FormLayout onSubmit={addCardHandler}>
@@ -66,54 +66,4 @@ export const AddCardPage = () => {
       </section>
     </Main>
   );
-
-  // return (
-  //   <main className={classNames("main", `main-${currentPage}`)}>
-  //     <PageHeader currentPage={currentPage}>
-  //       <li>
-  //         <BtnLink
-  //           variants={{ style: "btn" }}
-  //           className="btn--outline-black btn--large"
-  //           to={`/set/${setId}/`}
-  //         >
-  //           Set page
-  //         </BtnLink>
-  //       </li>
-  //     </PageHeader>
-  //     <section className="container py-12 lg:max-w-screen-lg">
-  //       {!state && <h2 className="text-center text-2xl">No set found</h2>}
-  //       <Form onSubmit={addCardHandler} className="bg-white">
-  //         <FormInput
-  //           labelName="Term"
-  //           type="textarea"
-  //           name="term"
-  //           value={state.inputOneValue}
-  //           required={true}
-  //           placeholder="Enter Term"
-  //           onChange={(e) =>
-  //             dispatch({
-  //               type: "SET_INPUT_ONE",
-  //               payload: { inputOneValue: e.target.value },
-  //             })
-  //           }
-  //           autoFocus={true}
-  //         />
-  //         <FormInput
-  //           labelName="Definition"
-  //           type="textarea"
-  //           name="definition"
-  //           value={state.inputTwoValue}
-  //           placeholder="Enter Definition"
-  //           onChange={(e) =>
-  //             dispatch({
-  //               type: "SET_INPUT_TWO",
-  //               payload: { inputTwoValue: e.target.value },
-  //             })
-  //           }
-  //         />
-  //         <FormAction submitBtnText="Create" cancelBtnTo={`/set/${setId}/`} />
-  //       </Form>
-  //     </section>
-  //   </main>
-  // );
 };

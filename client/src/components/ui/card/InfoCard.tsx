@@ -1,6 +1,7 @@
 import { Card } from "@components/ui/card";
 
 export interface InfoCardProps {
+  id: number;
   number: string;
   copy: string;
   icon: {
