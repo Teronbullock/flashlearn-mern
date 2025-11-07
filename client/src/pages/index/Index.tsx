@@ -22,7 +22,7 @@ export const Index = () => {
   } = indexPageContext;
 
   return (
-    <Main>
+    <Main width="full">
       <>
         <IndexPageHero {...hero}>
           <BtnLink

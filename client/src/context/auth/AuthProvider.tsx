@@ -10,8 +10,8 @@ import { AUTH_CONFIG } from "@/config/auth.config";
 import { authReducer, AuthStateBase } from "@context/auth/authReducer";
 import {
   useTokenRefresh,
-  useCheckAuthStatus,
-  useAutoLogoutTimer,
+  useInitializeAuth,
+  useAutoLogout,
 } from "@context/auth/hooks";
 
 interface ContextProviderProps {
@@ -26,41 +26,40 @@ export const AuthContextProvider = ({ children }: ContextProviderProps) => {
     token: null,
     tokenExpTime: null,
     isAuthenticated: false,
+    isLoading: true,
   });
 
-  const { userId, token, tokenExpTime, isAuthenticated, userSlug } = authState;
+  const { userId, token, tokenExpTime, isAuthenticated, userSlug, isLoading } =
+    authState;
 
-  // This function sets the user ID, Token info and expiration date in the context and local storage
-  const updateAuthState = useCallback(
-    ({ userId, userSlug, token, tokenExpTime }: AuthStateBase) => {
-      if (!userSlug || !token || !userId || !tokenExpTime) {
-        throw new Error("Auth data is required");
-      }
+  // Set authenticated user data
+  const setAuthUser = useCallback((authData: AuthStateBase) => {
+    const { userId, userSlug, token, tokenExpTime } = authData;
+    if (!userSlug || !token || !userId || !tokenExpTime) {
+      throw new Error("Auth data is required");
+    }
+    dispatch({
+      type: "LOGIN",
+      payload: {
+        userId,
+        userSlug,
+        token,
+        tokenExpTime,
+      },
+    });
 
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          userId,
-          userSlug,
-          token,
-          tokenExpTime,
-        },
-      });
+    localStorage.setItem(
+      AUTH_CONFIG.LOCAL_STORAGE_KEY,
+      JSON.stringify({
+        userId,
+        userSlug,
+        token,
+        tokenExpTime,
+      }),
+    );
+  }, []);
 
-      localStorage.setItem(
-        "flashlearn_userData",
-        JSON.stringify({
-          userId,
-          userSlug,
-          token,
-          tokenExpTime,
-        }),
-      );
-    },
-    [],
-  );
-
-  //login handler
+  // login handler
   const login = useCallback(
     async (userEmail: string, userPass: string) => {
       try {
@@ -68,7 +67,7 @@ export const AuthContextProvider = ({ children }: ContextProviderProps) => {
         const { userId, userSlug, token } = results;
         const tokenExpTime = new Date(results.tokenExpTime);
 
-        updateAuthState({ userId, userSlug, token, tokenExpTime });
+        setAuthUser({ userId, userSlug, token, tokenExpTime });
         if (token) {
           navigate(AUTH_CONFIG.ROUTES.DASHBOARD(userSlug));
         }
@@ -77,10 +76,10 @@ export const AuthContextProvider = ({ children }: ContextProviderProps) => {
         throw error;
       }
     },
-    [navigate, updateAuthState],
+    [navigate, setAuthUser],
   );
 
-  // Logout handler
+  // logout handler
   const logout = useCallback(async () => {
     try {
       await logoutUser();
@@ -93,28 +92,33 @@ export const AuthContextProvider = ({ children }: ContextProviderProps) => {
     }
   }, [navigate]);
 
-  // RefreshAuthToken
+  // Token refresh handler
   const refreshAuthToken = useCallback(
     async (currentUserId: string, currentToken: string) => {
-      const returnedToken = await getRefreshAuthToken(
-        currentUserId,
-        currentToken,
-      );
+      try {
+        const result = await getRefreshAuthToken(currentUserId, currentToken);
+        const { userId, userSlug, token } = result;
+        const tokenExpTime = new Date(result.tokenExpTime);
 
-      const { userId, userSlug, token } = returnedToken;
-      const tokenExpTime = new Date(returnedToken.tokenExpTime);
-
-      if (userSlug && returnedToken) {
-        updateAuthState({ userId, userSlug, token, tokenExpTime });
+        if (token && result) {
+          setAuthUser({ userId, userSlug, token, tokenExpTime });
+        }
+      } catch (err) {
+        console.error("Token refresh failed:", err);
+        await logout();
       }
     },
-    [updateAuthState],
+    [setAuthUser, logout],
   );
 
+  // Hook to check auth status on app load
+  useInitializeAuth(dispatch);
+
+  // Hook to manage token refresh
   useTokenRefresh({ token, userId, refreshAuthToken, logout });
 
-  useCheckAuthStatus(updateAuthState);
-  useAutoLogoutTimer({ token, tokenExpTime, logout });
+  // Hook to auto logout user when token expires
+  useAutoLogout({ token, tokenExpTime, logout });
 
   const value = useMemo(
     () => ({
@@ -126,8 +130,18 @@ export const AuthContextProvider = ({ children }: ContextProviderProps) => {
       isLoggedIn: !!token,
       token,
       tokenExpTime,
+      isLoading,
     }),
-    [userId, userSlug, login, logout, isAuthenticated, token, tokenExpTime],
+    [
+      userId,
+      userSlug,
+      login,
+      logout,
+      isAuthenticated,
+      token,
+      tokenExpTime,
+      isLoading,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

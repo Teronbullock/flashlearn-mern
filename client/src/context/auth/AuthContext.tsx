@@ -3,15 +3,16 @@ import { createContext, useContext } from "react";
 interface AuthContextValue {
   userId?: string | null;
   isLoggedIn?: boolean;
-  isAuthenticated?: boolean;
+  isAuthenticated?: boolean | null;
   token?: string | null;
   login?: (userEmail: string, userPass: string) => void;
   logout?: () => void;
   tokenExpTime?: Date | null;
   userSlug?: string | null;
+  isLoading: boolean;
 }
 
-export const AuthContext = createContext<AuthContextValue>({});
+export const AuthContext = createContext<AuthContextValue>({ isLoading: true });
 
 /**
  * -- Custom hook to use the AuthContext --

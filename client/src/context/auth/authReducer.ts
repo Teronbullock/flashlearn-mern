@@ -6,7 +6,8 @@ export interface AuthStateBase {
 }
 
 export interface AuthReducerState extends AuthStateBase {
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | null;
+  isLoading: boolean;
 }
 
 export type AuthReducerAction =
@@ -19,7 +20,8 @@ export type AuthReducerAction =
         userSlug: string;
       };
     }
-  | { type: "LOGOUT" };
+  | { type: "LOGOUT" }
+  | { type: "AUTH_INITIALIZED" };
 
 export const authReducer = (
   state: AuthReducerState,
@@ -34,6 +36,7 @@ export const authReducer = (
         token: action.payload.token,
         tokenExpTime: action.payload.tokenExpTime,
         isAuthenticated: true,
+        isLoading: false,
       };
     case "LOGOUT":
       return {
@@ -43,6 +46,11 @@ export const authReducer = (
         tokenExpTime: null,
         isAuthenticated: false,
         userSlug: null,
+      };
+    case "AUTH_INITIALIZED":
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

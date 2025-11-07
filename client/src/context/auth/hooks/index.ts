@@ -1,3 +1,3 @@
 export * from "./useTokenRefresh";
-export * from "./useCheckAuthStatus";
-export * from "./useAutoLogoutTimer";
+export * from "./useInitializeAuth";
+export * from "./useAutoLogout";

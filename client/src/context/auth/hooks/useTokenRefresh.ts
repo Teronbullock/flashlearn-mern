@@ -8,6 +8,9 @@ interface TokenRefreshConfig {
   logout: () => Promise<void>;
 }
 
+/**
+ * Manages periodic token refresh for authenticated users.
+ */
 export const useTokenRefresh = ({
   token,
   userId,

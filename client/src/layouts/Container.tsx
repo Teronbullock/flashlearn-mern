@@ -22,7 +22,7 @@ export const Container = ({
   el: Tag = "div",
 }: ContainerProps) => {
   const containerClasses = classNames(
-    "mx-auto px-4",
+    "mx-auto",
     {
       "w-full": width === "full",
       "max-w-8xl": width === "wide",
@@ -33,3 +33,4 @@ export const Container = ({
 
   return <Tag className={containerClasses}>{children}</Tag>;
 };
+// px-4

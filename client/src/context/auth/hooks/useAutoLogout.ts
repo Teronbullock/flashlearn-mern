@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-interface AutoLogoutTimerConfig {
+interface useAutoLogoutConfig {
   token: string | null;
   tokenExpTime: Date | string | null;
   logout: () => Promise<void>;
@@ -9,11 +9,11 @@ interface AutoLogoutTimerConfig {
 /**
  * Manages an automatic session logout timer based on token expiration time.
  */
-export const useAutoLogoutTimer = ({
+export const useAutoLogout = ({
   token,
   tokenExpTime,
   logout,
-}: AutoLogoutTimerConfig) => {
+}: useAutoLogoutConfig) => {
   const logoutTimer = useRef<number | NodeJS.Timeout | null>(null);
 
   useEffect(() => {

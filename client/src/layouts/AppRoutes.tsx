@@ -1,5 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
-import { useAuthContext } from "@context/auth/AuthContext";
+import { Route, Routes } from "react-router-dom";
 import { Index } from "@pages/index";
 import DashboardPage from "@pages/dashboard";
 import { SetPage, AddSetPage, EditSetPage } from "@pages/set";
@@ -8,30 +7,18 @@ import { LoginPage, RegisterPage } from "@pages/auth";
 import { ProfilePage } from "@pages/profile";
 
 import { PageNotFound } from "@pages/PageNotFound";
-import { useAuthState } from "@hooks/useAuthState";
+import { ProtectedOutlet } from "@components/ProtectedOutlet";
 
 export const AppRoutes = () => {
-  const { userSlug } = useAuthContext()!;
-  const { isAuthenticated } = useAuthState();
-
-  let routes;
-
-  if (!isAuthenticated) {
-    routes = (
-      <>
-        <Route path="/" element={<Index />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile/:userSlug" element={<ProfilePage />} />
-        <Route path="/unauthorized" element={<PageNotFound />} />
-        <Route path="*" element={<PageNotFound />} />
-      </>
-    );
-  } else {
-    routes = (
-      <>
+  return (
+    <Routes>
+      {/* Public */}
+      <Route path="/" element={<Index />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      {/* Protected  */}
+      <Route element={<ProtectedOutlet />}>
         <Route path="/:userSlug/dashboard" element={<DashboardPage />} />
-        <Route path="/profile/:userSlug" element={<ProfilePage />} />
         <Route path="/:userSlug/set/add" element={<AddSetPage />} />
         <Route path="/:userSlug/set/:setId" element={<SetPage />} />
         <Route path="/:userSlug/set/:setId/edit" element={<EditSetPage />} />
@@ -44,12 +31,11 @@ export const AppRoutes = () => {
           element={<EditCardPage />}
         />
         <Route path="/:userSlug/set/:setId/cards" element={<ViewCardsPage />} />
-        <Route path="/unauthorized" element={<PageNotFound />} />
-        <Route path="/" element={<Navigate to={`/${userSlug}/dashboard`} />} />
-        <Route path="*" element={<PageNotFound />} />
-      </>
-    );
-  }
-
-  return <Routes>{routes}</Routes>;
+        <Route path="/:userSlug/profile/" element={<ProfilePage />} />
+      </Route>
+      {/* Errors */}
+      <Route path="/unauthorized" element={<PageNotFound />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
+  );
 };
