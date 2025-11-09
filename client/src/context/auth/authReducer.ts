@@ -23,6 +23,22 @@ export type AuthReducerAction =
   | { type: "LOGOUT" }
   | { type: "AUTH_INITIALIZED" };
 
+/**
+ * -- Initial state for the authReducer --
+ */
+export const authReducerInitialState: AuthReducerState = {
+  userId: null,
+  userSlug: null,
+  token: null,
+  tokenExpTime: null,
+  isAuthenticated: false,
+  isLoading: true,
+};
+
+/**
+ * -- Reducer function to manage authentication state --
+ *
+ */
 export const authReducer = (
   state: AuthReducerState,
   action: AuthReducerAction,

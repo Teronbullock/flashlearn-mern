@@ -1,18 +1,15 @@
 import { useState, memo } from "react";
 import classnames from "classnames";
 import { Btn } from "@components/btn";
-import "./view-card-section.scss";
 import { CardFace } from "./CardFace";
+import type { Card } from "../types/cardTypes";
+
+import "./view-card-section.scss";
 
 interface ViewCardSectionProps {
   page: number;
   setId: string;
-  card: {
-    term: string;
-    definition: string;
-    bg_color: string;
-    text_color: string;
-  };
+  card: Card | null;
   cardCount: number;
   cardLoadClass?: null;
 }
@@ -65,7 +62,7 @@ export const ViewCardSection = ({
     <section className="section-flash-card mx-auto p-8 md:w-1/2">
       {card ? (
         <div className={classnames("flashcard mx-auto", flashcardClass)}>
-          <div className="">
+          <div className="test">
             {term && (
               <CardFace
                 className="flashcard--front"
@@ -73,36 +70,9 @@ export const ViewCardSection = ({
                 textColor={textColor}
                 cardText={term}
                 handFlipAction={handFlipAction}
-              >
-                {/* <div className="flashcard__footer d-flex justify-content-center p-4">
-                  <btn
-                    className={classnames(
-                      "btn btn--outline-secondary mr-4",
-                      disableBackBtnStyle,
-                    )}
-                    onClick={() => {
-                      setFlashcardClass("");
-                    }}
-                    to={backBtnUrl}
-                  >
-                    &lt;
-                  </btn>
-                  <btn
-                    className={classnames(
-                      "btn btn--black",
-                      disableNextBtnStyle,
-                    )}
-                    onClick={() => {
-                      setFlashcardClass("");
-                    }}
-                    to={nextBtnUrl}
-                  >
-                    &gt;
-                  </btn>
-                </div> */}
-              </CardFace>
+              ></CardFace>
             )}
-            {/* {definition && (
+            {definition && (
               <CardFace
                 className="flashcard--back"
                 bgColor={bgColor}
@@ -111,36 +81,42 @@ export const ViewCardSection = ({
                 cardText={definition}
                 handFlipAction={handFlipAction}
                 BtnText="Term"
-              >
-                <div className="flashcard__footer d-flex justify-content-center p-4">
-                  <btn
-                    className={classnames(
-                      "btn btn--outline-secondary mr-4",
-                      disableBackBtnStyle,
-                    )}
-                    onClick={() => {
-                      setFlashcardClass("");
-                    }}
-                    to={backBtnUrl}
-                  >
-                    &lt;
-                  </btn>
-                  <btn
-                    className={classnames(
-                      "btn btn--black",
-                      disableNextBtnStyle,
-                    )}
-                    onClick={() => {
-                      setFlashcardClass("");
-                    }}
-                    to={nextBtnUrl}
-                  >
-                    &gt;
-                  </btn>
-                </div>
-              </CardFace>
-            )} */}
+              ></CardFace>
+
+              // <div className="flashcard__footer d-flex justify-content-center p-4">
+              //   <btn
+              //     className={classnames(
+              //       "btn btn--outline-secondary mr-4",
+              //       disableBackBtnStyle,
+              //     )}
+              //     onClick={() => {
+              //       setFlashcardClass("");
+              //     }}
+              //     to={backBtnUrl}
+              //   >
+              //     &lt;
+              //   </btn>
+              //   <btn
+              //     className={classnames(
+              //       "btn btn--black",
+              //       disableNextBtnStyle,
+              //     )}
+              //     onClick={() => {
+              //       setFlashcardClass("");
+              //     }}
+              //     to={nextBtnUrl}
+              //   >
+              //     &gt;
+              //   </btn>
+              // </div>
+            )}
           </div>
+          <Btn
+            onClick={handFlipAction}
+            variants={{ color: "outline-primary", size: "lg", style: "btn" }}
+          >
+            Flip Card
+          </Btn>
         </div>
       ) : (
         <div className="flashcard__body">

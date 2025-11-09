@@ -3,11 +3,7 @@ import { useEffect, useCallback, Dispatch } from "react";
 import { AuthReducerAction } from "@context/auth/authReducer";
 
 /**
- * Checks authentication status on mount by validating stored token data
- * from localStorage. If valid, updates the auth state via the provided callback.
- *
- * @param setAuthUser - Callback function to update authentication state
- * with user details and token expiration
+ * -- Custom hook to initialize authentication state on app load --
  */
 export const useInitializeAuth = (
   dispatch: Dispatch<AuthReducerAction>,

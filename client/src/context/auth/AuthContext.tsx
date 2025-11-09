@@ -2,13 +2,13 @@ import { createContext, useContext } from "react";
 
 interface AuthContextValue {
   userId?: string | null;
-  isLoggedIn?: boolean;
-  isAuthenticated?: boolean | null;
+  userSlug?: string | null;
   token?: string | null;
+  tokenExpTime?: Date | null;
+  isAuthenticated?: boolean | null;
+  isLoggedIn?: boolean;
   login?: (userEmail: string, userPass: string) => void;
   logout?: () => void;
-  tokenExpTime?: Date | null;
-  userSlug?: string | null;
   isLoading: boolean;
 }
 

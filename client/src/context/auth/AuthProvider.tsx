@@ -7,7 +7,11 @@ import {
   getRefreshAuthToken,
 } from "../../lib/auth-service";
 import { AUTH_CONFIG } from "@/config/auth.config";
-import { authReducer, AuthStateBase } from "@context/auth/authReducer";
+import {
+  authReducer,
+  authReducerInitialState,
+  AuthStateBase,
+} from "@context/auth/authReducer";
 import {
   useTokenRefresh,
   useInitializeAuth,
@@ -20,14 +24,10 @@ interface ContextProviderProps {
 
 export const AuthContextProvider = ({ children }: ContextProviderProps) => {
   const navigate = useNavigate();
-  const [authState, dispatch] = useReducer(authReducer, {
-    userId: null,
-    userSlug: null,
-    token: null,
-    tokenExpTime: null,
-    isAuthenticated: false,
-    isLoading: true,
-  });
+  const [authState, dispatch] = useReducer(
+    authReducer,
+    authReducerInitialState,
+  );
 
   const { userId, token, tokenExpTime, isAuthenticated, userSlug, isLoading } =
     authState;
@@ -124,12 +124,12 @@ export const AuthContextProvider = ({ children }: ContextProviderProps) => {
     () => ({
       userId,
       userSlug,
-      login,
-      logout,
-      isAuthenticated,
-      isLoggedIn: !!token,
       token,
       tokenExpTime,
+      isAuthenticated,
+      isLoggedIn: !!token,
+      login,
+      logout,
       isLoading,
     }),
     [

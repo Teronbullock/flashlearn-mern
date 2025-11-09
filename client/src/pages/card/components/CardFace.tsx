@@ -18,11 +18,11 @@ export const CardFace = ({
   handFlipAction,
 }: CardFaceProps) => {
   const cardClass = classnames(
-    "md:min-w-[650px] md:min-h-[375px] flex justify-center items-center relative p-12 bg-tertiary border-primary rounded-[20px] border",
+    // "md:min-w-[650px] md:min-h-[375px] p-12 bg-tertiary",
+    "w-full backface-hidden absolute rounded-[20px] border overflow-hidden md:min-h-[375px] border-primary p-6 flex items-center justify-center",
     className,
   );
 
-  console.log(bgColor, textColor);
   return (
     <div className={cardClass} style={{ backgroundColor: bgColor }}>
       <a className="absolute right-[26px] top-[29px]" onClick={handFlipAction}>
@@ -37,17 +37,7 @@ export const CardFace = ({
       <div className="">
         <p className="text-primary text-lg font-semibold">{cardText}</p>
       </div>
-      <div className="">
-        {/* <div className="" style={{ borderColor: textColor }}>
-          <a
-            className="btn btn--secondary btn--large mb-8"
-            onClick={handFlipAction}
-          >
-            {BtnText}
-          </a>
-        </div> */}
-        {children}
-      </div>
+      <div className="">{children}</div>
     </div>
   );
 };

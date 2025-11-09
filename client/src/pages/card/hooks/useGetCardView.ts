@@ -5,7 +5,11 @@ import { useAuthContext } from "@/hooks/index";
 const useGetCardView = (setId: string | undefined, pageNum: string | null) => {
   const [card, setCard] = useState();
   const [cardCount, setCardCount] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
   const { token } = useAuthContext();
+
+  const handleFlip = () => setIsFlipped((prev) => !prev);
+  const handleNavigation = () => setIsFlipped(false);
 
   useEffect(() => {
     (async () => {
@@ -34,7 +38,14 @@ const useGetCardView = (setId: string | undefined, pageNum: string | null) => {
     })();
   }, [pageNum, setId, token]);
 
-  return { card, cardCount };
+  return {
+    card,
+    cardCount,
+    isFlipped,
+    setIsFlipped,
+    handleFlip,
+    handleNavigation,
+  };
 };
 
 export default useGetCardView;
