@@ -2,29 +2,29 @@ import { EmptyFeedSection } from "@components/ui/EmptyFeedSection";
 import { useParams } from "react-router-dom";
 import { PageHeader } from "@components/layout/PageHeader";
 import { FormLayout, FormGroup, FormInput } from "@components/forms";
-import { CardFeed } from "./components";
+import { CardFeed } from "@pages/Set/components/CardFeed";
 import { useAuthContext } from "@/hooks/index";
 import { Main } from "@layouts/Main";
 
-import { useSetData } from "./hooks";
+import { useSetData, useSetCards } from "@pages/Set/hooks";
 import { BtnLink } from "@components/btn";
 import { InfoSection } from "@components/layout/sections/InfoSection";
 import data from "@content/addSetPage.json";
 
 export const SetPage = () => {
-  const { userSlug } = useAuthContext();
+  const { userSlug, token } = useAuthContext();
   const { setId } = useParams();
   setId?.toString();
 
-  const { cards, deleteCardHandler } = useSetData({
-    isGetCards: true,
-    setId,
-  });
+  const { cards } = useSetCards({ setId, token });
+  // const { deleteCardHandler } = useSetData({
+  //   setId,
+  // });
 
   const { emptyPage, InfoData } = data;
 
   const pageInfoData = InfoData;
-  pageInfoData[0]["number"] = cards.length.toString();
+  pageInfoData[0]["number"] = cards?.length.toString();
 
   return (
     <Main>
@@ -59,7 +59,7 @@ export const SetPage = () => {
             <div>
               <BtnLink
                 className="md:mr-4"
-                to={`/${userSlug}/set/${setId}/card/add`}
+                to={`/set/${setId}/card/add`}
                 variants={{ style: "btn", color: "primary", size: "lg" }}
               >
                 Create New Card
@@ -71,7 +71,7 @@ export const SetPage = () => {
                     color: "outline-primary",
                     size: "lg",
                   }}
-                  to={`/${userSlug}/set/${setId}/cards/?page=1`}
+                  to={`/set/${setId}/cards/?page=1`}
                 >
                   View Cards
                 </BtnLink>

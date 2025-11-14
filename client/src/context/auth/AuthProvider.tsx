@@ -69,7 +69,7 @@ export const AuthContextProvider = ({ children }: ContextProviderProps) => {
 
         setAuthUser({ userId, userSlug, token, tokenExpTime });
         if (token) {
-          navigate(AUTH_CONFIG.ROUTES.DASHBOARD(userSlug));
+          navigate(AUTH_CONFIG.ROUTES.DASHBOARD);
         }
       } catch (error) {
         console.error("Login API failed", error);

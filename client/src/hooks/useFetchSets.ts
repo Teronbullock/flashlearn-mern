@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@/lib/api/api-request";
 import { useAuthContext } from "@/hooks/index";
 
 interface SetData {

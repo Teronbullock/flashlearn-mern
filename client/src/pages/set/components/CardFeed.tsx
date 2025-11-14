@@ -43,7 +43,7 @@ export const CardFeed = ({ cards, deleteCardHandler }: CardFeed) => {
                       size: "sm",
                     }}
                     className="p-0 md:mr-6 md:p-2"
-                    to={`/${userSlug}/set/${set_id}/${id}/edit`}
+                    to={`/set/${set_id}/${id}/edit`}
                   >
                     Edit Set
                   </BtnLink>

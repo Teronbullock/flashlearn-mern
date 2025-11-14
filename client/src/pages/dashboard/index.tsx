@@ -2,20 +2,20 @@ import { PageHeader } from "@components/layout/PageHeader";
 import { BtnLink } from "@components/btn";
 import { InfoSection } from "@components/layout/sections/InfoSection";
 import { FormLayout, FormGroup, FormInput } from "@components/forms";
-import { useGetSets } from "./hooks";
+import { useDashboardSets } from "./hooks";
 import { Main } from "@layouts/Main";
 import data from "@content/dashboardPage.json";
 import { SetFeed } from "./components";
 import { useAuthContext } from "@/hooks/index";
 
-const Dashboard = () => {
+export const DashboardPage = () => {
   const { userSlug } = useAuthContext();
-  const { sets } = useGetSets();
+  const { sets } = useDashboardSets();
   const { header, setSection } = data;
   const InfoData = [
     {
       id: 1,
-      number: sets.length.toString(),
+      number: sets?.length.toString(),
       copy: "Total Sets",
       icon: { src: "/assets/img/Sun.png", alt: "Sun Icon" },
     },
@@ -60,7 +60,7 @@ const Dashboard = () => {
           <section className="mb-8 flex flex-wrap justify-between">
             <h2 className="mb-3 md:mb-0">{setSection.title}</h2>
             <BtnLink
-              to={`/${userSlug}/set/add`}
+              to={`/set/add`}
               variants={{ style: "btn", color: "primary", size: "lg" }}
             >
               {setSection.buttonText}
@@ -99,5 +99,3 @@ const Dashboard = () => {
     </Main>
   );
 };
-
-export default Dashboard;

@@ -4,13 +4,13 @@ import {
   TwoColTimeline,
   Testimonials,
 } from "@components/layout/sections";
-import { IndexPageHero } from "@pages/index/components";
+import { IndexPageHero } from "@pages/Home/components/";
 import indexPageContext from "@content/indexPage.json";
 import { CTASection } from "@components/CTASection";
 import { BtnLink } from "@components/btn";
 import { Main } from "@layouts/Main";
 
-export const Index = () => {
+export const HomePage = () => {
   const {
     hero,
     sectionOne,

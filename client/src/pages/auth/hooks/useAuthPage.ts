@@ -7,7 +7,7 @@ import {
   UserState,
 } from "@pages/auth";
 
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@lib/api";
 
 const INITIAL_REGISTER_STATE: RegisterState = {
   type: "register",

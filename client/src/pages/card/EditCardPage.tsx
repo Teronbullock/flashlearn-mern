@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useSetData } from "@pages/set/hooks/useSetData-old";
+// import { useSetData } from "@pages/set/hooks/useSetData-old";
 import {
   FormAction,
   FormColorPicker,
@@ -8,11 +8,12 @@ import {
 } from "@components/forms";
 
 import { BtnLink } from "@components/btn";
+import { useCardData } from "@pages/Card/hooks";
 
 export const EditCardPage = () => {
   const { setId, cardId } = useParams();
   const currentPage = "editCardPage";
-  const { state, dispatch, editCardHandler } = useSetData({
+  const { state, dispatch, editCardHandler } = useCardData({
     isEditCard: true,
     cardId,
     setId,

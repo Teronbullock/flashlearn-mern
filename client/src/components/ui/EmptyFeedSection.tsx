@@ -29,7 +29,7 @@ export const EmptyFeedSection = ({
       <p className="mb-15 text-center text-base">{subTitle}</p>
       <div className="text-center">
         <BtnLink
-          to={`/${userSlug}/set/${setId}/card/add`}
+          to={`/set/${setId}/card/add`}
           className="w-[444px] !py-3 !text-base"
           variants={{
             style: "btn",

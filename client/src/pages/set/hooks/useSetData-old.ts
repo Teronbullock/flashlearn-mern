@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo, useReducer } from "react";
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@/lib/api/api-request";
 import { useAuthContext } from "@/hooks/index";
 
 interface CardReducerState {
@@ -26,13 +26,6 @@ interface ManageCardData {
   isEditCard?: boolean;
   cardId?: string | undefined;
   setId?: string | undefined;
-}
-
-interface ICardData {
-  id: string;
-  term: string;
-  definition: string;
-  set_id: string;
 }
 
 const CardReducer = (state: CardReducerState, action: CardReducerAction) => {
@@ -66,7 +59,6 @@ export const useSetData = ({
   cardId,
   setId,
 }: ManageCardData = {}) => {
-  const [cards, setCards] = useState<ICardData[]>([]);
   const { token } = useAuthContext();
   const [state, dispatch] = useReducer(CardReducer, {
     inputOneValue: "",
@@ -81,22 +73,6 @@ export const useSetData = ({
     }),
     [token],
   );
-
-  // get Card Data
-  const getCardData = useCallback(async () => {
-    try {
-      const res = await apiRequest({
-        url: `/api/set/${setId}`,
-        config: apiConfig,
-      });
-
-      setCards(res.data.cards);
-    } catch (err) {
-      console.error(err);
-      setCards([]);
-      throw err;
-    }
-  }, [apiConfig, setId]);
 
   // Add Card Handler
   const addCardHandler = useCallback(

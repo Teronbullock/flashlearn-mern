@@ -7,12 +7,12 @@ interface ContainerProps {
   className?: string;
   width?: ContainerWidth;
   el?: "div" | "section" | "main";
+  isCentered?: boolean;
 }
 
 /**
  * Name: Container
  * A flexible container component to manage content width and centering.
- *
  * @see ContainerProps
  */
 export const Container = ({
@@ -20,17 +20,18 @@ export const Container = ({
   className,
   width = "wide",
   el: Tag = "div",
+  isCentered = true,
 }: ContainerProps) => {
   const containerClasses = classNames(
-    "mx-auto",
     {
       "w-full": width === "full",
       "max-w-8xl": width === "wide",
       "max-w-[1000px]": width === "content",
+      "mx-auto": isCentered,
+      "px-4": width !== "full",
     },
     className,
   );
 
   return <Tag className={containerClasses}>{children}</Tag>;
 };
-// px-4

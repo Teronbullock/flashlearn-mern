@@ -1,6 +1,6 @@
 import { useReducer, useEffect, useCallback, useState, useMemo } from "react";
 import { useNavigate } from "react-router";
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@/lib/api/api-request";
 import { useAuthContext } from "@/hooks/index";
 
 interface SetReducerState {
@@ -101,7 +101,7 @@ const useSetCollection = ({
 
         if (res.data) {
           dispatch({ type: "SUBMIT", payload: {} });
-          navigate(`/${userSlug}/dashboard`);
+          navigate(`/dashboard`);
         }
       } catch (error) {
         console.error(error);
@@ -132,7 +132,7 @@ const useSetCollection = ({
         if (res.data && res.status === 200) {
           const { msg } = res.data;
           alert(msg);
-          navigate(`/${userSlug}/dashboard`);
+          navigate(`/dashboard`);
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -192,7 +192,7 @@ const useSetCollection = ({
         } catch (err) {
           console.error("Error: retrieving set", err);
           alert("Error: retrieving set");
-          navigate(`/${userSlug}/dashboard`);
+          navigate(`/dashboard`);
         }
       };
 

@@ -1,6 +1,6 @@
 export interface CardDataProps {
   page: number;
   setId: string;
-  card: Card | null;
+  userSlug: string;
   cardCount: number;
 }

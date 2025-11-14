@@ -60,7 +60,7 @@ export const AddCardPage = () => {
           <FormAction
             className="justify-center"
             submitBtnText="Save Card"
-            cancelBtnTo={`/${userSlug}/set/${setId}/`}
+            cancelBtnTo={`/set/${setId}/`}
           />
         </FormLayout>
       </section>

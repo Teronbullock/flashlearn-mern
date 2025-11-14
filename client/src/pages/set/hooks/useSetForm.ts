@@ -1,5 +1,5 @@
 import { useReducer, useCallback, useMemo } from "react";
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@/lib/api/api-request";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "@/hooks/index";
 
@@ -64,7 +64,7 @@ export const useSetForm = (setId?: string) => {
 
         if (res.data) {
           dispatch({ type: "SUBMIT" });
-          navigate(`/${userSlug}/dashboard`);
+          navigate(`/dashboard`);
         }
       } catch (error) {
         console.error(error);
@@ -92,7 +92,7 @@ export const useSetForm = (setId?: string) => {
 
         if (res.status === 200) {
           alert(res.data.msg);
-          navigate(`/${userSlug}/dashboard`);
+          navigate(`/dashboard`);
         }
       } catch (error) {
         console.error(error);

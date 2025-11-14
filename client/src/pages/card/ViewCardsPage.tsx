@@ -1,24 +1,22 @@
 import { useParams, useSearchParams } from "react-router-dom";
-import classnames from "classnames";
-import { CardLayout } from "./components/CardLayout";
-import { Controls } from "./components/Controls";
-import useGetCardView from "@pages/card/hooks/useGetCardView";
-// import { BtnLink } from "@components/btn";
+import {
+  CardLayout,
+  Controls,
+  CardFace,
+  FlashCard,
+} from "@pages/Card/components";
+
+import { useCardData, useCardFlip } from "@pages/Card/hooks";
 import { Main } from "@layouts/Main";
-import { CardFace, FlashCard } from "@pages/card/components";
 import { Btn } from "@components/btn";
 
 export const ViewCardsPage = () => {
   const { setId } = useParams();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page");
-  const { card, cardCount, isFlipped, handleFlip } = useGetCardView(
-    setId,
-    page,
-  );
+  const { card, cardCount } = useCardData(setId, page);
+  const { isFlipped, handleFlip, resetFlip } = useCardFlip();
 
-  // const isFlipped = true;
-  console.log("isFlipped:", isFlipped, page, cardCount);
   return (
     <Main>
       {!card && (
@@ -28,12 +26,11 @@ export const ViewCardsPage = () => {
       )}
       {setId && page && card && cardCount && (
         <CardLayout>
-          <p>Test</p>
           <Controls
             page={page}
             setId={setId}
             cardCount={cardCount}
-            // handleNavigation={handleNavigation}
+            handleNavigation={resetFlip}
           />
           <FlashCard isFlipped={isFlipped}>
             <CardFace
@@ -47,7 +44,6 @@ export const ViewCardsPage = () => {
               className="rotate-y-180 z-50"
               bgColor={card.bg_color}
               textColor={card.text_color}
-              cardHeaderText="Definition"
               cardText={card.definition}
               handFlipAction={handleFlip}
             />

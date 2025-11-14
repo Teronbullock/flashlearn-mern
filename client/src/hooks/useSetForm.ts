@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@/lib/api/api-request";
 import { useAuthContext } from "@/hooks/index";
 import { useSetReducer } from "./useSetReducer";
 
@@ -32,7 +32,7 @@ export const useSetForm = ({ setId, useOnLoad = false }: UseSetFormProps) => {
       });
     } catch (err) {
       console.error("Error fetching set:", err);
-      navigate(`/${userSlug}/dashboard`);
+      navigate(`/dashboard`);
     }
   }, [apiConfig, setId, userSlug, dispatch, navigate]);
 
@@ -52,7 +52,7 @@ export const useSetForm = ({ setId, useOnLoad = false }: UseSetFormProps) => {
         });
         if (res.data) {
           dispatch({ type: "SUBMIT" });
-          navigate(`/${userSlug}/dashboard`);
+          navigate(`/dashboard`);
         }
       } catch (error) {
         console.error(error);
@@ -85,7 +85,7 @@ export const useSetForm = ({ setId, useOnLoad = false }: UseSetFormProps) => {
         });
         if (res.status === 200) {
           alert(res.data.msg);
-          navigate(`/${userSlug}/dashboard`);
+          navigate(`/dashboard`);
         }
       } catch (error) {
         console.error("Error updating set:", error);

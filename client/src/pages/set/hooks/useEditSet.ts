@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@/lib/api/api-request";
 import { useAuthContext } from "@/hooks/index";
 import { useNavigate } from "react-router";
 
@@ -35,7 +35,7 @@ export const useEditSet = ({
       } catch (err) {
         console.error("Error: retrieving set", err);
         alert("Error: retrieving set");
-        navigate(`/${userSlug}/dashboard`);
+        navigate(`/dashboard`);
       }
     };
 

@@ -19,7 +19,7 @@ export default function Header() {
       >
         <h2 className="md:text-dark-shade font-cursive m-0 font-normal text-white md:w-[180px]">
           {token ? (
-            <Link className="text-lg" to={`/${userSlug}/dashboard`}>
+            <Link className="text-lg" to={`/dashboard`}>
               FlashCard
             </Link>
           ) : (

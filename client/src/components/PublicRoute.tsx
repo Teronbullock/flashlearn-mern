@@ -14,7 +14,7 @@ export const PublicOnlyRoute = ({
 
   if (isAuthenticated) {
     // If already logged in, redirect to dashboard
-    return <Navigate to={redirectTo || `/${userSlug}/dashboard`} replace />;
+    return <Navigate to={redirectTo || `/dashboard`} replace />;
   }
 
   return <>{children}</>;

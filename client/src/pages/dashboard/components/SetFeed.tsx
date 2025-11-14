@@ -41,7 +41,7 @@ export const SetFeed = ({ sets }: ItemFeedProps) => {
                     <BtnLink
                       variants={{ style: "btn", color: "primary", size: "sm" }}
                       className="mr-2 p-0 md:mr-6 md:p-2"
-                      to={`/${userSlug}/set/${id}`}
+                      to={`/set/${id}`}
                     >
                       View Set
                     </BtnLink>
@@ -53,7 +53,7 @@ export const SetFeed = ({ sets }: ItemFeedProps) => {
                         size: "sm",
                       }}
                       className="p-0 md:mr-6 md:p-2"
-                      to={`/${userSlug}/set/${id}/edit`}
+                      to={`/set/${id}/edit`}
                     >
                       Edit Set
                     </BtnLink>

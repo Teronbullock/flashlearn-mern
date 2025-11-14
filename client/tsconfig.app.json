@@ -35,6 +35,7 @@
       "@context/*": ["src/context/*"],
       "@hooks/*": ["src/hooks/*"],
       "@content/*": ["src/content/*"],
+      "@lib/*": ["src/lib/*"],
       "@/*": ["src/*"]
     }
   },

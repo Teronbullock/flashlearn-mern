@@ -1,1 +1,1 @@
-export * from "./useGetSets";
+export * from "./useDashboardSets";

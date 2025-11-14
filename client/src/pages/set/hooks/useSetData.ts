@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@/lib/api/api-request";
 import { useAuthContext } from "@/hooks/index";
 
 export interface SetData {
@@ -24,19 +24,6 @@ export const useSetData = ({ isGetSets = false }: UseSetDataOptions = {}) => {
     [token],
   );
 
-  const getSetData = useCallback(async () => {
-    try {
-      const res = await apiRequest({
-        url: `/api/set/user/${userSlug}`,
-        config: apiConfig,
-      });
-      setSets(res.data.sets);
-    } catch (err) {
-      console.error(err);
-      setSets([]);
-    }
-  }, [userSlug, apiConfig]);
-
   const deleteSetHandler = useCallback(
     async (setId: number) => {
       try {
@@ -46,17 +33,35 @@ export const useSetData = ({ isGetSets = false }: UseSetDataOptions = {}) => {
           config: apiConfig,
         });
         alert(res.data.msg);
-        getSetData();
+        // getSetData();
       } catch (err) {
         console.error(err);
       }
     },
-    [userSlug, apiConfig, getSetData],
+    [userSlug, apiConfig],
   );
 
   useEffect(() => {
-    if (isGetSets) getSetData();
-  }, [isGetSets, getSetData]);
+    const getSetData = async () => {
+      try {
+        const res = await apiRequest({
+          url: `/api/set/user/${userSlug}`,
+          config: apiConfig,
+        });
 
-  return { sets, getSetData, deleteSetHandler };
+        if (!res) {
+          throw new Error("No response from server");
+        }
+
+        setSets(res.data.sets);
+      } catch (err) {
+        console.error(err);
+        setSets([]);
+      }
+    };
+
+    if (isGetSets) getSetData();
+  }, [isGetSets]);
+
+  return { sets, deleteSetHandler };
 };

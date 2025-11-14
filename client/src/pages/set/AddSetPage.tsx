@@ -61,7 +61,7 @@ export const AddSetPage = () => {
           <FormAction
             className="justify-center"
             submitBtnText="Save Set"
-            cancelBtnTo={`/${userSlug}/dashboard`}
+            cancelBtnTo={`/dashboard`}
           />
         </FormLayout>
       </section>

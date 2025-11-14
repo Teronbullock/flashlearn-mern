@@ -6,7 +6,7 @@ import data from "@content/profilePage.json";
 
 import useGetProfile from "./hooks/useGetProfile";
 
-import apiRequest from "@/lib/api";
+import { apiRequest } from "@/lib/api/api-request";
 
 interface UserState {
   user_email: string;
