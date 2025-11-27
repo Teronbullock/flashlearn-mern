@@ -5,9 +5,10 @@ import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
-import userRoutes from '../../routes/user-routes.js';
-import setRoutes from '../../routes/set-routes.js';
 import cookieParser from 'cookie-parser'; 
+import authRoutes from '../../routes/auth-routes.js';
+import setRoutes from '../../routes/set-routes.js';
+import infoRoute from '../../routes/info-route.js';
 import checkAuth from '../../middleware/check-auth.js';
 
 
@@ -29,8 +30,9 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-app.use('/api/user', userRoutes);
-app.use('/api/set', checkAuth, setRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/sets', checkAuth, setRoutes);
+app.use('/api', infoRoute);
 
 // disable favicon requests
 app.use('/favicon.ico', (req, res, next) => {

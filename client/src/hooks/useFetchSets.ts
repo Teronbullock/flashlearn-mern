@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { apiRequest } from "@/lib/api/api-request";
-import { useAuthContext } from "@/hooks/index";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 
 interface SetData {
   id: number;
@@ -13,20 +13,19 @@ export const useFetchSets = () => {
   const { userId, userSlug, token } = useAuthContext();
   const [sets, setSets] = useState<SetData[]>([]);
 
-  // api Config
-  const apiConfig = useMemo(
-    () => ({
-      headers: { authorization: `Bearer ${token}` },
-    }),
-    [token],
-  );
-
   // Get Set Data
   const getSetData = useCallback(async () => {
     try {
+      if (!userSlug || !token) {
+        setSets([]);
+        return;
+      }
+
       const res = await apiRequest({
-        url: `/api/set/user/${userSlug}`,
-        config: apiConfig,
+        url: `/set/user/${userSlug}`,
+        config: {
+          token,
+        },
         data: {
           userSlug,
           token,
@@ -40,7 +39,7 @@ export const useFetchSets = () => {
       setSets([]);
       throw err;
     }
-  }, [userSlug, token, apiConfig]);
+  }, [userSlug, token]);
 
   // useEffect for fetching set functions
   useEffect(() => {

@@ -6,7 +6,7 @@ interface ListCardFormProps {
   description?: string;
   cardCount?: number;
   isSetFeed?: boolean;
-  onSubmit: () => Promise<void>;
+  onSubmit: () => void | Promise<void>;
   children: React.ReactNode;
   hasDescription?: boolean;
 }
@@ -30,12 +30,7 @@ export const ListCardForm = ({
       spacing={false}
       className="border-primary mb-5 border bg-white p-[10px] text-black md:p-4"
     >
-      <FormLayout
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      >
+      <FormLayout onSubmit={onSubmit}>
         <div className="flex flex-wrap justify-between">
           <h3 className="mb-3 text-base">{title}</h3>
           {isSetFeed &&

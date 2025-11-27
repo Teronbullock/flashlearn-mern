@@ -4,12 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "sass:build": "sass src/assets/scss/global.scss:src/assets/scss/global.css",
+    "build": "tsc -b && npm run build:sass && vite build",
+    "build:sass": "sass src/assets/scss/global.scss:src/assets/scss/global.css",
     "sass:watch": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
     "dev": "conc 'npm run sass:watch' 'vite' ",
-    "dev:start": "NODE_ENV=development conc 'npm run sass:watch' 'vite --host' ",
-    "dev:prod": "NODE_ENV=production conc 'npm run sass:watch' 'vite --mode production' ",
-    "build": "tsc -b && npm run sass:build && vite build",
+    "dev:prod-env": "conc 'npm run sass:watch' 'vite dev --mode production'",
     "test": "vitest",
     "lint": "eslint .",
     "preview": "vite preview"

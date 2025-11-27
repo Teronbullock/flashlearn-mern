@@ -1,4 +1,4 @@
-import { useAuthContext } from "@/hooks/index";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { NavType } from "@app-types/navTypes";
 import { Btn, BtnLink } from "@components/btn";
 import classNames from "classnames";

@@ -7,12 +7,8 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, path.resolve(__dirname, "../"), "");
-  const isDev = mode === "development";
-
+  console.log("VITE_API_URL:", env.VITE_API_URL);
   return {
-    define: {
-      "process.env": process.env,
-    },
     envDir: "../",
     plugins: [
       react({
@@ -36,9 +32,9 @@ export default defineConfig(({ mode }) => {
       port: 5173,
       proxy: {
         "/api": {
-          target: `${isDev ? "http" : "https"}://${env.VITE_DEV_API_URL}`,
+          target: env.VITE_API_URL,
           secure: false,
-          rewrite: (path: string) => path.replace(/^\/api/, ""),
+          changeOrigin: true,
         },
       },
     },

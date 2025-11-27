@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
 interface FormProps {
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
   children: React.ReactNode;
   title?: string;
   className?: {
@@ -20,7 +20,13 @@ export const FormLayout = ({
 
   return (
     <div className={className?.container}>
-      <form onSubmit={onSubmit} className="form">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit(e);
+        }}
+        className="form"
+      >
         {title && (
           <div className="form__title-container">
             <h2 className={headerClass}>{title}</h2>

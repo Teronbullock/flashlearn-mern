@@ -5,13 +5,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "NODE_ENV=development node --env-file=../.env --watch app.js",
-    "prod": "NODE_ENV=production node --env-file=../.env --watch app.js",
     "build:users-table": "npx sequelize migration:generate --name create-users-table",
     "build:sets-table": "npx sequelize migration:generate --name create-sets-table",
     "build:cards-table": "npx sequelize migration:generate --name create-cards-table",
     "build:refresh-tokens-table": "npx sequelize migration:generate --name create-refresh-tokens-table",
     "build:all-tables": "npm-run-all -s build:users-table build:sets-table build:cards-table build:refresh-tokens-table",
+    "dev": "NODE_ENV=development node --env-file=../.env --watch app.js",
+    "start": "NODE_ENV=production node --env-file=../.env app.js",
     "migrate": "npx sequelize db:migrate",
     "migrate:undo": "npx sequelize db:migrate:undo",
     "migrate:undo:all": "npx sequelize db:migrate:undo:all"

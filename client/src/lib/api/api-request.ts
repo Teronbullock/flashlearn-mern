@@ -1,62 +1,51 @@
-import axios, { AxiosRequestConfig, AxiosError } from "axios";
+import { AxiosError } from "axios";
+import { apiClient } from "@lib/api/axios-instance";
 
 interface ApiRequestProps {
   method?: "get" | "post" | "put" | "delete";
   url: string;
   data?: object;
-  config?: AxiosRequestConfig;
+  token?: string;
+  signal?: AbortSignal;
 }
 
 /**
- *  -- API Request Function --
- * The function takes an object with the following properties:
- * @param req - The request object
+ * ## API Request Function
  *
- * The get request is the default method.
+ * Executes a configured asynchronous API request using Axios.
+ * Handles production URL routing, API configuration, and specific error conditions (401, request cancellation).
  *
- *  - method[optional] : 'get' | 'post' | 'put' | 'delete'
- *  - url: string
- *  - data[optional]: The data to be sent with the request
- * - config[optional]: The configuration object for the request
- *
- *
- * @returns The response from the API (res)
- *
- * @throws Error if the API call fails
  *
  * @example
+ * // Make a GET request to retrieve user data
  * const res = await apiRequest({
- *  method: 'get',
- *  url: '/api/set/user/1',
- *  data: { id: 1 },
- *  });
+ * method: 'get',
+ * url: '/api/set/user/1',
+ * data: { id: 1 },
+ * });
  */
 export const apiRequest = async ({
   method = "get",
   url,
   data,
-  config,
+  token,
+  signal,
 }: ApiRequestProps) => {
-  if (import.meta.env.MODE === "production") {
-    const apiUrl = import.meta.env.VITE_API_URL;
-
-    if (!apiUrl) {
-      console.error("VITE_API_URL is not defined in production");
-    } else {
-      url = url.replace("/api", apiUrl);
-    }
-  }
-
   try {
-    const axiosConfig = { ...config, withCredentials: true };
-    const res = await axios[method](
+    const res = await apiClient.request({
+      method,
       url,
-      method === "get" || method === "delete" ? axiosConfig : data,
-      axiosConfig,
-    );
+      data,
+      ...(token && {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }),
+      ...(signal && { signal }),
+    });
 
     if (!res.data) {
-      throw new Error("No data founded");
+      throw new Error("API: No data founded");
     }
     return res;
   } catch (error) {
@@ -76,8 +65,11 @@ export const apiRequest = async ({
 
       throw new Error(error.response?.data?.error || error.message);
     } else {
-      console.error("Unknown error:", error);
-      throw new Error("Unknown error occurred");
+      console.error(
+        "API Helper: Encountered unhandled or unknown error type:",
+        error,
+      );
+      throw error;
     }
   }
 };

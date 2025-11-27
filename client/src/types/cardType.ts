@@ -1,17 +1,17 @@
-export interface Card {
+export interface CardData {
   term: string;
   definition: string;
-  bg_color: string;
-  text_color: string;
+  id: string;
+  set_id: string;
 }
 
-export interface CardFaceProps {
-  className: string;
-  bgColor: string;
-  textColor: string;
-  cardText: string;
-  cardHeaderText?: string;
-  handFlipAction: () => void;
-  BtnText?: string;
-  children?: React.ReactNode;
-}
+// export interface CardFaceProps {
+//   className: string;
+//   bgColor: string;
+//   textColor: string;
+//   cardText: string;
+//   cardHeaderText?: string;
+//   handFlipAction: () => void;
+//   BtnText?: string;
+//   children?: React.ReactNode;
+// }

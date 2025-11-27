@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Nav } from "@layouts/Nav/Nav";
 import { MobileMenuBtn } from "@components/MobileMenuBtn/MobileMenuBtn";
-import { useAuthContext } from "@/hooks/index";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { useNav } from "@hooks/useNav";
 
 export default function Header() {

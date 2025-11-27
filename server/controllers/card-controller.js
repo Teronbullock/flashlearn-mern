@@ -13,7 +13,8 @@ export const postAddCard = async (req, res, next) => {
     throw err;
   }
 
-  const { term, definition, setId: set_id } = req.body;
+  const { term, definition} = req.body;
+  const {setId: set_id} = req.params;
   const { userId: user_id } = req.userData;
 
   const data = {
@@ -79,7 +80,6 @@ export const getEditCard = async (req, res) => {
 export const getViewCards = async (req, res) => {
   const setId = req.params.setId;
   const { page } = req.query;
-
   const { count, rows } = await Cards.findAndCountAll({
     where: { set_id: setId },
     raw: true,
@@ -109,15 +109,14 @@ export const putEditCard = async (req, res) => {
     throw err;
   }
 
-  const { setId } = req.params;
-  const { term, definition, bg_color, text_color, id } = req.body;
-
+  const { setId, cardId: id } = req.params;
+  const { term, definition, bg_color, text_color } = req.body;
   const data = {
     term,
     definition,
     bg_color,
     text_color,
-    id,
+    id
   };
 
   if (data.id !== id) {

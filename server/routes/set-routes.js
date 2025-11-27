@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import asyncHandler from '../middleware/asyncHandler.js';
 import { body, param } from 'express-validator';
-import getUserId from '../middleware/getUserId.js';
+import asyncHandler from '../middleware/asyncHandler.js';
 
-import { getSets, getEditSet, putEditSet, postCreateSet, deleteSet } from '../controllers/set-controller.js';
+
+import { getAllSets, getEditSet, putEditSet, postCreateSet, deleteSet } from '../controllers/set-controller.js';
 
 import {
   getCardsAllCards,
@@ -16,22 +16,31 @@ import {
 
 const router = Router();
 
-// set routes
-router.get('/user/:userSlug', getUserId, asyncHandler(getSets, 400));
-router.post('/user/:userSlug/add', [body('title').notEmpty()], getUserId, asyncHandler(postCreateSet, 422));
-router.get('/:userSlug/:setId/edit', getUserId, asyncHandler(getEditSet));
-router.put('/:userSlug/:setId/edit', [body('title').notEmpty()], getUserId, asyncHandler(putEditSet));
-router.delete('/user/:userSlug/:setId/delete', getUserId, asyncHandler(deleteSet, 403));
+// --- set cards routes
 
-// card routes
-router.get('/:setId/cards', asyncHandler(getViewCards));
-router.post('/:setId/card/add', [body('term').notEmpty()], asyncHandler(postAddCard, 422));
-router.get('/:setId/card/:cardId/edit', asyncHandler(getEditCard));
-router.put('/:setId/card/:cardId/edit', asyncHandler(putEditCard, 422));
-router.delete('/:setId/card/:cardId/delete', asyncHandler(deleteCard));
-router.get('/:setId', asyncHandler(getCardsAllCards));
+//views cards
+router.get('/:setId/cards/view', asyncHandler(getViewCards));
 
-// handle 404
+// for single cards
+router.get('/:setId/cards/:cardId', asyncHandler(getEditCard));
+router.put('/:setId/cards/:cardId', asyncHandler(putEditCard, 422));
+router.delete('/:setId/cards/:cardId', asyncHandler(deleteCard));
+router.post('/:setId/cards', [body('term').notEmpty()], asyncHandler(postAddCard, 422));
+
+// get cards list
+router.get('/:setId/cards', asyncHandler(getCardsAllCards));
+
+// --- set routes
+// for single set
+router.get('/:setId', asyncHandler(getEditSet));
+router.put('/:setId', [body('title').notEmpty()], asyncHandler(putEditSet));
+router.delete('/:setId', asyncHandler(deleteSet, 403));
+router.post('/', [body('title').notEmpty()], asyncHandler(postCreateSet, 422));
+
+// get set list
+router.get('/', asyncHandler(getAllSets, 400));
+
+// --- handle 404
 router.use('*', (req, res, next) => {
   return next();
 });

@@ -1,20 +1,75 @@
 {
-  "SetPage": {
-    "header": {
-      "title": "Set",
-      "subTitle": "Welcome to your set. Here you can view your flashcards, create new ones, and study them."
-    }
-  },
-  "AddSet": {
+  "addSetPage": {
     "header": {
       "title": "Create Set",
       "subTitle": "Build your first set and make studying easier."
     }
   },
-  "EditSet": {
+  "editSetPage": {
     "header": {
       "title": "Edit Set",
       "subTitle": "Update existing flashcards, add new ones, or remove cards you no longer need."
-    }
+    },
+
+    "emptyPage": {
+      "title": "Looks a little empty here",
+      "subTitle": " Let’s fix that! Create your first flashcard Card.",
+      "cta": "Create Card"
+    },
+    "InfoData": [
+      {
+        "copy": "Total Cards",
+        "icon": { "src": "/assets/img/Sun.png", "alt": "Sun Icon" }
+      },
+      {
+        "number": "12",
+        "copy": "Cards Studied",
+        "icon": {
+          "src": "/assets/img/CardsThree.png",
+          "alt": "CardsThree Icon"
+        }
+      },
+      {
+        "number": "3",
+        "copy": "Study Streak",
+        "icon": { "src": "/assets/img/Student-icon.png", "alt": "Student Icon" }
+      }
+    ]
+  },
+  "setPage": {
+    "header": {
+      "title": "Set",
+      "subTitle": "Welcome to your set. Here you can view your flashcards, create new ones, and study them."
+    },
+    "emptyPage": {
+      "title": "Looks a little empty here",
+      "subTitle": " Let’s fix that! Create your first flashcard Card.",
+      "cta": "Create Card"
+    },
+    "infoData": [
+      {
+        "id": 1,
+        "number": "",
+        "copy": "Total Cards",
+        "icon": { "src": "/assets/img/Sun.png", "alt": "Sun Icon" }
+      }
+    ],
+    "__DISABLED__": [
+      {
+        "id": 2,
+        "number": "12",
+        "copy": "Cards Studied",
+        "icon": {
+          "src": "/assets/img/CardsThree.png",
+          "alt": "CardsThree Icon"
+        }
+      },
+      {
+        "id": 3,
+        "number": "3",
+        "copy": "Study Streak",
+        "icon": { "src": "/assets/img/Student-icon.png", "alt": "Student Icon" }
+      }
+    ]
   }
 }

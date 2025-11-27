@@ -8,8 +8,9 @@ import path from 'path';
 import https from 'https';
 import fs from 'fs';
 import cors from 'cors';
-import userRoutes from './routes/user-routes.js';
+import authRoutes from './routes/auth-routes.js';
 import setRoutes from './routes/set-routes.js';
+import infoRoutes from './routes/info-route.js';
 import cookieParser from 'cookie-parser'; 
 import checkAuth from './middleware/check-auth.js';
 
@@ -33,8 +34,9 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-app.use('/user', userRoutes);
-app.use('/set', checkAuth, setRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/sets', checkAuth, setRoutes);
+app.use('/api', infoRoutes);
 
 // disable favicon requests
 app.use('/favicon.ico', (req, res, next) => {
@@ -72,7 +74,7 @@ app.use((err, req, res, next) => {
   });
   
 });
-
+console.log('node_env', process.env.NODE_ENV);
 
 const port = process.env.SERVER_DEV_PORT || 5001;
 const prodServerHost = process.env.HOST || 'localhost';
@@ -86,11 +88,11 @@ if(process.env.NODE_ENV === 'production') {
       cert: fs.readFileSync(certPath),
     }, app
   ).listen(port, () => {
-    console.log(`Express app listening on https://${prodServerHost}:${port}`);
+    console.log(`Express app listening on https://${prodServerHost}:${port}/api/`);
   });
 
 } else {
   app.listen(port, ()=> {
-    console.log(`Express app listening on http://localhost:${port}`);
+    console.log(`Express app listening on http://localhost:${port}/api/`);
   });
 }

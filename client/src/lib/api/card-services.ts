@@ -1,8 +1,9 @@
-import { apiRequest, ApiConfigProps } from "@lib/api";
+import { apiRequest } from "@lib/api";
 
 interface BaseFetchProps {
   setId: string;
-  apiConfig: ApiConfigProps;
+  token: string;
+  signal: AbortSignal;
 }
 
 interface FetchCardProps extends BaseFetchProps {
@@ -12,23 +13,13 @@ interface FetchCardProps extends BaseFetchProps {
 export const fetchCard = async ({
   setId,
   pageNum,
-  apiConfig,
+  token,
+  signal,
 }: FetchCardProps) => {
   const res = await apiRequest({
-    url: `/api/set/${setId}/cards/?page=${pageNum}`,
-    config: apiConfig,
-  });
-
-  return res.data;
-};
-
-export const fetchAllCardsInSet = async ({
-  setId,
-  apiConfig,
-}: BaseFetchProps) => {
-  const res = await apiRequest({
-    url: `/api/set/${setId}`,
-    config: apiConfig,
+    url: `/set/${setId}/cards/?page=${pageNum}`,
+    token,
+    signal,
   });
 
   return res.data;

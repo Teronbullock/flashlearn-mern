@@ -36,6 +36,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@content/*": ["src/content/*"],
       "@lib/*": ["src/lib/*"],
+      "@feats/*": ["src/features/*"],
       "@/*": ["src/*"]
     }
   },
@@ -44,6 +45,6 @@
     "test",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
-    "src/pages/profile/index.tsx"
+    "src/pages/Profile/ProfilePage.tsx"
   ]
 }

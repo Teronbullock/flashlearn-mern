@@ -1,7 +1,6 @@
 import { validationResult } from 'express-validator';
 import Sets from '../models/sets-model.js';
 import Cards from '../models/cards-model.js';
-import Users from '../models/users-model.js';
 
 // post create set
 export const postCreateSet = async (req, res) => {
@@ -13,13 +12,12 @@ export const postCreateSet = async (req, res) => {
     throw err;
   }
 
-  const { id: user_id } = req.user;
   const { title, description } = req.body;
 
   const setData = {
     title,
     description,
-    user_id,
+    user_id: req.userId,
   };
 
   // check if set exist in DB
@@ -47,9 +45,10 @@ export const postCreateSet = async (req, res) => {
   }
 };
 
-// get sets
-export const getSets = async (req, res, next) => {
-  const { id: user_id } = req.user;
+// get all sets
+export const getAllSets = async (req, res, next) => {
+
+  const user_id = req.userId;
   let sets;
 
   // check for userId
@@ -88,7 +87,7 @@ export const getSets = async (req, res, next) => {
 // get edit set
 export const getEditSet = async (req, res) => {
   const { setId: id } = req.params;
-  const { id: user_id } = req.user;
+  const user_id = req.userId;
   const set = await Sets.findByPk(id, { raw: true });
 
   if (set.user_id !== user_id) {
@@ -113,7 +112,7 @@ export const putEditSet = async (req, res) => {
 
   const { title, description } = req.body;
   const { setId: id } = req.params;
-  const { id: user_id } = req.user;
+  const user_id = req.userId;
   const setData = {
     title,
     description,
@@ -128,9 +127,9 @@ export const putEditSet = async (req, res) => {
     },
   });
 
-  // if (userSets) {
-  //   throw new Error('set name already taken');
-  // }
+  if (userSets) {
+    throw new Error('set name already taken');
+  }
 
   try {
     const set = await Sets.update(setData, {
@@ -148,7 +147,7 @@ export const putEditSet = async (req, res) => {
 // delete set
 export const deleteSet = async (req, res, next) => {
   const { setId: id } = req.params;
-  const { id: user_id } = req.user;
+  const user_id = req.userId;
   let isSetDeleted = false;
   let set = null;
   let deletedCard = null;
