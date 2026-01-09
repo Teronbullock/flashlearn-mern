@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { apiRequest } from "@/lib/api";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 
@@ -10,20 +9,26 @@ interface UserAction {
   };
 }
 
-export const useGetProfile = (dispatch: React.Dispatch<UserAction>) => {
-  const { userSlug } = useParams();
+export const useGetProfile = (
+  dispatch: React.Dispatch<UserAction>,
+  userSlug: string | null,
+) => {
   const { token } = useAuthContext()!;
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await apiRequest({
-          url: `/user/${userSlug}/profile`,
-          config: { headers: { Authorization: `Bearer ${token}` } },
-        });
+        if (userSlug && token) {
+          const res = await apiRequest({
+            url: `/auth/${userSlug}/profile`,
+            token: token,
+          });
 
-        const { user_email } = res.data;
-        dispatch({ type: "GET_PROFILE", payload: { user_email } });
+          const { user_email } = res.data;
+          dispatch({ type: "GET_PROFILE", payload: { user_email } });
+        } else {
+          throw new Error("Missing user identifier or authentication token");
+        }
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);

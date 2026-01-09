@@ -60,7 +60,7 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
                   <BtnLink
                     variants={{ style: "btn" }}
                     className="mx-4 my-0"
-                    to={`/${userSlug}/profile/`}
+                    to={`/profile/`}
                   >
                     Profile
                   </BtnLink>

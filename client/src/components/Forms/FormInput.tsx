@@ -1,9 +1,5 @@
 import classNames from "classnames";
-import { FormInputBaseProps } from "@components/forms/types/FormTypes";
-
-interface FormInputProps extends FormInputBaseProps {
-  type: "text" | "email" | "password" | "number" | "tel" | "url";
-}
+import { FormInputProps } from "@components/forms/types/FormTypes";
 
 export const FormInput = ({
   className = "text-black bg-white",

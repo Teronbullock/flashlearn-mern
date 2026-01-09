@@ -11,3 +11,7 @@ export interface FormInputBaseProps {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
 }
+
+export interface FormInputProps extends FormInputBaseProps {
+  type: "text" | "email" | "password" | "number" | "tel" | "url";
+}

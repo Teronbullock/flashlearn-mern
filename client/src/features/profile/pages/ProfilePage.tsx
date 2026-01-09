@@ -1,186 +1,92 @@
-import { useReducer } from "react";
-import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { CTASplitPage } from "@components/CTASplitPage";
-import { FormInput, FormGroup } from "@components/forms";
+import { useState } from "react";
+import { CTASplitForm, CTASplitLayout } from "@components/CTASplit";
+import { Btn } from "@components/btn";
 import data from "@content/profilePage.json";
-
-import { useGetProfile } from "@feats/profile/hooks";
-
-import { apiRequest } from "@/lib/api/api-request";
-
-interface UserState {
-  user_email: string;
-  user_pass: string;
-  user_old_pass: string;
-  user_pass_confirm: string;
-}
-
-interface UserAction {
-  type: "GET_PROFILE" | "ON_CHANGE" | "SUBMIT";
-  payload?: {
-    user_email?: string;
-    user_pass?: string;
-    user_old_pass?: string;
-    user_pass_confirm?: string;
-  };
-}
-
-const profileReducer = (state: UserState, action: UserAction) => {
-  switch (action.type) {
-    case "GET_PROFILE":
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case "ON_CHANGE":
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case "SUBMIT":
-      return {
-        ...state,
-        user_pass: "",
-        user_old_pass: "",
-        user_pass_confirm: "",
-      };
-    default:
-      return state;
-  }
-};
+import { useProfileForm } from "@feats/profile/hooks/index";
+import { ChangeEmailAddress, ChangePassword } from "@feats/profile/components";
+import { SectionHeader } from "@components/ui/header";
 
 const ProfilePage = () => {
-  const { token, userSlug } = useAuthContext();
-  const [state, dispatch] = useReducer(profileReducer, {
-    user_email: "",
-    user_pass: "",
-    user_old_pass: "",
-    user_pass_confirm: "",
-  });
+  const { state, dispatch, handleFormSubmit } = useProfileForm();
+  const [activeTab, setActiveTab] = useState<"email" | "password">("email");
 
-  useGetProfile(dispatch);
+  const handleEmailChange = (value: string) => {
+    dispatch({
+      type: "ON_CHANGE",
+      payload: { user_email: value },
+    });
+  };
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleOldPasswordChange = (value: string) => {
+    dispatch({
+      type: "ON_CHANGE",
+      payload: { user_old_pass: value },
+    });
+  };
 
-    try {
-      // check if both strings are at least 8 characters long
-      if (state.user_pass.length < 8 || state.user_pass_confirm.length < 8) {
-        throw new Error("Password must be at least 8 characters long");
-      }
+  const handleNewPasswordChange = (value: string) => {
+    dispatch({
+      type: "ON_CHANGE",
+      payload: { user_pass: value },
+    });
+  };
 
-      // check if both strings are the same
-      if (state.user_pass !== state.user_pass_confirm) {
-        throw new Error("Passwords do not match");
-      }
-
-      const res = await apiRequest({
-        method: "put",
-        url: `/user/${userSlug}/profile`,
-        data: {
-          user_email: state.user_email,
-          user_pass: state.user_pass,
-          user_old_pass: state.user_old_pass,
-          user_pass_confirm: state.user_pass_confirm,
-        },
-        config: {
-          headers: { authorization: `Bearer ${token}` },
-        },
-      });
-
-      if (res.status === 200 && res.data) {
-        alert("Profile updated successfully");
-        dispatch({ type: "SUBMIT" });
-      } else {
-        throw new Error("Error updating profile");
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Error:", error.message);
-      } else {
-        console.error(error);
-      }
-      alert(error);
-    }
+  const handleConfirmPasswordChange = (value: string) => {
+    dispatch({
+      type: "ON_CHANGE",
+      payload: { user_pass_confirm: value },
+    });
   };
 
   return (
     <main className="main main--profile-page min-h-screen">
-      <CTASplitPage
-        data={data}
-        state={state}
+      <CTASplitLayout
+        {...data}
         handleFormSubmit={handleFormSubmit}
-        dispatch={dispatch}
-        isProfilePage={true}
+        ctaBtnSize="md"
       >
-        <FormGroup labelName="Change Email Address">
-          <FormInput
-            type="email"
-            name="user_email"
-            value={state.user_email}
-            placeholder="example@gmail.com"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: { user_email: e.target.value },
-              })
-            }
+        <SectionHeader
+          showIcons={false}
+          title={data.title}
+          className={{ container: "mb-10" }}
+        />
+        <div className="mb-6 flex">
+          <Btn
+            className={`mr-2 ${activeTab === "email" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            type="button"
+            variants={{ style: "btn", color: "primary", size: "sm" }}
+            onClick={() => setActiveTab("email")}
+          >
+            Change Email
+          </Btn>
+          <Btn
+            className={`ml-2 ${activeTab === "password" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            type="button"
+            variants={{ style: "btn", color: "primary", size: "sm" }}
+            onClick={() => setActiveTab("password")}
+          >
+            Change Password
+          </Btn>
+        </div>
+
+        {activeTab === "email" ? (
+          <ChangeEmailAddress
+            email={state.user_email}
+            onEmailChange={handleEmailChange}
           />
-        </FormGroup>
-        <FormGroup labelName="Enter Old Password">
-          <FormInput
-            type="password"
-            name="user_old_pass"
-            value={state.user_old_pass}
-            placeholder="Enter Old password"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: { user_old_pass: e.target.value },
-              })
-            }
-          />
-        </FormGroup>
-        <FormGroup labelName="Change Password">
-          <FormInput
-            className="mb-2"
-            type="password"
-            name="user_pass"
-            value={state.user_pass}
-            placeholder="Enter New password"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: { user_pass: e.target.value },
-              })
-            }
-          />
-          <p className="mb-5 text-xs">
-            Use at least 8 characters, including a number, a letter, and a
-            symbol.
-          </p>
-        </FormGroup>
-        <FormGroup labelName="Confirm Password">
-          <FormInput
-            className="mb-2"
-            type="password"
-            name="user_pass_confirm"
-            value={state.user_pass_confirm}
-            placeholder="Enter password"
-            required={true}
-            onChange={(e) =>
-              dispatch({
-                type: "ON_CHANGE",
-                payload: { user_pass_confirm: e.target.value },
-              })
-            }
-          />
-          <p className="mb-30 text-xs">Re-enter your password.</p>
-        </FormGroup>
-      </CTASplitPage>
+        ) : (
+          <CTASplitForm>
+            <ChangePassword
+              oldPassword={state.user_old_pass}
+              newPassword={state.user_pass}
+              confirmPassword={state.user_pass_confirm}
+              onOldPasswordChange={handleOldPasswordChange}
+              onNewPasswordChange={handleNewPasswordChange}
+              onConfirmPasswordChange={handleConfirmPasswordChange}
+            />
+          </CTASplitForm>
+        )}
+      </CTASplitLayout>
     </main>
   );
 };
