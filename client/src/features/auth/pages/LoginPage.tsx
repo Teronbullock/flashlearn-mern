@@ -39,7 +39,7 @@ const LoginPage = () => {
               autoFocus={true}
             />
           </FormGroup>
-          <FormGroup labelName="Password" className={{ group: "!mb-2" }}>
+          <FormGroup labelName="Password" className={{ group: "mb-2!" }}>
             <FormInput
               type="password"
               name="user_pass"

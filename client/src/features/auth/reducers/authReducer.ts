@@ -1,18 +1,15 @@
-import type {
-  UserState,
-  AuthReducerAction,
-  RegisterState,
-  LoginState,
-} from "@feats/auth/types";
+import type { AuthReducerAction } from "@feats/auth/types";
 
-export const INITIAL_REGISTER_STATE: RegisterState = {
+import type { RegistrationDetails } from "@app-types/auth";
+
+export const INITIAL_REGISTER_STATE = {
   type: "register",
   user_email: "",
   user_pass: "",
   user_pass_confirm: "",
 };
 
-export const INITIAL_LOGIN_STATE: LoginState = {
+export const INITIAL_LOGIN_STATE = {
   type: "login",
   user_email: "",
   user_pass: "",
@@ -22,9 +19,9 @@ export const INITIAL_LOGIN_STATE: LoginState = {
  * Manages auth form state for login and registration
  */
 export const authFormReducer = (
-  state: UserState,
+  state: RegistrationDetails,
   action: AuthReducerAction,
-): UserState => {
+): RegistrationDetails => {
   switch (action.type) {
     case "ON_CHANGE":
       return {

@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import checkAuth from '../middleware/check-auth.js';
 import asyncHandler from '../middleware/asyncHandler.js';
 
 import {
@@ -8,8 +7,6 @@ import {
   postUserLogin,
   postRefresh,
   postUserLogout,
-  getUserProfile,
-  putEditProfile,
 } from '../controllers/user-controller.js';
 
 const router = Router();
@@ -53,22 +50,6 @@ router.post(
 
 router.post('/logout', asyncHandler(postUserLogout, 400));
 
-/**
- * -- Edit Profile --
- */
-router.get('/:slug/profile', checkAuth, asyncHandler(getUserProfile, 400));
-
-router.put(
-  '/:slug/profile',
-  checkAuth,
-  [
-    body('user_email').isEmail().notEmpty(),
-    body('user_old_pass').notEmpty(),
-    body('user_pass').notEmpty(),
-    body('user_pass_confirm').notEmpty(),
-  ],
-  asyncHandler(putEditProfile, 400)
-);
 
 /**
  * -- refresh token --

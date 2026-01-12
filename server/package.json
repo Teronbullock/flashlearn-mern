@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "flashlearn/server",
   "version": "1.0.1",
   "type": "module",
   "description": "",
@@ -20,6 +20,7 @@
   "author": "Teron Bullock",
   "license": "ISC",
   "dependencies": {
+    "@flashlearn/common": "workspace:*",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",

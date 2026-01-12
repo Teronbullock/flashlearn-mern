@@ -1,5 +1,4 @@
 import { validationResult } from 'express-validator';
-import bcrypt from 'bcrypt';
 import { nanoid } from 'nanoid';
 import Users from '../models/users-model.js';
 
@@ -12,7 +11,7 @@ import {
   deleteRefreshToken,
 } from '../services/token-service.js';
 
-import authenticateUser from '../services/auth-service.js';
+import {authenticateUser} from '../services/auth-service.js';
 
 /**
  * post user register
@@ -101,71 +100,6 @@ export const postUserLogin = async (req, res) => {
   } catch (error) {
     console.error('Login Error: ', error);
     throw new Error('Invalid credentials');
-  }
-};
-
-/**
- * -- get user profile --
- */
-export const getUserProfile = async (req, res) => {
-  const { slug } = req.params;
-  const user = await Users.findOne({ where: { slug } });
-
-  const { user_email } = user;
-
-  return res.status(200).json({
-    user_email,
-  });
-};
-
-/**
- * -- put user profile --
- */
-export const putEditProfile = async (req, res) => {
-  let errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    throw new Error('All fields required.');
-  }
-
-  const { user_email, user_old_pass, user_pass, user_pass_confirm } = req.body;
-  const userId = req.params.userId;
-
-  // add user data to formData
-  const formData = {
-    user_email,
-    user_pass,
-  };
-
-  // check if user exists
-  const user = await Users.findOne({ where: { id: userId } }, { raw: true });
-
-  // check old password match
-  const isOldPassMatch = await bcrypt.compare(user_old_pass, user.user_pass);
-
-  if (!isOldPassMatch) {
-    throw new Error('Old password is incorrect.');
-  }
-
-  // confirm that password and confirm password match
-  if (user_pass !== user_pass_confirm) {
-    throw new Error('Passwords do not match.');
-  }
-
-  // update user data
-  const updatedUser = await Users.update(formData, {
-    where: { id: userId },
-    raw: true,
-    individualHooks: true,
-  });
-
-  // check if user was updated
-  if (updatedUser[0] === 0) {
-    throw new Error('User not found.');
-  } else {
-    res.status(200).json({
-      msg: 'User updated successfully.',
-    });
   }
 };
 

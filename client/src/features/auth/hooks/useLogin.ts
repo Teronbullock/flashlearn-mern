@@ -1,13 +1,14 @@
 import { useReducer } from "react";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { Credentials, LoginAction } from "@feats/auth/types";
+import type { BaseAuthFields } from "@/types/auth";
+import type { LoginAction } from "../types/authTypes";
 
 const initialLoginState = {
   user_email: "",
   user_pass: "",
 };
 
-const loginFormReducer = (state: Credentials, action: LoginAction) => {
+const loginFormReducer = (state: BaseAuthFields, action: LoginAction) => {
   switch (action.type) {
     case "ON_CHANGE":
       return {

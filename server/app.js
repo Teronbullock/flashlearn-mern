@@ -11,6 +11,7 @@ import cors from 'cors';
 import authRoutes from './routes/auth-routes.js';
 import setRoutes from './routes/set-routes.js';
 import infoRoutes from './routes/info-route.js';
+import profileRoutes from './routes/profile-routes.js';
 import cookieParser from 'cookie-parser'; 
 import checkAuth from './middleware/check-auth.js';
 
@@ -36,6 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/sets', checkAuth, setRoutes);
+app.use('/api/profile', checkAuth, profileRoutes);
 app.use('/api', infoRoutes);
 
 // disable favicon requests

@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
  * @param {*} callback - The callback function to call after completion
  * @returns 
  */
-const authenticateUser = async (useremail, password ) => {
+export const authenticateUser = async (useremail, password ) => {
   
     try {
       const user = await Users.findOne({ where: {user_email: useremail} }, { raw: true });
@@ -39,4 +39,3 @@ const authenticateUser = async (useremail, password ) => {
     }
 };
 
-export default authenticateUser;

@@ -1,13 +1,22 @@
 import { useReducer } from "react";
-import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { useGetProfile } from "@feats/profile/hooks";
-import { UserState, UserAction } from "@feats/profile/types";
-import {
-  updateEmail,
-  updateProfile,
-} from "@feats/profile/services/profile-service";
+import type { RegistrationDetails, AuthAction } from "@app-types/auth";
+import { apiRequest } from "@lib/api";
 
-const profileReducer = (state: UserState, action: UserAction) => {
+interface ProfileFormProps {
+  token: string | null;
+}
+
+const initialProfileState = {
+  user_email: "",
+  user_old_pass: "",
+  user_pass: "",
+  user_pass_confirm: "",
+};
+
+const profileReducer = (
+  state: RegistrationDetails,
+  action: AuthAction<RegistrationDetails>,
+) => {
   switch (action.type) {
     case "GET_PROFILE":
       return {
@@ -20,10 +29,10 @@ const profileReducer = (state: UserState, action: UserAction) => {
         ...action.payload,
       };
     case "SUBMIT":
+    case "RESET_FORM":
       return {
         ...state,
         user_pass: "",
-        user_old_pass: "",
         user_pass_confirm: "",
       };
     default:
@@ -31,74 +40,89 @@ const profileReducer = (state: UserState, action: UserAction) => {
   }
 };
 
-export const useProfileForm = () => {
-  const { userSlug, token } = useAuthContext();
-  const [state, dispatch] = useReducer(profileReducer, {
-    user_email: "",
-    user_pass: "",
-    user_old_pass: "",
-    user_pass_confirm: "",
-  });
+export const useProfileForm = ({ token }: ProfileFormProps) => {
+  const [state, dispatch] = useReducer(profileReducer, initialProfileState);
 
-  useGetProfile(dispatch, userSlug);
-
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEmailUpdateSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
 
     try {
-      let res;
-
-      if (!userSlug || !state.user_email || !state.user_old_pass) {
-        throw new Error(
-          "Unable to update profile: authentication details are missing.",
-        );
+      if (!token) {
+        throw new Error("user authentication is required");
       }
 
-      if (state.user_pass) {
-        if (state.user_pass.length < 8 || state.user_pass_confirm.length < 8) {
-          throw new Error("Password must be at least 8 characters long.");
-        }
-
-        if (!state.user_pass_confirm) {
-          throw new Error("Confirm Password must be entered.");
-        }
-
-        if (state.user_pass !== state.user_pass_confirm) {
-          throw new Error("Passwords do not match");
-        }
-
-        res = await updateProfile({
-          userSlug: userSlug,
-          email: state.user_email,
-          newPassword: state.user_pass,
-          oldPassword: state.user_old_pass,
-          confirmPassword: state.user_pass_confirm,
-          token: token,
-        });
-      } else {
-        res = await updateEmail({
-          userSlug: userSlug,
-          email: state.user_email,
-          oldPassword: state.user_old_pass,
-          token: token,
-        });
-      }
+      const res = await apiRequest({
+        method: "put",
+        url: `/profile/update-email`,
+        data: {
+          user_email: state.user_email,
+          user_pass: state.user_pass,
+        },
+        token: token,
+      });
 
       if (res.status !== 200 && !res.data) {
-        throw new Error("Error updating profile");
+        throw new Error("Error updating email");
       }
 
-      alert("Profile updated successfully");
-      dispatch({ type: "SUBMIT" });
+      // alert("Email updated successfully");
+      dispatch({ type: "RESET_FORM" });
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error:", error.message);
+        alert(error.message);
       } else {
         console.error(error);
+        alert("An unknown error occurred");
       }
-      alert(error);
     }
   };
 
-  return { state, dispatch, handleFormSubmit };
+  const handlePasswordUpdateSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault();
+
+    try {
+      if (!token) {
+        throw new Error("user authentication is required");
+      }
+
+      const res = await apiRequest({
+        method: "put",
+        url: `/profile/update-password`,
+        data: {
+          user_pass: state.user_pass,
+          user_pass_confirm: state.user_pass_confirm,
+        },
+        token: token,
+      });
+
+      if (res.status !== 200 && !res.data) {
+        throw new Error("Error updating password");
+      }
+
+      alert("Password updated successfully");
+      dispatch({
+        type: "RESET_FORM",
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+        alert(error.message);
+      } else {
+        console.error(error);
+        alert("An unknown error occurred");
+      }
+    }
+  };
+
+  return {
+    state,
+    dispatch,
+    handleEmailUpdateSubmit,
+    handlePasswordUpdateSubmit,
+  };
 };

@@ -1,18 +1,15 @@
-// Base Types
-export interface Credentials {
-  user_email?: string;
-  user_pass?: string;
-}
-
-export interface RegistrationDetails extends Credentials {
-  user_pass_confirm?: string;
-}
+import { BaseAuthFields, RegistrationDetails } from "@/types/auth";
 
 export interface AuthStateBase {
   userId: string | null;
   userSlug: string | null;
   token: string | null;
   tokenExpTime: Date | null;
+}
+
+export interface AuthReducerState extends AuthStateBase {
+  isAuthenticated: boolean | null;
+  isLoading: boolean;
 }
 
 // Actions
@@ -28,7 +25,7 @@ export type RegistrationAction =
 export type LoginAction =
   | {
       type: "ON_CHANGE";
-      payload: Credentials;
+      payload: BaseAuthFields;
     }
   | {
       type: "FORM_RESET";
@@ -46,9 +43,3 @@ export type AuthReducerAction =
     }
   | { type: "LOGOUT" }
   | { type: "AUTH_INITIALIZED" };
-
-// ------------
-
-export interface RegisterState extends BaseAuthState {
-  user_pass_confirm: string;
-}

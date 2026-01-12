@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { authApi } from "@feats/auth/service/auth-service";
 import { authStorage } from "@feats/auth/service/auth-storage";
 import { AUTH_CONFIG } from "@/config/auth.config";
-import { AuthReducerAction, AuthStateBase } from "@feats/auth/types";
+import type { AuthReducerAction, AuthStateBase } from "@feats/auth/types";
 
 export const useAuthHandlers = (
   dispatch: React.Dispatch<AuthReducerAction>,

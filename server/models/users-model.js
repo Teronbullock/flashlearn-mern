@@ -74,6 +74,11 @@ Users.beforeCreate(async (users, options) => {
 
 // hash password before saving to database using Hooks
 Users.beforeUpdate(async (users, options) => {
+  if (!users.changed('user_pass')) {
+    return;
+  }
+console.log('Users.beforeUpdate: ');
+  
   try {
     const hash = await bcrypt.hash(users.user_pass, 10);
     users.user_pass = hash;

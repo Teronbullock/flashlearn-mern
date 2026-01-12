@@ -4,88 +4,67 @@ import { Btn } from "@components/btn";
 import data from "@content/profilePage.json";
 import { useProfileForm } from "@feats/profile/hooks/index";
 import { ChangeEmailAddress, ChangePassword } from "@feats/profile/components";
-import { SectionHeader } from "@components/ui/header";
+import { useGetProfile } from "@feats/profile/hooks";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 
 const ProfilePage = () => {
-  const { state, dispatch, handleFormSubmit } = useProfileForm();
   const [activeTab, setActiveTab] = useState<"email" | "password">("email");
 
-  const handleEmailChange = (value: string) => {
-    dispatch({
-      type: "ON_CHANGE",
-      payload: { user_email: value },
-    });
-  };
+  const { token } = useAuthContext();
+  const {
+    state,
+    dispatch,
+    handleEmailUpdateSubmit,
+    handlePasswordUpdateSubmit,
+  } = useProfileForm({ token });
 
-  const handleOldPasswordChange = (value: string) => {
-    dispatch({
-      type: "ON_CHANGE",
-      payload: { user_old_pass: value },
-    });
-  };
-
-  const handleNewPasswordChange = (value: string) => {
-    dispatch({
-      type: "ON_CHANGE",
-      payload: { user_pass: value },
-    });
-  };
-
-  const handleConfirmPasswordChange = (value: string) => {
-    dispatch({
-      type: "ON_CHANGE",
-      payload: { user_pass_confirm: value },
-    });
-  };
+  useGetProfile(dispatch, token);
 
   return (
     <main className="main main--profile-page min-h-screen">
-      <CTASplitLayout
-        {...data}
-        handleFormSubmit={handleFormSubmit}
-        ctaBtnSize="md"
-      >
-        <SectionHeader
-          showIcons={false}
-          title={data.title}
-          className={{ container: "mb-10" }}
-        />
+      <CTASplitLayout {...data}>
         <div className="mb-6 flex">
           <Btn
-            className={`mr-2 ${activeTab === "email" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            className="mr-2"
             type="button"
-            variants={{ style: "btn", color: "primary", size: "sm" }}
+            variants={{
+              style: "btn",
+              color: activeTab === "email" ? "outline-primary" : "secondary",
+              size: "sm",
+            }}
             onClick={() => setActiveTab("email")}
           >
             Change Email
           </Btn>
           <Btn
-            className={`ml-2 ${activeTab === "password" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            className="ml-2"
             type="button"
-            variants={{ style: "btn", color: "primary", size: "sm" }}
+            variants={{
+              style: "btn",
+              color: activeTab === "email" ? "secondary" : "outline-primary",
+              size: "sm",
+            }}
             onClick={() => setActiveTab("password")}
           >
             Change Password
           </Btn>
         </div>
 
-        {activeTab === "email" ? (
-          <ChangeEmailAddress
-            email={state.user_email}
-            onEmailChange={handleEmailChange}
-          />
-        ) : (
-          <CTASplitForm>
-            <ChangePassword
-              oldPassword={state.user_old_pass}
-              newPassword={state.user_pass}
-              confirmPassword={state.user_pass_confirm}
-              onOldPasswordChange={handleOldPasswordChange}
-              onNewPasswordChange={handleNewPasswordChange}
-              onConfirmPasswordChange={handleConfirmPasswordChange}
-            />
-          </CTASplitForm>
-        )}
+        <CTASplitForm
+          handleFormSubmit={
+            activeTab === "email"
+              ? handleEmailUpdateSubmit
+              : handlePasswordUpdateSubmit
+          }
+          ctaBtnSize="md"
+          cta={activeTab === "email" ? "Update Email" : "Update Password"}
+        >
+          {activeTab === "email" ? (
+            <ChangeEmailAddress dispatch={dispatch} state={state} />
+          ) : (
+            <ChangePassword dispatch={dispatch} state={state} />
+          )}
+        </CTASplitForm>
       </CTASplitLayout>
     </main>
   );

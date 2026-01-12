@@ -1,10 +1,7 @@
 import { useReducer } from "react";
 import { apiRequest } from "@lib/api";
-
-import type {
-  RegistrationAction,
-  RegistrationDetails,
-} from "@feats/auth/types";
+import type { RegistrationAction } from "@feats/auth/types";
+import type { RegistrationDetails } from "@app-types/auth";
 
 const initialRegisterState = {
   user_email: "",

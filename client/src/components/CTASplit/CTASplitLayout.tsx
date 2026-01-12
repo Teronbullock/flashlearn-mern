@@ -29,7 +29,7 @@ export const CTASplitLayout = ({
         <img
           src={image.src}
           alt={image.alt}
-          className="w-[100%] rounded-[20px]"
+          className="w-full rounded-[20px]"
         />
       </div>
       <div className={rightColClass}>
@@ -38,10 +38,10 @@ export const CTASplitLayout = ({
             showIcons={false}
             title={title}
             subTitle={subTitle ? subTitle : ""}
-            className={{ section: "mb-10", title: "!font-medium" }}
+            className={{ section: "mb-10", title: "font-medium!" }}
           />
         )}
-        <div className="mx-auto max-w-[532px]">{children}</div>
+        <div className="max-w-133 mx-auto">{children}</div>
       </div>
     </section>
   );

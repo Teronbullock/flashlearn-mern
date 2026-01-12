@@ -2,7 +2,7 @@ import { verifyToken } from '../services/token-service.js';
 
 // check if the user is authenticated
 const checkAuth = (req, res, next) => {  
-  
+
   try {
     const authHeader = req.headers.authorization;
 

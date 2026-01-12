@@ -1,32 +1,27 @@
 import { FormGroup, FormInput } from "@components/forms";
+import type { ChangePasswordFields, AuthAction } from "@app-types/auth";
 
 type ChangePasswordProps = {
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-  onOldPasswordChange: (value: string) => void;
-  onNewPasswordChange: (value: string) => void;
-  onConfirmPasswordChange: (value: string) => void;
+  dispatch: (action: AuthAction<ChangePasswordFields>) => void;
+  state: ChangePasswordFields;
 };
 
-export const ChangePassword = ({
-  oldPassword,
-  newPassword,
-  confirmPassword,
-  onOldPasswordChange,
-  onNewPasswordChange,
-  onConfirmPasswordChange,
-}: ChangePasswordProps) => {
+export const ChangePassword = ({ dispatch, state }: ChangePasswordProps) => {
   return (
     <div className="change-password-container">
       <FormGroup labelName="Enter Old Password">
         <FormInput
           type="password"
           name="user_old_pass"
-          value={oldPassword}
+          value={state.user_old_pass}
           placeholder="Enter Old password"
           required={true}
-          onChange={(e) => onOldPasswordChange(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: { user_old_pass: e.target.value },
+            })
+          }
         />
       </FormGroup>
       <FormGroup labelName="Change Password">
@@ -34,13 +29,17 @@ export const ChangePassword = ({
           className="mb-2"
           type="password"
           name="user_pass"
-          value={newPassword}
+          value={state.user_pass}
           placeholder="Enter New password"
-          onChange={(e) => onNewPasswordChange(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: { user_pass: e.target.value },
+            })
+          }
         />
         <p className="mb-5 text-xs">
-          Use at least 8 characters, including a number, a letter, and a
-          symbol.
+          Use at least 8 characters, including a number, a letter, and a symbol.
         </p>
       </FormGroup>
       <FormGroup labelName="Confirm Password">
@@ -48,9 +47,14 @@ export const ChangePassword = ({
           className="mb-2"
           type="password"
           name="user_pass_confirm"
-          value={confirmPassword}
+          value={state.user_pass_confirm}
           placeholder="Enter password"
-          onChange={(e) => onConfirmPasswordChange(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: "ON_CHANGE",
+              payload: { user_pass_confirm: e.target.value },
+            })
+          }
         />
         <p className="mb-30 text-xs">Re-enter your password.</p>
       </FormGroup>
