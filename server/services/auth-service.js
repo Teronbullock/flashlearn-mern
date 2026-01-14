@@ -15,7 +15,7 @@ export const authenticateUser = async (useremail, password ) => {
       const user = await Users.findOne({ where: {user_email: useremail} }, { raw: true });
 
       if (!user) {
-        const err = new Error('Useremail is incorrect');
+        const err = new Error('User email is incorrect');
         err.status = 401;
         throw err;
       }
@@ -34,7 +34,6 @@ export const authenticateUser = async (useremail, password ) => {
       return user;
     
     } catch (err) {
-      console.log('Error: Users authenticate did not work');
       throw err;
     }
 };

@@ -7,7 +7,6 @@ import { SetObject } from "@feats/sets/types/setTypes";
 interface SetManagerParams {
   setId?: string;
   getAllSetCards?: () => void;
-  userSlug?: string | null;
   token?: string | null;
   set?: SetObject | null;
 }
@@ -16,7 +15,6 @@ export const useSetManager = ({
   setId,
   getAllSetCards,
   token,
-  userSlug,
   set,
 }: SetManagerParams) => {
   const navigate = useNavigate();
@@ -29,7 +27,7 @@ export const useSetManager = ({
       e.preventDefault();
 
       try {
-        if (!token || !userSlug) {
+        if (!token) {
           throw new Error("User is not authenticated. Session missing.");
         }
 
@@ -52,7 +50,7 @@ export const useSetManager = ({
         alert("Error creating set");
       }
     },
-    [userSlug, token, state.inputOneValue, state.inputTwoValue, navigate],
+    [token, state.inputOneValue, state.inputTwoValue, navigate],
   );
 
   // edit set handler

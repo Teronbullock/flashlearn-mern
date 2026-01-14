@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { Navigate } from "react-router-dom";
 import type { RegistrationDetails, AuthAction } from "@app-types/auth";
 import { apiRequest } from "@lib/api";
 
@@ -85,11 +86,11 @@ export const useProfileForm = ({ token }: ProfileFormProps) => {
   ) => {
     e.preventDefault();
 
-    try {
-      if (!token) {
-        throw new Error("user authentication is required");
-      }
+    if (!token) {
+      throw new Error("user authentication is required");
+    }
 
+    try {
       const res = await apiRequest({
         method: "put",
         url: `/profile/update-password`,
@@ -119,10 +120,51 @@ export const useProfileForm = ({ token }: ProfileFormProps) => {
     }
   };
 
+  const handleRemoveAccountSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault();
+
+    if (!token) {
+      throw new Error("user authentication is required");
+    }
+
+    try {
+      const res = await apiRequest({
+        method: "put",
+        url: `/profile/delete-account`,
+        data: {
+          user_pass: state.user_pass,
+        },
+        token: token,
+      });
+
+      if (res.status !== 200 && !res.data) {
+        throw new Error("Error updating password");
+      }
+
+      alert("Account Deleted");
+      dispatch({
+        type: "RESET_FORM",
+      });
+
+      <Navigate to={"/"} replace />;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+        alert(error.message);
+      } else {
+        console.error(error);
+        alert("An unknown error occurred");
+      }
+    }
+  };
+
   return {
     state,
     dispatch,
     handleEmailUpdateSubmit,
     handlePasswordUpdateSubmit,
+    handleRemoveAccountSubmit,
   };
 };

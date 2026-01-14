@@ -24,6 +24,10 @@ export interface ForgotPasswordFields {
   user_email?: string;
 }
 
+export interface RemoveAccountFields {
+  user_pass?: string;
+}
+
 // Generic action type for auth reducers
 export interface AuthAction<F> {
   type: string;

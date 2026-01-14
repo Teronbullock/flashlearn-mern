@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body } from "express-validator";
 import asyncHandler from "../middleware/asyncHandler.js";
-import { getUserProfile, putUpdateUserEmail, putUpdateUserPassword} from "../controllers/profile-controller.js";
+import { getUserProfile, putUpdateUserEmail, putUpdateUserPassword, putRemoveUser } from "../controllers/profile-controller.js";
 
 const router = Router();
 
@@ -24,6 +24,13 @@ router.put(
     body('user_pass_confirm').notEmpty(),
   ],
   asyncHandler(putUpdateUserPassword, 400)
+);
+
+router.put('/delete-account',
+  [
+    body('user_pass').notEmpty(),
+  ],
+  asyncHandler(putRemoveUser, 400)
 );
 
 

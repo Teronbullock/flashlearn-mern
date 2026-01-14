@@ -13,9 +13,7 @@ import {
 
 import {authenticateUser} from '../services/auth-service.js';
 
-/**
- * post user register
- */
+
 export const postUserRegister = async (req, res) => {
   let valErrs = validationResult(req);
 
@@ -63,9 +61,6 @@ export const postUserRegister = async (req, res) => {
   }
 };
 
-/**
- * post user login
- */
 export const postUserLogin = async (req, res) => {
   let errors = validationResult(req);
 
@@ -103,9 +98,28 @@ export const postUserLogin = async (req, res) => {
   }
 };
 
-/**
- * -- refresh token --
- */
+export const postUserLogout = async (req, res) => {
+  const token = verifyToken(
+    req.cookies.refreshToken,
+    process.env.REFRESH_TOKEN_SECRET
+  );
+
+  const userId = token.userId;
+
+  // remove refresh token from database
+  const deletedRefreshToken = await deleteRefreshToken(userId);
+
+  if (deletedRefreshToken >= 1) {
+    res.clearCookie('refreshToken');
+
+    res.status(200).json({
+      msg: 'User is logged out.',
+    });
+  } else {
+    throw new Error('Error logging out: refresh token not found.');
+  }
+};
+
 export const postRefresh = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
@@ -131,30 +145,5 @@ export const postRefresh = async (req, res) => {
       token: tokenData.token,
       tokenExpTime: tokenData.tokenExpTime
     });
-  }
-};
-
-/**
- *  -- post user logout --
- */
-export const postUserLogout = async (req, res) => {
-  const token = verifyToken(
-    req.cookies.refreshToken,
-    process.env.REFRESH_TOKEN_SECRET
-  );
-
-  const userId = token.userId;
-
-  // remove refresh token from database
-  const deletedRefreshToken = await deleteRefreshToken(userId);
-
-  if (deletedRefreshToken >= 1) {
-    res.clearCookie('refreshToken');
-
-    res.status(200).json({
-      msg: 'User is logged out.',
-    });
-  } else {
-    throw new Error('Error logging out: refresh token not found.');
   }
 };

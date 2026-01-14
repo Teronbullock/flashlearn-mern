@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { Main } from "@layouts/Main";
 import { CardFeed } from "@feats/sets/components";
-import { useSetManager, useFetchSets } from "@feats/sets/hooks";
+import { useSetManager } from "@feats/sets/hooks";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { EmptyFeedSection } from "@components/ui/EmptyFeedSection";
 import { PageHeader } from "@components/layout/PageHeader";
 import { ListCardForm } from "@components/forms";
 import { BtnLink, Btn } from "@components/btn";
 import { InfoSection } from "@components/layout/sections/InfoSection";
+import { useFetchSetCards } from "@feats/sets/hooks/useFetchSetCards";
 
 import data from "@content/setContent.json";
 import { CardData } from "@app-types/cardType";
@@ -17,11 +18,13 @@ const SetPage = () => {
   const { userSlug, token } = useAuthContext();
   const { setId } = useParams();
   setId?.toString();
-  const { setCards, getAllSetCards } = useFetchSets({
+
+  // Using the new custom hook for fetching set cards
+  const { setCards, getAllSetCards } = useFetchSetCards({
     setId,
     token,
-    options: { skipSingleSet: true },
   });
+
   const { deleteSetCardHandler } = useSetManager({ getAllSetCards, token });
   const { setPage } = data;
 

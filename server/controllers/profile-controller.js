@@ -117,3 +117,42 @@ export const putUpdateUserPassword = async (req, res) => {
   });
 
 };
+
+export const putRemoveUser = async (req, res) => {
+  let errors = validationResult(req);
+
+  if(!errors.isEmpty()){
+    throw new Error('All fields required.');
+  }
+
+  const userId = req.userId;
+  const { user_pass } = req.body;
+  
+  if (!userId || !user_pass) {
+    throw new Error('User credentials not found.');
+  }
+
+  const user = await Users.findOne({ where: { id: userId } }, { raw: true });
+  const isOldPassMatch = await bcrypt.compare(user_pass, user.user_pass);
+
+  if (!isOldPassMatch) {
+    throw new Error('Invalid credentials.');
+  }
+
+  try {
+  const deletedUser = await Users.destroy({ where: { id: userId } });
+  
+  if (deletedUser === 0) {
+    throw new Error('User not found.');
+  }
+  
+  res.status(200).json({
+    msg: 'User deleted successfully.',
+  });
+
+} catch(error) {
+  console.error('Error deleting user:', error);
+  throw new Error('Failed to delete user.');
+}
+};
+  

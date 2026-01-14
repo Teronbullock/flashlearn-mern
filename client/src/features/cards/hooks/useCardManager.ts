@@ -47,7 +47,6 @@ export const useCardManager = ({
 
         if (res.data) {
           dispatch({ type: "SUBMIT" });
-          // getAllSetCards?.();
         }
       } catch (error) {
         console.error(error);

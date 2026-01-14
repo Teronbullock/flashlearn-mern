@@ -1,6 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import db from './db/database.js';
 import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -76,7 +75,7 @@ app.use((err, req, res, next) => {
   });
   
 });
-console.log('node_env', process.env.NODE_ENV);
+
 
 const port = process.env.SERVER_DEV_PORT || 5001;
 const prodServerHost = process.env.HOST || 'localhost';

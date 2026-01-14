@@ -12,9 +12,8 @@ import { useAuthContext } from "@feats/auth/context/AuthContext";
 import data from "@content/setContent.json";
 
 const AddSetPage = () => {
-  const { userSlug, token } = useAuthContext();
+  const { token } = useAuthContext();
   const { state, addSetHandler, dispatch } = useSetManager({
-    userSlug: userSlug || "",
     token: token || "",
   });
   const { addSetPage } = data;

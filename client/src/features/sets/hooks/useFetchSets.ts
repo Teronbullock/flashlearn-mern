@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useRef, useState } from "react";
 import { apiRequest } from "@/lib/api/api-request";
-import { CardObject } from "@feats/sets/types/cardTypes";
 
 interface FetchSetsParams {
   setId: string | undefined;
@@ -19,11 +18,9 @@ export const useFetchSets = ({
   options,
 }: FetchSetsParams) => {
   const [set, setSet] = useState(null);
-  const [setCards, setSetCards] = useState<CardObject[] | null>([]);
   const [error, setError] = useState<string | null>(null);
 
   const setControllerRef = useRef<AbortController | null>(null);
-  const setCardsControllerRef = useRef<AbortController | null>(null);
 
   const fetchSingleSet = useCallback(async () => {
     if (!setId || !token || !userSlug) {
@@ -58,39 +55,6 @@ export const useFetchSets = ({
     }
   }, [userSlug, setId, token]);
 
-  const getAllSetCards = useCallback(async () => {
-    if (!setId || !token) {
-      return;
-    }
-
-    if (setCardsControllerRef.current) {
-      setCardsControllerRef.current.abort();
-    }
-
-    const controller = new AbortController();
-    setCardsControllerRef.current = controller;
-    const signal = controller.signal;
-
-    try {
-      const res = await apiRequest({
-        url: `/sets/${setId}/cards`,
-        token,
-        signal: signal,
-      });
-
-      setSetCards(res.data.cards);
-    } catch (err) {
-      if (err instanceof Error && err.name !== "AbortError") {
-        setError(err.message);
-        setSetCards(null);
-      }
-    } finally {
-      if (setCardsControllerRef.current === controller) {
-        setCardsControllerRef.current = null;
-      }
-    }
-  }, [token, setId]);
-
   useEffect(() => {
     if (options?.skipSingleSet) {
       return;
@@ -105,19 +69,5 @@ export const useFetchSets = ({
     };
   }, [fetchSingleSet, options]);
 
-  useEffect(() => {
-    if (options?.skipAllCards) {
-      return;
-    }
-
-    getAllSetCards();
-
-    return () => {
-      if (setCardsControllerRef.current) {
-        setCardsControllerRef.current.abort();
-      }
-    };
-  }, [getAllSetCards, options]);
-
-  return { fetchSingleSet, set, setCards, getAllSetCards, error };
+  return { fetchSingleSet, set, error };
 };
