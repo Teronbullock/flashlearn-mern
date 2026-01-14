@@ -1,9 +1,9 @@
 import { FormGroup, FormInput } from "@components/forms";
-import type { ChangePasswordFields, AuthAction } from "@app-types/auth";
+import type { ProfileFields, AuthAction } from "@app-types/auth";
 
 type ChangePasswordProps = {
-  dispatch: (action: AuthAction<ChangePasswordFields>) => void;
-  state: ChangePasswordFields;
+  dispatch: (action: AuthAction<ProfileFields>) => void;
+  state: ProfileFields;
 };
 
 export const ChangePassword = ({ dispatch, state }: ChangePasswordProps) => {

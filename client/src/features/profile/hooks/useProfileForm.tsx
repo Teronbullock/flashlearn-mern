@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { Navigate } from "react-router-dom";
-import type { RegistrationDetails, AuthAction } from "@app-types/auth";
+import type { ProfileFields, AuthAction } from "@app-types/auth";
 import { apiRequest } from "@lib/api";
 
 interface ProfileFormProps {
@@ -15,8 +15,8 @@ const initialProfileState = {
 };
 
 const profileReducer = (
-  state: RegistrationDetails,
-  action: AuthAction<RegistrationDetails>,
+  state: ProfileFields,
+  action: AuthAction<ProfileFields>,
 ) => {
   switch (action.type) {
     case "GET_PROFILE":
@@ -30,12 +30,14 @@ const profileReducer = (
         ...action.payload,
       };
     case "SUBMIT":
-    case "RESET_FORM":
+    case "RESET_EMAIL_FORM":
       return {
         ...state,
         user_pass: "",
         user_pass_confirm: "",
       };
+    case "RESET_PASSWORD_FORM":
+      return initialProfileState;
     default:
       return state;
   }
@@ -69,7 +71,7 @@ export const useProfileForm = ({ token }: ProfileFormProps) => {
       }
 
       // alert("Email updated successfully");
-      dispatch({ type: "RESET_FORM" });
+      dispatch({ type: "RESET_EMAIL_FORM" });
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error:", error.message);
@@ -95,6 +97,7 @@ export const useProfileForm = ({ token }: ProfileFormProps) => {
         method: "put",
         url: `/profile/update-password`,
         data: {
+          user_old_pass: state.user_old_pass,
           user_pass: state.user_pass,
           user_pass_confirm: state.user_pass_confirm,
         },
@@ -107,7 +110,7 @@ export const useProfileForm = ({ token }: ProfileFormProps) => {
 
       alert("Password updated successfully");
       dispatch({
-        type: "RESET_FORM",
+        type: "RESET_PASSWORD_FORM",
       });
     } catch (error) {
       if (error instanceof Error) {

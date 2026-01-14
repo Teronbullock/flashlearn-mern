@@ -8,7 +8,6 @@ interface CardManagerParams {
   setId?: string;
   cardId?: string;
   getAllSetCards?: () => void;
-  userSlug?: string | null;
   token?: string | null;
   card?: CardObject | null;
 }
@@ -17,7 +16,6 @@ export const useCardManager = ({
   setId,
   cardId,
   getAllSetCards,
-  userSlug,
   token,
   card,
 }: CardManagerParams) => {

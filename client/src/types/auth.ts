@@ -8,14 +8,7 @@ export interface RegistrationDetails extends BaseAuthFields {
   user_pass_confirm?: string;
 }
 
-export interface ChangeEmailFields extends Pick<BaseAuthFields, "user_email"> {
-  user_old_pass?: string;
-}
-
-export interface ChangePasswordFields extends Pick<
-  BaseAuthFields,
-  "user_pass"
-> {
+export interface ProfileFields extends BaseAuthFields {
   user_old_pass?: string;
   user_pass_confirm?: string;
 }
