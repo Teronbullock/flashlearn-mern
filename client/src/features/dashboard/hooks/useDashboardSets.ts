@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { apiRequest } from "@lib/api";
 
@@ -10,42 +10,51 @@ interface SetData {
 }
 
 export const useDashboardSets = () => {
-  const { userSlug, token } = useAuthContext();
+  const { token } = useAuthContext();
+
   const [sets, setSets] = useState<SetData[] | null>([]);
+  const [isLoadingSets, setIsLoadingSets] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const getAllSets = useCallback(
-    async (signal?: AbortSignal) => {
-      if (!userSlug || !token) {
+  const tokenRef = useRef<string | null>(null);
+  useEffect(() => {
+    tokenRef.current = token;
+  }, [token]);
+
+  const getAllSets = useCallback(async (signal?: AbortSignal) => {
+    if (!tokenRef.current) {
+      return;
+    }
+
+    setIsLoadingSets(true);
+    try {
+      const res = await apiRequest({
+        url: `/sets`,
+        token: tokenRef.current,
+        signal,
+      });
+
+      if (!res) {
+        setSets(null);
         return;
       }
 
-      try {
-        const res = await apiRequest({
-          url: `/sets`,
-          token,
-          signal,
-        });
-
-        if (!res) {
-          setSets(null);
-          return;
-        }
-
-        setSets(res.data.sets);
-      } catch (err) {
-        if (err instanceof Error && err.name !== "AbortError") {
-          setError(err.message);
-          setSets(null);
-        }
+      setSets(res.data.sets);
+    } catch (err) {
+      if (err instanceof Error && err.name !== "AbortError") {
+        setError(err.message);
+        setSets(null);
       }
-    },
-    [userSlug, token],
-  );
+    } finally {
+      if (!signal?.aborted) {
+        setIsLoadingSets(false);
+      }
+    }
+  }, []);
 
   const deleteSetHandler = useCallback(
     async (setId: number) => {
-      if (!setId || !userSlug || !token) return;
+      if (!setId || !token) return;
 
       try {
         const res = await apiRequest({
@@ -59,7 +68,7 @@ export const useDashboardSets = () => {
         console.error("Error deleting set:", err);
       }
     },
-    [userSlug, token, getAllSets],
+    [token, getAllSets],
   );
 
   useEffect(() => {
@@ -71,5 +80,5 @@ export const useDashboardSets = () => {
     };
   }, [getAllSets]);
 
-  return { sets, deleteSetHandler, error };
+  return { sets, deleteSetHandler, error, isLoadingSets };
 };

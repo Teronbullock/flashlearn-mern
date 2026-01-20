@@ -1,5 +1,5 @@
-import { Route, Routes } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
 
 // main pages
 const HomePage = lazy(() => import("@pages/Home/HomePage"));
@@ -25,9 +25,20 @@ const ViewCardsPage = lazy(() => import("@feats/cards/pages/ViewCardsPage"));
 
 import { ProtectedOutlet } from "@components/ProtectedOutlet";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 export const AppRoutes = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
+      <ScrollToTop />
       <Routes>
         {/* Public */}
         <Route path="/" element={<HomePage />} />

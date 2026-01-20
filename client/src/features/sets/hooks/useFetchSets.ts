@@ -1,29 +1,29 @@
 import { useEffect, useCallback, useRef, useState } from "react";
 import { apiRequest } from "@/lib/api/api-request";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 
 interface FetchSetsParams {
   setId: string | undefined;
-  token: string | null;
-  userSlug?: string | null;
-  options?: {
-    skipSingleSet?: boolean;
-    skipAllCards?: boolean;
-  };
 }
 
-export const useFetchSets = ({
-  setId,
-  token,
-  userSlug,
-  options,
-}: FetchSetsParams) => {
+export const useFetchSets = ({ setId }: FetchSetsParams) => {
   const [set, setSet] = useState(null);
   const [error, setError] = useState<string | null>(null);
 
   const setControllerRef = useRef<AbortController | null>(null);
 
+  const { token } = useAuthContext();
+  const tokenRef = useRef<string | null>(token);
+  useEffect(() => {
+    tokenRef.current = token;
+  }, [token]);
+
   const fetchSingleSet = useCallback(async () => {
-    if (!setId || !token || !userSlug) {
+    if (!tokenRef.current) {
+      throw new Error("User is not authenticated. Session missing.");
+    }
+
+    if (!setId) {
       throw new Error("Error: couldn't fetch card info, miss auth info");
     }
 
@@ -38,7 +38,7 @@ export const useFetchSets = ({
     try {
       const res = await apiRequest({
         url: `/sets/${setId}`,
-        token,
+        token: tokenRef.current,
         signal: signal,
       });
 
@@ -53,13 +53,9 @@ export const useFetchSets = ({
         setControllerRef.current = null;
       }
     }
-  }, [userSlug, setId, token]);
+  }, [setId]);
 
   useEffect(() => {
-    if (options?.skipSingleSet) {
-      return;
-    }
-
     fetchSingleSet();
 
     return () => {
@@ -67,7 +63,7 @@ export const useFetchSets = ({
         setControllerRef.current.abort();
       }
     };
-  }, [fetchSingleSet, options]);
+  }, [fetchSingleSet]);
 
   return { fetchSingleSet, set, error };
 };

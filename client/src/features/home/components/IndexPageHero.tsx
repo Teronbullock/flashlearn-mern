@@ -31,7 +31,7 @@ export const IndexPageHero = ({
     >
       <div className="page-hero__container max-w-8xl relative mx-auto h-full">
         {title && (
-          <div className="page-hero_content absolute left-0 top-[42%] text-white sm:top-[50%] md:max-w-[600px]">
+          <div className="page-hero_content md:max-w-150 absolute left-0 top-[42%] text-white sm:top-[50%]">
             <h2 className="mb-6 text-xl">{title}</h2>
             <p className="mb-7 text-base">{copy}</p>
             {children}

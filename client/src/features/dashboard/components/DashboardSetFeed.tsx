@@ -9,15 +9,17 @@ interface Sets {
   cardCount?: number;
 }
 
-interface ItemFeedProps {
-  userSlug: string;
+interface DashboardSetFeedProps {
   sets: Sets[];
   deleteSetHandler: (id: number) => void;
 }
 
-export const DashboardSetFeed = ({ sets, deleteSetHandler }: ItemFeedProps) => {
+export const DashboardSetFeed = ({
+  sets,
+  deleteSetHandler,
+}: DashboardSetFeedProps) => {
   return (
-    <section className="max-h-[750px] overflow-auto">
+    <section className="max-h-187.5 overflow-auto">
       {sets && sets.length > 0
         ? sets.map((item) => {
             const { id } = item;
@@ -56,10 +58,7 @@ export const DashboardSetFeed = ({ sets, deleteSetHandler }: ItemFeedProps) => {
                     </BtnLink>
                   </div>
 
-                  <Btn
-                    type="submit"
-                    className="!min-w-[39px] !justify-end !p-0"
-                  >
+                  <Btn type="submit" className="min-w-9.75! justify-end! p-0!">
                     <img
                       src="/assets/img/Vector.png"
                       alt="icon of trash can"

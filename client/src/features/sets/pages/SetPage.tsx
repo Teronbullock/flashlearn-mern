@@ -2,37 +2,35 @@ import { useParams } from "react-router-dom";
 import { Main } from "@layouts/Main";
 import { CardFeed } from "@feats/sets/components";
 import { useSetManager } from "@feats/sets/hooks";
-import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { EmptyFeedSection } from "@components/ui/EmptyFeedSection";
+import { EmptyPageState } from "@components/ui/EmptyPageState";
 import { PageHeader } from "@components/layout/PageHeader";
 import { ListCardForm } from "@components/forms";
 import { BtnLink, Btn } from "@components/btn";
 import { InfoSection } from "@components/layout/sections/InfoSection";
 import { useFetchSetCards } from "@feats/sets/hooks/useFetchSetCards";
-
 import data from "@content/setContent.json";
 import { CardData } from "@app-types/cardType";
+import { Spinner } from "@components/ui/Spinner";
+
 // import { FormLayout, FormGroup, FormInput } from "@components/forms";
 
 const SetPage = () => {
-  const { userSlug, token } = useAuthContext();
   const { setId } = useParams();
   setId?.toString();
 
-  // Using the new custom hook for fetching set cards
-  const { setCards, getAllSetCards } = useFetchSetCards({
-    setId,
-    token,
-  });
+  const { setCards, getAllSetCards, loading } = useFetchSetCards({ setId });
+  const { deleteSetCardHandler } = useSetManager({ getAllSetCards });
 
-  const { deleteSetCardHandler } = useSetManager({ getAllSetCards, token });
   const { setPage } = data;
-
   setPage.infoData[0]["number"] = setCards ? setCards.length.toString() : "0";
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <Main>
-      {userSlug && setCards && setCards.length > 0 ? (
+      {setCards && setCards.length > 0 ? (
         <>
           <PageHeader data={{ title: "Set Page" }}>
             {/* <FormLayout className={{ container: "w-[568px]" }} onSubmit={null}>
@@ -111,10 +109,7 @@ const SetPage = () => {
                     </BtnLink>
                   </div>
 
-                  <Btn
-                    type="submit"
-                    className="!min-w-[39px] !justify-end !p-0"
-                  >
+                  <Btn type="submit" className="min-w-9.75! justify-end! p-0!">
                     <img
                       src="/assets/img/Vector.png"
                       alt="icon of trash can"
@@ -126,13 +121,20 @@ const SetPage = () => {
             )}
           </CardFeed>
         </>
-      ) : userSlug && setId ? (
-        <EmptyFeedSection
-          userSlug={userSlug}
-          setId={setId}
-          {...setPage.emptyPage}
-        />
-      ) : null}
+      ) : (
+        setId && (
+          <EmptyPageState
+            img={{
+              src: "/assets/img/book-glasses.png",
+              alt: "cartoon of glasses with a book",
+            }}
+            title="Looks a little empty here"
+            subTitle="Let’s fix that! Create your first flashcard Card."
+            cta="Create Card"
+            ctaURL={`/set/${setId}/card/add`}
+          />
+        )
+      )}
     </Main>
   );
 };

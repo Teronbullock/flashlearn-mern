@@ -1,22 +1,35 @@
 import { useEffect, useCallback, useRef, useState } from "react";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { apiRequest } from "@/lib/api/api-request";
 import { CardObject } from "@feats/sets/types/cardTypes";
 
 interface FetchSetCardsParams {
   setId: string | undefined;
-  token: string | null;
 }
 
-export const useFetchSetCards = ({ setId, token }: FetchSetCardsParams) => {
+export const useFetchSetCards = ({ setId }: FetchSetCardsParams) => {
+  const { token } = useAuthContext();
+
   const [setCards, setSetCards] = useState<CardObject[] | null>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const setCardsControllerRef = useRef<AbortController | null>(null);
 
+  const tokenRef = useRef<string | null>(token);
+  useEffect(() => {
+    tokenRef.current = token;
+  }, [token]);
+
   const getAllSetCards = useCallback(async () => {
-    if (!setId || !token) {
-      setError("Error: couldn't fetch card info, missing auth info");
+    if (!tokenRef.current) {
+      setError("User is not authenticated. Session missing.");
+      setLoading(false);
+      return;
+    }
+
+    if (!setId) {
+      setError("Error: couldn't fetch card info.");
       setLoading(false);
       return;
     }
@@ -31,9 +44,10 @@ export const useFetchSetCards = ({ setId, token }: FetchSetCardsParams) => {
 
     try {
       setLoading(true);
+
       const res = await apiRequest({
         url: `/sets/${setId}/cards`,
-        token,
+        token: tokenRef.current,
         signal: signal,
       });
 
@@ -44,12 +58,12 @@ export const useFetchSetCards = ({ setId, token }: FetchSetCardsParams) => {
         setSetCards(null);
       }
     } finally {
-      setLoading(false);
       if (setCardsControllerRef.current === controller) {
         setCardsControllerRef.current = null;
+        setLoading(false);
       }
     }
-  }, [token, setId]);
+  }, [setId]);
 
   useEffect(() => {
     getAllSetCards();

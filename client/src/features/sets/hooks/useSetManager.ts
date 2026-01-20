@@ -1,36 +1,39 @@
-import { useReducer, useCallback, useEffect } from "react";
+import { useReducer, useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { apiRequest } from "@/lib/api/api-request";
 import { setCardReducer, setCardReducerInitState } from "@/reducer";
 import { SetObject } from "@feats/sets/types/setTypes";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 
 interface SetManagerParams {
   setId?: string;
   getAllSetCards?: () => void;
-  token?: string | null;
   set?: SetObject | null;
 }
 
 export const useSetManager = ({
   setId,
   getAllSetCards,
-  token,
   set,
 }: SetManagerParams) => {
   const navigate = useNavigate();
-
+  const { token } = useAuthContext();
+  const tokenRef = useRef<string | null>(token);
   const [state, dispatch] = useReducer(setCardReducer, setCardReducerInitState);
 
-  // add set handler
+  useEffect(() => {
+    tokenRef.current = token;
+  }, [token]);
+
   const addSetHandler = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      try {
-        if (!token) {
-          throw new Error("User is not authenticated. Session missing.");
-        }
+      if (!tokenRef.current) {
+        throw new Error("User is not authenticated. Session missing.");
+      }
 
+      try {
         const res = await apiRequest({
           method: "post",
           url: `/sets/`,
@@ -38,7 +41,7 @@ export const useSetManager = ({
             title: state.inputOneValue,
             description: state.inputTwoValue,
           },
-          token,
+          token: tokenRef.current,
         });
 
         if (res.data) {
@@ -50,12 +53,17 @@ export const useSetManager = ({
         alert("Error creating set");
       }
     },
-    [token, state.inputOneValue, state.inputTwoValue, navigate],
+    [state.inputOneValue, state.inputTwoValue, navigate],
   );
 
-  // edit set handler
   const editSetHandler = useCallback(async () => {
-    if (!setId || !token) return;
+    if (!tokenRef.current) {
+      throw new Error("User is not authenticated. Session missing.");
+    }
+
+    if (!setId) {
+      throw new Error("Error: couldn't fetch card info, missing auth info");
+    }
 
     try {
       const res = await apiRequest({
@@ -65,7 +73,7 @@ export const useSetManager = ({
           title: state.inputOneValue,
           description: state.inputTwoValue,
         },
-        token,
+        token: tokenRef.current,
       });
 
       if (res.status === 200) {
@@ -76,9 +84,8 @@ export const useSetManager = ({
       console.error(error);
       alert("Error updating set");
     }
-  }, [setId, token, state.inputOneValue, state.inputTwoValue, navigate]);
+  }, [setId, state.inputOneValue, state.inputTwoValue, navigate]);
 
-  //
   const deleteSetCardHandler = useCallback(
     async ({
       cardId,
@@ -87,14 +94,23 @@ export const useSetManager = ({
       cardId: string;
       setId: string;
     }): Promise<void> => {
-      if (!setId || !cardId || !token || !getAllSetCards) {
-        throw new Error("Error: card not delete");
+      if (!tokenRef.current) {
+        throw new Error("User is not authenticated. Session missing.");
       }
+
+      if (!setId || !cardId) {
+        throw new Error("Error: couldn't fetch card info, missing auth info");
+      }
+
+      if (!getAllSetCards) {
+        throw new Error("Error: couldn't fetch card info.");
+      }
+
       try {
         const res = await apiRequest({
           method: "delete",
           url: `/sets/${setId}/cards/${cardId}`,
-          token,
+          token: tokenRef.current,
         });
 
         const { msg } = res.data;
@@ -105,7 +121,7 @@ export const useSetManager = ({
         alert("Error: card not delete");
       }
     },
-    [token, getAllSetCards],
+    [getAllSetCards],
   );
 
   useEffect(() => {

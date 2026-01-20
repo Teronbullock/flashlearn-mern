@@ -9,24 +9,15 @@ import {
   FormAction,
 } from "@components/forms";
 import { PageHeader } from "@components/layout/PageHeader";
-import { useAuthContext } from "@feats/auth/context/AuthContext";
 import data from "@content/setContent.json";
 import { useSetManager, useFetchSets } from "@feats/sets/hooks";
 
 const EditSetPage = () => {
-  const { userSlug, token } = useAuthContext();
   const { setId } = useParams();
-  const { set } = useFetchSets({
-    setId: setId,
-    userSlug: userSlug,
-    token: token,
-    options: { skipAllCards: true },
-  });
+  const { set } = useFetchSets({ setId: setId });
 
   const { state, editSetHandler, dispatch } = useSetManager({
     setId,
-    token: token,
-    userSlug: userSlug,
     set: set,
   });
 

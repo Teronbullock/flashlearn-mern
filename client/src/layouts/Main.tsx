@@ -9,7 +9,7 @@ interface MainProps {
 }
 
 export const Main = ({ children, className, width }: MainProps) => {
-  const containerClass = classNames("md:pt-23  min-h-screen mb-20", className);
+  const containerClass = classNames("md:pt-27  min-h-screen mb-20", className);
 
   return (
     <Container el="main" className={containerClass} width={width}>

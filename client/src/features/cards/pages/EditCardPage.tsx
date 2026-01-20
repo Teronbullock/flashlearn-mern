@@ -10,18 +10,15 @@ import {
   FormAction,
 } from "@components/forms";
 import { PageHeader } from "@components/layout/PageHeader";
-import { useAuthContext } from "@feats/auth/context/AuthContext";
 import data from "@content/editCardPage.json";
 import { useCardManager, useFetchCard } from "@feats/cards/hooks";
 
 const EditCardPage = () => {
   const { setId, cardId } = useParams();
-  const { token } = useAuthContext();
-  const { card } = useFetchCard({ setId, cardId, token });
+  const { card } = useFetchCard({ setId, cardId });
   const { state, dispatch, editCardHandler } = useCardManager({
     cardId,
     setId,
-    token,
     card,
   });
   const EditCard = data;

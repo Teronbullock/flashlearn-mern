@@ -9,6 +9,7 @@ import {
 import { useCardData, useCardFlip } from "@feats/cards/hooks";
 import { Main } from "@layouts/Main";
 import { Btn } from "@components/btn";
+import { Spinner } from "@components/ui/Spinner";
 
 const ViewCardsPage = () => {
   const { setId } = useParams();
@@ -17,18 +18,20 @@ const ViewCardsPage = () => {
   const { card, cardCount, isLoading, error } = useCardData({ setId, pageNum });
   const { isFlipped, handleFlip, resetFlip } = useCardFlip();
 
+  console.log(
+    "card",
+    card,
+    "Cardlist",
+    cardCount,
+    "isLoading",
+    isLoading,
+    "error",
+    error,
+  );
+
   // show spinner
   if (isLoading) {
-    return (
-      <Main>
-        <section className="flex h-96 items-center justify-center">
-          <h1 className="text-2xl font-bold">Loading Card...</h1>{" "}
-          <div className="flex items-center justify-center">
-            <div className="border-t-primary h-8 w-8 animate-spin rounded-full border-4 border-gray-200"></div>
-          </div>
-        </section>
-      </Main>
-    );
+    return <Spinner />;
   }
 
   if (error) {

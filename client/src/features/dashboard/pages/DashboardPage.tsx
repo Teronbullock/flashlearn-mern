@@ -6,11 +6,11 @@ import { useDashboardSets } from "@feats/dashboard/hooks/";
 import { Main } from "@layouts/Main";
 import data from "@content/dashboardPage.json";
 import { DashboardSetFeed } from "@feats/dashboard/components";
-import { useAuthContext } from "@feats/auth/context/AuthContext";
+import { EmptyPageState } from "@/components/ui/EmptyPageState";
+import { Spinner } from "@components/ui/Spinner";
 
 export const DashboardPage = () => {
-  const { userSlug } = useAuthContext();
-  const { sets, deleteSetHandler } = useDashboardSets();
+  const { sets, deleteSetHandler, isLoadingSets } = useDashboardSets();
   const { header, setSection } = data;
 
   const InfoData = [
@@ -34,9 +34,13 @@ export const DashboardPage = () => {
     },
   ];
 
+  if (isLoadingSets) {
+    return <Spinner />;
+  }
+
   return (
     <Main>
-      {userSlug && sets && sets.length > 0 ? (
+      {sets && sets.length > 0 ? (
         <>
           <PageHeader data={header}>
             {/* <FormLayout className={{ container: "w-[568px]" }} onSubmit={null}>
@@ -67,39 +71,21 @@ export const DashboardPage = () => {
               {setSection.buttonText}
             </BtnLink>
           </section>
-          <DashboardSetFeed
-            userSlug={userSlug}
-            sets={sets}
-            deleteSetHandler={deleteSetHandler}
-          />
+          <DashboardSetFeed sets={sets} deleteSetHandler={deleteSetHandler} />
         </>
       ) : (
-        <div>
-          <div className="mb-10 flex justify-center">
-            <img
-              src="/assets/img/vector-person.webp"
-              alt="cartoon of a person with an empty box in their hands"
-              width="560"
-              height="570"
-            />
-          </div>
-          <h2 className="mb-2 text-center font-medium">
-            Looks a little empty here
-          </h2>
-          <p className="mb-15 text-center text-base">
-            Let’s fix that! Create your first flashcard set and start learning
-            today.
-          </p>
-          <div className="text-center">
-            <BtnLink
-              to={`/set/user/${userSlug}/add`}
-              className="w-[444px] !py-3 !text-base"
-              variants={{ style: "btn", color: "primary", size: "lg" }}
-            >
-              Create Set
-            </BtnLink>
-          </div>
-        </div>
+        sets && (
+          <EmptyPageState
+            img={{
+              src: "/assets/img/Vector-person.webp",
+              alt: "cartoon of a person with an empty box in their hands",
+            }}
+            title="Looks a little empty here"
+            subTitle="Let’s fix that! Create your first flashcard set and start learning today."
+            cta="Create Set"
+            ctaURL="/set/add"
+          />
+        )
       )}
     </Main>
   );

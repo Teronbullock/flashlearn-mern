@@ -1,20 +1,30 @@
 import { useEffect, useCallback, useRef, useState } from "react";
 import { apiRequest } from "@/lib/api/api-request";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 
 interface FetchCardsParams {
   setId: string | undefined;
-  token: string | null;
   cardId: string | undefined;
 }
 
-export const useFetchCard = ({ setId, token, cardId }: FetchCardsParams) => {
+export const useFetchCard = ({ setId, cardId }: FetchCardsParams) => {
   const [card, setCard] = useState(null);
 
   const activeControllerRef = useRef<AbortController | null>(null);
 
+  const { token } = useAuthContext();
+  const tokenRef = useRef(token);
+  useEffect(() => {
+    tokenRef.current = token;
+  }, [token]);
+
   const fetchCard = useCallback(async () => {
-    if (!setId || !token) {
-      throw new Error("Error: couldn't fetch card info, miss auth info");
+    if (!tokenRef.current) {
+      throw new Error("Auth info missing, user not authenticated");
+    }
+
+    if (!setId || !cardId) {
+      throw new Error(" data missing, card not found");
     }
 
     if (activeControllerRef.current) {
@@ -28,7 +38,7 @@ export const useFetchCard = ({ setId, token, cardId }: FetchCardsParams) => {
     try {
       const res = await apiRequest({
         url: `/sets/${setId}/cards/${cardId}`,
-        token,
+        token: tokenRef.current,
         signal: signal,
       });
 
@@ -43,7 +53,7 @@ export const useFetchCard = ({ setId, token, cardId }: FetchCardsParams) => {
         activeControllerRef.current = null;
       }
     }
-  }, [setId, token, cardId]);
+  }, [setId, cardId]);
 
   useEffect(() => {
     fetchCard();

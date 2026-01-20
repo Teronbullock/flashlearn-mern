@@ -24,12 +24,9 @@ export const Controls = ({
         onClick={handleNavigation}
         disabled={isFirstCard}
         aria-label="Previous card"
-        className="!min-w-fit justify-start"
+        className="min-w-fit! justify-start"
       >
-        <img
-          className="h-[32px] w-[32px]"
-          src="/public/assets/img/arrow-btn.svg"
-        />
+        <img className="h-8 w-8" src="/public/assets/img/arrow-btn-file.svg" />
       </BtnLink>
       <span className="text-center">
         {page} of {cardCount}
@@ -39,11 +36,11 @@ export const Controls = ({
         onClick={handleNavigation}
         disabled={isLastCard}
         aria-label="Next card"
-        className="!min-w-fit justify-end"
+        className="min-w-fit! justify-end"
       >
         <img
-          className="rotate-y-180 h-[32px] w-[32px]"
-          src="/public/assets/img/arrow-btn.svg"
+          className="rotate-y-180 h-8 w-8 text-red-600"
+          src="/public/assets/img/arrow-btn-file.svg"
         />
       </BtnLink>
     </div>

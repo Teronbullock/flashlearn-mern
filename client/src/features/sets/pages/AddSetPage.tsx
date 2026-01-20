@@ -8,14 +8,10 @@ import {
   FormAction,
 } from "@components/forms";
 import { PageHeader } from "@components/layout/PageHeader";
-import { useAuthContext } from "@feats/auth/context/AuthContext";
 import data from "@content/setContent.json";
 
 const AddSetPage = () => {
-  const { token } = useAuthContext();
-  const { state, addSetHandler, dispatch } = useSetManager({
-    token: token || "",
-  });
+  const { state, addSetHandler, dispatch } = useSetManager({});
   const { addSetPage } = data;
 
   return (

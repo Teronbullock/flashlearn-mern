@@ -9,15 +9,10 @@ import {
 } from "@components/forms";
 import { Main } from "@layouts/Main";
 import data from "@content/cardContent.json";
-import { useAuthContext } from "@feats/auth/context/AuthContext";
 
 const AddCardPage = () => {
-  const { token } = useAuthContext();
   const { setId } = useParams();
-  const { state, addCardHandler, dispatch } = useCardManager({
-    setId,
-    token,
-  });
+  const { state, addCardHandler, dispatch } = useCardManager({ setId });
   const { addCard } = data;
 
   return (

@@ -5,6 +5,7 @@ import { BtnVariants } from "./BtnTypes";
 export const getBtnClasses = (
   variants?: BtnVariants,
   className?: string,
+  disabled?: boolean,
 ): string => {
   return classNames(
     "inline-flex items-center justify-center no-underline hover:duration-[0.3s] hover:cursor-pointer text-sm",
@@ -33,6 +34,10 @@ export const getBtnClasses = (
       "min-w-[200px]": variants?.size === "lg",
       "min-w-[300px]": variants?.size === "xl",
       "w-full": variants?.size === "full",
+    },
+    // Disabled state
+    {
+      "opacity-50 pointer-events-none cursor-not-allowed": disabled,
     },
 
     // External Classes

@@ -19,6 +19,7 @@ interface BtnBase {
   children: React.ReactNode;
   className?: string;
   variants?: BtnVariants;
+  disabled?: boolean;
 }
 
 export interface BtnProps extends BtnBase {

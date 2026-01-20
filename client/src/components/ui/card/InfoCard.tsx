@@ -2,7 +2,7 @@ import { Card } from "@components/ui/card";
 
 export interface InfoCardProps {
   id: number;
-  number: string;
+  number: number | string | undefined;
   copy: string;
   icon: {
     src: string;
@@ -14,15 +14,15 @@ export const InfoCard = ({ number, icon, copy }: InfoCardProps) => {
   return (
     <Card
       spacing={false}
-      className="border-primary bg-tertiary mr-3 min-w-[140px] p-[7px] text-black md:mr-8 md:w-[277px] md:p-2"
+      className="border-primary bg-tertiary min-w-35 p-1.75 md:w-69.25 mr-3 text-black md:mr-8 md:p-2"
     >
       <h3 className="mb-4 text-lg">{number}</h3>
       <div className="flex items-center">
-        <span className="mr-2 flex h-[24px] w-[24px] items-center justify-center rounded-[40px] bg-white md:h-[50px] md:w-[50px]">
+        <span className="md:w-12.5 md:h-12.5 mr-2 flex h-6 w-6 items-center justify-center rounded-[40px] bg-white">
           <img
             src={icon.src}
             alt={icon.alt}
-            className="h-[15px] w-[15px] md:h-[19px] md:w-[19px]"
+            className="h-3.75 w-3.75 md:h-4.75 md:w-4.75"
           />
         </span>
         <p className="text-xs md:text-sm">{copy}</p>
