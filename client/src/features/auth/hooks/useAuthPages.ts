@@ -2,7 +2,7 @@ import { useReducer, useCallback } from "react";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { authApi } from "@feats/auth/service/auth.service";
 
-import type { RegistrationDetails } from "@/types/auth";
+import type { RegistrationDetails } from "@/types/index";
 import type { AuthReducerAction } from "@feats/auth/types";
 
 const initialRegisterState = {

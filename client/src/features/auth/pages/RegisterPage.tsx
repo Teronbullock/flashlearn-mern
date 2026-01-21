@@ -1,5 +1,5 @@
 import { CTASplitLayout, CTASplitForm } from "@components/CTASplit";
-import { FormInput, FormGroup } from "@components/forms";
+import { FormInput, FormGroup, InputError } from "@components/forms";
 import { BtnLink } from "@components/btn";
 import data from "@content/registerPage.json";
 import { useRegistration } from "@feats/auth/hooks";
@@ -34,6 +34,7 @@ const RegisterPage = () => {
                   payload: { user_email: e.target.value },
                 })
               }
+              <InputError messages={formErrors.userEmail} />
             />
           </FormGroup>
           <FormGroup labelName="Choose Password">
@@ -50,6 +51,7 @@ const RegisterPage = () => {
                 })
               }
             />
+            <InputError messages={formErrors.userPassword} />
             <p className="mb-5 text-xs">
               Password should consist of numbers and special characters
             </p>
@@ -67,6 +69,7 @@ const RegisterPage = () => {
                   payload: { user_pass_confirm: e.target.value },
                 })
               }
+              <InputError messages={formErrors.userPassConfirm} />
             />
             <p className="mb-8 text-xs">Re-enter your password</p>
           </FormGroup>

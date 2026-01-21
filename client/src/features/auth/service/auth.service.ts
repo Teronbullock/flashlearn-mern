@@ -41,14 +41,10 @@ export const authApi = {
     ]);
   },
 
-  refreshToken: async (
-    oldUserId: string,
-    oldToken: string,
-  ): Promise<AuthStateBase> => {
+  refreshToken: async (oldToken: string): Promise<AuthStateBase> => {
     const res = await apiRequest({
       url: "/auth/refresh",
       method: "post",
-      data: { userId: oldUserId },
       token: oldToken,
     });
 
@@ -57,6 +53,7 @@ export const authApi = {
     }
     const token = res.data.token;
     const { userId, exp } = JSON.parse(atob(token.split(".")[1]));
+
     const tokenExpTime = new Date(exp * 1000);
 
     if (!token || isNaN(tokenExpTime.getTime())) {

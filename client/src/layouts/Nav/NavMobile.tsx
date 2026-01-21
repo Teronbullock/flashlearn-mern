@@ -1,5 +1,5 @@
 import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { NavType } from "@app-types/navTypes";
+import { NavType } from "@/types/index/navTypes";
 import { Btn, BtnLink } from "@components/btn";
 import classNames from "classnames";
 

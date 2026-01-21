@@ -1,5 +1,5 @@
 import { FormGroup, FormInput } from "@components/forms";
-import type { BaseAuthFields, AuthAction } from "@app-types/auth";
+import type { BaseAuthFields, AuthAction } from "@/types/index";
 
 type ChangeEmailAddressProps = {
   dispatch: (action: AuthAction<BaseAuthFields>) => void;

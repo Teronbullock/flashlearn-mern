@@ -1,5 +1,5 @@
 import { Card } from "@components/ui/card/Card";
-import { CardData } from "@app-types/cardType";
+import { CardData } from "@/types/index/cardType";
 
 interface CardFeedProps {
   children: (card: CardData) => React.ReactNode;
@@ -8,7 +8,7 @@ interface CardFeedProps {
 
 export const CardFeed = ({ children, cards }: CardFeedProps) => {
   return (
-    <section className="max-h-[750px] overflow-auto">
+    <section className="max-h-187.5 overflow-auto">
       {cards && cards.length > 0 ? (
         cards.map((card) => <div key={card.id}>{children(card)}</div>)
       ) : (

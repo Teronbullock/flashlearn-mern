@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
-import type { BaseAuthFields } from "@/types/auth";
-import type { LoginAction } from "../types/authTypes";
+import type { BaseAuthFields } from "@/types/index";
+import type { LoginAction } from "../types/index";
 
 const initialLoginState = {
   user_email: "",

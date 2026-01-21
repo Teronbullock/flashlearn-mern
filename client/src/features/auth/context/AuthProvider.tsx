@@ -49,8 +49,8 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
   const { login, logout } = useAuthHandlers(dispatch);
 
-  useManageAuth({ token, userId, logout, dispatch });
-  // useAutoLogout({ token, tokenExpTime, logout });
+  useManageAuth({ token, logout, dispatch });
+  useAutoLogout({ token, tokenExpTime, logout });
 
   const value = useMemo(
     () => ({
@@ -58,7 +58,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       token,
       tokenExpTime,
       isAuthenticated,
-      isLoggedIn: !!token,
       login,
       logout,
       isLoading,

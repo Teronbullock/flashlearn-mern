@@ -1,7 +1,9 @@
 import { useReducer } from "react";
+import { ZodError } from "zod";
 import { apiRequest } from "@lib/api";
 import type { RegistrationAction } from "@feats/auth/types";
-import type { RegistrationDetails } from "@app-types/auth";
+import type { RegistrationDetails } from "@/types/index";
+import { AuthRegSchema } from "@flashlearn/common";
 
 const initialRegisterState = {
   user_email: "",
@@ -45,23 +47,16 @@ export const useRegistration = () => {
       if (!userEmail || !userPass || !userPassConfirm) {
         throw new Error("All fields are required");
       }
-
-      if (userPass.length < 8) {
-        throw new Error("Password must be at least 8 characters long");
-      }
-
-      if (userPass !== userPassConfirm) {
-        throw new Error("Passwords do not match");
-      }
+      const results = AuthRegSchema.parse({
+        userEmail,
+        userPass,
+        userPassConfirm,
+      });
 
       const res = await apiRequest({
         method: "post",
         url: "/auth/register",
-        data: {
-          user_email: userEmail,
-          user_pass: userPass,
-          user_pass_confirm: userPassConfirm,
-        },
+        data: results,
       });
 
       if (!res || res.status !== 200) {
@@ -71,10 +66,14 @@ export const useRegistration = () => {
       alert("Registration successful");
       dispatch({ type: "FORM_RESET" });
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "An unknown error occurred";
-      console.error("Error: " + errorMessage);
-      alert(errorMessage);
+      if (error instanceof ZodError) {
+        const errorMessage = error.issues[0].message;
+        console.error("ERROR: ", errorMessage);
+      } else {
+        const msg =
+          error instanceof Error ? error.message : "Registration Error";
+        alert(msg);
+      }
     }
   };
 

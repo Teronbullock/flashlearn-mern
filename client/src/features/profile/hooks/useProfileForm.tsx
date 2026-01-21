@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { Navigate } from "react-router-dom";
-import type { ProfileFields, AuthAction } from "@app-types/auth";
+import type { ProfileFields, AuthAction } from "@/types/index";
 import { apiRequest } from "@lib/api";
 
 interface ProfileFormProps {

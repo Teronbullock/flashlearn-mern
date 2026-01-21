@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { useNavType } from "@app-types/navTypes";
+import { useNavType } from "@/types/index/navTypes";
 
 export const useNav = (): useNavType => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

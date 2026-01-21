@@ -5,3 +5,4 @@ export * from "./FormTextArea";
 export * from "./FormAction";
 export * from "./ListCardForm";
 export * from "./FormColorPicker";
+export * from "./InputError";

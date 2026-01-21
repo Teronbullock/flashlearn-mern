@@ -1,5 +1,5 @@
 import { FormGroup, FormInput } from "@components/forms";
-import type { RemoveAccountFields, AuthAction } from "@app-types/auth";
+import type { RemoveAccountFields, AuthAction } from "@/types/index";
 
 interface RemoveAccountProps {
   dispatch: (action: AuthAction<RemoveAccountFields>) => void;

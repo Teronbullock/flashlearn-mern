@@ -49,21 +49,5 @@ export const useAuthHandlers = (
     }
   }, [navigate, dispatch]);
 
-  // const refreshAuthToken = useCallback(
-  //   async (currentUserId: string, currentToken: string) => {
-  //     try {
-  //       const authData = await authApi.refreshToken(
-  //         currentUserId,
-  //         currentToken,
-  //       );
-  //       setAuthUser(authData);
-  //     } catch (err) {
-  //       console.error("Token refresh failed:", err);
-  //       await logout();
-  //     }
-  //   },
-  //   [setAuthUser, logout],
-  // );
-
   return { login, logout };
 };

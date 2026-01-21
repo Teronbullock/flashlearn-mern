@@ -9,7 +9,7 @@ import { BtnLink, Btn } from "@components/btn";
 import { InfoSection } from "@components/layout/sections/InfoSection";
 import { useFetchSetCards } from "@feats/sets/hooks/useFetchSetCards";
 import data from "@content/setContent.json";
-import { CardData } from "@app-types/cardType";
+import { CardData } from "@/types/index/cardType";
 import { Spinner } from "@components/ui/Spinner";
 
 // import { FormLayout, FormGroup, FormInput } from "@components/forms";

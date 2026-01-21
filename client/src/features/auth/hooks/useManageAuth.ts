@@ -2,17 +2,12 @@ import { useEffect, useRef, useCallback } from "react";
 import { AUTH_CONFIG } from "@/config/auth.config";
 import { authApi } from "@feats/auth/service/auth.service";
 import { authStorage } from "@feats/auth/service/auth.storage";
-import { ManageAuthProps } from "@feats/auth/types/authTypes";
+import { ManageAuthProps } from "@feats/auth/types/index";
 
 /**
  * Manages periodic token refresh for authenticated users.
  */
-export const useManageAuth = ({
-  token,
-  userId,
-  logout,
-  dispatch,
-}: ManageAuthProps) => {
+export const useManageAuth = ({ token, logout, dispatch }: ManageAuthProps) => {
   const refreshInterval = useRef<NodeJS.Timeout | number | null>(null);
   const refreshInProgressRef = useRef(false);
 
@@ -36,10 +31,8 @@ export const useManageAuth = ({
       const isExpirationValid = tokenExpTime > new Date();
 
       if (!isExpirationValid) {
-        // Token has expired - try to refresh it automatically
         try {
-          // Attempt to refresh the token using the userId and token from storage
-          const authData = await authApi.refreshToken(userId, token);
+          const authData = await authApi.refreshToken(token);
 
           if (!authData || !authData.token) {
             throw new Error("Invalid auth data");
@@ -54,7 +47,6 @@ export const useManageAuth = ({
             },
           });
 
-          // Update storage with the new token
           authStorage.set({ token: authData.token });
           return;
         } catch (refreshError) {
@@ -82,7 +74,7 @@ export const useManageAuth = ({
   }, [dispatch]);
 
   const refreshToken = useCallback(async () => {
-    if (!token || !userId) {
+    if (!token) {
       console.error("Missing Auth data");
       return;
     }
@@ -93,7 +85,7 @@ export const useManageAuth = ({
     refreshInProgressRef.current = true;
 
     try {
-      const authData = await authApi.refreshToken(userId, token);
+      const authData = await authApi.refreshToken(token);
 
       if (!authData) {
         throw new Error("Invalid auth data");
@@ -117,7 +109,7 @@ export const useManageAuth = ({
     } finally {
       refreshInProgressRef.current = false;
     }
-  }, [logout, token, userId, dispatch]);
+  }, [logout, token, dispatch]);
 
   useEffect(() => {
     checkAndUpdateAuth();

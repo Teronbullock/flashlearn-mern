@@ -1,8 +1,9 @@
 {
   "name": "@flashlearn/common",
   "version": "1.0.0",
-  "main": "./index.ts",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "dependencies": {
-    "zod": "latest"
+    "zod": "^4.3.5"
   }
 }

@@ -1,6 +1,6 @@
 import { Btn, BtnLink } from "@components/btn";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { LogoutFn } from "@app-types/navTypes";
+import { LogoutFn } from "@/types/index/navTypes";
 
 export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
   const { token } = useAuthContext();

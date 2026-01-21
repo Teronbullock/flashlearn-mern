@@ -7,7 +7,7 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
       concurrently:
         specifier: ^9.2.1
         version: 9.2.1
@@ -38,6 +38,9 @@ importers:
       react-router-dom:
         specifier: ^6.26.2
         version: 6.30.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      zod:
+        specifier: ^4.3.5
+        version: 4.3.5
     devDependencies:
       '@eslint/js':
         specifier: ^9.9.0
@@ -66,6 +69,9 @@ importers:
       babel-plugin-react-compiler:
         specifier: ^19.1.0-rc.3
         version: 19.1.0-rc.3
+      concurrently:
+        specifier: ^9.2.1
+        version: 9.2.1
       eslint:
         specifier: ^9.9.0
         version: 9.39.2(jiti@2.6.1)
@@ -109,7 +115,7 @@ importers:
   packages/common:
     dependencies:
       zod:
-        specifier: latest
+        specifier: ^4.3.5
         version: 4.3.5
 
   server:
@@ -165,6 +171,9 @@ importers:
       serverless-http:
         specifier: ^3.2.0
         version: 3.2.0
+      zod:
+        specifier: ^4.3.5
+        version: 4.3.5
     devDependencies:
       dotenv:
         specifier: ^16.4.7

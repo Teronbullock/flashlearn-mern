@@ -41,6 +41,10 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@sass": path.resolve(__dirname, "src/assets/scss"),
+        "@flashlearn/common": path.resolve(
+          __dirname,
+          "../packages/common/src/index.ts",
+        ),
       },
     },
   };

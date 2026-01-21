@@ -1,7 +1,7 @@
 import { NavDesktop } from "./NavDesktop";
 import { NavMobile } from "./NavMobile";
 import classNames from "classnames";
-import { NavType } from "@app-types/navTypes";
+import { NavType } from "@/types/index/navTypes";
 
 export const Nav = ({ isMobileMenuOpen, onToggle, onLogout }: NavType) => {
   return (

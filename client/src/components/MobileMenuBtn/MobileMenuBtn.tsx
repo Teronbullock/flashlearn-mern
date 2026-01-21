@@ -1,4 +1,4 @@
-import { MobileBtnProps } from "@app-types/navTypes";
+import { MobileBtnProps } from "@/types/index/navTypes";
 import classNames from "classnames";
 import "./mobile-menu-btn.scss";
 
@@ -13,7 +13,7 @@ export const MobileMenuBtn = ({
 
   return (
     <button className={btnClass} onClick={onToggle}>
-      <div className="btn-bars flex h-[24px] w-[24px] flex-col items-center justify-around py-[4px]">
+      <div className="btn-bars flex h-6 w-6 flex-col items-center justify-around py-1">
         <div className="btn-bar1 mx-0 bg-black"></div>
         <div className="btn-bar2 mx-0 bg-black"></div>
         <div className="btn-bar3 mx-0 bg-black"></div>

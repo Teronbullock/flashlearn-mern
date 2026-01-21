@@ -1,50 +1,48 @@
-import { BaseAuthFields, RegistrationDetails } from "@/types/auth";
+import { BaseAuthFields, RegistrationDetails } from "@/types/index";
 import { Dispatch } from "react";
 
 export interface AuthStateBase {
   userId: string | null;
   token: string | null;
-  tokenExpTime: Date | null;
+  tokenExpTime: Date | number | null;
 }
 
 export interface AuthReducerState extends AuthStateBase {
-  isAuthenticated: boolean | null;
+  isAuthenticated: boolean;
   isLoading: boolean;
 }
 
-export interface ManageAuthProps {
-  token: string | null;
-  userId: string | null;
-  logout: () => Promise<void>;
-  dispatch: Dispatch<AuthReducerAction>;
+export interface AuthContextValue extends AuthReducerState {
+  login: (userEmail: string, userPass: string) => void;
+  logout: () => void;
 }
 
-// Actions
-export type RegistrationAction =
-  | {
-      type: "ON_CHANGE";
-      payload: RegistrationDetails;
-    }
-  | {
-      type: "FORM_RESET";
-    };
+export type FormAction<T> =
+  | { type: "ON_CHANGE"; payload: T }
+  | { type: "FORM_RESET" };
 
-export type LoginAction =
-  | {
-      type: "ON_CHANGE";
-      payload: BaseAuthFields;
-    }
-  | {
-      type: "FORM_RESET";
-    };
+export type RegistrationAction = FormAction<RegistrationDetails>;
+export type LoginAction = FormAction<BaseAuthFields>;
 
 export type AuthReducerAction =
   | {
       type: "LOGIN";
-      payload: AuthStateBase;
+      payload: Required<AuthStateBase>;
     }
   | { type: "LOGOUT" }
   | { type: "AUTH_INITIALIZED" };
+
+export interface ManageAuthProps {
+  token: AuthStateBase["token"];
+  logout: () => Promise<void>;
+  dispatch: Dispatch<AuthReducerAction>;
+}
+
+export interface UseAutoLogoutConfig {
+  token: AuthStateBase["token"];
+  tokenExpTime: AuthStateBase["tokenExpTime"];
+  logout: () => void | Promise<void>;
+}
 
 export interface PostNewUserParams {
   userEmail: string;

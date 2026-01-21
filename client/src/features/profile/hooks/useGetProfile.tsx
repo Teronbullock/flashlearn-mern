@@ -1,15 +1,9 @@
 import { useEffect } from "react";
 import { apiRequest } from "@/lib/api";
-
-interface UserAction {
-  type: "GET_PROFILE";
-  payload: {
-    user_email: string;
-  };
-}
+import type { AuthAction, BaseAuthFields } from "@/types/index";
 
 export const useGetProfile = (
-  dispatch: React.Dispatch<UserAction>,
+  dispatch: React.Dispatch<AuthAction<BaseAuthFields>>,
   token: string | null,
 ) => {
   useEffect(() => {

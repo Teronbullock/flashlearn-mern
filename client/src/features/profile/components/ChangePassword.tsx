@@ -1,5 +1,5 @@
 import { FormGroup, FormInput } from "@components/forms";
-import type { ProfileFields, AuthAction } from "@app-types/auth";
+import type { ProfileFields, AuthAction } from "@/types/index";
 
 type ChangePasswordProps = {
   dispatch: (action: AuthAction<ProfileFields>) => void;

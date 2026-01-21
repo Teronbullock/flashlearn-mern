@@ -1,22 +1,11 @@
 import { createContext, useContext } from "react";
-
-interface AuthContextValue {
-  userId: string | null;
-  token: string | null;
-  tokenExpTime: Date | null;
-  isAuthenticated: boolean | null;
-  isLoggedIn: boolean;
-  login: (userEmail: string, userPass: string) => void;
-  logout: () => void;
-  isLoading: boolean;
-}
+import type { AuthContextValue } from "@feats/auth/types";
 
 export const AuthContext = createContext<AuthContextValue>({
   userId: null,
   token: null,
   tokenExpTime: null,
   isAuthenticated: false,
-  isLoggedIn: false,
   login: async () => {
     throw new Error("AuthContext used outside provider.");
   },
