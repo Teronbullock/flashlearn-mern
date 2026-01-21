@@ -1,15 +1,49 @@
 import { useReducer, useCallback } from "react";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { postNewUser } from "@feats/auth/service/auth-service-fix";
-import {
-  INITIAL_LOGIN_STATE,
-  INITIAL_REGISTER_STATE,
-  authFormReducer,
-} from "@feats/auth/reducers/authReducer";
+import { authApi } from "@feats/auth/service/auth.service";
 
-export const useAuthPage = () => {
+import type { RegistrationDetails } from "@/types/auth";
+import type { AuthReducerAction } from "@feats/auth/types";
+
+const initialRegisterState = {
+  type: "register",
+  user_email: "",
+  user_pass: "",
+  user_pass_confirm: "",
+};
+
+const initialLoginState = {
+  type: "login",
+  user_email: "",
+  user_pass: "",
+};
+
+const authFormReducer = (
+  state: RegistrationDetails,
+  action: AuthReducerAction,
+): RegistrationDetails => {
+  switch (action.type) {
+    case "ON_CHANGE":
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case "REG_SUBMIT":
+      return initialRegisterState;
+    case "LOGIN_SUBMIT":
+      return initialLoginState;
+    case "SET_STATE_TYPE":
+      return action.payload === "login"
+        ? initialLoginState
+        : initialRegisterState;
+    default:
+      return state;
+  }
+};
+
+export const useAuthPages = () => {
   const { login } = useAuthContext();
-  const [state, dispatch] = useReducer(authFormReducer, INITIAL_REGISTER_STATE);
+  const [state, dispatch] = useReducer(authFormReducer, initialRegisterState);
 
   const handleRegFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,7 +63,7 @@ export const useAuthPage = () => {
         throw new Error("Passwords do not match");
       }
 
-      const res = await postNewUser({
+      const res = await authApi.postNewUser({
         userEmail: state.user_email,
         userPass: state.user_pass,
         userPassConfirm: state.user_pass_confirm,

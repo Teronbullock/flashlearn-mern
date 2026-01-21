@@ -1,10 +1,10 @@
 import { AUTH_CONFIG } from "@/config/auth.config";
-import { AuthStateBase } from "@context/auth/authReducer";
+import { AuthStateBase } from "@/features/auth/types";
 
 export const authStorage = {
-  set: (data: AuthStateBase): void => {
+  set: ({ token }: { token: string }): void => {
     try {
-      localStorage.setItem(AUTH_CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(data));
+      localStorage.setItem(AUTH_CONFIG.LOCAL_STORAGE_KEY, token);
     } catch (error) {
       console.error("Failed to save auth data:", error);
     }
@@ -16,7 +16,7 @@ export const authStorage = {
       if (!data) return null;
 
       const parsed = JSON.parse(data);
-      // Reconstruct Date object
+
       if (parsed.tokenExpTime) {
         parsed.tokenExpTime = new Date(parsed.tokenExpTime);
       }

@@ -2,7 +2,6 @@ import { createContext, useContext } from "react";
 
 interface AuthContextValue {
   userId: string | null;
-  userSlug: string | null;
   token: string | null;
   tokenExpTime: Date | null;
   isAuthenticated: boolean | null;
@@ -14,7 +13,6 @@ interface AuthContextValue {
 
 export const AuthContext = createContext<AuthContextValue>({
   userId: null,
-  userSlug: null,
   token: null,
   tokenExpTime: null,
   isAuthenticated: false,

@@ -55,10 +55,6 @@ export const AppRoutes = () => {
             path="/set/:setId/card/:cardId/edit"
             element={<EditCardPage />}
           />
-          {/* <Route
-          path="/:userSlug/set/:setId/cards/:page"
-          element={<ViewCardsPage />}
-        /> */}
           <Route path="/set/:setId/cards" element={<ViewCardsPage />} />
           <Route path="/profile/" element={<ProfilePage />} />
         </Route>

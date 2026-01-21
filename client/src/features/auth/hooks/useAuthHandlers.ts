@@ -1,33 +1,14 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { authApi } from "@feats/auth/service/auth-service";
-import { authStorage } from "@feats/auth/service/auth-storage";
+import { authApi } from "@feats/auth/service/auth.service";
+import { authStorage } from "@feats/auth/service/auth.storage";
 import { AUTH_CONFIG } from "@/config/auth.config";
-import type { AuthReducerAction, AuthStateBase } from "@feats/auth/types";
+import type { AuthReducerAction } from "@feats/auth/types";
 
 export const useAuthHandlers = (
   dispatch: React.Dispatch<AuthReducerAction>,
 ) => {
-  const refreshInProgressRef = useRef(false);
   const navigate = useNavigate();
-
-  const setAuthUser = useCallback(
-    (authData: AuthStateBase) => {
-      const { userId, userSlug, token, tokenExpTime } = authData;
-
-      if (!userSlug || !token || !userId || !tokenExpTime) {
-        throw new Error("Auth data is required");
-      }
-
-      dispatch({
-        type: "LOGIN",
-        payload: { userId, userSlug, token, tokenExpTime },
-      });
-
-      authStorage.set({ userId, userSlug, token, tokenExpTime });
-    },
-    [dispatch],
-  );
 
   const login = useCallback(
     async (userEmail: string, userPass: string) => {
@@ -35,11 +16,25 @@ export const useAuthHandlers = (
         throw new Error("Email and password are required");
       }
 
-      const authData = await authApi.login(userEmail, userPass);
-      setAuthUser(authData);
+      const { userId, token, tokenExpTime } = await authApi.login(
+        userEmail,
+        userPass,
+      );
+
+      if (!userId || !token || !tokenExpTime) {
+        throw new Error("Invalid auth data");
+      }
+
+      dispatch({
+        type: "LOGIN",
+        payload: { userId, token, tokenExpTime },
+      });
+
+      authStorage.set({ token });
+
       navigate(AUTH_CONFIG.ROUTES.DASHBOARD);
     },
-    [navigate, setAuthUser],
+    [navigate, dispatch],
   );
 
   const logout = useCallback(async () => {
@@ -54,29 +49,21 @@ export const useAuthHandlers = (
     }
   }, [navigate, dispatch]);
 
-  const refreshAuthToken = useCallback(
-    async (currentUserId: string, currentToken: string) => {
-      if (refreshInProgressRef.current) {
-        return;
-      }
+  // const refreshAuthToken = useCallback(
+  //   async (currentUserId: string, currentToken: string) => {
+  //     try {
+  //       const authData = await authApi.refreshToken(
+  //         currentUserId,
+  //         currentToken,
+  //       );
+  //       setAuthUser(authData);
+  //     } catch (err) {
+  //       console.error("Token refresh failed:", err);
+  //       await logout();
+  //     }
+  //   },
+  //   [setAuthUser, logout],
+  // );
 
-      refreshInProgressRef.current = true;
-
-      try {
-        const authData = await authApi.refreshToken(
-          currentUserId,
-          currentToken,
-        );
-        setAuthUser(authData);
-      } catch (err) {
-        console.error("Token refresh failed:", err);
-        await logout();
-      } finally {
-        refreshInProgressRef.current = false;
-      }
-    },
-    [setAuthUser, logout],
-  );
-
-  return { login, logout, refreshAuthToken, setAuthUser };
+  return { login, logout };
 };

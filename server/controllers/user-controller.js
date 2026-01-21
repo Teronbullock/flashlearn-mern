@@ -85,11 +85,7 @@ export const postUserLogin = async (req, res) => {
 
     res.status(200).json({
       msg: 'User logged in successfully.',
-      userId: id,
-      userEmail: user_email,
-      userSlug: slug,
       token: tokenData.token,
-      tokenExpTime: tokenData.tokenExpTime,
       refreshToken,
     });
   } catch (error) {
@@ -100,7 +96,7 @@ export const postUserLogin = async (req, res) => {
 
 export const postUserLogout = async (req, res) => {
   const token = verifyToken(
-    req.cookies.refreshToken,
+    req.cookies.flashLearn_refreshToken,
     process.env.REFRESH_TOKEN_SECRET
   );
 
@@ -110,7 +106,7 @@ export const postUserLogout = async (req, res) => {
   const deletedRefreshToken = await deleteRefreshToken(userId);
 
   if (deletedRefreshToken >= 1) {
-    res.clearCookie('refreshToken');
+    res.clearCookie('flashLearn_refreshToken');
 
     res.status(200).json({
       msg: 'User is logged out.',
@@ -121,29 +117,25 @@ export const postUserLogout = async (req, res) => {
 };
 
 export const postRefresh = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.cookies.flashLearn_refreshToken;
 
   if (!refreshToken) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    res.status(401);
+    throw new Error('No refresh token found.');
   }
 
   const verifiedTokenData = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-
-  if (verifiedTokenData) {
-    const user = await Users.findByPk(verifiedTokenData.userId);
-
-    if (!user) {
-      res.status(404);
-      throw new Error('User not found');
-    }
-    // Generate a new access token
-    const tokenData = genAuthToken(user.id);
-
-    return res.status(200).json({
-      userId: user.id,
-      userSlug: user.slug,
-      token: tokenData.token,
-      tokenExpTime: tokenData.tokenExpTime
-    });
+  if (!verifiedTokenData) {
+    res.status(401);
+    throw new Error('Invalid refresh token.');
   }
+
+  const verifiedUser = await Users.findByPk(verifiedTokenData.userId);
+  if (!verifiedUser) {
+    res.status(404);
+    throw new Error('User not found.');
+  }
+
+  const tokenData = genAuthToken(verifiedUser.id);
+  res.status(200).json({ token: tokenData.token });
 };

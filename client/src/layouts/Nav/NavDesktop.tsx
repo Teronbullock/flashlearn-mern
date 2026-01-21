@@ -3,7 +3,7 @@ import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { LogoutFn } from "@app-types/navTypes";
 
 export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
-  const { token, userSlug } = useAuthContext();
+  const { token } = useAuthContext();
 
   return (
     <div data-name="nav-desktop" className="hidden md:block">
@@ -36,42 +36,38 @@ export const NavDesktop = ({ onLogout }: { onLogout: LogoutFn }) => {
           </>
         ) : (
           <>
-            {userSlug && (
-              <>
-                <li>
-                  <BtnLink
-                    variants={{ style: "btn" }}
-                    className="mx-4 my-0"
-                    to={`/dashboard`}
-                  >
-                    Dashboard
-                  </BtnLink>
-                </li>
-                <li>
-                  <BtnLink
-                    variants={{ style: "btn" }}
-                    className="mx-4 my-0"
-                    to={`/set/add`}
-                  >
-                    Create Set
-                  </BtnLink>
-                </li>
-                <li>
-                  <BtnLink
-                    variants={{ style: "btn" }}
-                    className="mx-4 my-0"
-                    to={`/profile/`}
-                  >
-                    Profile
-                  </BtnLink>
-                </li>
-                <li>
-                  <Btn className="btn--black p-3" onClick={onLogout}>
-                    Logout
-                  </Btn>
-                </li>
-              </>
-            )}
+            <li>
+              <BtnLink
+                variants={{ style: "btn" }}
+                className="mx-4 my-0"
+                to={`/dashboard`}
+              >
+                Dashboard
+              </BtnLink>
+            </li>
+            <li>
+              <BtnLink
+                variants={{ style: "btn" }}
+                className="mx-4 my-0"
+                to={`/set/add`}
+              >
+                Create Set
+              </BtnLink>
+            </li>
+            <li>
+              <BtnLink
+                variants={{ style: "btn" }}
+                className="mx-4 my-0"
+                to={`/profile/`}
+              >
+                Profile
+              </BtnLink>
+            </li>
+            <li>
+              <Btn className="btn--black p-3" onClick={onLogout}>
+                Logout
+              </Btn>
+            </li>
           </>
         )}
       </ul>

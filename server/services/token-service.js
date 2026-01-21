@@ -40,7 +40,7 @@ export const genRefreshToken = userId => {
  */
 export const setRefreshTokenCookie = (res, refreshToken) => {
   // Store refresh token securely (e.g., HTTP-only cookie)
-  res.cookie('refreshToken', refreshToken, {
+  res.cookie('flashLearn_refreshToken', refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'Strict',

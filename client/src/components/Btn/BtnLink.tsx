@@ -20,7 +20,7 @@ export const BtnLink = ({
 
   if (disabled) {
     return (
-      <span className={btnClass} {...(props as any)}>
+      <span className={btnClass} {...props}>
         {children}
       </span>
     );

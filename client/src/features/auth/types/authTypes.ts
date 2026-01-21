@@ -1,8 +1,8 @@
 import { BaseAuthFields, RegistrationDetails } from "@/types/auth";
+import { Dispatch } from "react";
 
 export interface AuthStateBase {
   userId: string | null;
-  userSlug: string | null;
   token: string | null;
   tokenExpTime: Date | null;
 }
@@ -10,6 +10,13 @@ export interface AuthStateBase {
 export interface AuthReducerState extends AuthStateBase {
   isAuthenticated: boolean | null;
   isLoading: boolean;
+}
+
+export interface ManageAuthProps {
+  token: string | null;
+  userId: string | null;
+  logout: () => Promise<void>;
+  dispatch: Dispatch<AuthReducerAction>;
 }
 
 // Actions
@@ -34,12 +41,13 @@ export type LoginAction =
 export type AuthReducerAction =
   | {
       type: "LOGIN";
-      payload: {
-        userId: string;
-        token: string;
-        tokenExpTime: Date;
-        userSlug: string;
-      };
+      payload: AuthStateBase;
     }
   | { type: "LOGOUT" }
   | { type: "AUTH_INITIALIZED" };
+
+export interface PostNewUserParams {
+  userEmail: string;
+  userPass: string;
+  userPassConfirm: string;
+}

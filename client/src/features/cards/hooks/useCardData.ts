@@ -37,7 +37,6 @@ export const useCardData = ({ setId, pageNum }: UseCardDataParams) => {
   // Fetch ALL cards ONCE and cache them
   const fetchFullSet = useCallback(
     async (signal: AbortSignal) => {
-      // ✅ Return early if already fetched (caching)
       if (hasFetchedRef.current && list.length > 0) {
         setIsLoading(false);
         return;
@@ -83,7 +82,7 @@ export const useCardData = ({ setId, pageNum }: UseCardDataParams) => {
         }
       }
     },
-    [setId, list.length], // ✅ list.length helps with the cache check
+    [setId, list.length],
   );
 
   // Fetch on mount or when setId changes
@@ -104,17 +103,16 @@ export const useCardData = ({ setId, pageNum }: UseCardDataParams) => {
     setIsLoading(true);
   }, [setId]);
 
-  // ✅ Get current card based on pageNum (from cached list)
   const cardIndex = getCardIndex(pageNum);
   const currentCard = list[cardIndex] || null;
 
   return {
-    card: currentCard, // Current card based on pageNum
-    cardList: list, // Full cached list
-    cardCount: count, // Total count
-    isLoading, // Loading spinner state
-    error, // Error message
-    refetch: fetchFullSet, // Manual refetch if needed
+    card: currentCard,
+    cardList: list,
+    cardCount: count,
+    isLoading,
+    error,
+    refetch: fetchFullSet,
   };
 };
 

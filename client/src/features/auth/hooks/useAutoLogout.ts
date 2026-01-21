@@ -17,24 +17,26 @@ export const useAutoLogout = ({
   const logoutTimer = useRef<number | NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (token && tokenExpTime) {
-      const expirationTime = new Date(tokenExpTime).getTime();
-      const currentTime = new Date().getTime();
-      const remainingTime = expirationTime - currentTime;
+    if (!token || !tokenExpTime) {
+      return () => {
+        if (logoutTimer.current) {
+          clearTimeout(logoutTimer.current);
+        }
+      };
+    }
+    const expirationTime = new Date(tokenExpTime).getTime();
+    const currentTime = new Date().getTime();
+    const remainingTime = expirationTime - currentTime;
 
-      if (logoutTimer.current) {
-        clearTimeout(logoutTimer.current);
-      }
+    if (logoutTimer.current) {
+      clearTimeout(logoutTimer.current);
+    }
 
-      if (remainingTime > 0) {
-        logoutTimer.current = setTimeout(logout, remainingTime);
-      } else {
-        logout();
-      }
+    if (remainingTime > 0) {
+      logoutTimer.current = setTimeout(logout, remainingTime);
     } else {
-      if (logoutTimer.current) {
-        clearTimeout(logoutTimer.current);
-      }
+      console.warn("Token expiration time is in the past", remainingTime);
+      // logout();
     }
 
     return () => {

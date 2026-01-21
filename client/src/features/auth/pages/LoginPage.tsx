@@ -39,7 +39,7 @@ const LoginPage = () => {
               autoFocus={true}
             />
           </FormGroup>
-          <FormGroup labelName="Password" className={{ group: "mb-2!" }}>
+          <FormGroup labelName="Password" className={{ group: "mb-6!" }}>
             <FormInput
               type="password"
               name="user_pass"
@@ -56,11 +56,11 @@ const LoginPage = () => {
               }
             />
           </FormGroup>
-          <div className="mb-6 flex justify-end">
+          {/* <div className="mb-6 flex justify-end">
             <BtnLink to="/" className="text-primary text-xs">
               Forgot Password?
             </BtnLink>
-          </div>
+          </div> */}
         </CTASplitForm>
         <div>
           <div className="mb-15 relative flex items-center justify-center">
