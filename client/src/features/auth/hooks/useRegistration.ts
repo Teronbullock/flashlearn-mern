@@ -3,7 +3,7 @@ import { ZodError } from "zod";
 import { apiRequest } from "@lib/api";
 import type { RegistrationAction } from "@feats/auth/types";
 import type { RegistrationDetails } from "@/types/index";
-import { AuthRegSchema } from "@flashlearn/common";
+import { AuthRegSchema } from "@common";
 
 const initialRegisterState = {
   user_email: "",

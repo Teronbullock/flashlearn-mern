@@ -13,8 +13,8 @@ export interface AuthReducerState extends AuthStateBase {
 }
 
 export interface AuthContextValue extends AuthReducerState {
-  login: (userEmail: string, userPass: string) => void;
   logout: () => void;
+  dispatch: Dispatch<AuthReducerAction>;
 }
 
 export type FormAction<T> =

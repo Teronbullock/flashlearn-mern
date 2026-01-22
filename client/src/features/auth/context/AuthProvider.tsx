@@ -47,7 +47,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
   const { userId, token, tokenExpTime, isAuthenticated, isLoading } = authState;
 
-  const { login, logout } = useAuthHandlers(dispatch);
+  const { logout } = useAuthHandlers(dispatch);
 
   useManageAuth({ token, logout, dispatch });
   useAutoLogout({ token, tokenExpTime, logout });
@@ -58,11 +58,11 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       token,
       tokenExpTime,
       isAuthenticated,
-      login,
       logout,
       isLoading,
+      dispatch,
     }),
-    [userId, login, logout, isAuthenticated, token, tokenExpTime, isLoading],
+    [userId, logout, isAuthenticated, token, tokenExpTime, isLoading, dispatch],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

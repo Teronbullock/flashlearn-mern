@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import Users from '../models/users-model.js';
 import { ZodError } from 'zod';
-import { AuthRegSchema, AuthLoginSchema } from '@flashlearn/common';
+import { AuthRegSchema, AuthLoginSchema } from '@common/index.js';
 
 import {
   genAuthToken,
@@ -54,37 +54,42 @@ export const postUserRegister = async (req, res) => {
 };
 
 export const postUserLogin = async (req, res) => {
-   console.log('server body', res.body);
+  const { user_email, user_pass } = req.body;
 
   try {
-    const { user_pass, user_email } = AuthLoginSchema.parse(req.body);
-
-    const user = await authenticateUser(user_email, user_pass);
-    const { id, slug } = user;
-
-    console.log('server', user, slug, user_email, user_pass);
-
-    // create a token
-    const tokenData = genAuthToken(id, user_email);
-    // create a refresh token
-    const refreshToken = genRefreshToken(id);
-    // add refresh token to database
-    addRefreshToken(id, refreshToken);
-    // set refresh token cookie
-    setRefreshTokenCookie(res, refreshToken);
-
+    const results = AuthLoginSchema.parse({
+      userEmail: user_email,
+      userPass: user_pass,
+    });
+    
+  const { userEmail: parsedUserEmail, userPass: parsedUserPass } = results;
+  
+  const user = await authenticateUser(parsedUserEmail, parsedUserPass);
+  const { id, slug } = user;
+  
+  // create a token
+  const tokenData = genAuthToken(id, parsedUserEmail);
+  // create a refresh token
+  const refreshToken = genRefreshToken(id);
+  // add refresh token to database
+  addRefreshToken(id, refreshToken);
+  // set refresh token cookie
+  setRefreshTokenCookie(res, refreshToken);
+  
     res.status(200).json({
       msg: 'User logged in successfully.',
       token: tokenData.token,
       refreshToken,
     });
   } catch (error) {
+ 
     if (error instanceof ZodError) {
         const errorMessage = error.errors.map((e) => e.message).join(' ');
         throw new Error(`Validation Error: ${errorMessage}`);
+    } else {
+      const errorMsg = error instanceof Error ? error.message : "Login Error";
+      throw new Error(errorMsg);
     }
-    console.error('Login Error: ', error);
-    throw new Error(error.message || 'Invalid credentials');
   }
 };
 

@@ -57,6 +57,7 @@ const LoginPage = () => {
               }
             />
             <InputError messages={errors.userPass} />
+            <InputError messages={errors.general} />
           </FormGroup>
           {/* <div className="mb-6 flex justify-end">
             <BtnLink to="/" className="text-primary text-xs">

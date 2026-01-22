@@ -1,9 +1,13 @@
 import { useReducer, useState } from "react";
+import { useNavigate } from "react-router";
 import { ZodError } from "zod";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import type { BaseAuthFields } from "@/types/index";
 import type { LoginAction } from "../types/index";
-import { AuthLoginSchema } from "@flashlearn/common";
+import { AuthLoginSchema } from "@common";
+import { authApi } from "@feats/auth/service/auth.service";
+import { AUTH_CONFIG } from "@/config/auth.config";
+import { authStorage } from "@feats/auth/service/auth.storage";
 
 const initialLoginState = {
   user_email: "",
@@ -25,43 +29,61 @@ const loginFormReducer = (state: BaseAuthFields, action: LoginAction) => {
 };
 
 export const useLogin = () => {
-  const { login } = useAuthContext();
-  const [state, dispatch] = useReducer(loginFormReducer, initialLoginState);
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
-  const { user_email: userEmail, user_pass: userPass } = state;
+  const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const [state, dispatchForm] = useReducer(loginFormReducer, initialLoginState);
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({});
 
     try {
-      if (!userEmail || !userPass) {
-        throw new Error("All fields are required");
+      if (!state.user_email || !state.user_pass) {
+        throw new Error("Email and password are required");
       }
 
-      login(userEmail, userPass);
+      AuthLoginSchema.parse({
+        userEmail: state.user_email,
+        userPass: state.user_pass,
+      });
+      const { userId, token, tokenExpTime } = await authApi.login(
+        state.user_email,
+        state.user_pass,
+      );
 
-      dispatch({ type: "FORM_RESET" });
-      console.log("after ran", userEmail, userPass);
+      if (!userId || !token || !tokenExpTime) {
+        throw new Error("Invalid auth data");
+      }
+
+      dispatch({ type: "LOGIN", payload: { userId, token, tokenExpTime } });
+
+      authStorage.set({ token });
+      navigate(AUTH_CONFIG.ROUTES.DASHBOARD);
+      dispatchForm({ type: "FORM_RESET" });
     } catch (error) {
-      // if (error instanceof ZodError) {
-      //   const fieldErrors: Record<string, string[]> = {};
-      //   error.issues.forEach((issue) => {
-      //     const path = issue.path[0] as string;
-      //     if (!fieldErrors[path]) {
-      //       fieldErrors[path] = [];
-      //     }
-      //     fieldErrors[path].push(issue.message);
-      //   });
-      //   setErrors(fieldErrors);
-      // } else {
-      //   const msg = error instanceof Error ? error.message : "Login Error";
-      //   alert(msg);
-      // }
-      setErrors(error as Record<string, string[]>);
-      console.log("error", error);
+      if (error instanceof ZodError) {
+        const fieldErrors: Record<string, string[]> = {};
+
+        error.issues.forEach((issue) => {
+          const path = issue.path[0] as string;
+
+          if (!fieldErrors[path]) {
+            fieldErrors[path] = [];
+          }
+
+          fieldErrors[path].push(issue.message);
+        });
+        setErrors(fieldErrors);
+        console.log("errors", fieldErrors);
+      } else {
+        const errorMsg = error instanceof Error ? error.message : "Login Error";
+        console.error(error);
+        setErrors({ general: [errorMsg] });
+      }
     }
   };
 
-  return { submitHandler, dispatch, state, errors };
+  return { submitHandler, dispatch: dispatchForm, state, errors };
 };

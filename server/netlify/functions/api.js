@@ -6,11 +6,11 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
 import cookieParser from 'cookie-parser'; 
-import authRoutes from '../../routes/auth-routes.js';
-import setRoutes from '../../routes/set-routes.js';
-import profileRoutes from '../../routes/profile-routes.js';
-import infoRoute from '../../routes/info-route.js';
-import checkAuth from '../../middleware/check-auth.js';
+import authRoutes from '../../src/routes/auth-routes.js';
+import setRoutes from '../../src/routes/set-routes.js';
+import profileRoutes from '../../src/routes/profile-routes.js';
+import infoRoute from '../../src/routes/info-route.js';
+import checkAuth from '../../src/middleware/check-auth.js';
 
 
 const app = express();

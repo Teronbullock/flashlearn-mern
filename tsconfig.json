@@ -3,20 +3,12 @@
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "node",
+
+    "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
     
-    /* Linting */
-    "strict": true,
-    
-    /* Allow importing JSON modules */
     "esModuleInterop": true,
-    
-    /* Allow importing JSON modules */
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "dist"]
 }

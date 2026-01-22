@@ -3,12 +3,22 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    
+    "rootDir": "src",
+    "outDir": "dist",
+    "sourceMap": true,
+    
     "types": ["node"],
-    "isolatedModules": true,
+    
     "allowJs": true,           
-    "checkJs": false   
+    "checkJs": false,
+    
+    "declaration": false,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["../packages/common/dist/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.js"]
 }

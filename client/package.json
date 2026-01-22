@@ -1,5 +1,5 @@
 {
-  "name": "flashlearn/client",
+  "name": "client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,14 +7,15 @@
     "build": "tsc -b && pnpm run build:sass && vite build",
     "build:sass": "sass src/assets/scss/global.scss:src/assets/scss/global.css",
     "sass:watch": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
-    "dev": "conc 'pnpm run sass:watch' 'vite' ",
-    "dev:prod-env": "conc 'pnpm sass:watch' 'vite dev --mode production'",
+    "ts-check": "tsc --noEmit",
     "test": "vitest",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:prod-env": "conc 'pnpm sass:watch' 'vite dev --mode production'",
+    "dev": "conc 'pnpm run sass:watch' 'vite' "
   },
   "dependencies": {
-    "@flashlearn/common": "workspace:*",
+    "common": "workspace:*",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.7.7",
     "classnames": "^2.5.1",
