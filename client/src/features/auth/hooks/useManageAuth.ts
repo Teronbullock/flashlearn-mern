@@ -87,7 +87,7 @@ export const useManageAuth = ({ token, logout, dispatch }: ManageAuthProps) => {
     try {
       const authData = await authApi.refreshToken(token);
 
-      if (!authData) {
+      if (!authData || !authData.token) {
         throw new Error("Invalid auth data");
       }
 
@@ -100,7 +100,7 @@ export const useManageAuth = ({ token, logout, dispatch }: ManageAuthProps) => {
         },
       });
 
-      authStorage.set({ token });
+      authStorage.set({ token: authData.token });
     } catch (error) {
       console.error("Failed to refresh token:", error);
       if (error instanceof Error && error.message.includes("401")) {

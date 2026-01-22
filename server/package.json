@@ -10,11 +10,11 @@
     "build:cards-table": "npx sequelize migration:generate --name create-cards-table",
     "build:refresh-tokens-table": "npx sequelize migration:generate --name create-refresh-tokens-table",
     "build:all-tables": "pnpm build:users-table && pnpm build:sets-table && pnpm build:cards-table && pnpm build:refresh-tokens-table",
-    "dev": "NODE_ENV=development node --env-file=../.env --watch app.js",
-    "start": "NODE_ENV=production node --env-file=../.env app.js",
     "migrate": "npx sequelize db:migrate",
     "migrate:undo": "npx sequelize db:migrate:undo",
-    "migrate:undo:all": "npx sequelize db:migrate:undo:all"
+    "migrate:undo:all": "npx sequelize db:migrate:undo:all",
+    "dev": "NODE_ENV=development node --env-file=../.env --watch app.js",
+    "start": "NODE_ENV=production node --env-file=../.env app.js"
   },
   "keywords": [],
   "author": "Teron Bullock",
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.4.7",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "tsx": "^4.21.0"
   }
 }

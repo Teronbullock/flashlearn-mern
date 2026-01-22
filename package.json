@@ -20,11 +20,17 @@
     "dev": "pnpm --parallel --filter \"flashlearn*\" --stream dev",
     "start:server": "pnpm --filter flashlearn/server start",
     "install:all": "pnpm install"
-},
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@eslint/js": "^9.39.2",
+    "@types/node": "^22.19.3",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.2",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0"
   }
 }

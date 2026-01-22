@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { ZodError } from "zod";
 import { apiRequest } from "@lib/api";
 import type { RegistrationAction } from "@feats/auth/types";
@@ -34,6 +34,8 @@ export const useRegistration = () => {
     initialRegisterState,
   );
 
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
+
   const {
     user_email: userEmail,
     user_pass: userPass,
@@ -42,6 +44,7 @@ export const useRegistration = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors({});
 
     try {
       if (!userEmail || !userPass || !userPassConfirm) {
@@ -67,8 +70,15 @@ export const useRegistration = () => {
       dispatch({ type: "FORM_RESET" });
     } catch (error) {
       if (error instanceof ZodError) {
-        const errorMessage = error.issues[0].message;
-        console.error("ERROR: ", errorMessage);
+        const fieldErrors: Record<string, string[]> = {};
+        error.issues.forEach((issue) => {
+          const path = issue.path[0] as string;
+          if (!fieldErrors[path]) {
+            fieldErrors[path] = [];
+          }
+          fieldErrors[path].push(issue.message);
+        });
+        setErrors(fieldErrors);
       } else {
         const msg =
           error instanceof Error ? error.message : "Registration Error";
@@ -81,5 +91,6 @@ export const useRegistration = () => {
     submitHandler,
     state,
     dispatch,
+    errors,
   };
 };

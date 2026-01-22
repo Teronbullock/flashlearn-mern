@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { body } from 'express-validator';
 import asyncHandler from '../middleware/asyncHandler.js';
 
 import {
@@ -16,17 +15,6 @@ const router = Router();
  */
 router.post(
   '/register',
-  [
-    body('user_email')
-      .trim()
-      .isEmail()
-      .withMessage('Invalid email format.')
-      .notEmpty()
-      .withMessage('Email is required.')
-      .normalizeEmail(),
-    body('user_pass').notEmpty(),
-    body('user_pass_confirm').notEmpty(),
-  ],
   asyncHandler(postUserRegister, 401)
 );
 
@@ -35,16 +23,6 @@ router.post(
  */
 router.post(
   '/login',
-  [
-    body('user_email')
-      .trim()
-      .isEmail()
-      .withMessage('Invalid email format.')
-      .notEmpty()
-      .withMessage('Email is required.')
-      .normalizeEmail(),
-    body('user_pass').notEmpty(),
-  ],
   asyncHandler(postUserLogin, 401)
 );
 

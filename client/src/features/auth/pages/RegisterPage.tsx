@@ -5,7 +5,7 @@ import data from "@content/registerPage.json";
 import { useRegistration } from "@feats/auth/hooks";
 
 const RegisterPage = () => {
-  const { submitHandler, dispatch, state } = useRegistration();
+  const { submitHandler, dispatch, state, errors } = useRegistration();
   const { image, title, subTitle, cta } = data;
 
   return (
@@ -34,8 +34,8 @@ const RegisterPage = () => {
                   payload: { user_email: e.target.value },
                 })
               }
-              <InputError messages={formErrors.userEmail} />
             />
+            <InputError messages={errors.userEmail} />
           </FormGroup>
           <FormGroup labelName="Choose Password">
             <FormInput
@@ -51,10 +51,10 @@ const RegisterPage = () => {
                 })
               }
             />
-            <InputError messages={formErrors.userPassword} />
-            <p className="mb-5 text-xs">
+            <p className="mb-2 mt-2 text-xs">
               Password should consist of numbers and special characters
             </p>
+            <InputError messages={errors.userPass} />
           </FormGroup>
           <FormGroup labelName="Confirm Password">
             <FormInput
@@ -69,9 +69,9 @@ const RegisterPage = () => {
                   payload: { user_pass_confirm: e.target.value },
                 })
               }
-              <InputError messages={formErrors.userPassConfirm} />
             />
-            <p className="mb-8 text-xs">Re-enter your password</p>
+            <p className="mb-2 mt-2 text-xs">Re-enter your password</p>
+            <InputError messages={errors.userPassConfirm} />
           </FormGroup>
         </CTASplitForm>
         <div>

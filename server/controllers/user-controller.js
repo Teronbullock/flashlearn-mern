@@ -1,6 +1,7 @@
-import { validationResult } from 'express-validator';
 import { nanoid } from 'nanoid';
 import Users from '../models/users-model.js';
+import { ZodError } from 'zod';
+import { AuthRegSchema, AuthLoginSchema } from '@flashlearn/common';
 
 import {
   genAuthToken,
@@ -15,37 +16,24 @@ import {authenticateUser} from '../services/auth-service.js';
 
 
 export const postUserRegister = async (req, res) => {
-  let valErrs = validationResult(req);
-
-  // check if all fields are filled
-  if (!valErrs.isEmpty()) {
-    throw new Error('All fields required. ' + valErrs.array()[0].msg);
-  }
-
-  // get form fields
-  const { user_pass, user_pass_confirm, user_email } = req.body;
-
-  const formData = {
-    user_email,
-    user_pass,
-    slug: nanoid(10),
-  };
-
-  // confirm that user typed same password twice
-  if (user_pass !== user_pass_confirm) {
-    throw new Error('Passwords do not match.');
-  }
-
-  // check if user and email already exists
-  const isUserEmail = await Users.findOne({ where: { user_email } });
-
-  // if email exists, throw error
-  if (isUserEmail) {
-    throw new Error('Email already exists.');
-  }
-
-  // create user
   try {
+    const { user_pass, user_email } = AuthRegSchema.parse(req.body);
+
+    const formData = {
+      user_email,
+      user_pass,
+      slug: nanoid(10),
+    };
+
+    // check if user and email already exists
+    const isUserEmail = await Users.findOne({ where: { user_email } });
+
+    // if email exists, throw error
+    if (isUserEmail) {
+      throw new Error('Email already exists.');
+    }
+
+    // create user
     await Users.create(formData);
     console.log('User registered successfully.');
 
@@ -54,7 +42,11 @@ export const postUserRegister = async (req, res) => {
       msg: 'User registered successfully.',
     });
   } catch (err) {
-    const error = new Error("Couldn't register user.");
+    if (err instanceof ZodError) {
+      const errorMessage = err.errors.map((e) => e.message).join(' ');
+      throw new Error(`Validation Error: ${errorMessage}`);
+    }
+    const error = new Error(err.message || "Couldn't register user.");
     error.cause = err;
 
     throw error;
@@ -62,18 +54,16 @@ export const postUserRegister = async (req, res) => {
 };
 
 export const postUserLogin = async (req, res) => {
-  let errors = validationResult(req);
-
-  const { user_pass, user_email } = req.body;
-
-  if (!errors.isEmpty()) {
-    throw new Error('Email and password are required.');
-  }
-
-  const user = await authenticateUser(user_email, user_pass);
-  const { id, slug } = user;
+   console.log('server body', res.body);
 
   try {
+    const { user_pass, user_email } = AuthLoginSchema.parse(req.body);
+
+    const user = await authenticateUser(user_email, user_pass);
+    const { id, slug } = user;
+
+    console.log('server', user, slug, user_email, user_pass);
+
     // create a token
     const tokenData = genAuthToken(id, user_email);
     // create a refresh token
@@ -89,8 +79,12 @@ export const postUserLogin = async (req, res) => {
       refreshToken,
     });
   } catch (error) {
+    if (error instanceof ZodError) {
+        const errorMessage = error.errors.map((e) => e.message).join(' ');
+        throw new Error(`Validation Error: ${errorMessage}`);
+    }
     console.error('Login Error: ', error);
-    throw new Error('Invalid credentials');
+    throw new Error(error.message || 'Invalid credentials');
   }
 };
 

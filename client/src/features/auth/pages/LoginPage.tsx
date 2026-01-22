@@ -1,11 +1,11 @@
 import { CTASplitLayout, CTASplitForm } from "@components/CTASplit";
-import { FormInput, FormGroup } from "@components/forms";
+import { FormInput, FormGroup, InputError } from "@components/forms";
 import { BtnLink } from "@components/btn";
 import { useLogin } from "@feats/auth/hooks";
 import data from "@content/loginPage.json";
 
 const LoginPage = () => {
-  const { submitHandler, dispatch, state } = useLogin();
+  const { submitHandler, dispatch, state, errors } = useLogin();
   const { image, title, subTitle, cta } = data;
 
   return (
@@ -38,6 +38,7 @@ const LoginPage = () => {
               }
               autoFocus={true}
             />
+            <InputError messages={errors.userEmail} />
           </FormGroup>
           <FormGroup labelName="Password" className={{ group: "mb-6!" }}>
             <FormInput
@@ -55,6 +56,7 @@ const LoginPage = () => {
                 })
               }
             />
+            <InputError messages={errors.userPass} />
           </FormGroup>
           {/* <div className="mb-6 flex justify-end">
             <BtnLink to="/" className="text-primary text-xs">
