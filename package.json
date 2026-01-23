@@ -5,23 +5,27 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "install:all": "pnpm install",
     "build:client": "pnpm -F client build",
-    "build:netlify": "conc --prefix-colors 'auto' 'pnpm build:client' 'dev:netlify' ",
     "build:server": "pnpm -F server build",
     "build:common": "pnpm -F common run build",
-    "build": "pnpm -F client -F server --stream build",
+    "build:netlify": "netlify build",
+    "build": "pnpm run build:common && pnpm run --parallel --stream -F client -F server build",
     "preview:client": "pnpm -F client preview",
-    "preview": "pnpm --parallel -F client preview -F server --stream start",
+    "preview": "pnpm run --parallel --stream -F client preview -F server start",
     "db:migrate": "pnpm -F server migrate",
     "db:migrate:undo": "pnpm -F server migrate:undo",
-    "dev:client": "pnpm -F client dev",
+    "dev:server:prod-env": "pnpm -F server dev:prod-env",
     "dev:server": "pnpm -F server dev",
-    "dev:client-prod-env": "conc 'pnpm -F client dev:prod-env",
-    "dev:prod-env": "pnpm --parallel -F client client-prod-env server --stream start",
-    "dev:netlify": "netlify dev",
-    "dev": "pnpm --parallel -F client -F server --stream dev",
+    "dev:client:prod-env": "pnpm -F client dev:prod-env",
+    "dev:client": "pnpm -F client dev",
+    "dev:netlify:prod-env": "conc 'pnpm dev:server:prod-env' 'pnpm dev:client:prod-env'",
+    "dev:netlify:prod-build": "pnpm run build:client && pnpm run start:server",
+    "dev:netlify:server": "conc 'pnpm dev:server' 'pnpm dev:client'",
+    "dev:netlify": "netlify dev --filter client",
+    "dev": "pnpm --parallel --stream-F client -F server dev",
     "start:server": "pnpm -F server start",
-    "install:all": "pnpm install"
+    "start:netlify": "netlify build && netlify server --context production"
   },
   "keywords": [],
   "author": "",
@@ -34,5 +38,11 @@
     "prettier": "^3.7.4",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.52.0"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
   }
 }

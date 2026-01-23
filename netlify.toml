@@ -1,47 +1,36 @@
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
 
 [build]
-  base = "."
-  publish = "client/dist"
-  command = "npm run install:all && npm run db:migrate && npm run build:client"
+
+  base = "." 
+  command = "pnpm run build"
+  publish = "client/dist" 
+  functions = "server/netlify/functions"
+
 
 [functions]
   node_bundler = "esbuild"
   external_node_modules = [
-    "express",
-    "serverless-http",
-    "body-parser",
-    "dotenv",
-    "cors",
-    "helmet",
-    "compression",
-    "method-override",
-    "cookie-parser",
-    "pg-hstore",
-    "pg",
-    "sequelize",
-    "express-validator",
-    "bcrypt",
-    "jsonwebtoken"
-    ]
-  directory = "server/netlify/functions"
+    "pg", 
+    "pg-hstore", 
+    "bcrypt"
+  ]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api"
-  status = 200
-
 
 [dev]
   framework = "#custom"
-  host = "$HOST"
-  port = 8888
+  command = "pnpm --filter client run dev"
   targetPort = 5173
+  port = 8888
   publish = "client/dist"
-  command = "npm run dev:client-prod-env"

@@ -3,9 +3,6 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
-import path from 'path';
-import https from 'https';
-import fs from 'fs';
 import cors from 'cors';
 import authRoutes from './routes/auth-routes.js';
 import setRoutes from './routes/set-routes.js';
@@ -46,15 +43,15 @@ app.use('/favicon.ico', (req, res, next) => {
 });
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
   const err = new Error('Not Found ');
-  err.status = 404;
+  (err as any).status = 404;
   next(err);
 });
 
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
   const stack = err.stack;
@@ -73,27 +70,9 @@ app.use((err, req, res, next) => {
     error: message,
     status,
   });
-  
+
 });
 
 
-const port = process.env.SERVER_DEV_PORT || 5001;
-const prodServerHost = process.env.HOST || 'localhost';
-const keyPath = path.resolve(process.cwd(), 'certs', 'key.pem');
-const certPath = path.resolve(process.cwd(), 'certs', 'cert.pem');
 
-if(process.env.NODE_ENV === 'production') {
-  const server = https.createServer(
-    {
-      key: fs.readFileSync(keyPath),
-      cert: fs.readFileSync(certPath),
-    }, app
-  ).listen(port, () => {
-    console.log(`Express app listening on https://${prodServerHost}:${port}/api/`);
-  });
-
-} else {
-  app.listen(port, ()=> {
-    console.log(`Express app listening on http://localhost:${port}/api/`);
-  });
-}
+export default app;

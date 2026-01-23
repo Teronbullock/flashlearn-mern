@@ -37,14 +37,17 @@ export const postUserRegister = async (req, res) => {
     }
 };
 export const postUserLogin = async (req, res) => {
-    console.log('server body', res.body);
+    const { user_email, user_pass } = req.body;
     try {
-        const { user_pass, user_email } = AuthLoginSchema.parse(req.body);
-        const user = await authenticateUser(user_email, user_pass);
+        const results = AuthLoginSchema.parse({
+            userEmail: user_email,
+            userPass: user_pass,
+        });
+        const { userEmail: parsedUserEmail, userPass: parsedUserPass } = results;
+        const user = await authenticateUser(parsedUserEmail, parsedUserPass);
         const { id, slug } = user;
-        console.log('server', user, slug, user_email, user_pass);
         // create a token
-        const tokenData = genAuthToken(id, user_email);
+        const tokenData = genAuthToken(id, parsedUserEmail);
         // create a refresh token
         const refreshToken = genRefreshToken(id);
         // add refresh token to database
@@ -62,8 +65,10 @@ export const postUserLogin = async (req, res) => {
             const errorMessage = error.errors.map((e) => e.message).join(' ');
             throw new Error(`Validation Error: ${errorMessage}`);
         }
-        console.error('Login Error: ', error);
-        throw new Error(error.message || 'Invalid credentials');
+        else {
+            const errorMsg = error instanceof Error ? error.message : "Login Error";
+            throw new Error(errorMsg);
+        }
     }
 };
 export const postUserLogout = async (req, res) => {

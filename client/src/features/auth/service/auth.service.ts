@@ -3,7 +3,6 @@ import { AuthStateBase, PostNewUserParams } from "@feats/auth/types";
 
 export const authApi = {
   login: async (email: string, password: string): Promise<AuthStateBase> => {
-    console.log(email, password, "AUTH----");
     const res = await apiRequest({
       url: "/auth/login",
       method: "post",

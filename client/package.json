@@ -4,15 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc -b && pnpm run build:sass && vite build",
     "build:sass": "sass src/assets/scss/global.scss:src/assets/scss/global.css",
-    "sass:watch": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
+    "build:ts-vite": "tsc -b && vite build",
+    "build": "pnpm run build:sass && pnpm run build:ts-vite",
+    "watch:sass": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
     "ts-check": "tsc --noEmit",
     "test": "vitest",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev:prod-env": "conc 'pnpm sass:watch' 'vite dev --mode production'",
-    "dev": "conc 'pnpm run sass:watch' 'vite' "
+    "dev:prod-env": "conc 'pnpm watch:sass' 'vite --mode production'",
+    "dev": "conc 'pnpm run watch:sass' 'vite' "
   },
   "dependencies": {
     "common": "workspace:*",

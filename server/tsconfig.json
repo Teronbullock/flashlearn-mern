@@ -1,8 +1,8 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     
     "rootDir": "src",
     "outDir": "dist",
@@ -12,7 +12,7 @@
     
     "allowJs": true,           
     "checkJs": false,
-    
+    "noImplicitAny": false,
     "declaration": false,
     "isolatedModules": true,
     "baseUrl": ".",
