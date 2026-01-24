@@ -17,15 +17,15 @@ interface TestimonialProps {
 export const Testimonials = ({ title, subTitle, cards }: TestimonialProps) => {
   return (
     <section
-      className="max-w-8xl md:mb-30 mx-auto px-4 py-[3.75rem]"
+      className="max-w-8xl md:mb-30 py-15 mx-auto px-4"
       data-name="Testimonials"
     >
       <SectionHeader
         title={title}
         subTitle={subTitle}
-        className={{ section: "mb-[3.75rem]" }}
+        className={{ section: "mb-15" }}
       />
-      <div className="grid grid-cols-1 grid-rows-2 gap-[24px] md:grid-cols-2">
+      <div className="grid grid-cols-1 grid-rows-2 gap-6 md:grid-cols-2">
         {cards.map((card) => {
           return (
             <Card key={card.id} className="bg-light" border={false}>

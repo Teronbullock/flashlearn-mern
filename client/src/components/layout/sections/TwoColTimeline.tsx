@@ -10,7 +10,7 @@ export function TwoColTimeline({ title, cards }: TwoColTimelineProps) {
   return (
     <SectionTwoCol
       className={{
-        container: "bg-light mb-[3.75rem] rounded-[20px] p-8",
+        container: "bg-light mb-15 rounded-[20px] p-8",
       }}
       header={{
         title: title,

@@ -23,27 +23,27 @@ export const CTASection = ({
   return (
     <SectionTwoCol className={sectionClass}>
       <span
-        className="absolute left-0 top-0 z-0 h-[121px] w-[368px] bg-[url('/assets/img/vector-4.png')] bg-contain bg-no-repeat"
+        className="h-30.25 w-92 absolute left-0 top-0 z-0 bg-[url('/assets/img/vector-4.png')] bg-contain bg-no-repeat"
         aria-hidden="true"
       />
       <span
-        className="absolute bottom-0 right-0 z-0 h-[145px] w-[197px] bg-[url('/assets/img/vector-3.png')] bg-contain bg-no-repeat"
+        className="h-36.25 w-49.25 absolute bottom-0 right-0 z-0 bg-[url('/assets/img/vector-3.png')] bg-contain bg-no-repeat"
         aria-hidden="true"
       />
       <div className="z-10 flex items-center justify-center md:w-[50%]">
         <img
           src={src}
           alt={alt}
-          className="sm-[350px] bottom-0 h-auto w-[240px] max-w-full rounded-lg md:absolute md:-left-[2%] md:w-[530px] lg:left-[5%] lg:w-[550px]"
+          className="sm-[350px] md:w-132.5 lg:w-137.5 bottom-0 h-auto w-60 max-w-full rounded-lg md:absolute md:-left-[2%] lg:left-[5%]"
         />
       </div>
       <div className="justify-left md:pt-15 pt-13 flex md:w-[50%]">
-        <div className="z-50 w-full px-4 py-6 text-white lg:max-w-[575px]">
+        <div className="lg:max-w-143.75 z-50 w-full px-4 py-6 text-white">
           <BasicHeader
             className={{
               container: "mb-12",
-              title: "z-10 !mx-0 mb-4 !text-left text-xl",
-              subtitle: "!text-left",
+              title: "mx-0! text-left! z-10 mb-4 text-xl",
+              subtitle: "text-left!",
             }}
             title={title}
             subTitle={subTitle}

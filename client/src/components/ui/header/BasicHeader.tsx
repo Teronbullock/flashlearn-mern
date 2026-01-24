@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { BasicHeaderProps } from "@components/ui/header";
+import type { BasicHeaderProps } from "@components/ui/header/types";
 
 export const BasicHeader = ({
   title,

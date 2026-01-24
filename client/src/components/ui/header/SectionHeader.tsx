@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import { BasicHeader, SectionHeaderProps } from "@components/ui/header";
+import type { SectionHeaderProps } from "@components/ui/header/types";
+import { BasicHeader } from "@components/ui/header/BasicHeader";
 
 export const SectionHeader = ({
   title,
@@ -29,7 +30,7 @@ export const SectionHeader = ({
         {showIcons && (
           <span>
             <img
-              className="h-[24px] w-[24px] md:h-[42px] md:w-[42px]"
+              className="md:h-10.5 md:w-10.5 h-6 w-6"
               src="/assets/img/star-3.svg"
               height="42"
               width="42"
@@ -41,7 +42,7 @@ export const SectionHeader = ({
         {showIcons && (
           <span>
             <img
-              className="h-[24px] w-[24px] md:h-[42px] md:w-[42px]"
+              className="md:h-10.5 md:w-10.5 h-6 w-6"
               src="/assets/img/star-3.svg"
               height="42"
               width="42"

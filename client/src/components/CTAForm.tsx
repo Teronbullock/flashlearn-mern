@@ -1,9 +1,6 @@
 import { Card } from "@components/ui/card/Card";
 import { FormLayout } from "@components/forms";
-import {
-  SectionHeader,
-  SectionHeaderProps,
-} from "@components/ui/header/SectionHeader";
+import { SectionHeader, type SectionHeaderProps } from "@components/ui/header";
 import { useHandleCTAForm } from "@hooks/useHandleCTAForm";
 
 import classNames from "classnames";
@@ -51,7 +48,7 @@ export const CTAForm = ({ className, data, slotProps }: FormCardProps) => {
 
   return (
     <div className={containerClass}>
-      <SectionHeader className="" {...data.header} icons={false} />
+      <SectionHeader {...data.header} showIcons={false} />
       <Card>
         <FormLayout onSubmit={handleCTAForm}>
           <></>
