@@ -23,7 +23,7 @@ export const FormAction = ({
   return (
     <div className={classNames("form__action flex", className)}>
       <Btn
-        className="mr-7"
+        className="md:mr-7"
         type="submit"
         variants={{ style: "btn", color: "primary", size: "lg" }}
       >

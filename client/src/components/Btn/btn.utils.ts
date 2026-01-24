@@ -31,7 +31,7 @@ export const getBtnClasses = (
       "min-w-[100px]": variants?.size === "xs" || variants?.size === undefined,
       "min-w-[118px]": variants?.size === "sm",
       "min-w-[141px]": variants?.size === "md",
-      "min-w-[200px]": variants?.size === "lg",
+      "min-w-40 md:min-w-[200px]": variants?.size === "lg",
       "min-w-[300px]": variants?.size === "xl",
       "w-full": variants?.size === "full",
     },

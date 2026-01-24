@@ -9,6 +9,7 @@ import indexPageContext from "@content/indexPage.json";
 import { CTASection } from "@components/CTASection";
 import { BtnLink } from "@components/btn";
 import { Main } from "@layouts/Main";
+import { Container } from "@layouts/Container";
 
 const HomePage = () => {
   const {
@@ -22,7 +23,7 @@ const HomePage = () => {
   } = indexPageContext;
 
   return (
-    <Main width="full">
+    <Main width="full" className="pt-0!">
       <>
         <IndexPageHero {...hero}>
           <BtnLink
@@ -46,23 +47,25 @@ const HomePage = () => {
             Log in
           </BtnLink>
         </IndexPageHero>
-        <SectionOneCol
-          title={sectionOne.title}
-          subTitle={sectionOne.subTitle}
-          className="px-4 md:mt-[3.75rem]"
-        />
-        <TwoColImage {...sectionTwo} />
-        <TwoColImage
-          isReversed={true}
-          {...sectionThree}
-          className={{ main: "mb-[3.5rem]" }}
-        />
-        <TwoColTimeline
-          title={sectionFour.title}
-          cards={sectionFour.timelineCards}
-        />
-        <Testimonials {...testimonials} />
-        <CTASection {...ctaSection} />
+        <Container as="div">
+          <SectionOneCol
+            title={sectionOne.title}
+            subTitle={sectionOne.subTitle}
+            className="md:mt-15 px-4"
+          />
+          <TwoColImage {...sectionTwo} />
+          <TwoColImage
+            isReversed={true}
+            {...sectionThree}
+            className={{ main: "mb-14" }}
+          />
+          <TwoColTimeline
+            title={sectionFour.title}
+            cards={sectionFour.timelineCards}
+          />
+          <Testimonials {...testimonials} />
+          <CTASection {...ctaSection} />
+        </Container>
       </>
     </Main>
   );

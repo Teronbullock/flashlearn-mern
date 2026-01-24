@@ -23,7 +23,7 @@
     "dev:netlify:prod-build": "pnpm run build:client && pnpm run start:server",
     "dev:netlify:server": "conc 'pnpm dev:server' 'pnpm dev:client'",
     "dev:netlify": "netlify dev --filter client",
-    "dev": "pnpm --parallel --stream-F client -F server dev",
+    "dev": "pnpm --parallel --stream -F client -F server dev",
     "start:server": "pnpm -F server start",
     "start:netlify": "netlify build && netlify server --context production"
   },

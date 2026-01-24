@@ -123,16 +123,18 @@ const SetPage = () => {
         </>
       ) : (
         setId && (
-          <EmptyPageState
-            img={{
-              src: "/assets/img/book-glasses.png",
-              alt: "cartoon of glasses with a book",
-            }}
-            title="Looks a little empty here"
-            subTitle="Let’s fix that! Create your first flashcard Card."
-            cta="Create Card"
-            ctaURL={`/set/${setId}/card/add`}
-          />
+          <div className="pt-20">
+            <EmptyPageState
+              img={{
+                src: "/assets/img/book-glasses.png",
+                alt: "cartoon of glasses with a book",
+              }}
+              title="No cards yet"
+              subTitle='Click "Create Card" to create your first card'
+              cta="Create Card"
+              ctaURL={`/set/${setId}/card/add`}
+            />
+          </div>
         )
       )}
     </Main>

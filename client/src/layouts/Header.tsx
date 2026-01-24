@@ -3,6 +3,7 @@ import { Nav } from "@layouts/Nav/Nav";
 import { MobileMenuBtn } from "@components/MobileMenuBtn/MobileMenuBtn";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { useNav } from "@hooks/useNav";
+import { Container } from "@layouts/Container";
 
 export default function Header() {
   const { token } = useAuthContext();
@@ -11,13 +12,13 @@ export default function Header() {
   return (
     <header
       id="header"
-      className="z-500 md:h-17.5 fixed left-0 top-0 h-16 w-full md:bg-white"
+      className="z-500 md:h-17.5 fixed left-0 top-0 h-16 w-full bg-[#fbfbfb4d] md:bg-white"
     >
-      <div
+      <Container
         data-name="header__container"
-        className="max-w-8xl relative mx-auto flex h-full items-center justify-between px-4"
+        className="relative flex h-full items-center justify-between"
       >
-        <h2 className="md:text-dark-shade font-cursive md:w-45 m-0 font-normal text-white">
+        <h2 className="md:text-dark-shade font-cursive md:w-45 m-0 font-normal text-black">
           {token ? (
             <Link className="text-lg" to={`/dashboard`}>
               FlashCard
@@ -37,7 +38,7 @@ export default function Header() {
           onLogout={handleLogout}
           isMobileMenuOpen={isMobileMenuOpen}
         />
-      </div>
+      </Container>
     </header>
   );
 }

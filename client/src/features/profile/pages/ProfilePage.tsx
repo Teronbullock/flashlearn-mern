@@ -10,6 +10,7 @@ import {
 } from "@feats/profile/components";
 import { useGetProfile } from "@feats/profile/hooks";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
+import { Main } from "@layouts/Main";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<
@@ -28,9 +29,9 @@ const ProfilePage = () => {
   useGetProfile(dispatch, token);
 
   return (
-    <main className="main main--profile-page min-h-screen">
+    <Main className="main main--profile-page min-h-screen">
       <CTASplitLayout {...data}>
-        <div className="mb-6 flex">
+        <div className="mb-10 flex md:mb-6">
           <Btn
             className="mr-2"
             type="button"
@@ -96,7 +97,7 @@ const ProfilePage = () => {
           )}
         </CTASplitForm>
       </CTASplitLayout>
-    </main>
+    </Main>
   );
 };
 

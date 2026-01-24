@@ -26,7 +26,7 @@ export default function Footer() {
           <p className="text-base">{contactUs.email}</p>
         </div>
       </div>
-      <div className="bg-primary h-15 flex items-center justify-center rounded-tl-[20px] rounded-tr-[20px] text-white">
+      <div className="bg-primary h-15 flex items-center justify-center rounded-tl-[10px] rounded-tr-[10px] text-white">
         <p className="text-base">{copyright}</p>
       </div>
     </footer>

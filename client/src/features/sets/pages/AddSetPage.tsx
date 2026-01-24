@@ -56,7 +56,7 @@ const AddSetPage = () => {
             />
           </FormGroup>
           <FormAction
-            className="justify-center"
+            className="justify-center gap-4"
             submitBtnText="Save Set"
             cancelBtnTo={`/dashboard`}
           />

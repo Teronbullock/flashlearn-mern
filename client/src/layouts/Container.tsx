@@ -6,7 +6,7 @@ interface ContainerProps {
   children: React.ReactNode;
   className?: string;
   width?: ContainerWidth;
-  el?: "div" | "section" | "main";
+  as?: "div" | "section" | "main";
   isCentered?: boolean;
 }
 
@@ -19,16 +19,16 @@ export const Container = ({
   children,
   className,
   width = "wide",
-  el: Tag = "div",
+  as: Tag = "div",
   isCentered = true,
 }: ContainerProps) => {
   const containerClasses = classNames(
     {
+      "px-4": width !== "full",
       "w-full": width === "full",
       "max-w-8xl": width === "wide",
       "max-w-[1000px]": width === "content",
       "mx-auto": isCentered,
-      "px-4": width !== "full",
     },
     className,
   );
