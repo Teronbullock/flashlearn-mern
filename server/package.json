@@ -9,7 +9,7 @@
     "migrate:sets-table": "npx sequelize migration:generate --name create-sets-table",
     "migrate:cards-table": "npx sequelize migration:generate --name create-cards-table",
     "migrate:refresh-tokens-table": "npx sequelize migration:generate --name create-refresh-tokens-table",
-    "migrate:all-tables": "pnpm run build:users-table && pnpm run build:sets-table && pnpm run build:cards-table && pnpm run build:refresh-tokens-table",
+    "migrate:all-tables": "pnpm run migrate:users-table && pnpm run migrate:sets-table && pnpm run migrate:cards-table && pnpm run migrate:refresh-tokens-table",
     "migrate:undo": "npx sequelize db:migrate:undo",
     "migrate:undo:all": "npx sequelize db:migrate:undo:all",
     "migrate": "npx sequelize db:migrate",
