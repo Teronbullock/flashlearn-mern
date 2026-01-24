@@ -4,7 +4,7 @@
 [build]
 
   base = "." 
-  command = "pnpm run build"
+  command = "pnpm install:all && pnpm run build"
   publish = "client/dist" 
   functions = "server/netlify/functions"
 
