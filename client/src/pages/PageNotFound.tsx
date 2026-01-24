@@ -1,14 +1,11 @@
-import PageHero from "../layouts/PageComponents/PageHero";
-import PageHeader from "../layouts/PageComponents/PageHeader";
+import { Main } from "@layouts/Main";
 
 const PageNotFound = () => {
   return (
-    <main className="pageNotFound">
-      <PageHero currentPage="pageNotFound" />
-      <PageHeader currentPage="pageNotFound" />
+    <Main width="full">
       <h1>404 Page</h1>
-    </main>
+    </Main>
   );
-}
+};
 
 export default PageNotFound;

@@ -1,0 +1,24 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    
+    "rootDir": "src",
+    "outDir": "dist",
+    "sourceMap": true,
+    
+    "types": ["node"],
+    
+    "allowJs": true,           
+    "checkJs": false,
+    "noImplicitAny": false,
+    "declaration": false,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["../packages/common/dist/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.js"]
+}

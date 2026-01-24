@@ -1,26 +1,15 @@
-@use '../../assets/scss/01-helpers/variables' as var;
-@use '../../assets/scss/01-helpers/breakpoints' as bp;
-
+@use "@sass/variables" as var;
+@use "@sass/breakpoints" as bp;
 
 .page-hero--half-mask {
-
   &::before {
     content: " ";
     width: 100%;
-    background: rgba(0,0,0,.4);
+    background: rgba(0, 0, 0, 0.4);
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
-
-    @include bp.media-breakpoint-up(sm) {
-      background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 15%,
-        rgba(0, 0, 0, 0.6) 30%,
-        rgba(0, 0, 0, 0) 35%
-      );
-    }
 
     @include bp.media-breakpoint-up(lg) {
       background: linear-gradient(
@@ -30,13 +19,12 @@
         rgba(0, 0, 0, 0) 40%
       );
     }
-
   }
 }
 
 .page-hero--mask {
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;

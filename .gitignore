@@ -31,8 +31,12 @@
 *.sln
 *.sw?
 
-# Environment files
-**/*.env
+# Environment files in all directories
+**/.env
+**/.env.*
+
+# Except example env files
+!.env.example
 
 # Local Netlify folder
 .netlify

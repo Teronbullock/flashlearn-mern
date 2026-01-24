@@ -1,44 +1,43 @@
-import classnames from 'classnames';
+import classnames from "classnames";
 
 interface CardFaceProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   bgColor?: string;
   textColor?: string;
-  cardHeaderText: string;
-  cardText: string;
+  cardText?: string;
   handFlipAction: () => void;
-  BtnText: string;
 }
 
-const CardFace = ({
+export const CardFace = ({
   children,
   className,
-  bgColor = '#ffffff',
-  textColor = '#000000',
-  cardHeaderText,
+  bgColor = "#FAEBE8",
+  textColor = "#CA3916",
   cardText,
   handFlipAction,
-  BtnText,
 }: CardFaceProps) => {
+  const cardClass = classnames(
+    // "md:min-w-[650px] md:min-h-[375px] p-12 bg-tertiary",
+    "w-full backface-hidden absolute rounded-[20px] border overflow-hidden md:min-h-[375px] border-primary p-6 flex items-center justify-center",
+    className,
+  );
+
   return (
-    <div className={classnames('flashcard', className)} style={{ backgroundColor: bgColor }}>
-      <div className='flashcard__aside'>
-        <h1 className='flashcard__title flashcard__title--front mt-0'>{cardHeaderText}</h1>
+    <div className={cardClass} style={{ backgroundColor: bgColor }}>
+      <a className="absolute right-[26px] top-[29px]" onClick={handFlipAction}>
+        <img
+          className=""
+          src="/assets/img/Vector-flip.png"
+          alt="ArrowsCounterClockwise"
+          height="23px"
+          width="23px"
+        />
+      </a>
+      <div className="">
+        <p className="text-primary text-lg font-semibold">{cardText}</p>
       </div>
-      <div className='flashcard__body'>
-        <div className='flashcard__header p-3' style={{ borderColor: textColor }}>
-          <a className='btn btn--secondary btn--large mb-8' onClick={handFlipAction}>
-            {BtnText}
-          </a>
-          <p className='flashcard__text text-[textColor' style={{ color: textColor }}>
-            {cardText}
-          </p>
-        </div>
-        {children}
-      </div>
+      <div className="">{children}</div>
     </div>
   );
 };
-
-export default CardFace;

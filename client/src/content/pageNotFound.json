@@ -1,0 +1,13 @@
+{
+  "pageType": "pageNotFound",
+  "mainClass": "main--page-not-found",
+  "hero": {
+    "className": "page-header--page-not-found",
+    "ariaLabel": "Page Not Found Page Header. This section contains the title and description for the page not found page. The background image is of a person in black crew neck shirt using Macbook. Photo by Lala Azizli on Unsplash.",
+    "img": "/assets/img/lala-azizli-6ZwJvJXUJfM-unsplash.jpg"
+  },
+  "header": {
+    "title": "Page Not Found",
+    "copy": "Sorry, the page you are looking for does not exist."
+  }
+}
