@@ -3,7 +3,7 @@ name: Keep Supabase Alive
 on:
   schedule:
     # Every 5 minutes for testing
-    - cron: '*/5 * * * *'
+    - cron: '0 2 */5 * *'
   workflow_dispatch: # Allows manual trigger for testing
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Trigger Netlify Function
         run: |
-          response=$(curl -s -w "\n%{http_code}" https://flashlearn-app.netlify.app/.netlify/functions/keep-alive)
+          response=$(curl -s -w "\n%{http_code}" https://flashlearn-app.netlify.app/api/keep-alive)
           http_code=$(echo "$response" | tail -n1)
           body=$(echo "$response" | sed '$d')
           
