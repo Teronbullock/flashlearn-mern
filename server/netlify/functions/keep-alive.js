@@ -1,17 +1,28 @@
 export const handler = async () => {
   const { DATABASE_PROJECT_REF, SUPABASE_ANON_KEY } = process.env;
 
+  if (!DATABASE_PROJECT_REF || !SUPABASE_ANON_KEY) {
+    console.error('Missing required environment variables');
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Missing configuration' }),
+    };
+  }
+
   try {
     console.log('Pinging Supabase...');
 
-    const response = await fetch(`https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/fc_users`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        apikey: SUPABASE_ANON_KEY,
-      },
-    });
+    const response = await fetch(
+      `https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/fc_users?limit=1`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          apikey: SUPABASE_ANON_KEY,
+        },
+      }
+    );
 
     if (!response.ok) {
       console.error(`Failed to ping Supabase: ${response.statusText}`);
@@ -22,7 +33,10 @@ export const handler = async () => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Supabase is alive!' }),
+      body: JSON.stringify({ 
+        message: 'Supabase is alive!',
+        timestamp: new Date().toISOString()
+      }),
     };
   } catch (error) {
     console.error('Error in keep-alive function:', error);

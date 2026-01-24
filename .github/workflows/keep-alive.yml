@@ -1,12 +1,25 @@
 name: Keep Supabase Alive
+
 on:
   schedule:
-    # This cron runs at midnight UTC on Monday, Tuesday, Wednesday, and Friday.
-    - cron: '0 0 * * 1,2,3,5'
+    # Every 5 minutes for testing
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Allows manual trigger for testing
+
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Netlify Function
         run: |
-          curl -X POST https://flashlearn-app.netlify.app/.netlify/functions/keep-alive
+          response=$(curl -s -w "\n%{http_code}" https://flashlearn-app.netlify.app/.netlify/functions/keep-alive)
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          
+          echo "Response: $body"
+          echo "Status Code: $http_code"
+          
+          if [ "$http_code" -ne 200 ]; then
+            echo "Keep-alive failed with status $http_code"
+            exit 1
+          fi
