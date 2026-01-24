@@ -1,0 +1,22 @@
+{
+  "header": "FlashLearn",
+  "copy": "Create, share, and study custom flashcard decks anywhere. Join thousands of students and professionals who've improved their learning efficiency with our smart study platform.",
+  "quickLinks": [
+    {
+      "key": 1,
+      "text": "About"
+    },
+    {
+      "key": 2,
+      "text": "How it works"
+    },
+    {
+      "key": 3,
+      "text": "Testimonials"
+    }
+  ],
+  "contactUs": {
+    "email": "info@flashLearn.com"
+  },
+  "copyright": "©2025, Flashlearn. All Rights Reserved."
+}

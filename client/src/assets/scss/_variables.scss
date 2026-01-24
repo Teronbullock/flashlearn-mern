@@ -1,0 +1,53 @@
+// variables
+
+// colors
+$color-primary: #c93916;
+$color-secondary: #adaaa6;
+$color-tertiary: #6e8875;
+$color-dark-brown: #361d14;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-light-gray: #e3e6ef;
+$color-green: #46544a;
+$color-mustard: #dd9243;
+$color-dark-shade: #2a2b2d;
+$color-light-shade: #6a6f6f;
+
+$colors: (
+  "primary": $color-primary,
+  "secondary": $color-secondary,
+  "tertiary": $color-tertiary,
+  "dark-brown": $color-dark-brown,
+  "white": $color-white,
+  "black": $color-black,
+  "light-gray": $color-light-gray,
+  "green": $color-green,
+  "mustard": $color-mustard,
+  "light-shade": $color-light-shade,
+  "dark-shade": $color-dark-shade,
+);
+
+// shadows
+$black-shadow-1: 4px 7px 8px -2px rgba(0, 0, 0, 0.17);
+$black-shadow-2: 4px 4px 5px 0px rgba(0, 0, 0, 0.17);
+
+// font-family
+$font-main: var(--font-manrope);
+$font-sec:
+  averta,
+  avenir w02,
+  avenir,
+  Helvetica,
+  Arial,
+  sans-serif;
+$font-cursive: var(--font-cursive);
+
+// media sizes
+$breakpoints: (
+  sm: var(--breakpoint-sm),
+  md: var(--breakpoint-md),
+  lg: var(--breakpoint-lg),
+  xl: var(--breakpoint-xl),
+  1xl: var(--breakpoint-1xl),
+  2xl: var(--breakpoint-2xl),
+);

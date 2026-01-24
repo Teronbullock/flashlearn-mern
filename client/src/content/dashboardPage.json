@@ -1,0 +1,10 @@
+{
+  "header": {
+    "title": "Hi",
+    "subTitle": "Ready to Study?"
+  },
+  "setSection": {
+    "title": "Study sets",
+    "buttonText": "Create new set"
+  }
+}

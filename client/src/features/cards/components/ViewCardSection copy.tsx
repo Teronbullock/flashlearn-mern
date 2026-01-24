@@ -1,0 +1,128 @@
+import { useState, memo } from "react";
+import classnames from "classnames";
+import { Btn } from "@components/btn";
+import { CardFace } from "./CardFace";
+import type { Card } from "../types/cardTypes";
+
+import "./view-card-section.scss";
+
+interface ViewCardSectionProps {
+  page: number;
+  setId: string;
+  card: Card | null;
+  cardCount: number;
+  cardLoadClass?: null;
+}
+
+export const ViewCardSection = ({
+  page,
+  setId,
+  card,
+  cardCount,
+}: ViewCardSectionProps) => {
+  const [flashcardClass, setFlashcardClass] = useState("");
+  let backBtnUrl = `/set/${setId}/cards/?page=${page - 1}`;
+  let nextBtnUrl = `/set/${setId}/cards/?page=${page + 1}`;
+  let term, definition, bgColor, textColor;
+  let disableBackBtnStyle;
+  let disableNextBtnStyle;
+
+  if (card) {
+    term = card.term;
+    definition = card.definition;
+    bgColor = card.bg_color;
+    textColor = card.text_color;
+  }
+
+  if (page <= 1) {
+    backBtnUrl = `/set/${setId}/cards/?page=${page}`;
+    disableBackBtnStyle = "pointer-events-none";
+  } else {
+    backBtnUrl = `/set/${setId}/cards/?page=${page - 1}`;
+    disableBackBtnStyle = "";
+  }
+
+  if (page >= cardCount) {
+    nextBtnUrl = `/set/${setId}/cards/?page=${page}`;
+    disableNextBtnStyle = "pointer-events-none";
+  } else {
+    nextBtnUrl = `/set/${setId}/cards/?page=${page + 1}`;
+    disableNextBtnStyle = "";
+  }
+
+  const handFlipAction = () => {
+    if (flashcardClass) {
+      setFlashcardClass("");
+    } else {
+      setFlashcardClass("flashcard--flipped");
+    }
+  };
+
+  return (
+    <section className="section-flash-card mx-auto p-8 md:w-1/2">
+      {card ? (
+        <div className={classnames("flashcard mx-auto", flashcardClass)}>
+          <div className="test">
+            {term && (
+              <CardFace
+                className="flashcard--front"
+                bgColor={bgColor}
+                textColor={textColor}
+                cardText={term}
+                handFlipAction={handFlipAction}
+              ></CardFace>
+            )}
+            {definition && (
+              <CardFace
+                className="flashcard--back"
+                bgColor={bgColor}
+                textColor={textColor}
+                cardHeaderText="Definition"
+                cardText={definition}
+                handFlipAction={handFlipAction}
+                BtnText="Term"
+              ></CardFace>
+
+              // <div className="flashcard__footer d-flex justify-content-center p-4">
+              //   <btn
+              //     className={classnames(
+              //       "btn btn--outline-secondary mr-4",
+              //       disableBackBtnStyle,
+              //     )}
+              //     onClick={() => {
+              //       setFlashcardClass("");
+              //     }}
+              //     to={backBtnUrl}
+              //   >
+              //     &lt;
+              //   </btn>
+              //   <btn
+              //     className={classnames(
+              //       "btn btn--black",
+              //       disableNextBtnStyle,
+              //     )}
+              //     onClick={() => {
+              //       setFlashcardClass("");
+              //     }}
+              //     to={nextBtnUrl}
+              //   >
+              //     &gt;
+              //   </btn>
+              // </div>
+            )}
+          </div>
+          <Btn
+            onClick={handFlipAction}
+            variants={{ color: "outline-primary", size: "lg", style: "btn" }}
+          >
+            Flip Card
+          </Btn>
+        </div>
+      ) : (
+        <div className="flashcard__body">
+          <h1 className="flashcard__title">No Cards Found</h1>
+        </div>
+      )}
+    </section>
+  );
+};
