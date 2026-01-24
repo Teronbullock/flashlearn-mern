@@ -1,7 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-export default function BtnClose(): JSX.Element {
+const BtnClose = () => {
   return (
-    <Link className='btn-close text-black text-2xl absolute top-4 right-6 cursor-pointer z-[100]' to='/' aria-label='Close Button'>X</Link>
-  )
-}
+    <Link
+      className="btn-close z-100 absolute right-6 top-4 cursor-pointer text-2xl text-black"
+      to="/"
+      aria-label="Close Button"
+    >
+      X
+    </Link>
+  );
+};
+
+export default BtnClose;
