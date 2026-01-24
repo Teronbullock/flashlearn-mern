@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "build:sass": "sass src/assets/scss/global.scss:src/assets/scss/global.css",
-    "build:ts-vite": "tsc -b && vite build",
-    "build": "pnpm run build:sass && pnpm run build:ts-vite",
+    "build:vite": "vite build",
+    "build": "pnpm run build:sass && pnpm run build:vite",
     "watch:sass": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
     "ts-check": "tsc --noEmit",
     "test": "vitest",
