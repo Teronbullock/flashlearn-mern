@@ -2,20 +2,31 @@
   NODE_VERSION = "24"
 
 [build]
-
   base = "." 
-  command = "pnpm install:all && pnpm run build"
   publish = "client/dist" 
+  command = "pnpm install:all && pnpm run migrate && pnpm run build:client"
   functions = "server/netlify/functions"
-
 
 [functions]
   node_bundler = "esbuild"
   external_node_modules = [
-    "pg", 
-    "pg-hstore", 
-    "bcrypt"
+    "express",
+    "serverless-http",
+    "body-parser",
+    "dotenv",
+    "cors",
+    "helmet",
+    "compression",
+    "method-override",
+    "cookie-parser",
+    "pg-hstore",
+    "pg",
+    "sequelize",
+    "express-validator",
+    "bcrypt",
+    "jsonwebtoken"
   ]
+  directory = "server/netlify/functions"
 
 [[redirects]]
   from = "/api/*"
