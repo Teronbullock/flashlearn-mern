@@ -2,34 +2,36 @@ export const handler = async () => {
   const { DATABASE_PROJECT_REF, SUPABASE_ANON_KEY } = process.env;
 
   if (!DATABASE_PROJECT_REF || !SUPABASE_ANON_KEY) {
-    console.error('Missing required environment variables');
+    console.error('Missing environment variables:', {
+      hasProjectRef: !!DATABASE_PROJECT_REF,
+      hasAnonKey: !!SUPABASE_ANON_KEY
+    });
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Missing configuration' }),
+      body: JSON.stringify({ error: 'Missing Supabase configuration' }),
     };
   }
 
+  const url = `https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/fc_users?limit=1`;
+  
   try {
-    console.log('Pinging Supabase...');
+    console.log('Pinging Supabase at:', url);
 
-    const response = await fetch(
-      `https://${DATABASE_PROJECT_REF}.supabase.co/rest/v1/fc_users?limit=1`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-          apikey: SUPABASE_ANON_KEY,
-        },
-      }
-    );
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        apikey: SUPABASE_ANON_KEY,
+      },
+    });
+
+    const data = await response.text();
+    console.log('Supabase response:', response.status, data);
 
     if (!response.ok) {
-      console.error(`Failed to ping Supabase: ${response.statusText}`);
-      throw new Error(`Failed to ping Supabase: ${response.statusText}`);
+      throw new Error(`Supabase returned ${response.status}: ${data}`);
     }
-
-    console.log('Supabase is alive!');
 
     return {
       statusCode: 200,
@@ -39,8 +41,7 @@ export const handler = async () => {
       }),
     };
   } catch (error) {
-    console.error('Error in keep-alive function:', error);
-
+    console.error('Keep-alive error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message }),
