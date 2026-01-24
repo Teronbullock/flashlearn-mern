@@ -13,7 +13,7 @@
     "build": "pnpm run build:common && pnpm run --parallel --stream -F client -F server build",
     "preview:client": "pnpm -F client preview",
     "preview": "pnpm run --parallel --stream -F client preview -F server start",
-    "db:migrate": "pnpm -F server migrate",
+    "db:migrate": "pnpm -F server migrate:all-tables",
     "db:migrate:undo": "pnpm -F server migrate:undo",
     "dev:server:prod-env": "pnpm -F server dev:prod-env",
     "dev:server": "pnpm -F server dev",
