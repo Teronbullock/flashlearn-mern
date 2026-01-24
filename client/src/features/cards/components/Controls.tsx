@@ -1,4 +1,4 @@
-import { BtnLink } from "@/components/btn";
+import { BtnLink } from "@components/btn";
 
 interface CardControlsProps {
   page: string;

@@ -6,7 +6,7 @@ import { useDashboardSets } from "@feats/dashboard/hooks/";
 import { Main } from "@layouts/Main";
 import data from "@content/dashboardPage.json";
 import { DashboardSetFeed } from "@feats/dashboard/components";
-import { EmptyPageState } from "@/components/ui/EmptyPageState";
+import { EmptyPageState } from "@components/ui/EmptyPageState";
 import { Spinner } from "@components/ui/Spinner";
 
 export const DashboardPage = () => {

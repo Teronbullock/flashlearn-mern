@@ -1,4 +1,4 @@
-import { Btn, BtnLink } from "@/components/btn";
+import { Btn, BtnLink } from "@components/btn";
 import { ListCardForm } from "@components/forms";
 
 interface Sets {
