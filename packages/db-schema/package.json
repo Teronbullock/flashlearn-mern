@@ -1,16 +1,15 @@
 {
-  "name": "@flashlearn/common",
+  "name": "@flashlearn/db-schema",
+  "description": "",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
   },
   "scripts": {
     "build": "tsc"
-  },
-  "dependencies": {
-    "zod": "^4.3.5",
-    "@flashlearn/db-schema": "workspace:*"
   },
   "license": "ISC",
   "packageManager": "pnpm@10.28.2"

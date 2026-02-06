@@ -1,29 +1,18 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "types": ["vitest/globals"],
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-
-    /* Linting */
-
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
 
     /* Allow importing JSON modules */
 
     "baseUrl": ".",
     "paths": {
-      "@common": ["../packages/common/src/index.ts"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@layouts/*": ["src/layouts/*"],
@@ -37,6 +26,7 @@
       "@/*": ["src/*"]
     }
   },
+  "references": [{ "path": "../common" }],
   "include": [
     "src",
     "test",

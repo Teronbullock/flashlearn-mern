@@ -16,9 +16,11 @@
     "declaration": false,
     "isolatedModules": true,
     "baseUrl": ".",
-    "paths": {
-      "@common/*": ["../packages/common/dist/*"]
-    }
+    "references": [
+      {
+        "path": "../common"
+      }
+    ]
   },
   "include": ["src/**/*.ts", "src/**/*.js"]
 }

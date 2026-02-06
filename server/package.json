@@ -26,22 +26,23 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.2",
-    "common": "workspace:*",
+    "@flashlearn/common": "workspace:*",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "drizzle-kit": "^0.31.8",
+    "drizzle-orm": "^0.45.1",
     "express": "^4.18.2",
-    "express-validator": "^7.2.0",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "method-override": "^3.0.0",
     "nanoid": "^5.1.0",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.3",
+    "postgres": "^3.4.8",
     "pug": "^3.0.2",
     "sequelize": "^6.3.4",
-    "serverless-http": "^3.2.0",
-    "zod": "^4.3.5"
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

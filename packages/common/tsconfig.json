@@ -1,13 +1,11 @@
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "declaration": true,
-    "outDir": "dist",
+  "compilerOptions": { 
     "rootDir": "src",
-    "target": "ES2020"
-  },
-  "include": ["src/**/*.ts"]
-
+    "outDir": "dist"
+   },
+   "references": [
+     { "path": "../db-schema" }
+    ],
+    "include": ["src/**/*.ts"],
 }
