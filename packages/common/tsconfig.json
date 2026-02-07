@@ -1,11 +1,11 @@
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": { 
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "outDir": "dist",
     "rootDir": "src",
-    "outDir": "dist"
-   },
-   "references": [
-     { "path": "../db-schema" }
-    ],
-    "include": ["src/**/*.ts"],
+  },
+  "include": ["src/**/*.ts"]
+
 }

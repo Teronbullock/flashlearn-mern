@@ -2,9 +2,6 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    "target": "ESNext",
-    "moduleResolution": "Bundler",
-    "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "noEmit": true
   },
