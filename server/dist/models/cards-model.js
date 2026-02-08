@@ -32,15 +32,7 @@ const Cards = db.define('fc_cards', {
     definition: {
         type: DataTypes.STRING(1000),
         allowNull: false,
-    },
-    bg_color: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    text_color: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+    }
 });
 export default Cards;
 //# sourceMappingURL=cards-model.js.map

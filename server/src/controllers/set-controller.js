@@ -1,4 +1,3 @@
-import { validationResult } from 'express-validator';
 import Sets from '../models/sets-model.js';
 import Cards from '../models/cards-model.js';
 import { checkResourceOwnership } from '../services/permission-service.js';

@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from "vite";
+import { CSSOptions, defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -23,9 +23,9 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         scss: {
           api: "modern-compiler",
-        } as any,
+        },
       },
-    },
+    } as CSSOptions,
     server: {
       historyApiFallback: true,
       host: env.HOST,
@@ -42,7 +42,6 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@sass": path.resolve(__dirname, "src/assets/scss"),
-        "@common": path.resolve(__dirname, "../packages/common/src/index.ts"),
         "@components": path.resolve(__dirname, "src/components"),
         "@hooks": path.resolve(__dirname, "src/hooks"),
         "@layouts": path.resolve(__dirname, "src/layouts"),

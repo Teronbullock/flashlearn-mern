@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import { validationResult } from 'express-validator';
 import Users from '../models/users-model.js';
 
 /**

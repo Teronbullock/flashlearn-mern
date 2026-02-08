@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import type { BaseAuthFields } from "@/types/index";
 import type { LoginAction } from "../types/index";
-import { AuthLoginSchema } from "@common";
+import { AuthLoginSchema } from "@flashlearn/schema-zod";
 import { authApi } from "@feats/auth/service/auth.service";
 import { AUTH_CONFIG } from "@/config/auth.config";
 import { authStorage } from "@feats/auth/service/auth.storage";
