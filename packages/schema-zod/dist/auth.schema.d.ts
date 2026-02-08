@@ -20,3 +20,4 @@ export declare const ProfileSchema: z.ZodObject<{
     userPassConfirm: z.ZodString;
 }, z.core.$strip>;
 export type ProfileType = z.infer<typeof ProfileSchema>;
+//# sourceMappingURL=auth.schema.d.ts.map

@@ -7,3 +7,4 @@ export declare const setSchema: z.ZodObject<{
     title: z.ZodString;
     description: z.ZodString;
 }, z.core.$strip>;
+//# sourceMappingURL=set.schema.d.ts.map
