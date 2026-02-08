@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import Users from '../models/users-model.js';
 import { ZodError } from 'zod';
-import { AuthRegSchema, AuthLoginSchema } from '@common/index.js';
+import { AuthRegSchema, AuthLoginSchema } from '@flashlearn/schema-zod';
 
 import {
   genAuthToken,
@@ -17,17 +17,19 @@ import {authenticateUser} from '../services/auth-service.js';
 
 export const postUserRegister = async (req, res) => {
   try {
-    const { user_pass, user_email } = AuthRegSchema.parse(req.body);
+    const authRes = await AuthRegSchema.parseAsync(req.body);
+    
+    const { userEmail: user_email, userPass: user_pass } = authRes;
 
     const formData = {
-      user_email,
       user_pass,
+      user_email,
       slug: nanoid(10),
     };
 
     // check if user and email already exists
     const isUserEmail = await Users.findOne({ where: { user_email } });
-
+  
     // if email exists, throw error
     if (isUserEmail) {
       throw new Error('Email already exists.');

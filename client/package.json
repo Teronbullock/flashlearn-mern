@@ -1,7 +1,7 @@
 {
   "name": "client",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "build:sass": "sass src/assets/scss/global.scss:src/assets/scss/global.css",
@@ -16,7 +16,7 @@
     "dev": "conc 'pnpm run watch:sass' 'vite' "
   },
   "dependencies": {
-    "common": "workspace:*",
+    "@flashlearn/schema-zod": "workspace:*",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.7.7",
     "classnames": "^2.5.1",

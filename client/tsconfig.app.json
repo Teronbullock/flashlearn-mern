@@ -6,7 +6,6 @@
     "types": ["vitest/globals"],
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
@@ -21,9 +20,7 @@
 
     /* Allow importing JSON modules */
 
-    "baseUrl": ".",
     "paths": {
-      "@common": ["../packages/common/src/index.ts"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@layouts/*": ["src/layouts/*"],
@@ -37,6 +34,7 @@
       "@/*": ["src/*"]
     }
   },
+  "references": [{ "path": "../packages/common" }],
   "include": [
     "src",
     "test",

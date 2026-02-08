@@ -42,7 +42,6 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@sass": path.resolve(__dirname, "src/assets/scss"),
-        "@common": path.resolve(__dirname, "../packages/common/src/index.ts"),
         "@components": path.resolve(__dirname, "src/components"),
         "@hooks": path.resolve(__dirname, "src/hooks"),
         "@layouts": path.resolve(__dirname, "src/layouts"),
