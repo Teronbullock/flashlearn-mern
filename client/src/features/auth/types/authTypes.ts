@@ -45,7 +45,7 @@ export interface UseAutoLogoutConfig {
 }
 
 export interface PostNewUserParams {
-  userEmail: string;
-  userPass: string;
-  userPassConfirm: string;
+  email: string;
+  pass: string;
+  passConfirm: string;
 }

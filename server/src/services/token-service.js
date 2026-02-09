@@ -1,5 +1,11 @@
 import jwt from 'jsonwebtoken';
-import RefreshTokens from '../models/refresh-token-model.js';
+import { db } from '../db/database';
+import { schemaDb } from '@flashlearn/schema-db';
+import { eq } from 'drizzle-orm';
+
+
+const { refreshTokens } = schemaDb;
+
 
 /**
  * The genAuthToken function will create a token for the user.
@@ -8,7 +14,7 @@ import RefreshTokens from '../models/refresh-token-model.js';
  *
  * @returns - The token. or an error.
  */
-export const genAuthToken = userId => {
+export const genAuthToken = (userId) => {
   const token = jwt.sign(
     {
       userId: userId,
@@ -27,7 +33,7 @@ export const genAuthToken = userId => {
  * @param {string} userId
  * @returns - The refresh token.
  */
-export const genRefreshToken = userId => {
+export const genRefreshToken = (userId) => {
   return jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: '7d',
   });
@@ -47,26 +53,17 @@ export const setRefreshTokenCookie = (res, refreshToken) => {
   });
 };
 
-/**
- * -- Verify Token --
- * @param {*} token
- * @param {*} secret - The secret key.
- * @returns
- */
-export const verifyToken = (token, secret) => {
-  return jwt.verify(token, secret);
-};
 
 /**
- * -- Add Refresh Token --
+ * -- Store Refresh Token --
  * @param {*} userId
  * @param {*} refreshToken
  */
-export const addRefreshToken = async (userId, refreshToken) => {
-  await RefreshTokens.create({
-    user_id: userId,
+export const storeRefreshToken = async (userId, refreshToken) => {
+  return await db.insert(refreshTokens).values({
+    userId,
     token: refreshToken,
-  });
+  }).returning();
 };
 
 /**
@@ -74,10 +71,10 @@ export const addRefreshToken = async (userId, refreshToken) => {
  * @param {*} userId
  * @returns
  */
-export const deleteRefreshToken = async userId => {
-  const deletedCount = await RefreshTokens.destroy({
-    where: { user_id: userId },
-  });
+export const deleteRefreshToken = async (userId) => {
+  const deletedCount = await db.delete(refreshTokens)
+  .where(eq(refreshTokens.userId, userId))
+  .returning();
 
   return deletedCount;
 };

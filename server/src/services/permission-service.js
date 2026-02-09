@@ -1,3 +1,6 @@
+import { db } from "../db/database";
+import { eq } from "drizzle-orm";
+import { sets } from "@flashlearn/schema-db/db";
 /**
  * Checks if a user owns a specific resource.
  * 
@@ -8,7 +11,8 @@
  * @throws {Error} - If resource not found or unauthorized.
  */
 export const checkResourceOwnership = async (model, resourceId, userId) => {
-  const resource = await model.findByPk(resourceId);
+  
+  const [resource] = await db.select().from(model).where(eq(model.id, resourceId)).limit(1);
 
   if (!resource) {
     const err = new Error('Resource not found');
@@ -16,7 +20,7 @@ export const checkResourceOwnership = async (model, resourceId, userId) => {
     throw err;
   }
 
-  if (resource.user_id !== userId) {
+  if (resource.userId !== userId.toString()) {
     const err = new Error('Unauthorized: You do not own this resource');
     err.status = 403;
     throw err;

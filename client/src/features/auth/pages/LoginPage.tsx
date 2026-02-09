@@ -21,42 +21,42 @@ const LoginPage = () => {
           cta={cta}
           ctaBtnSize="full"
         >
-          <FormGroup labelName="Email Address" name="user_email">
+          <FormGroup labelName="Email Address" name="email">
             <FormInput
               type="email"
-              name="user_email"
-              value={state.user_email}
+              name="email"
+              value={state.email}
               placeholder="Enter your email"
               required={true}
               onChange={(e) =>
                 dispatch({
                   type: "ON_CHANGE",
                   payload: {
-                    user_email: e.target.value,
+                    email: e.target.value,
                   },
                 })
               }
               autoFocus={true}
             />
-            <InputError messages={errors.userEmail} />
+            <InputError messages={errors.email} />
           </FormGroup>
           <FormGroup labelName="Password" className={{ group: "mb-6!" }}>
             <FormInput
               type="password"
-              name="user_pass"
-              value={state.user_pass}
+              name="pass"
+              value={state.pass}
               placeholder="Enter your password"
               required={true}
               onChange={(e) =>
                 dispatch({
                   type: "ON_CHANGE",
                   payload: {
-                    user_pass: e.target.value,
+                    pass: e.target.value,
                   },
                 })
               }
             />
-            <InputError messages={errors.userPass} />
+            <InputError messages={errors.Pass} />
             <InputError messages={errors.general} />
           </FormGroup>
           {/* <div className="mb-6 flex justify-end">

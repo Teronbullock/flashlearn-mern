@@ -3,12 +3,14 @@ import { ZodError } from "zod";
 import { apiRequest } from "@lib/api";
 import type { RegistrationAction } from "@feats/auth/types";
 import type { RegistrationDetails } from "@/types/index";
-import { AuthRegSchema } from "@common";
+import { schemaZod } from "@flashlearn/schema-db";
+
+const { AuthRegSchema } = schemaZod;
 
 const initialRegisterState = {
-  user_email: "",
-  user_pass: "",
-  user_pass_confirm: "",
+  email: "",
+  pass: "",
+  pass_confirm: "",
 };
 
 const registerFormReducer = (
@@ -36,24 +38,20 @@ export const useRegistration = () => {
 
   const [errors, setErrors] = useState<Record<string, string[]>>({});
 
-  const {
-    user_email: userEmail,
-    user_pass: userPass,
-    user_pass_confirm: userPassConfirm,
-  } = state;
+  const { email: email, pass: pass, pass_confirm: passConfirm } = state;
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({});
 
     try {
-      if (!userEmail || !userPass || !userPassConfirm) {
+      if (!email || !pass || !passConfirm) {
         throw new Error("All fields are required");
       }
       const results = AuthRegSchema.parse({
-        userEmail,
-        userPass,
-        userPassConfirm,
+        email,
+        pass,
+        passConfirm,
       });
 
       const res = await apiRequest({

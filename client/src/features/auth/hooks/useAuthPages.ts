@@ -7,14 +7,14 @@ import type { AuthReducerAction } from "@feats/auth/types";
 
 const initialRegisterState = {
   type: "register",
-  user_email: "",
-  user_pass: "",
-  user_pass_confirm: "",
+  email: "",
+  pass: "",
+  pass_confirm: "",
 };
 
 const initialLoginState = {
   type: "login",
-  user_email: "",
+  email: "",
   user_pass: "",
 };
 
@@ -56,17 +56,17 @@ export const useAuthPages = () => {
     }
 
     try {
-      if (state.user_pass.length < 8 || state.user_pass_confirm.length < 8) {
+      if (state.pass.length < 8 || state.pass_confirm.length < 8) {
         throw new Error("Password must be at least 8 characters long");
       }
-      if (state.user_pass !== state.user_pass_confirm) {
+      if (state.user_pass !== state.pass_confirm) {
         throw new Error("Passwords do not match");
       }
 
       const res = await authApi.postNewUser({
-        userEmail: state.user_email,
-        userPass: state.user_pass,
-        userPassConfirm: state.user_pass_confirm,
+        userEmail: state.email,
+        userPass: state.pass,
+        userPassConfirm: state.pass_confirm,
       });
 
       if (!login || res.status !== 200) {
@@ -74,7 +74,7 @@ export const useAuthPages = () => {
       }
 
       alert("Registration successful");
-      login(state.user_email, state.user_pass);
+      login(state.email, state.pass);
       dispatch({ type: "REG_SUBMIT" });
 
       // apiRequest({
@@ -103,7 +103,7 @@ export const useAuthPages = () => {
     e.preventDefault();
 
     if (login) {
-      login(state.user_email, state.user_pass);
+      login(state.email, state.pass);
       dispatch({ type: "LOGIN_SUBMIT" });
     } else {
       throw new Error("Login function not found");

@@ -4,6 +4,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "types": ["vitest/globals"],
 
+    /* Bundler mode */
     "allowImportingTsExtensions": true,
     "moduleDetection": "force",
     "noEmit": true,
@@ -11,22 +12,21 @@
 
     /* Allow importing JSON modules */
 
-    "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@pages/*": ["src/pages/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@sass/*": ["src/assets/scss/*"],
-      "@/types/index/*": ["src/types/*"],
-      "@context/*": ["src/context/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@content/*": ["src/content/*"],
-      "@lib/*": ["src/lib/*"],
-      "@feats/*": ["src/features/*"],
-      "@/*": ["src/*"]
+      "@components/*": ["./src/components/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@sass/*": ["./src/assets/scss/*"],
+      "@/types/index/*": ["./src/types/*"],
+      "@context/*": ["./src/context/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@content/*": ["./src/content/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@feats/*": ["./src/features/*"],
+      "@/*": ["./src/*"]
     }
   },
-  "references": [{ "path": "../common" }],
+  "references": [{ "path": "../packages/schema-zod" }],
   "include": [
     "src",
     "test",

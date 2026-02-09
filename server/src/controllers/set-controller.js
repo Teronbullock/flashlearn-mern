@@ -1,7 +1,10 @@
-import { validationResult } from 'express-validator';
-import Sets from '../models/sets-model.js';
-import Cards from '../models/cards-model.js';
 import { checkResourceOwnership } from '../services/permission-service.js';
+import { db } from '../db/database.js';
+import { schemaDb } from '@flashlearn/schema-db';
+import { eq, desc, count, and } from 'drizzle-orm';
+// import { set } from 'zod';
+
+const { sets, cards } = schemaDb;
 
 /**
  * @desc    Get all sets for a user with card counts
@@ -10,36 +13,52 @@ import { checkResourceOwnership } from '../services/permission-service.js';
  */
 export const getAllSets = async (req, res, next) => {
   const userId = req.userId;
-  let sets;
+  let setsRes = [];
+
 
   // check for userId
   if (!userId) {
-    throw new Error('Cannot get sets without a userId');
+    throw new Error('User Not Authenticated');
   }
 
+  
   try {
     // fetch all sets for the authenticated user
-    sets = await Sets.findAll({
-      raw: true,
-      where: { user_id: userId },
-      order: [['id', 'DESC']],
-    });
+    setsRes = await db.select()
+      .from(sets)
+      .where(eq(sets.userId, userId))
+      .orderBy(desc(sets.id));
+
+    if (!setsRes || setsRes.length === 0) {
+      res.status(200).json({
+        msg: 'success, no sets found',
+        sets: [],
+      });
+      return;
+    }
 
     // get card count for each set
-    for (const [index, set] of sets.entries()) {
-      const count = await Cards.count({
-        where: { user_id: userId, set_id: set.id },
-      });
+    for (const [index, set] of setsRes.entries()) {
+      const result = await db.select()
+        .from(cards)
+        .where(
+          and(
+            eq(cards.userId, userId),
+            eq(cards.setId, set.id)
+          )
+        );
+      const count = result[0]?.count || 0;
 
       // add card count to each set
-      sets[index].cardCount = count;
+      setsRes[index].cardCount = count;
     }
 
     res.status(200).json({
       msg: 'success',
-      sets,
+      sets: setsRes,
     });
   } catch (err) {
+    console.error(err);
     throw new Error('Error retrieving sets');
   }
 };
@@ -53,8 +72,7 @@ export const getEditSet = async (req, res) => {
   const { setId } = req.params;
   const userId = req.userId;
 
-  const set = await checkResourceOwnership(Sets, setId, userId);
-
+  const set = await checkResourceOwnership(sets, setId, userId);
   res.status(200).json({
     set,
     msg: 'success',
@@ -67,14 +85,6 @@ export const getEditSet = async (req, res) => {
  * @access  Private
  */
 export const postCreateSet = async (req, res) => {
-  const validationErrors = validationResult(req);
-
-  if (!validationErrors.isEmpty()) {
-    const err = new Error('Validation failed, Please fill out all fields');
-    err.status = 422;
-    throw err;
-  }
-
   const { title, description } = req.body;
   const userId = req.userId;
 
@@ -82,30 +92,35 @@ export const postCreateSet = async (req, res) => {
   if (!title) {
     throw new Error('Title is required');
   }
-
   // check if set exists in DB
-  const existingSet = await Sets.findOne({
-    raw: true,
-    where: {
-      user_id: userId,
-      title,
-    },
-  });
+  const existingSet = await db.select()
+  .from(sets)
+  .where(
+    and(
+      eq(sets.userId, userId),
+      eq(sets.title, title)
+    )
+  )
+  .limit(1);
+  
 
   // return if set exists
-  if (existingSet) {
+  if (existingSet.length > 0) {
     throw new Error('set name already taken');
   }
 
   try {
-    const set = await Sets.create({
-      title,
-      description,
-      user_id: userId,
-    });
+    const [newSet] = await db.insert(sets)
+      .values({
+        title,
+        description,
+        userId,
+      })
+      .returning();
+      
     res.status(200).json({
       msg: 'Set created!',
-      set,
+      set: newSet,
     });
   } catch (error) {
     throw new Error('Error creating set');
@@ -118,44 +133,41 @@ export const postCreateSet = async (req, res) => {
  * @access  Private
  */
 export const putEditSet = async (req, res) => {
-  const validationErrors = validationResult(req);
-
-  if (!validationErrors.isEmpty()) {
-    const err = new Error('Validation failed, Please fill out all fields');
-    err.status = 422;
-    throw err;
-  }
-
   const { title, description } = req.body;
   const { setId } = req.params;
   const userId = req.userId;
 
   // Check if the set belongs to the user
-  await checkResourceOwnership(Sets, setId, userId);
+  await checkResourceOwnership(sets, setId, userId);
 
-  // check if set exist in db
-  const existingSet = await Sets.findOne({
-    raw: true,
-    where: {
-      title,
-      user_id: userId,
-    },
-  });
+  // check if set exist in db with same title for this user
+  const existingSets = await db.select()
+    .from(sets)
+    .where(
+      and(
+        eq(sets.title, title),
+        eq(sets.userId, userId)
+      )
+    );
 
-  if (existingSet) {
+  // Find if there's an existing set with the same title but different ID
+  const duplicateSet = existingSets.find(set => set.id != setId);
+  if (duplicateSet) {
     throw new Error('set name already taken');
   }
 
   try {
-    const set = await Sets.update({
-    title,
-    description,
-  }, {
-      where: { id: setId },
-    });
+    const [updatedSet] = await db.update(sets)
+      .set({
+        title,
+        description,
+      })
+      .where(eq(sets.id, setId))
+      .returning();
+      
     res.status(200).json({
       msg: 'Set updated!',
-      set,
+      set: updatedSet,
     });
   } catch (err) {
     throw new Error('Error: could not update set');
@@ -172,7 +184,7 @@ export const deleteSet = async (req, res) => {
   const userId = req.userId;
 
   // Check if the set belongs to the user
-  const set = await checkResourceOwnership(Sets, setId, userId);
+  const set = await checkResourceOwnership(sets, setId, userId);
 
   let isSetDeleted = false;
   let deletedCard = null;
@@ -180,33 +192,46 @@ export const deleteSet = async (req, res) => {
 
   // delete cards
   try {
-    deletedCard = await Cards.destroy({
-      raw: true,
-      where: { user_id: set.user_id, set_id: set.id },
-    });
-    console.log(`All cards were deleted for set ${set.setId} `, deletedCard);
+    await db.delete(cards)
+      .where(
+        and(
+          eq(cards.userId, set.userId),
+          eq(cards.setId, set.id)
+        )
+      );
+    console.log(`All cards were deleted for set ${set.id}`);
   } catch (err) {
     console.error(set);
-    throw new Error(`Error deleting cards for set ${set.setId}: `);
+    throw new Error(`Error deleting cards for set ${set.id}: `);
   }
 
   // delete set
   try {
-    newCards = await Cards.findAll({
-      raw: true,
-      where: { user_id: set.user_id, set_id: set.id },
-    });
+    // Check if there are any remaining cards
+    const remainingCards = await db.select()
+      .from(cards)
+      .where(
+        and(
+          eq(cards.userId, set.userId),
+          eq(cards.setId, set.id)
+        )
+      );
 
-    if (newCards.length !== 0) {
+    if (remainingCards.length !== 0) {
       const err = new Error('Cannot delete set with cards');
       err.status = 400;
       throw err;
     }
 
-    isSetDeleted = await Sets.destroy({
-      raw: true,
-      where: { id: set.id, user_id: set.user_id },
-    });
+    const result = await db.delete(sets)
+      .where(
+        and(
+          eq(sets.id, set.id),
+          eq(sets.userId, set.userId)
+        )
+      );
+
+    isSetDeleted = true; // The operation succeeded if no error was thrown
 
     console.log('Set ' + setId + ' is deleted');
 
@@ -214,7 +239,7 @@ export const deleteSet = async (req, res) => {
       msg: 'Your set and all of its cards have been deleted',
       isSetDeleted,
     });
-    
+
   } catch (err) {
     throw new Error(`Error deleting set ${setId}: `);
   }

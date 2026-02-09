@@ -1,20 +1,17 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
+    "rootDir": "./src",
+    "outDir": "./dist",
     "sourceMap": true,
+    
+    // "types": ["node"],
+    
     "allowJs": true,           
     "checkJs": false,
     "noImplicitAny": false,
-    "declaration": false,
-    "isolatedModules": true,
-    "baseUrl": ".",
-    "references": [
-      {
-        "path": "../common"
-      }
-    ]
+    "isolatedModules": true
   },
+  "references": [{ "path": "../packages/schema-db" }],
   "include": ["src/**/*.ts", "src/**/*.js"]
 }

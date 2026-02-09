@@ -4,14 +4,16 @@ import { ZodError } from "zod";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import type { BaseAuthFields } from "@/types/index";
 import type { LoginAction } from "../types/index";
-import { AuthLoginSchema } from "@common";
 import { authApi } from "@feats/auth/service/auth.service";
 import { AUTH_CONFIG } from "@/config/auth.config";
 import { authStorage } from "@feats/auth/service/auth.storage";
+import { schemaZod } from "@flashlearn/schema-db";
+
+const { AuthLoginSchema } = schemaZod;
 
 const initialLoginState = {
-  user_email: "",
-  user_pass: "",
+  email: "",
+  pass: "",
 };
 
 const loginFormReducer = (state: BaseAuthFields, action: LoginAction) => {
@@ -40,17 +42,18 @@ export const useLogin = () => {
     setErrors({});
 
     try {
-      if (!state.user_email || !state.user_pass) {
+      if (!state.email || !state.pass) {
         throw new Error("Email and password are required");
       }
 
       AuthLoginSchema.parse({
-        userEmail: state.user_email,
-        userPass: state.user_pass,
+        email: state.email,
+        pass: state.pass,
       });
+
       const { userId, token, tokenExpTime } = await authApi.login(
-        state.user_email,
-        state.user_pass,
+        state.email,
+        state.pass,
       );
 
       if (!userId || !token || !tokenExpTime) {

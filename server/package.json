@@ -1,32 +1,24 @@
 {
   "name": "server",
-  "version": "1.0.1",
+  "version": "2.0.3",
   "type": "module",
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "migrate:users-table": "npx sequelize migration:generate --name create-users-table",
-    "migrate:sets-table": "npx sequelize migration:generate --name create-sets-table",
-    "migrate:cards-table": "npx sequelize migration:generate --name create-cards-table",
-    "migrate:refresh-tokens-table": "npx sequelize migration:generate --name create-refresh-tokens-table",
-    "migrate:all-tables": "pnpm run migrate:users-table && pnpm run migrate:sets-table && pnpm run migrate:cards-table && pnpm run migrate:refresh-tokens-table",
-    "migrate:undo": "npx sequelize db:migrate:undo",
-    "migrate:undo:all": "npx sequelize db:migrate:undo:all",
-    "migrate": "npx sequelize db:migrate",
-    "build:ts-check": "tsc --noEmit",
     "build:ts": "tsc",
     "build": "pnpm run build:ts",
+    "ts-check": "tsc --noEmit",
     "dev": "NODE_ENV=development tsx --watch --env-file=../.env src/server.ts",
-    "dev:prod-env": "NODE_ENV=production tsx --watch --env-file=../.env src/server.ts",
-    "start": "pnpm run build:ts && NODE_ENV=production node dist/server.js"
+    "prod": "NODE_ENV=production tsx --watch --env-file=../.env src/server.ts",
+    "start": "pnpm run build:ts && node dist/server.js"
   },
   "keywords": [],
   "author": "Teron Bullock",
   "license": "ISC",
   "dependencies": {
+    "@flashlearn/schema-db": "workspace:*",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.2",
-    "@flashlearn/common": "workspace:*",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -42,7 +34,8 @@
     "postgres": "^3.4.8",
     "pug": "^3.0.2",
     "sequelize": "^6.3.4",
-    "serverless-http": "^3.2.0"
+    "serverless-http": "^3.2.0",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

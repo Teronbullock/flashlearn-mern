@@ -1,0 +1,41 @@
+{
+  "name": "@flashlearn/schema-db",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    },
+    "./db": {
+      "types": "./src/db/index.ts",
+      "import": "./src/db/index.ts"
+    },
+    "./zod": {
+      "types": "./src/zod/index.ts",
+      "import": "./src/zod/index.ts"
+    }
+  },
+  "version": "2.0.3",
+  "scripts": {
+    "build": "tsc -b",
+    "db:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:migrate:undo": "npx drizzle-kit migrate:undo",
+    "db:migrate:undo:all": "npx drizzle-kit migrate:undo:all",
+    "db:pull": "npx drizzle-kit pull",
+    "db:push": "npx drizzle-kit push",
+    "db:check": "npx drizzle-kit check"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "drizzle-kit": "^0.31.8",
+    "drizzle-orm": "^0.45.1",
+    "drizzle-zod": "^0.8.3",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7",
+    "typescript": "^5.9.3"
+  }
+}

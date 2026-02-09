@@ -25,7 +25,7 @@ export const EmptyPageState = ({
       </div>
       <h2 className="mb-2 text-center font-medium">{title}</h2>
       <p className="mb-15 text-center text-base">{subTitle}</p>
-      <div className="flex text-center">
+      <div className="flex justify-center text-center">
         <BtnLink
           to={ctaURL ?? " "}
           className="w-111 py-3! text-base!"

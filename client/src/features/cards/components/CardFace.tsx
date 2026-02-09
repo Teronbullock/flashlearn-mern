@@ -25,10 +25,10 @@ export const CardFace = ({
 
   return (
     <div className={cardClass} style={{ backgroundColor: bgColor }}>
-      <a className="absolute right-[26px] top-[29px]" onClick={handFlipAction}>
+      <a className="right-6.5 top-7.25 absolute" onClick={handFlipAction}>
         <img
           className=""
-          src="/assets/img/Vector-flip.png"
+          src="public/assets/img/Vector-flip.png"
           alt="ArrowsCounterClockwise"
           height="23px"
           width="23px"

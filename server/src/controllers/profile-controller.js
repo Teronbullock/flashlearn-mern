@@ -1,6 +1,11 @@
 import bcrypt from 'bcrypt';
-import { validationResult } from 'express-validator';
-import Users from '../models/users-model.js';
+import { schemaDb, schemaZod } from '@flashlearn/schema-db';
+import { db } from '../db/database.js';
+import { eq } from 'drizzle-orm';
+import { ZodError } from 'zod';
+
+const { users } = schemaDb;
+const { ProfileUpdateEmailSchema, ProfileUpdatePasswordSchema, ProfileDeleteAccountSchema } = schemaZod;
 
 /**
  * -- get user profile --
@@ -12,9 +17,14 @@ export const getUserProfile = async (req, res) => {
     throw new Error('User credentials not found.');
   }
 
-  const {user_email} = await Users.findOne({ where: { id: userId } });
+  const [user] = await db.select({ email: users.email }).from(users).where(eq(users.id, userId));
+  
+  if (!user) {
+    throw new Error('User not found.');
+  }
+  
   return res.status(200).json({
-    user_email,
+    email: user.email,
   });
 };
 
@@ -23,40 +33,42 @@ export const getUserProfile = async (req, res) => {
  * -- put update user email --
  */
 export const putUpdateUserEmail = async (req, res) => {
-  let errors = validationResult(req);
-  
-  if (!errors.isEmpty()) {
-    throw new Error('All fields required.');
-  }
-  
-  const { user_email, user_pass: userOldPass} = req.body;
+  const { email, pass: userOldPass } = req.body;
   const userId = req.userId;
 
-  if(!userId){
+  try {
+    // Validate input using Zod schema
+    ProfileUpdateEmailSchema.parse({ email, pass: userOldPass });
+  } catch (err) {
+    if (err instanceof ZodError) {
+      const errorMessage = err.errors.map((e) => e.message).join(' ');
+      throw new Error(`Validation Error: ${errorMessage}`);
+    }
+    throw new Error('Validation failed');
+  }
+
+  if (!userId) {
     throw new Error('User credentials not found.');
   }
 
   // check if user exists
-  const {user_pass} = await Users.findOne({ where: { id: userId } }, { raw: true });
+  const [user] = await db.select({ pass: users.pass }).from(users).where(eq(users.id, userId));
 
-  const isOldPassMatch = await bcrypt.compare(userOldPass, user_pass);
+  if (!user) {
+    throw new Error('User not found.');
+  }
+
+  const isOldPassMatch = await bcrypt.compare(userOldPass, user.pass);
   // check if old password matches
   if (!isOldPassMatch) {
     throw new Error('invalid credentials.');
   }
 
-
   // update user email
-  const updatedUser = await Users.update({user_email},
-    {
-      where: { id: userId },
-      raw: true,
-      individualHooks: true,
-    }
-  );
+  const result = await db.update(users).set({ email }).where(eq(users.id, userId));
 
   // check if user was updated
-  if (updatedUser[0] === 0) {
+  if (result.rowCount === 0) {
     throw new Error('User not found.');
   }
 
@@ -71,44 +83,43 @@ export const putUpdateUserEmail = async (req, res) => {
  * -- put user password --
  */
 export const putUpdateUserPassword = async (req, res) => {
-  let errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    throw new Error('All fields required.');
-  }
-
-  const { user_old_pass, user_pass, user_pass_confirm } = req.body;
+  const { user_old_pass, pass, pass_confirm } = req.body;
   const userId = req.userId;
 
-  // add user data to formData
-  const formData = {
-    user_pass,
-  };
+  try {
+    // Validate input using Zod schema
+    ProfileUpdatePasswordSchema.parse({ user_old_pass, pass, pass_confirm });
+  } catch (err) {
+    if (err instanceof ZodError) {
+      const errorMessage = err.errors.map((e) => e.message).join(' ');
+      throw new Error(`Validation Error: ${errorMessage}`);
+    }
+    throw new Error('Validation failed');
+  }
 
   // check if user exists
-  const user = await Users.findOne({ where: { id: userId } }, { raw: true });
+  const [user] = await db.select({ pass: users.pass }).from(users).where(eq(users.id, userId));
+
+  if (!user) {
+    throw new Error('User not found.');
+  }
 
   // check old password match
-  const isOldPassMatch = await bcrypt.compare(user_old_pass, user.user_pass);
+  const isOldPassMatch = await bcrypt.compare(user_old_pass, user.pass);
 
   if (!isOldPassMatch) {
     throw new Error('Old password is incorrect.');
   }
 
-  // confirm that password and confirm password match
-  if (user_pass !== user_pass_confirm) {
-    throw new Error('Passwords do not match.');
-  }
+  // hash the new password
+  const saltRounds = 12;
+  const hashedPassword = await bcrypt.hash(pass, saltRounds);
 
   // update user data
-  const updatedUser = await Users.update(formData, {
-    where: { id: userId },
-    raw: true,
-    individualHooks: true,
-  });
+  const result = await db.update(users).set({ pass: hashedPassword }).where(eq(users.id, userId));
 
   // check if user was updated
-  if (updatedUser[0] === 0) {
+  if (result.rowCount === 0) {
     throw new Error('User not found.');
   }
 
@@ -119,40 +130,50 @@ export const putUpdateUserPassword = async (req, res) => {
 };
 
 export const putRemoveUser = async (req, res) => {
-  let errors = validationResult(req);
+  const userId = req.userId;
+  const { pass } = req.body;
 
-  if(!errors.isEmpty()){
-    throw new Error('All fields required.');
+  try {
+    // Validate input using Zod schema
+    ProfileDeleteAccountSchema.parse({ pass });
+  } catch (err) {
+    if (err instanceof ZodError) {
+      const errorMessage = err.errors.map((e) => e.message).join(' ');
+      throw new Error(`Validation Error: ${errorMessage}`);
+    }
+    throw new Error('Validation failed');
   }
 
-  const userId = req.userId;
-  const { user_pass } = req.body;
-  
-  if (!userId || !user_pass) {
+  if (!userId) {
     throw new Error('User credentials not found.');
   }
 
-  const user = await Users.findOne({ where: { id: userId } }, { raw: true });
-  const isOldPassMatch = await bcrypt.compare(user_pass, user.user_pass);
+  const [user] = await db.select({ pass: users.pass }).from(users).where(eq(users.id, userId));
+
+  if (!user) {
+    throw new Error('User not found.');
+  }
+
+  const isOldPassMatch = await bcrypt.compare(pass, user.pass);
 
   if (!isOldPassMatch) {
     throw new Error('Invalid credentials.');
   }
 
   try {
-  const deletedUser = await Users.destroy({ where: { id: userId } });
-  
-  if (deletedUser === 0) {
-    throw new Error('User not found.');
-  }
-  
-  res.status(200).json({
-    msg: 'User deleted successfully.',
-  });
+    const result = await db.delete(users).where(eq(users.id, userId));
 
-} catch(error) {
-  console.error('Error deleting user:', error);
-  throw new Error('Failed to delete user.');
-}
+    if (result.rowCount === 0) {
+      throw new Error('User not found.');
+    }
+
+    res.status(200).json({
+      msg: 'User deleted successfully.',
+    });
+
+  } catch(error) {
+    console.error('Error deleting user:', error);
+    throw new Error('Failed to delete user.');
+  }
 };
   

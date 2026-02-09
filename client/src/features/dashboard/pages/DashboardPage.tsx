@@ -18,7 +18,7 @@ export const DashboardPage = () => {
       id: 1,
       number: sets?.length.toString(),
       copy: "Total Sets",
-      icon: { src: "/assets/img/Sun.png", alt: "Sun Icon" },
+      icon: { src: "public/assets/img/Sun.png", alt: "Sun Icon" },
     },
     // {
     //   id: 2,
@@ -77,7 +77,7 @@ export const DashboardPage = () => {
         sets && (
           <EmptyPageState
             img={{
-              src: "/assets/img/Vector-person.webp",
+              src: "public/assets/img/Vector-person.webp",
               alt: "cartoon of a person with an empty box in their hands",
             }}
             title="Looks a little empty here"

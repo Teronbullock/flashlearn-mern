@@ -24,14 +24,14 @@ const RegisterPage = () => {
           <FormGroup labelName="Enter Email Address">
             <FormInput
               type="email"
-              name="user_email"
-              value={state.user_email}
+              name="email"
+              value={state.email}
               placeholder="Enter your email"
               required={true}
               onChange={(e) =>
                 dispatch({
                   type: "ON_CHANGE",
-                  payload: { user_email: e.target.value },
+                  payload: { email: e.target.value },
                 })
               }
             />
@@ -40,14 +40,14 @@ const RegisterPage = () => {
           <FormGroup labelName="Choose Password">
             <FormInput
               type="password"
-              name="user_pass"
-              value={state.user_pass}
+              name="pass"
+              value={state.pass}
               placeholder="Enter your password"
               required={true}
               onChange={(e) =>
                 dispatch({
                   type: "ON_CHANGE",
-                  payload: { user_pass: e.target.value },
+                  payload: { pass: e.target.value },
                 })
               }
             />
@@ -59,14 +59,14 @@ const RegisterPage = () => {
           <FormGroup labelName="Confirm Password">
             <FormInput
               type="password"
-              name="user_confirm_pass"
-              value={state.user_pass_confirm}
+              name="confirm_pass"
+              value={state.pass_confirm}
               placeholder="Confirm your password"
               required={true}
               onChange={(e) =>
                 dispatch({
                   type: "ON_CHANGE",
-                  payload: { user_pass_confirm: e.target.value },
+                  payload: { pass_confirm: e.target.value },
                 })
               }
             />

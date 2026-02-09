@@ -7,8 +7,8 @@ export const authApi = {
       url: "/auth/login",
       method: "post",
       data: {
-        user_email: email,
-        user_pass: password,
+        email: email,
+        pass: password,
       },
     });
 
@@ -62,18 +62,14 @@ export const authApi = {
 
     return { userId, token, tokenExpTime: tokenExpTime };
   },
-  postNewUser: async ({
-    userEmail,
-    userPass,
-    userPassConfirm,
-  }: PostNewUserParams) => {
+  postNewUser: async ({ email, pass, passConfirm }: PostNewUserParams) => {
     const res = await apiRequest({
       method: "post",
       url: "/auth/register",
       data: {
-        user_email: userEmail,
-        user_pass: userPass,
-        user_pass_confirm: userPassConfirm,
+        email: email,
+        pass: pass,
+        pass_confirm: passConfirm,
       },
     });
 
