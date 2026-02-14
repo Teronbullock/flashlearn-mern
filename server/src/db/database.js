@@ -25,4 +25,4 @@ export const testDbConnection = async () => {
 }
 
 
-// testDbConnection();
+testDbConnection();

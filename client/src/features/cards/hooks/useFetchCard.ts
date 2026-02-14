@@ -37,12 +37,12 @@ export const useFetchCard = ({ setId, cardId }: FetchCardsParams) => {
 
     try {
       const res = await apiRequest({
-        url: `/sets/${setId}/cards/${cardId}`,
+        url: `/sets/${setId}/cards`,
         token: tokenRef.current,
         signal: signal,
       });
 
-      setCard(res.data.card);
+      setCard(res.data.cards);
     } catch (err) {
       if (err instanceof Error && err.name !== "AbortError") {
         // setError(err.message);

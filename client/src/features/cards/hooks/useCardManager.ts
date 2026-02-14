@@ -9,7 +9,7 @@ interface CardManagerParams {
   setId?: string;
   cardId?: string;
   getAllSetCards?: () => void;
-  card?: CardObject | null;
+  card?: CardObject[] | null;
 }
 
 export const useCardManager = ({
@@ -132,7 +132,10 @@ export const useCardManager = ({
 
     dispatch({
       type: "ON_LOAD",
-      payload: { inputOneValue: card.term, inputTwoValue: card.definition },
+      payload: {
+        inputOneValue: card[0].term,
+        inputTwoValue: card[0].definition,
+      },
     });
   }, [card]);
 

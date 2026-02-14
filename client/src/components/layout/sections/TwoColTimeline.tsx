@@ -18,25 +18,25 @@ export function TwoColTimeline({ title, cards }: TwoColTimelineProps) {
       }}
     >
       <div
-        className="mb-[4rem] justify-items-center px-[15%] md:mb-[2rem] md:basis-[50%] md:px-0"
+        className="mb-16 justify-items-center px-[15%] md:mb-8 md:basis-[50%] md:px-0"
         data-name="section-two-col-left"
       >
         <div>
           <img
             src="assets/img/woman-with-tablet.webp"
             alt=""
-            className="border-primary rotate-11 w-[100%] rounded-[20px] border md:max-w-[450px]"
+            className="border-primary rotate-11 md:max-w-112.5 w-full rounded-[20px] border"
           />
         </div>
         <div>
           <img
             src="assets/img/student-with-a-book.webp"
             alt=""
-            className="border-primary -rotate-11 w-[100%] rounded-[20px] border md:max-w-[450px]"
+            className="border-primary -rotate-11 md:max-w-112.5 w-full rounded-[20px] border"
           />
         </div>
       </div>
-      <div className="md:pt-[4rem]" data-name="section-two-col-right">
+      <div className="md:pt-16" data-name="section-two-col-right">
         {cards.map((card, index) => {
           const isLast = index === cards.length - 1;
           const cardClassName = isLast ? undefined : "pb-[6.75rem]";

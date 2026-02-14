@@ -1,10 +1,10 @@
-import { eq } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import { ZodError } from 'zod';
 import { checkResourceOwnership } from '../services/permission-service.js';
 import { db } from '../db/database.js';
 import { schemaDb, schemaZod } from '@flashlearn/schema-db';
 
-const { sets, cards } = schemaDb;
+const { setsTable, cardsTable } = schemaDb;
 const {cardsInsertSchema} = schemaZod;
 
 /**
@@ -17,13 +17,13 @@ export const getCardsAllCards = async (req, res) => {
   const setId = req.params.setId;
   const userId = req.userId;
 
-  const set = await checkResourceOwnership(sets, setId, userId);
-
-  const cards = await db.select().from(cards).where(eq(
-    cards.set_id, setId
-  )).orderBy(asc(cards.id));
-
-
+  const set = await checkResourceOwnership(setsTable, setId, userId);
+  
+  const cards = await db.select().from(cardsTable).where(eq(
+    cardsTable.setId, set.id
+  )).orderBy(asc(cardsTable.id));
+  
+  
   res.status(200).json({
     msg: 'success',
     cards: cards,
@@ -41,10 +41,21 @@ export const getEditCard = async (req, res) => {
 
   if  (!setId || !cardId) {
     const err = new Error('please add card credentials');
-    err.status = 40
+    err.status = 400;
+    throw err;
   }
 
-  const card = await checkResourceOwnership(cards, cardId, userId);
+  const cardRes = await checkResourceOwnership(cardsTable, cardId, userId);
+
+  if (!cardRes) {
+    const err = new Error('user is not authorized to edit this card');
+    err.status = 400;
+    throw err;
+  }
+
+  const card = await db.select().from(cardsTable).where(eq(
+    cardsTable.id, cardRes.id
+  ));
 
   res.status(200).json({
     setId,
@@ -61,22 +72,20 @@ export const getViewCards = async (req, res) => {
   const setId = req.params.setId;
   const { page } = req.query;
 
-  const { count, rows } = await db.select()
-  .from(cards)
+  const card = await db.select()
+  .from(cardsTable)
   .where(eq(
-    cards.set_id, setId
+    cardsTable.setId, setId
   ))
-  .orderBy(asc(cards.id))
+  .orderBy(asc(cardsTable.id))
   .limit(1)
   .offset(page - 1);
 
 
-  let card = rows[0];
-
   res.status(200).json({
     msg: 'success',
     card,
-    count,
+    // count,
   });
 };
 
@@ -92,19 +101,17 @@ export const postAddCard = async (req, res) => {
   try {
 
   const validCardInfo = await cardsInsertSchema.parseAsync({
-    // term: req.body.term,
-    // definition: req.body.definition,
-    term: '',
-    definition: null,
+    term: req.body.term,
+    definition: req.body.definition,
   });
 
   const { term, definition } = validCardInfo;
 
   // Check if the set belongs to the user
-  const card = await checkResourceOwnership(sets, setId, userId);
+  const card = await checkResourceOwnership(setsTable, setId, userId);
 
 
-    const updatedCard = await db.insert(cards).values({
+    const updatedCard = await db.insert(cardsTable).values({
       term,
       definition,
       userId: userId,
@@ -112,7 +119,7 @@ export const postAddCard = async (req, res) => {
   }).returning();
 
   if (!updatedCard) {
-    throw new Error('Error creating cardss');
+    throw new Error('Error creating cards');
   }
 
     res.status(200).json({
@@ -140,36 +147,26 @@ export const postAddCard = async (req, res) => {
  * @access  Private
  */
 export const putEditCard = async (req, res) => {
-  const validationErrors = validationResult(req);
   const { setId, cardId } = req.params;
   const userId = req.userId;
-  const { term, definition, bg_color, text_color } = req.body;
 
-  if (!validationErrors.isEmpty()) {
-    const err = new Error('Validation failed, Please fill out all fields');
-    err.status = 422;
-    throw err;
+  const validCardInfo = await cardsInsertSchema.parseAsync({
+    term: req.body.term,
+    definition: req.body.definition,
+  });
+
+  const { term, definition } = validCardInfo;
+  const card = await checkResourceOwnership(cardsTable, cardId, userId);
+
+  if (!card) {
+    throw new Error('user is not authorized to edit this card');
   }
 
-  const card = await checkResourceOwnership(cards, cardId, userId);
-
-  const data = {
-    term,
-    definition,
-    bg_color,
-    text_color,
-    id: card.id,
-  };
-
-
-  if (!data.term ) {
-    const err = new Error('Please fill in all fields');
-    err.status = 400;
-    return next(err);
-  }
-
-    const cardUpdate = await db.update(cards).set().where(eq(
-      cards.id, card.id
+  const cardUpdate = await db.update(cardsTable).set({
+    term: card.term,
+    definition: card.definition
+  }).where(eq(
+      cardsTable.id, card.id
     )).returning();
     
 

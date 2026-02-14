@@ -13,32 +13,39 @@ import {
 } from '../services/token-service.js';
 import { eq, is } from 'drizzle-orm';
 import { ref } from 'process';
+import { hashPassword } from '../lib/auth.js';
 
 const { AuthRegSchema, AuthLoginSchema } = schemaZod;
-const { users } = schemaDb;
+const { usersTable } = schemaDb;
 
 
 export const postUserRegister = async (req, res) => {
   try {
-    const authRes = await AuthRegSchema.parseAsync(req.body);
-    const { email: email, pass: pass } = authRes;
+    const validatedData = await AuthRegSchema.parseAsync(req.body);
+    const { email, pass } = validatedData;
+ 
+    // check if user and email already exists
+    const isUserEmail = await db.select().from(usersTable).where(eq(usersTable.email, email));
+  
+    // if email exists, throw error
+    if (isUserEmail && isUserEmail.length > 0) {
+      throw new Error('Email already exists.');
+    }
 
-    const formData = {
-      pass,
+    const hashedPass = await hashPassword(pass);
+
+    if (!hashedPass) {
+      throw new Error('Error hashing password.');
+    }
+
+      const formData = {
+      pass: hashedPass,
       email,
       slug: nanoid(10),
     };
 
-    // check if user and email already exists
-    const isUserEmail = await db.select(users).where(eq(users.email, email));
-  
-    // if email exists, throw error
-    if (isUserEmail) {
-      throw new Error('Email already exists.');
-    }
-
     // create user
-    await db.insert(users).values(formData);
+    await db.insert(usersTable).values(formData);
     console.log('User registered successfully.');
 
     // send res to client
@@ -64,6 +71,10 @@ export const postUserLogin = async (req, res) => {
     });
   
   const user = await authenticateUser(credentials.email, credentials.pass);
+  
+  if (!user) {
+    throw new Error('Invalid email or password.');
+  }
   
   const tokenData = genAuthToken(user.id);
   const refreshToken = genRefreshToken(user.id);
@@ -130,7 +141,7 @@ export const postRefresh = async (req, res) => {
     throw new Error('Invalid refresh token.');
   }
 
-  const [verifiedUser] = await db.select().from(users).where(eq(users.id, verifiedTokenData.userId));
+  const [verifiedUser] = await db.select().from(usersTable).where(eq(usersTable.id, verifiedTokenData.userId));
 
   if (!verifiedUser) {
     res.status(404);

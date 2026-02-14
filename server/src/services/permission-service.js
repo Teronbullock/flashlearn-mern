@@ -1,17 +1,17 @@
 import { db } from "../db/database";
 import { eq } from "drizzle-orm";
-import { sets } from "@flashlearn/schema-db/db";
+
 /**
  * Checks if a user owns a specific resource.
  * 
- * @param {Model} model - The Sequelize model (e.g., Cards, Sets).
+ * @param {Model} model - The Sequelize model (e.g., CardsTable, SetsTable).
  * @param {string|number} resourceId - The ID of the resource to check.
  * @param {string} userId - The ID of the user.
  * @returns {Promise<Object>} - The found resource.
  * @throws {Error} - If resource not found or unauthorized.
  */
 export const checkResourceOwnership = async (model, resourceId, userId) => {
-  
+
   const [resource] = await db.select().from(model).where(eq(model.id, resourceId)).limit(1);
 
   if (!resource) {

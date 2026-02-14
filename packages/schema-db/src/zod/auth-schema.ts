@@ -1,14 +1,14 @@
 import { z } from 'zod';
-import { users } from '../db/users.schema';
+import { usersTable } from '../db/users-schema';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
 
 // Create Zod schemas from the Drizzle users schema
-export const userInsertSchema = createInsertSchema(users);
-export const userSelectSchema = createSelectSchema(users);
-export const userUpdateSchema = createUpdateSchema(users);
+export const userInsertSchema = createInsertSchema(usersTable);
+export const userSelectSchema = createSelectSchema(usersTable);
+export const userUpdateSchema = createUpdateSchema(usersTable);
 
 
-export const AuthRegSchema = createInsertSchema(users, {
+export const AuthRegSchema = createInsertSchema(usersTable, {
   email: z.email("Invalid email address"),
   pass: z.string().min(8, "Password too short").max(125),
 })

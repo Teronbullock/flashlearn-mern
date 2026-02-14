@@ -1,4 +1,4 @@
-export * from './cards.schema'
-export * from './sets.schema'
-export * from './users.schema'
-export * from './refresh-tokens.schema'
+export { cardsTable, cardsRelations } from './cards-schema'
+export { setsTable, setsRelations } from './sets-schema'
+export { usersTable, usersRelations } from './users-schema'
+export { refreshTokens, refreshTokensRelations } from './refresh-tokens-schema'

@@ -9,7 +9,7 @@ import { BtnLink, Btn } from "@components/btn";
 import { InfoSection } from "@components/layout/sections/InfoSection";
 import { useFetchSetCards } from "@feats/sets/hooks/useFetchSetCards";
 import data from "@content/setContent.json";
-import { CardData } from "@/types/index/cardType";
+import { type CardData } from "@/types/index/cardType";
 import { Spinner } from "@components/ui/Spinner";
 
 // import { FormLayout, FormGroup, FormInput } from "@components/forms";
@@ -90,7 +90,7 @@ const SetPage = () => {
                 onSubmit={() =>
                   deleteSetCardHandler({
                     cardId: card.id,
-                    setId: card.set_id,
+                    setId: card.setId,
                   })
                 }
               >
@@ -103,7 +103,7 @@ const SetPage = () => {
                         size: "sm",
                       }}
                       className="p-0 md:mr-6 md:p-2"
-                      to={`/set/${card.set_id}/card/${card.id}/edit`}
+                      to={`/set/${card.setId}/card/${card.id}/edit`}
                     >
                       Edit Card
                     </BtnLink>

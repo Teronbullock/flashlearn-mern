@@ -7,7 +7,7 @@ export const MobileMenuBtn = ({
   isMobileMenuOpen,
 }: MobileBtnProps) => {
   const btnClass = classNames(
-    "btn-mobile-toggle absolute right-2 z-[500] inline-flex h-[44px] w-[44px] cursor-pointer items-center justify-center rounded-full border-0 bg-white outline-none md:hidden",
+    "btn-mobile-toggle absolute right-5 z-[500] inline-flex h-[44px] w-[44px] cursor-pointer items-center justify-center rounded-full border-0 bg-white outline-none md:hidden",
     { change: isMobileMenuOpen },
   );
 

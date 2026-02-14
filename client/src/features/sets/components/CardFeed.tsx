@@ -1,5 +1,5 @@
 import { Card } from "@components/ui/card/Card";
-import { CardData } from "@/types/index/cardType";
+import { type CardData } from "@/types/index/cardType";
 
 interface CardFeedProps {
   children: (card: CardData) => React.ReactNode;

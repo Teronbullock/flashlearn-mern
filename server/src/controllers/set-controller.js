@@ -4,7 +4,7 @@ import { schemaDb } from '@flashlearn/schema-db';
 import { eq, desc, count, and } from 'drizzle-orm';
 // import { set } from 'zod';
 
-const { sets, cards } = schemaDb;
+const { setsTable, cardsTable } = schemaDb;
 
 /**
  * @desc    Get all sets for a user with card counts
@@ -25,9 +25,9 @@ export const getAllSets = async (req, res, next) => {
   try {
     // fetch all sets for the authenticated user
     setsRes = await db.select()
-      .from(sets)
-      .where(eq(sets.userId, userId))
-      .orderBy(desc(sets.id));
+      .from(setsTable)
+      .where(eq(setsTable.userId, userId))
+      .orderBy(desc(setsTable.id));
 
     if (!setsRes || setsRes.length === 0) {
       res.status(200).json({
@@ -40,11 +40,11 @@ export const getAllSets = async (req, res, next) => {
     // get card count for each set
     for (const [index, set] of setsRes.entries()) {
       const result = await db.select()
-        .from(cards)
+        .from(cardsTable)
         .where(
           and(
-            eq(cards.userId, userId),
-            eq(cards.setId, set.id)
+            eq(cardsTable.userId, userId),
+            eq(cardsTable.setId, set.id)
           )
         );
       const count = result[0]?.count || 0;
@@ -72,7 +72,7 @@ export const getEditSet = async (req, res) => {
   const { setId } = req.params;
   const userId = req.userId;
 
-  const set = await checkResourceOwnership(sets, setId, userId);
+  const set = await checkResourceOwnership(setsTable, setId, userId);
   res.status(200).json({
     set,
     msg: 'success',
@@ -88,17 +88,19 @@ export const postCreateSet = async (req, res) => {
   const { title, description } = req.body;
   const userId = req.userId;
 
+
   // check for title or throw an error
   if (!title) {
     throw new Error('Title is required');
   }
+
   // check if set exists in DB
   const existingSet = await db.select()
-  .from(sets)
+  .from(setsTable)
   .where(
     and(
-      eq(sets.userId, userId),
-      eq(sets.title, title)
+      eq(setsTable.userId, userId),
+      eq(setsTable.title, title)
     )
   )
   .limit(1);
@@ -110,7 +112,7 @@ export const postCreateSet = async (req, res) => {
   }
 
   try {
-    const [newSet] = await db.insert(sets)
+    const [newSet] = await db.insert(setsTable)
       .values({
         title,
         description,
@@ -138,15 +140,23 @@ export const putEditSet = async (req, res) => {
   const userId = req.userId;
 
   // Check if the set belongs to the user
-  await checkResourceOwnership(sets, setId, userId);
+  const set = await checkResourceOwnership(setsTable, setId, userId);
+
+  if (!title) {
+    throw new Error('Title is required');
+  }
+
+  if (!set) {
+    throw new Error('User not authenticated');
+  }
 
   // check if set exist in db with same title for this user
   const existingSets = await db.select()
-    .from(sets)
+    .from(setsTable)
     .where(
       and(
-        eq(sets.title, title),
-        eq(sets.userId, userId)
+        eq(setsTable.title, title),
+        eq(setsTable.userId, userId)
       )
     );
 
@@ -157,12 +167,12 @@ export const putEditSet = async (req, res) => {
   }
 
   try {
-    const [updatedSet] = await db.update(sets)
+    const [updatedSet] = await db.update(setsTable)
       .set({
         title,
         description,
       })
-      .where(eq(sets.id, setId))
+      .where(eq(setsTable.id, setId))
       .returning();
       
     res.status(200).json({
@@ -184,7 +194,7 @@ export const deleteSet = async (req, res) => {
   const userId = req.userId;
 
   // Check if the set belongs to the user
-  const set = await checkResourceOwnership(sets, setId, userId);
+  const set = await checkResourceOwnership(setsTable, setId, userId);
 
   let isSetDeleted = false;
   let deletedCard = null;
@@ -192,11 +202,11 @@ export const deleteSet = async (req, res) => {
 
   // delete cards
   try {
-    await db.delete(cards)
+    await db.delete(cardsTable)
       .where(
         and(
-          eq(cards.userId, set.userId),
-          eq(cards.setId, set.id)
+          eq(cardsTable.userId, set.userId),
+          eq(cardsTable.setId, set.id)
         )
       );
     console.log(`All cards were deleted for set ${set.id}`);
@@ -209,11 +219,11 @@ export const deleteSet = async (req, res) => {
   try {
     // Check if there are any remaining cards
     const remainingCards = await db.select()
-      .from(cards)
+      .from(cardsTable)
       .where(
         and(
-          eq(cards.userId, set.userId),
-          eq(cards.setId, set.id)
+          eq(cardsTable.userId, set.userId),
+          eq(cardsTable.setId, set.id)
         )
       );
 
@@ -223,11 +233,11 @@ export const deleteSet = async (req, res) => {
       throw err;
     }
 
-    const result = await db.delete(sets)
+    const result = await db.delete(setsTable)
       .where(
         and(
-          eq(sets.id, set.id),
-          eq(sets.userId, set.userId)
+          eq(setsTable.id, set.id),
+          eq(setsTable.userId, set.userId)
         )
       );
 

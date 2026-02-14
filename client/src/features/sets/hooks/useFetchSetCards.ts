@@ -52,6 +52,7 @@ export const useFetchSetCards = ({ setId }: FetchSetCardsParams) => {
       });
 
       setSetCards(res.data.cards);
+      console.log("res", res.data.cards);
     } catch (err) {
       if (err instanceof Error && err.name !== "AbortError") {
         setError(err.message);
