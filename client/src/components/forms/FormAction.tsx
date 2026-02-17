@@ -5,6 +5,7 @@ type FormActionProps = {
   submitBtnText: string;
   cancelBtnTo: string;
   className?: string;
+  disable?: boolean;
 };
 
 /**
@@ -19,6 +20,7 @@ export const FormAction = ({
   submitBtnText,
   cancelBtnTo,
   className,
+  disable,
 }: FormActionProps) => {
   return (
     <div className={classNames("form__action flex", className)}>
@@ -26,12 +28,14 @@ export const FormAction = ({
         className="md:mr-7"
         type="submit"
         variants={{ style: "btn", color: "primary", size: "lg" }}
+        disabled={disable}
       >
-        {submitBtnText}
+        {disable ? "Loading..." : submitBtnText}
       </Btn>
       <BtnLink
         variants={{ style: "btn", color: "outline-black", size: "lg" }}
         to={cancelBtnTo}
+        disabled={disable}
       >
         Cancel
       </BtnLink>

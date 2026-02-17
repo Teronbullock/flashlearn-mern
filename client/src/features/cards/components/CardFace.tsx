@@ -13,7 +13,6 @@ export const CardFace = ({
   children,
   className,
   bgColor = "#FAEBE8",
-  textColor = "#CA3916",
   cardText,
   handFlipAction,
 }: CardFaceProps) => {
@@ -28,7 +27,7 @@ export const CardFace = ({
       <a className="right-6.5 top-7.25 absolute" onClick={handFlipAction}>
         <img
           className=""
-          src="public/assets/img/Vector-flip.png"
+          src="/public/assets/img/vector-flip.png"
           alt="ArrowsCounterClockwise"
           height="23px"
           width="23px"

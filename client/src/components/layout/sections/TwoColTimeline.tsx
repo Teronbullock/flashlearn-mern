@@ -1,4 +1,4 @@
-import { SectionTwoCol } from "@components/layout/sections";
+import { SectionTwoCol } from "@components/layout/sections/SectionTwoCol";
 import { TimelineCard, TimelineCardProps } from "@components/TimelineCard";
 
 interface TwoColTimelineProps {

@@ -9,7 +9,7 @@ export const RatingStars = ({ value }: RatingProps) => {
     <div
       role="img"
       aria-label={`${safeValue} out of 5 stars`}
-      className="my-[9px] flex items-center justify-center gap-1"
+      className="my-2.25 flex items-center justify-center gap-1"
     >
       {Array.from({ length: 5 }, (_, i) => {
         const index = i + 1;

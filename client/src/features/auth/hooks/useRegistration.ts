@@ -3,14 +3,12 @@ import { ZodError } from "zod";
 import { apiRequest } from "@lib/api";
 import type { RegistrationAction } from "@feats/auth/types";
 import type { RegistrationDetails } from "@/types/index";
-import { schemaZod } from "@flashlearn/schema-db";
-
-const { AuthRegSchema } = schemaZod;
+import { AuthRegSchema } from "@flashlearn/schema-db";
 
 const initialRegisterState = {
   email: "",
   pass: "",
-  pass_confirm: "",
+  passConfirm: "",
 };
 
 const registerFormReducer = (
@@ -38,7 +36,7 @@ export const useRegistration = () => {
 
   const [errors, setErrors] = useState<Record<string, string[]>>({});
 
-  const { email: email, pass: pass, pass_confirm: passConfirm } = state;
+  const { email, pass, passConfirm } = state;
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

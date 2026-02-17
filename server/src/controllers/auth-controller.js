@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { db } from '../db/database.js';
 import { ZodError } from 'zod';
-import { schemaDb, schemaZod } from '@flashlearn/schema-db';
+import { usersTable, AuthRegSchema, AuthLoginSchema } from '@flashlearn/schema-db';
 import {authenticateUser} from '../services/auth-service.js';
 import jwt from 'jsonwebtoken';
 import {
@@ -14,9 +14,6 @@ import {
 import { eq, is } from 'drizzle-orm';
 import { ref } from 'process';
 import { hashPassword } from '../lib/auth.js';
-
-const { AuthRegSchema, AuthLoginSchema } = schemaZod;
-const { usersTable } = schemaDb;
 
 
 export const postUserRegister = async (req, res) => {
@@ -65,7 +62,7 @@ export const postUserRegister = async (req, res) => {
 export const postUserLogin = async (req, res) => {
 
   try {
-    const credentials = AuthLoginSchema.parse({
+    const credentials = await AuthLoginSchema.parseAsync({
       email: req.body.email,
       pass: req.body.pass,
     });

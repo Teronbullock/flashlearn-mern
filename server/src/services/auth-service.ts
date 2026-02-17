@@ -1,14 +1,12 @@
 import bcrypt from 'bcrypt';
 import { db } from '../db/database';
 import { eq } from 'drizzle-orm';
-import { schemaDb } from '@flashlearn/schema-db';
+import { usersTable } from '@flashlearn/schema-db';
 import { comparePassword } from '../lib/auth';
 
 interface CustomError extends Error {
   status?: number;
 }
-
-const { usersTable } = schemaDb;
 
 
 /**

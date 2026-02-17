@@ -1,11 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { apiRequest } from "@/lib/api/api-request";
-
-interface Card {
-  id: string;
-  // Add other card properties
-}
+import { type CardType } from "../type/card-types";
 
 interface UseCardDataParams {
   setId: string | undefined;
@@ -21,11 +17,11 @@ const getCardIndex = (pageNum: string | null | undefined): number => {
 
 export const useCardData = ({ setId, pageNum }: UseCardDataParams) => {
   const { token } = useAuthContext();
-
-  const [list, setList] = useState<Card[]>([]);
-  const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [count, setCount] = useState(0);
+  const [list, setList] = useState<CardType[]>([]);
 
   const tokenRef = useRef<string | null>(null);
   const hasFetchedRef = useRef(false);
@@ -115,103 +111,3 @@ export const useCardData = ({ setId, pageNum }: UseCardDataParams) => {
     refetch: fetchFullSet,
   };
 };
-
-// import { useEffect, useState, useCallback, useRef } from "react";
-// import { useAuthContext } from "@feats/auth/context/AuthContext";
-// import { apiRequest } from "@/lib/api/api-request";
-
-// interface UseCardDataParams {
-//   setId: string | undefined;
-//   cardId?: string | undefined;
-//   pageNum?: string | null;
-// }
-
-// // convert pageNum (1-based string) to a 0-based index
-// const getCardIndex = (pageNum: string | null | undefined): number => {
-//   const page = parseInt(pageNum || "1", 10);
-//   return Math.max(0, page - 1);
-// };
-
-// export const useCardData = ({ setId, pageNum }: UseCardDataParams) => {
-//   const { token } = useAuthContext();
-//   const [card, setCard] = useState<Card | null>(null);
-//   const [list, setList] = useState<Card[]>([]);
-//   const [count, setCount] = useState(0);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState<string | null>(null);
-
-//   const tokenRef = useRef<string | null>(null);
-//   useEffect(() => {
-//     tokenRef.current = token;
-//   }, [token]);
-
-//   // Fetch ALL Cards
-//   const fetchFullSet = useCallback(
-//     async (signal: AbortSignal) => {
-
-//       if (!tokenRef.current) {
-//         throw new Error("User is not authenticated, auth info missing.");
-//       }
-
-//       if (!setId) {
-//         throw new Error("set data missing");
-//       }
-
-//       // if (state.list.length > 0) {
-//       //   setState((s) => ({}
-//       //     console.log("s", ...s)
-//       //     // { ...s, isLoading: false }
-//       //   ));
-//       //   return;
-//       // }
-
-//       // setState((s) => ({ ...s, isLoading: true, error: null }));
-
-//       try {
-//         const res = await apiRequest({
-//           url: `/sets/${setId}/cards`,
-//           token: tokenRef.current,
-//           signal,
-//         });
-
-//         setState((s) => ({
-//           ...s,
-//           list: res.data.cards || [],
-//           count: res.data.cards.length || 0,
-//         }));
-//       } catch (err: unknown) {
-//         if (err instanceof Error && err.name !== "AbortError") {
-//           setState((s) => ({
-//             ...s,
-//             error: err.message,
-//             card: null,
-//             list: [],
-//             count: 0,
-//           }));
-//           console.error("Card data fetch failed:", err);
-//         }
-//       } finally {
-//         setState((s) => ({ ...s, isLoading: false }));
-//       }
-//     },
-//     [setId, state.list.length],
-//   );
-
-//   useEffect(() => {
-//     const controller = new AbortController();
-//     fetchFullSet(controller.signal);
-//     return () => controller.abort();
-//   }, [fetchFullSet]);
-
-//   // get current card
-//   const cardIndex = getCardIndex(pageNum);
-//   const currentCard = state.list[cardIndex] || null;
-
-//   return {
-//     card: currentCard,
-//     cardList: state.list,
-//     cardCount: state.count,
-//     isLoading: state.isLoading,
-//     error: state.error,
-//   };
-// };

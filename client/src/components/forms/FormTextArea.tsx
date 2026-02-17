@@ -3,7 +3,7 @@ import { FormInputBaseProps } from "@components/forms/types/FormTypes";
 
 export const FormTextArea = ({
   className = "text-black bg-white",
-  name,
+  id,
   ...props
 }: FormInputBaseProps) => {
   const inputClass = classNames(
@@ -16,13 +16,7 @@ export const FormTextArea = ({
 
   return (
     <>
-      <textarea
-        id={name}
-        cols={30}
-        rows={2}
-        className={inputClass}
-        {...props}
-      />
+      <textarea id={id} cols={30} rows={2} className={inputClass} {...props} />
     </>
   );
 };

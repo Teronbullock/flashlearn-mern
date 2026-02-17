@@ -10,6 +10,7 @@ import infoRoutes from './routes/info-route.js';
 import profileRoutes from './routes/profile-routes.js';
 import cookieParser from 'cookie-parser'; 
 import checkAuth from './middleware/check-auth.js';
+import {flattenError, z, ZodError } from 'zod';
 
 
 const app = express();
@@ -52,23 +53,38 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 
 // error handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const status = err.status || 500;
-  const message = err.message || 'Internal Server Error';
-  const stack = err.stack;
-  const cause = err?.cause || "No cause available";
+  let status = err.status || 500;
+  let message = err.message || 'Internal Server Error';
+  let cause = err?.cause || null;
+  let validationErr: Record<string, string[]> | null = null;
+
+  // Handle Zod Validation errors
+  if (err instanceof ZodError) {
+    status = 400;
+    message = 'Validation Error';
+    const flattened = z.flattenError(err);
+    validationErr = flattened.fieldErrors;
+  }
 
   // Log the error details
   if (process.env.NODE_ENV !== 'production') {
-    console.error(`${status} - Cause: ${cause}`);
-    console.error(stack);
+    console.error("Error Handler: ");
+    console.error("Status: ", status);
+    console.error("Message: ", message);
+    cause ? console.error("Cause: ", cause) : '';
+    console.error("Stack: ", err.stack);
   } else {
     console.error(message);
   }
-
+  
+  // console.log('LAST STOP: ', {message, validationErr});
   // sends res to client
   res.status(status).json({
-    error: message,
     status,
+    error: {
+      message, 
+      validationErr
+    },
   });
 
 });

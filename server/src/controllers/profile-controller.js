@@ -1,11 +1,9 @@
 import bcrypt from 'bcrypt';
-import { schemaDb, schemaZod } from '@flashlearn/schema-db';
+import { usersTable, ProfileUpdateEmailSchema, ProfileUpdatePasswordSchema, ProfileDeleteAccountSchema } from '@flashlearn/schema-db';
 import { db } from '../db/database.js';
 import { eq } from 'drizzle-orm';
 import { ZodError } from 'zod';
 
-const { users } = schemaDb;
-const { ProfileUpdateEmailSchema, ProfileUpdatePasswordSchema, ProfileDeleteAccountSchema } = schemaZod;
 
 /**
  * -- get user profile --
@@ -17,7 +15,7 @@ export const getUserProfile = async (req, res) => {
     throw new Error('User credentials not found.');
   }
 
-  const [user] = await db.select({ email: users.email }).from(users).where(eq(users.id, userId));
+  const [user] = await db.select({ email: usersTable.email }).from(usersTable).where(eq(usersTable.id, userId));
   
   if (!user) {
     throw new Error('User not found.');
@@ -52,7 +50,7 @@ export const putUpdateUserEmail = async (req, res) => {
   }
 
   // check if user exists
-  const [user] = await db.select({ pass: users.pass }).from(users).where(eq(users.id, userId));
+  const [user] = await db.select({ pass: usersTable.pass }).from(usersTable).where(eq(usersTable.id, userId));
 
   if (!user) {
     throw new Error('User not found.');
@@ -65,7 +63,7 @@ export const putUpdateUserEmail = async (req, res) => {
   }
 
   // update user email
-  const result = await db.update(users).set({ email }).where(eq(users.id, userId));
+  const result = await db.update(usersTable).set({ email }).where(eq(usersTable.id, userId));
 
   // check if user was updated
   if (result.rowCount === 0) {
@@ -98,7 +96,7 @@ export const putUpdateUserPassword = async (req, res) => {
   }
 
   // check if user exists
-  const [user] = await db.select({ pass: users.pass }).from(users).where(eq(users.id, userId));
+  const [user] = await db.select({ pass: usersTable.pass }).from(usersTable).where(eq(usersTable.id, userId));
 
   if (!user) {
     throw new Error('User not found.');
@@ -116,7 +114,7 @@ export const putUpdateUserPassword = async (req, res) => {
   const hashedPassword = await bcrypt.hash(pass, saltRounds);
 
   // update user data
-  const result = await db.update(users).set({ pass: hashedPassword }).where(eq(users.id, userId));
+  const result = await db.update(usersTable).set({ pass: hashedPassword }).where(eq(usersTable.id, userId));
 
   // check if user was updated
   if (result.rowCount === 0) {
@@ -148,7 +146,7 @@ export const putRemoveUser = async (req, res) => {
     throw new Error('User credentials not found.');
   }
 
-  const [user] = await db.select({ pass: users.pass }).from(users).where(eq(users.id, userId));
+  const [user] = await db.select({ pass: usersTable.pass }).from(usersTable).where(eq(usersTable.id, userId));
 
   if (!user) {
     throw new Error('User not found.');
@@ -161,7 +159,7 @@ export const putRemoveUser = async (req, res) => {
   }
 
   try {
-    const result = await db.delete(users).where(eq(users.id, userId));
+    const result = await db.delete(usersTable).where(eq(usersTable.id, userId));
 
     if (result.rowCount === 0) {
       throw new Error('User not found.');

@@ -48,28 +48,39 @@ export const apiRequest = async ({
       throw new Error("API: No data founded");
     }
     return res;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      if (error.code === "ERR_CANCELED") {
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      if (err.code === "ERR_CANCELED") {
         const abortError = new Error("Request was cancelled");
         abortError.name = "AbortError";
         throw abortError;
       }
 
       if (
-        error.response?.status === 401 &&
-        error.response?.data?.message === "Not authorized"
+        err.response?.status === 401 &&
+        err.response?.data?.message === "Not authorized"
       ) {
-        throw new Error(error.response.data.error || "Unauthorized");
+        throw new Error(err.response.data.error || "Unauthorized");
       }
 
-      throw new Error(error.response?.data?.error || error.message);
-    } else {
+      if (err.response?.status === 400) {
+        console.error(
+          "API Helper Error: Bad request error:",
+          err.response?.data?.error,
+        );
+
+        throw err.response?.data?.error || err.message;
+      }
+
       console.error(
-        "API Helper: Encountered unhandled or unknown error type:",
-        error,
+        "API Helper Error: unknown error type:",
+        err.response?.data?.error,
       );
-      throw error;
+
+      throw new Error(err.response?.data?.error || err.message);
+    } else {
+      console.error("API Helper Error: unknown error type:", err);
+      throw err;
     }
   }
 };

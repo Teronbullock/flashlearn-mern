@@ -20,13 +20,7 @@ export const FormLayout = ({
 
   return (
     <div className={className?.container}>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit(e);
-        }}
-        className="form"
-      >
+      <form onSubmit={onSubmit} className="form">
         {title && (
           <div className="form__title-container">
             <h2 className={headerClass}>{title}</h2>

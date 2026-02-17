@@ -1,5 +1,6 @@
 export interface FormInputBaseProps {
-  name: string;
+  id?: string;
+  name?: string;
   value?: string | undefined | "";
   className?: string;
   placeholder?: string;
@@ -7,7 +8,7 @@ export interface FormInputBaseProps {
   disabled?: boolean;
   autoFocus?: boolean;
   datatype?: string;
-  onChange: (
+  onChange?: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
 }

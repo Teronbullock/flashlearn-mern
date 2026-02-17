@@ -24,6 +24,7 @@ const EditCardPage = lazy(() => import("@feats/cards/pages/EditCardPage"));
 const ViewCardsPage = lazy(() => import("@feats/cards/pages/ViewCardsPage"));
 
 import { ProtectedOutlet } from "@components/ProtectedOutlet";
+import { RouteAuthCheck } from "@components/check-auth-outlet";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -41,9 +42,11 @@ export const AppRoutes = () => {
       <ScrollToTop />
       <Routes>
         {/* Public */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route element={<RouteAuthCheck />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
         {/* Protected  */}
         <Route element={<ProtectedOutlet />}>
           <Route path="/dashboard" element={<DashboardPage />} />

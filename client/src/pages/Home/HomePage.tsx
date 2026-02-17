@@ -2,7 +2,7 @@ import {
   SectionOneCol,
   TwoColImage,
   TwoColTimeline,
-  Testimonials,
+  // Testimonials,
 } from "@components/layout/sections";
 import { IndexPageHero } from "@feats/home/components";
 import indexPageContext from "@content/indexPage.json";
@@ -10,6 +10,7 @@ import { CTASection } from "@components/CTASection";
 import { BtnLink } from "@components/btn";
 import { Main } from "@layouts/Main";
 import { Container } from "@layouts/Container";
+import { Testimonials } from "@components/layout/sections/Testimonials";
 
 const HomePage = () => {
   const {

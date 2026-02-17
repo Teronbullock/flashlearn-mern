@@ -1,4 +1,4 @@
-import { SectionTwoCol } from "@components/layout/sections";
+import { SectionTwoCol } from "@components/layout/sections/SectionTwoCol";
 import { ContentBlock } from "@components/ui/ContentBlock";
 
 interface TwoColImageProps {

@@ -18,17 +18,6 @@ const ViewCardsPage = () => {
   const { card, cardCount, isLoading, error } = useCardData({ setId, pageNum });
   const { isFlipped, handleFlip, resetFlip } = useCardFlip();
 
-  console.log(
-    "card",
-    card,
-    "Cardlist",
-    cardCount,
-    "isLoading",
-    isLoading,
-    "error",
-    error,
-  );
-
   // show spinner
   if (isLoading) {
     return <Spinner />;

@@ -1,10 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { db } from '../db/database';
-import { schemaDb } from '@flashlearn/schema-db';
+import { refreshTokens } from '@flashlearn/schema-db';
 import { eq } from 'drizzle-orm';
 
-
-const { refreshTokens } = schemaDb;
 
 
 /**

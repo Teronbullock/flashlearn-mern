@@ -7,9 +7,7 @@ import type { LoginAction } from "../types/index";
 import { authApi } from "@feats/auth/service/auth.service";
 import { AUTH_CONFIG } from "@/config/auth.config";
 import { authStorage } from "@feats/auth/service/auth.storage";
-import { schemaZod } from "@flashlearn/schema-db";
-
-const { AuthLoginSchema } = schemaZod;
+import { AuthLoginSchema } from "@flashlearn/schema-db";
 
 const initialLoginState = {
   email: "",

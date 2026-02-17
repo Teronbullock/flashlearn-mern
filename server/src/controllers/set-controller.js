@@ -1,10 +1,9 @@
 import { checkResourceOwnership } from '../services/permission-service.js';
 import { db } from '../db/database.js';
-import { schemaDb } from '@flashlearn/schema-db';
+import { setsTable, cardsTable } from '@flashlearn/schema-db';
 import { eq, desc, count, and } from 'drizzle-orm';
 // import { set } from 'zod';
 
-const { setsTable, cardsTable } = schemaDb;
 
 /**
  * @desc    Get all sets for a user with card counts

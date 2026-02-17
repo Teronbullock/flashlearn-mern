@@ -23,7 +23,7 @@ router.get('/:setId/cards/view', asyncHandler(getViewCards));
 router.get('/:setId/cards/:cardId', asyncHandler(getEditCard));
 router.put('/:setId/cards/:cardId', asyncHandler(putEditCard, 422));
 router.delete('/:setId/cards/:cardId', asyncHandler(deleteCard));
-router.post('/:setId/cards', asyncHandler(postAddCard, 422));
+router.post('/:setId/cards', asyncHandler(postAddCard, 400));
 
 // get cards list
 router.get('/:setId/cards', asyncHandler(getCardsAllCards));

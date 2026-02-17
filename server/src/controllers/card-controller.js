@@ -1,11 +1,9 @@
 import { asc, eq } from 'drizzle-orm';
-import { ZodError } from 'zod';
+import { ZodError, flattenError } from 'zod';
 import { checkResourceOwnership } from '../services/permission-service.js';
 import { db } from '../db/database.js';
-import { schemaDb, schemaZod } from '@flashlearn/schema-db';
+import { setsTable, cardsTable , cardFormSchema } from '@flashlearn/schema-db';
 
-const { setsTable, cardsTable } = schemaDb;
-const {cardsInsertSchema} = schemaZod;
 
 /**
 /**
@@ -98,47 +96,37 @@ export const postAddCard = async (req, res) => {
   const userId = req.userId;
   const {setId } = req.params;
   
-  try {
 
-  const validCardInfo = await cardsInsertSchema.parseAsync({
+  const validCardInfo = await cardFormSchema.parseAsync({
     term: req.body.term,
     definition: req.body.definition,
   });
 
+  
   const { term, definition } = validCardInfo;
 
   // Check if the set belongs to the user
   const card = await checkResourceOwnership(setsTable, setId, userId);
 
+  // const err = new Error('Error creating cards');
+  // throw err
 
-    const updatedCard = await db.insert(cardsTable).values({
-      term,
-      definition,
-      userId: userId,
-      setId: card.id,
+  const updatedCard = await db.insert(cardsTable).values({
+    term,
+    definition,
+    userId: userId,
+    setId: card.id,
   }).returning();
 
   if (!updatedCard) {
     throw new Error('Error creating cards');
   }
 
-    res.status(200).json({
-      msg: 'Card Added!',
-      card: updatedCard,
-    });
-  } catch (err) {
-    if (err instanceof Error && err.name === "ZodError") {
-      // const errorMessage = err.errors.map((e) => e.message).join(' ');
-      // throw new Error(`Validation Error: ${errorMessage}`);
-     const zodErr = err as ZodError;
-    console.log(zodErr.flatten());
-    } else {
-      console.log('----ERROR2----', err);
-      // console.error('Error creating card:', err);
-      // throw new Error('Error creating card');
-    }
+  res.status(200).json({
+    msg: 'Card Added!',
+    card: updatedCard,
+  });
 
-  }
 };
 
 /**
@@ -150,7 +138,7 @@ export const putEditCard = async (req, res) => {
   const { setId, cardId } = req.params;
   const userId = req.userId;
 
-  const validCardInfo = await cardsInsertSchema.parseAsync({
+  const validCardInfo = await cardFormSchema.parseAsync({
     term: req.body.term,
     definition: req.body.definition,
   });
