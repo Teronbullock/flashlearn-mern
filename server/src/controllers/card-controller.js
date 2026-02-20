@@ -3,6 +3,7 @@ import { ZodError, flattenError } from 'zod';
 import { checkResourceOwnership } from '../services/permission-service.js';
 import { db } from '../db/database.js';
 import { setsTable, cardsTable , cardFormSchema } from '@flashlearn/schema-db';
+import asyncHandler from '../middleware/asyncHandler.js';
 
 
 /**
@@ -11,7 +12,7 @@ import { setsTable, cardsTable , cardFormSchema } from '@flashlearn/schema-db';
  * @route   GET /api/sets/:setId/cards
  * @access  Private
  */
-export const getCardsAllCards = async (req, res) => {
+export const getCardsAllCards = asyncHandler(async (req, res) => {
   const setId = req.params.setId;
   const userId = req.userId;
 
@@ -26,14 +27,14 @@ export const getCardsAllCards = async (req, res) => {
     msg: 'success',
     cards: cards,
   });
-};
+});
 
 /**
  * @desc    Get a single card for editing
  * @route   GET /api/sets/:setId/cards/:cardId
  * @access  Private
  */
-export const getEditCard = async (req, res) => {
+export const getEditCard = asyncHandler(async (req, res) => {
   const { setId, cardId } = req.params;
   const userId = req.userId;
 
@@ -59,14 +60,14 @@ export const getEditCard = async (req, res) => {
     setId,
     card,
   });
-};
+});
 
 /**
  * @desc    Get cards with pagination for viewing
  * @route   GET /api/sets/:setId/cards/view
  * @access  Private
  */
-export const getViewCards = async (req, res) => {
+export const getViewCards = asyncHandler(async (req, res) => {
   const setId = req.params.setId;
   const { page } = req.query;
 
@@ -85,14 +86,14 @@ export const getViewCards = async (req, res) => {
     card,
     // count,
   });
-};
+});
 
 /**
  * @desc    Create a new card in a set
  * @route   POST /api/sets/:setId/cards
  * @access  Private
  */
-export const postAddCard = async (req, res) => {
+export const postAddCard = asyncHandler(async (req, res) => {
   const userId = req.userId;
   const {setId } = req.params;
   
@@ -127,14 +128,14 @@ export const postAddCard = async (req, res) => {
     card: updatedCard,
   });
 
-};
+}, 400);
 
 /**
  * @desc    Update an existing card
  * @route   PUT /api/sets/:setId/cards/:cardId
  * @access  Private
  */
-export const putEditCard = async (req, res) => {
+export const putEditCard = asyncHandler(async (req, res) => {
   const { setId, cardId } = req.params;
   const userId = req.userId;
 
@@ -164,14 +165,14 @@ export const putEditCard = async (req, res) => {
       msg: 'Card Updated!',
     });
   
-};
+},422);
 
 /**
  * @desc    Delete a card
  * @route   DELETE /api/sets/:setId/cards/:cardId
  * @access  Private
  */
-export const deleteCard = async (req, res) => {
+export const deleteCard = asyncHandler(async (req, res) => {
   const { cardId } = req.params;
   const userId = req.userId;
   let isCardDeleted = false;
@@ -191,4 +192,4 @@ export const deleteCard = async (req, res) => {
       isCardDeleted: 1,
     });
 
-};
+});

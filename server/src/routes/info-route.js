@@ -2,7 +2,6 @@ import { Router } from "express";
 
 const router = Router();
 
-
 router.get('/', (req, res)=> {
   res.json({
   "title": "FlashLearn API v1.0",
@@ -15,9 +14,5 @@ router.get('/', (req, res)=> {
 })
 });
 
-// handle 404
-router.use('*', (req, res, next) => {
-  return next();
-});
 
 export default router;

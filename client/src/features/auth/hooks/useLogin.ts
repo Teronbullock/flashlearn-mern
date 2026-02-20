@@ -1,60 +1,47 @@
-import { useReducer, useState } from "react";
 import { useNavigate } from "react-router";
-import { ZodError } from "zod";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
-import type { BaseAuthFields } from "@/types/index";
-import type { LoginAction } from "../types/index";
 import { authApi } from "@feats/auth/service/auth.service";
 import { AUTH_CONFIG } from "@/config/auth.config";
 import { authStorage } from "@feats/auth/service/auth.storage";
-import { AuthLoginSchema } from "@flashlearn/schema-db";
-
-const initialLoginState = {
-  email: "",
-  pass: "",
-};
-
-const loginFormReducer = (state: BaseAuthFields, action: LoginAction) => {
-  switch (action.type) {
-    case "ON_CHANGE":
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case "FORM_RESET":
-      return initialLoginState;
-    default:
-      return state;
-  }
-};
+import { authLoginSchema, type AuthLoginType } from "@flashlearn/schema-db";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ApiErrorObject } from "@lib/api";
 
 export const useLogin = () => {
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<AuthLoginType>({
+    resolver: zodResolver(authLoginSchema),
+  });
 
-  const [state, dispatchForm] = useReducer(loginFormReducer, initialLoginState);
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
-
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors({});
-
+  const onSubmit: SubmitHandler<AuthLoginType> = async (formData) => {
     try {
-      if (!state.email || !state.pass) {
+      if (!formData.email || !formData.pass) {
         throw new Error("Email and password are required");
       }
 
-      AuthLoginSchema.parse({
-        email: state.email,
-        pass: state.pass,
+      const validatedData = await authLoginSchema.parseAsync({
+        email: formData.email,
+        pass: formData.pass,
       });
 
+      if (!validatedData) {
+        throw new Error("Invalid data");
+      }
+
       const { userId, token, tokenExpTime } = await authApi.login(
-        state.email,
-        state.pass,
+        validatedData.email,
+        validatedData.pass,
       );
 
-      if (!userId || !token || !tokenExpTime) {
+      if (!userId || !token || !tokenExpTime || !dispatch) {
         throw new Error("Invalid auth data");
       }
 
@@ -62,29 +49,25 @@ export const useLogin = () => {
 
       authStorage.set({ token });
       navigate(AUTH_CONFIG.ROUTES.DASHBOARD);
-      dispatchForm({ type: "FORM_RESET" });
-    } catch (error) {
-      if (error instanceof ZodError) {
-        const fieldErrors: Record<string, string[]> = {};
+      reset();
+    } catch (err) {
+      const apiError = err as ApiErrorObject;
 
-        error.issues.forEach((issue) => {
-          const path = issue.path[0] as string;
+      if (apiError?.code === "VALIDATION_ERROR") {
+        if (apiError.details?.email) {
+          setError("email", { message: apiError.details.email[0] });
+        }
 
-          if (!fieldErrors[path]) {
-            fieldErrors[path] = [];
-          }
-
-          fieldErrors[path].push(issue.message);
-        });
-        setErrors(fieldErrors);
-        console.log("errors", fieldErrors);
+        if (apiError.details?.pass) {
+          setError("pass", { message: apiError.details.pass[0] });
+        }
       } else {
-        const errorMsg = error instanceof Error ? error.message : "Login Error";
-        console.error(error);
-        setErrors({ general: [errorMsg] });
+        setError("root", {
+          message: apiError?.message ?? "Something went wrong",
+        });
       }
     }
   };
 
-  return { submitHandler, dispatch: dispatchForm, state, errors };
+  return { onSubmit, register, errors, handleSubmit };
 };

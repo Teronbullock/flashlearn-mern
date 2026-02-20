@@ -29,39 +29,39 @@ export const useCardManager = ({
   }, [token]);
 
   // add card handler
-  const addCardHandler = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+  // const addCardHandler = useCallback(
+  //   async (e: React.FormEvent<HTMLFormElement>) => {
+  //     e.preventDefault();
 
-      if (!tokenRef.current) {
-        throw new Error("User is not authenticated, auth info missing.");
-      }
+  //     if (!tokenRef.current) {
+  //       throw new Error("User is not authenticated, auth info missing.");
+  //     }
 
-      if (!setId) {
-        throw new Error("set data missing");
-      }
+  //     if (!setId) {
+  //       throw new Error("set data missing");
+  //     }
 
-      try {
-        const res = await apiRequest({
-          method: "post",
-          url: `/sets/${setId}/cards`,
-          data: {
-            term: state.inputOneValue,
-            definition: state.inputTwoValue,
-          },
-          token: tokenRef.current,
-        });
+  //     try {
+  //       const res = await apiRequest({
+  //         method: "post",
+  //         url: `/sets/${setId}/cards`,
+  //         data: {
+  //           term: state.inputOneValue,
+  //           definition: state.inputTwoValue,
+  //         },
+  //         token: tokenRef.current,
+  //       });
 
-        if (res.data) {
-          dispatch({ type: "SUBMIT" });
-        }
-      } catch (error) {
-        console.error(error);
-        alert("Error creating card");
-      }
-    },
-    [setId, state.inputOneValue, state.inputTwoValue],
-  );
+  //       if (res.data) {
+  //         dispatch({ type: "SUBMIT" });
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //       alert("Error creating card");
+  //     }
+  //   },
+  //   [setId, state.inputOneValue, state.inputTwoValue],
+  // );
 
   // edit card handler
   const editCardHandler = useCallback(async () => {
@@ -142,7 +142,7 @@ export const useCardManager = ({
   return {
     state,
     dispatch,
-    addCardHandler,
+    // addCardHandler,
     editCardHandler,
     deleteCardHandler,
   };

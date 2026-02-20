@@ -1,3 +1,4 @@
-export * from "./useSetManager";
-export * from "./useFetchSets";
-export * from "./useFetchSetCards";
+export { useSetManager } from "./useSetManager";
+export { useFetchSets } from "./useFetchSets";
+export { useFetchSetCards } from "./useFetchSetCards";
+export { useAddSet } from "./useAddSet";

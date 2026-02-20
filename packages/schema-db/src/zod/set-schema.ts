@@ -1,13 +1,10 @@
-
 import {z} from 'zod';
 
-export const cardSchema = z.object({
-  "term": z.string().min(1, 'Please enter a term'),
-  "definition": z.string(),  
-});
 
 export const setSchema = z.object({
-  title: z.string().min(1, 'Please enter a title'),
-  description: z.string(),
-
+  title: z.string().nonempty('required').min(1, 'Please enter a title').max(120, 'Title must be less than 120 characters'),
+  description: z.string().max(256, 'Description must be less than 256 characters'),
 });
+
+
+export type SetSchema = z.infer<typeof setSchema>

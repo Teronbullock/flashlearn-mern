@@ -9,6 +9,12 @@ interface ApiRequestProps {
   signal?: AbortSignal;
 }
 
+export interface ApiErrorObject {
+  code: string;
+  message: string;
+  details?: Record<string, string[]> | null;
+}
+
 /**
  * ## API Request Function
  *
@@ -56,30 +62,18 @@ export const apiRequest = async ({
         throw abortError;
       }
 
-      if (
-        err.response?.status === 401 &&
-        err.response?.data?.message === "Not authorized"
-      ) {
-        throw new Error(err.response.data.error || "Unauthorized");
+      if (err.response?.data?.error) {
+        console.error("API Helper Response Error:", err.response.data.error);
+        throw err.response.data.error;
       }
 
-      if (err.response?.status === 400) {
-        console.error(
-          "API Helper Error: Bad request error:",
-          err.response?.data?.error,
-        );
+      const fallbackMessage =
+        err.response?.data?.message || err.message || "Unknown Error";
 
-        throw err.response?.data?.error || err.message;
-      }
-
-      console.error(
-        "API Helper Error: unknown error type:",
-        err.response?.data?.error,
-      );
-
-      throw new Error(err.response?.data?.error || err.message);
+      console.error("API Helper Unknown Error:", fallbackMessage);
+      throw new Error(fallbackMessage);
     } else {
-      console.error("API Helper Error: unknown error type:", err);
+      console.error("API Helper Error:", err);
       throw err;
     }
   }

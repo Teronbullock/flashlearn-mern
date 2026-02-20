@@ -15,6 +15,7 @@ const AddCardPage = () => {
   const { onSubmit, errors, register, handleSubmit, isSubmitting } = useAddCard(
     { setId },
   );
+
   const { addCard } = data;
 
   return (
@@ -34,7 +35,7 @@ const AddCardPage = () => {
             <FormTextArea
               id="term"
               placeholder="Term"
-              autoFocus={true}
+              // autoFocus={true}
               {...register("term")}
             />
             <div className="min-h-5 text-red-500">

@@ -3,12 +3,12 @@ import { usersTable, ProfileUpdateEmailSchema, ProfileUpdatePasswordSchema, Prof
 import { db } from '../db/database.js';
 import { eq } from 'drizzle-orm';
 import { ZodError } from 'zod';
-
+import asyncHandler from '../middleware/asyncHandler.js';
 
 /**
  * -- get user profile --
  */
-export const getUserProfile = async (req, res) => {
+export const getUserProfile = asyncHandler(async (req, res) => {
   const userId = req.userId;
 
   if (!userId) {
@@ -24,13 +24,13 @@ export const getUserProfile = async (req, res) => {
   return res.status(200).json({
     email: user.email,
   });
-};
+}, 400);
 
 
 /**
  * -- put update user email --
  */
-export const putUpdateUserEmail = async (req, res) => {
+export const putUpdateUserEmail = asyncHandler(async (req, res) => {
   const { email, pass: userOldPass } = req.body;
   const userId = req.userId;
 
@@ -74,13 +74,13 @@ export const putUpdateUserEmail = async (req, res) => {
     msg: 'User updated successfully.',
   });
 
-};
+}, 400);
 
 
 /**
  * -- put user password --
  */
-export const putUpdateUserPassword = async (req, res) => {
+export const putUpdateUserPassword = asyncHandler(async (req, res) => {
   const { user_old_pass, pass, pass_confirm } = req.body;
   const userId = req.userId;
 
@@ -125,9 +125,9 @@ export const putUpdateUserPassword = async (req, res) => {
     msg: 'User updated successfully.',
   });
 
-};
+}, 400);
 
-export const putRemoveUser = async (req, res) => {
+export const putRemoveUser = asyncHandler(async (req, res) => {
   const userId = req.userId;
   const { pass } = req.body;
 
@@ -173,5 +173,5 @@ export const putRemoveUser = async (req, res) => {
     console.error('Error deleting user:', error);
     throw new Error('Failed to delete user.');
   }
-};
+}, 400);
   

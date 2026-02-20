@@ -1,45 +1,21 @@
 import { Router } from 'express';
-import asyncHandler from '../middleware/asyncHandler.js';
-
+import cardRoutes from './card-routes.js';
 import { getAllSets, getEditSet, putEditSet, postCreateSet, deleteSet } from '../controllers/set-controller.js';
-
-import {
-  getCardsAllCards,
-  getEditCard,
-  putEditCard,
-  postAddCard,
-  deleteCard,
-  getViewCards,
-} from '../controllers/card-controller.js';
 
 const router = Router();
 
-// --- set cards routes
+// cards routes
+router.use('/:setId/cards', cardRoutes);
 
-//views cards
-router.get('/:setId/cards/view', asyncHandler(getViewCards));
-
-// for single cards
-router.get('/:setId/cards/:cardId', asyncHandler(getEditCard));
-router.put('/:setId/cards/:cardId', asyncHandler(putEditCard, 422));
-router.delete('/:setId/cards/:cardId', asyncHandler(deleteCard));
-router.post('/:setId/cards', asyncHandler(postAddCard, 400));
-
-// get cards list
-router.get('/:setId/cards', asyncHandler(getCardsAllCards));
-
-// --- set routes
 // for single set
-router.get('/:setId', asyncHandler(getEditSet));
-router.put('/:setId', asyncHandler(putEditSet));
-router.delete('/:setId', asyncHandler(deleteSet, 403));
-router.post('/', asyncHandler(postCreateSet, 422));
+router.route('/:setId')
+.get(getEditSet)
+.put(putEditSet)
+.delete(deleteSet);
 
-// get set list
-router.get('/', asyncHandler(getAllSets, 400));
+// for set list
+router.route('/')
+.get(getAllSets)
+.post(postCreateSet);
 
-// --- handle 404
-router.use('*', (req, res, next) => {
-  return next();
-});
 export default router;

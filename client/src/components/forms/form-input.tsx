@@ -1,9 +1,12 @@
 import classNames from "classnames";
-import { FormInputProps } from "@components/forms/types/FormTypes";
+import { InputHTMLAttributes } from "react";
+
+export interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  type: "text" | "email" | "password" | "number" | "tel" | "url";
+}
 
 export const FormInput = ({
   className = "text-black bg-white",
-  name,
   ...props
 }: FormInputProps) => {
   const inputClass = classNames(
@@ -16,7 +19,7 @@ export const FormInput = ({
 
   return (
     <>
-      <input id={name} className={inputClass} {...props} />
+      <input id={props.name} className={inputClass} {...props} />
     </>
   );
 };

@@ -72,7 +72,7 @@ const ProfilePage = () => {
         </div>
 
         <CTASplitForm
-          handleFormSubmit={
+          onSubmit={
             activeTab === "email"
               ? handleEmailUpdateSubmit
               : activeTab === "password"

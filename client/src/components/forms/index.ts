@@ -1,8 +1,8 @@
-export * from "./FormLayout";
-export * from "./FormGroup";
-export * from "./FormInput";
-export * from "./FormTextArea";
-export * from "./FormAction";
-export * from "./ListCardForm";
-export * from "./FormColorPicker";
-export * from "./InputError";
+export { FormLayout } from "./form-layout";
+export { FormGroup } from "./form-group";
+export { FormInput } from "./form-input";
+export { FormTextArea } from "./form-text-area";
+export { FormAction } from "./form-action";
+export { ListCardForm } from "./list-card-form";
+export { FormColorPicker } from "./form-color-picker";
+export { FormInputError } from "./form-input-error";

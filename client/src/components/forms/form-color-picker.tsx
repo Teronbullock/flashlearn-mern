@@ -1,5 +1,5 @@
 import { Btn } from "@components/btn";
-import { FormInput } from "./FormInput";
+import { FormInput } from "./form-input";
 
 interface CardState {
   inputOneValue?: string;

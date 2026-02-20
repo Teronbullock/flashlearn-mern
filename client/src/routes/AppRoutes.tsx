@@ -43,9 +43,9 @@ export const AppRoutes = () => {
       <Routes>
         {/* Public */}
         <Route element={<RouteAuthCheck />}>
-          <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<HomePage />} />
         </Route>
         {/* Protected  */}
         <Route element={<ProtectedOutlet />}>

@@ -1,11 +1,11 @@
 import { CTASplitLayout, CTASplitForm } from "@components/CTASplit";
-import { FormInput, FormGroup, InputError } from "@components/forms";
+import { FormInput, FormGroup, FormInputError } from "@components/forms";
 import { BtnLink } from "@components/btn";
 import data from "@content/registerPage.json";
 import { useRegistration } from "@feats/auth/hooks";
 
 const RegisterPage = () => {
-  const { submitHandler, dispatch, state, errors } = useRegistration();
+  const { register, onSubmit, errors, handleSubmit } = useRegistration();
   const { image, title, subTitle, cta } = data;
 
   return (
@@ -17,61 +17,41 @@ const RegisterPage = () => {
         subTitle={subTitle}
       >
         <CTASplitForm
-          handleFormSubmit={submitHandler}
+          onSubmit={handleSubmit(onSubmit)}
           cta={cta}
           ctaBtnSize="full"
         >
           <FormGroup labelName="Enter Email Address">
             <FormInput
               type="email"
-              name="email"
-              value={state.email}
               placeholder="Enter your email"
               required={true}
-              onChange={(e) =>
-                dispatch({
-                  type: "ON_CHANGE",
-                  payload: { email: e.target.value },
-                })
-              }
+              {...register("email")}
             />
-            <InputError messages={errors.userEmail} />
+            <FormInputError errors={errors} name="email" />
           </FormGroup>
           <FormGroup labelName="Choose Password">
             <FormInput
               type="password"
-              name="pass"
-              value={state.pass}
               placeholder="Enter your password"
               required={true}
-              onChange={(e) =>
-                dispatch({
-                  type: "ON_CHANGE",
-                  payload: { pass: e.target.value },
-                })
-              }
+              {...register("pass")}
             />
             <p className="mb-2 mt-2 text-xs">
               Password should consist of numbers and special characters
             </p>
-            <InputError messages={errors.userPass} />
+            <FormInputError errors={errors} name="pass" />
           </FormGroup>
           <FormGroup labelName="Confirm Password">
             <FormInput
               type="password"
-              name="confirm_pass"
-              value={state.pass_confirm}
               placeholder="Confirm your password"
               required={true}
-              onChange={(e) =>
-                dispatch({
-                  type: "ON_CHANGE",
-                  payload: { pass_confirm: e.target.value },
-                })
-              }
+              {...register("passConfirm")}
             />
             <p className="mb-2 mt-2 text-xs">Re-enter your password</p>
-            <InputError messages={errors.userPassConfirm} />
+            <FormInputError errors={errors} name="passConfirm" />
+            <FormInputError messages={errors.root?.message} />
           </FormGroup>
         </CTASplitForm>
         <div>

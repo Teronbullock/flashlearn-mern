@@ -12,9 +12,20 @@ export interface AuthReducerState extends AuthStateBase {
   isLoading: boolean;
 }
 
-export interface AuthContextValue extends AuthReducerState {
+export type AuthReducerAction =
+  | {
+      type: "LOGIN";
+      payload: Required<AuthStateBase>;
+    }
+  | { type: "LOGOUT" }
+  | { type: "AUTH_INITIALIZED" };
+
+export interface AuthContextValue extends AuthStateBase {
+  isAuthenticated: boolean;
+  isLoading: boolean;
   logout: () => void;
-  dispatch: Dispatch<AuthReducerAction>;
+  login?: () => void;
+  dispatch?: Dispatch<AuthReducerAction>;
 }
 
 export type FormAction<T> =
@@ -23,14 +34,6 @@ export type FormAction<T> =
 
 export type RegistrationAction = FormAction<RegistrationDetails>;
 export type LoginAction = FormAction<BaseAuthFields>;
-
-export type AuthReducerAction =
-  | {
-      type: "LOGIN";
-      payload: Required<AuthStateBase>;
-    }
-  | { type: "LOGOUT" }
-  | { type: "AUTH_INITIALIZED" };
 
 export interface ManageAuthProps {
   token: AuthStateBase["token"];

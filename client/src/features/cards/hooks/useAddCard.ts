@@ -1,6 +1,6 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
-import { apiRequest } from "@lib/api/api-request";
+import { apiRequest, type ApiErrorObject } from "@lib/api/api-request";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +13,7 @@ interface UseAddCardParams {
 export const useAddCard = ({ setId }: UseAddCardParams) => {
   const navigate = useNavigate();
   const { token } = useAuthContext();
+  const setControllerRef = useRef<AbortController | null>(null);
 
   const tokenRef = useRef(token);
   useEffect(() => {
@@ -22,15 +23,10 @@ export const useAddCard = ({ setId }: UseAddCardParams) => {
   const {
     register,
     handleSubmit,
-    setError,
-    reset,
     formState: { errors, isSubmitting },
+    setError,
   } = useForm<CardFormType>({
     resolver: zodResolver(cardFormSchema),
-    defaultValues: {
-      term: "",
-      definition: "",
-    },
   });
 
   // add card handler
@@ -43,6 +39,13 @@ export const useAddCard = ({ setId }: UseAddCardParams) => {
       setError("root", { message: "Set data missing" });
       return;
     }
+    if (setControllerRef.current) {
+      setControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    setControllerRef.current = controller;
+    const signal = controller.signal;
 
     try {
       const res = await apiRequest({
@@ -53,23 +56,49 @@ export const useAddCard = ({ setId }: UseAddCardParams) => {
           definition: data.definition,
         },
         token: tokenRef.current,
+        signal: signal,
       });
 
       if (!res.data) {
         throw new Error("Error creating card");
       }
 
-      alert(res.data.msg);
-      reset({ term: "", definition: "" });
+      navigate(`/set/${setId}`);
     } catch (err) {
-      if (err.validationErr) {
-        setError("term", { message: err.validationErr.term?.[0] });
-        setError("definition", { message: err.validationErr.definition?.[0] });
+      if (err && typeof err === "object") {
+        const apiErr = err as ApiErrorObject;
+
+        if (apiErr.code === "VALIDATION_ERROR") {
+          setError("term", { message: apiErr.details?.term?.[0] });
+          setError("definition", { message: apiErr.details?.definition?.[0] });
+        } else {
+          setError("root", { message: "Error creating card" });
+        }
+      }
+
+      if (err instanceof Error && err) {
+        if (err.name === "AbortError") {
+          return;
+        } else {
+          setError("root", { message: "Error creating card" });
+        }
       }
 
       setError("root", { message: "Error creating card" });
+    } finally {
+      if (setControllerRef.current === controller) {
+        setControllerRef.current = null;
+      }
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (setControllerRef.current) {
+        setControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   return { onSubmit, errors, register, handleSubmit, isSubmitting };
 };

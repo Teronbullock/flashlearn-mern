@@ -13,9 +13,9 @@ export default defineConfig(({ mode }) => {
     envDir: "../",
     plugins: [
       react({
-        babel: {
-          plugins: ["babel-plugin-react-compiler"],
-        },
+        // babel: {
+        //   plugins: ["babel-plugin-react-compiler"],
+        // },
       }),
       tailwindcss(),
       tsconfigPaths(),

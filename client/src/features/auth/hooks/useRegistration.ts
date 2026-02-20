@@ -1,92 +1,76 @@
-import { useReducer, useState } from "react";
-import { ZodError } from "zod";
-import { apiRequest } from "@lib/api";
-import type { RegistrationAction } from "@feats/auth/types";
-import type { RegistrationDetails } from "@/types/index";
-import { AuthRegSchema } from "@flashlearn/schema-db";
-
-const initialRegisterState = {
-  email: "",
-  pass: "",
-  passConfirm: "",
-};
-
-const registerFormReducer = (
-  state: RegistrationDetails,
-  action: RegistrationAction,
-) => {
-  switch (action.type) {
-    case "ON_CHANGE":
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case "FORM_RESET":
-      return initialRegisterState;
-    default:
-      return state;
-  }
-};
+import { useNavigate } from "react-router";
+import { apiRequest, type ApiErrorObject } from "@lib/api";
+import { authRegSchema, type AuthRegType } from "@flashlearn/schema-db";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
 
 export const useRegistration = () => {
-  const [state, dispatch] = useReducer(
-    registerFormReducer,
-    initialRegisterState,
-  );
+  const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<AuthRegType>({
+    resolver: zodResolver(authRegSchema),
+  });
 
-  const { email, pass, passConfirm } = state;
-
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors({});
-
+  const onSubmit: SubmitHandler<AuthRegType> = async (formData) => {
     try {
-      if (!email || !pass || !passConfirm) {
-        throw new Error("All fields are required");
-      }
-      const results = AuthRegSchema.parse({
-        email,
-        pass,
-        passConfirm,
+      const validationData = authRegSchema.parse({
+        email: formData.email,
+        pass: formData.pass,
+        passConfirm: formData.passConfirm,
       });
+
+      if (!validationData) {
+        throw new Error("Invalid data");
+      }
 
       const res = await apiRequest({
         method: "post",
         url: "/auth/register",
-        data: results,
+        data: validationData,
       });
 
-      if (!res || res.status !== 200) {
+      if (!res || res.status !== 200 || !dispatch) {
         throw new Error("Registration Error");
       }
 
       alert("Registration successful");
-      dispatch({ type: "FORM_RESET" });
+      reset();
+      navigate("/login");
     } catch (error) {
-      if (error instanceof ZodError) {
-        const fieldErrors: Record<string, string[]> = {};
-        error.issues.forEach((issue) => {
-          const path = issue.path[0] as string;
-          if (!fieldErrors[path]) {
-            fieldErrors[path] = [];
-          }
-          fieldErrors[path].push(issue.message);
-        });
-        setErrors(fieldErrors);
+      const apiError = error as ApiErrorObject;
+
+      if (apiError?.code === "VALIDATION_ERROR") {
+        if (apiError.details?.email) {
+          setError("email", { message: apiError.details.email[0] });
+        }
+
+        if (apiError.details?.pass) {
+          setError("pass", { message: apiError.details.pass[0] });
+        }
+
+        if (apiError.details?.passConfirm) {
+          setError("passConfirm", { message: apiError.details.passConfirm[0] });
+        }
       } else {
-        const msg =
-          error instanceof Error ? error.message : "Registration Error";
-        alert(msg);
+        setError("root", {
+          message: apiError?.message ?? "Something went wrong",
+        });
       }
     }
   };
 
   return {
-    submitHandler,
-    state,
-    dispatch,
+    register,
+    handleSubmit,
+    onSubmit,
     errors,
   };
 };

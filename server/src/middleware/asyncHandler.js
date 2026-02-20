@@ -16,7 +16,10 @@ const asyncHandler = (cb, errStatus) => {
     try {
       await cb(req, res, next);
     } catch (err) {
-      err.status = err.status || errStatus;
+     if(err.status) {
+       err.status = err.status || errStatus || null;
+     }
+      console.log("Run", err);
       next(err);
     }
   };

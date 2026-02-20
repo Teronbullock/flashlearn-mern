@@ -1,12 +1,13 @@
 import { CTASplitLayout, CTASplitForm } from "@components/CTASplit";
-import { FormInput, FormGroup, InputError } from "@components/forms";
+import { FormInput, FormGroup, FormInputError } from "@components/forms";
 import { BtnLink } from "@components/btn";
 import { useLogin } from "@feats/auth/hooks";
 import data from "@content/loginPage.json";
 
 const LoginPage = () => {
-  const { submitHandler, dispatch, state, errors } = useLogin();
   const { image, title, subTitle, cta } = data;
+
+  const { onSubmit, register, handleSubmit, errors } = useLogin();
 
   return (
     <main className="main main--login">
@@ -17,54 +18,38 @@ const LoginPage = () => {
         subTitle={subTitle}
       >
         <CTASplitForm
-          handleFormSubmit={submitHandler}
+          onSubmit={handleSubmit(onSubmit)}
           cta={cta}
           ctaBtnSize="full"
         >
           <FormGroup labelName="Email Address" name="email">
             <FormInput
               type="email"
-              name="email"
-              value={state.email}
+              id="email"
               placeholder="Enter your email"
               required={true}
-              onChange={(e) =>
-                dispatch({
-                  type: "ON_CHANGE",
-                  payload: {
-                    email: e.target.value,
-                  },
-                })
-              }
+              {...register("email")}
               autoFocus={true}
             />
-            <InputError messages={errors.email} />
+            <FormInputError errors={errors} name="email" />
           </FormGroup>
           <FormGroup labelName="Password" className={{ group: "mb-6!" }}>
             <FormInput
               type="password"
-              name="pass"
-              value={state.pass}
               placeholder="Enter your password"
               required={true}
-              onChange={(e) =>
-                dispatch({
-                  type: "ON_CHANGE",
-                  payload: {
-                    pass: e.target.value,
-                  },
-                })
-              }
+              {...register("pass")}
             />
-            <InputError messages={errors.Pass} />
-            <InputError messages={errors.general} />
+            <FormInputError errors={errors} name="pass" />
           </FormGroup>
           {/* <div className="mb-6 flex justify-end">
             <BtnLink to="/" className="text-primary text-xs">
-              Forgot Password?
+            Forgot Password?
             </BtnLink>
-          </div> */}
+            </div> */}
         </CTASplitForm>
+
+        <FormInputError messages={errors.root?.message} />
         <div>
           <div className="mb-15 relative flex items-center justify-center">
             <div className="border-secondary absolute w-full border px-5"></div>

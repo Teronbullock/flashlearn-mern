@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useAutoLogoutConfig } from "@feats/auth/types";
+import { UseAutoLogoutConfig } from "@feats/auth/types";
 
 /**
  * Manages an automatic session logout timer based on token expiration time.
@@ -8,7 +8,7 @@ export const useAutoLogout = ({
   token,
   tokenExpTime,
   logout,
-}: useAutoLogoutConfig) => {
+}: UseAutoLogoutConfig) => {
   const logoutTimer = useRef<number | NodeJS.Timeout | null>(null);
 
   useEffect(() => {

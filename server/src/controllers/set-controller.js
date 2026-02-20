@@ -2,6 +2,7 @@ import { checkResourceOwnership } from '../services/permission-service.js';
 import { db } from '../db/database.js';
 import { setsTable, cardsTable } from '@flashlearn/schema-db';
 import { eq, desc, count, and } from 'drizzle-orm';
+import asyncHandler from '../middleware/asyncHandler.js';
 // import { set } from 'zod';
 
 
@@ -10,7 +11,7 @@ import { eq, desc, count, and } from 'drizzle-orm';
  * @route   GET /api/sets
  * @access  Private
  */
-export const getAllSets = async (req, res, next) => {
+export const getAllSets = asyncHandler(async (req, res, next) => {
   const userId = req.userId;
   let setsRes = [];
 
@@ -60,14 +61,14 @@ export const getAllSets = async (req, res, next) => {
     console.error(err);
     throw new Error('Error retrieving sets');
   }
-};
+});
 
 /**
  * @desc    Get a specific set for editing
  * @route   GET /api/sets/:setId
  * @access  Private
  */
-export const getEditSet = async (req, res) => {
+export const getEditSet = asyncHandler(async (req, res) => {
   const { setId } = req.params;
   const userId = req.userId;
 
@@ -76,14 +77,14 @@ export const getEditSet = async (req, res) => {
     set,
     msg: 'success',
   });
-};
+});
 
 /**
  * @desc    Create a new set for a user
  * @route   POST /api/sets
  * @access  Private
  */
-export const postCreateSet = async (req, res) => {
+export const postCreateSet = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
   const userId = req.userId;
 
@@ -126,14 +127,14 @@ export const postCreateSet = async (req, res) => {
   } catch (error) {
     throw new Error('Error creating set');
   }
-};
+}, 403);
 
 /**
  * @desc    Update an existing set
  * @route   PUT /api/sets/:setId
  * @access  Private
  */
-export const putEditSet = async (req, res) => {
+export const putEditSet = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
   const { setId } = req.params;
   const userId = req.userId;
@@ -181,14 +182,14 @@ export const putEditSet = async (req, res) => {
   } catch (err) {
     throw new Error('Error: could not update set');
   }
-};
+});
 
 /**
  * @desc    Delete a set and all its associated cards
  * @route   DELETE /api/sets/:setId
  * @access  Private
  */
-export const deleteSet = async (req, res) => {
+export const deleteSet = asyncHandler(async (req, res) => {
   const { setId } = req.params;
   const userId = req.userId;
 
@@ -252,4 +253,4 @@ export const deleteSet = async (req, res) => {
   } catch (err) {
     throw new Error(`Error deleting set ${setId}: `);
   }
-};
+}, 403);

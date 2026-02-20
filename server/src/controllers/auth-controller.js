@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
 import { db } from '../db/database.js';
 import { ZodError } from 'zod';
-import { usersTable, AuthRegSchema, AuthLoginSchema } from '@flashlearn/schema-db';
-import {authenticateUser} from '../services/auth-service.js';
+import { usersTable, authRegSchema, authLoginSchema } from '@flashlearn/schema-db';
+import { authenticateUser } from '../services/auth-service.js';
 import jwt from 'jsonwebtoken';
 import {
   genAuthToken,
@@ -14,30 +14,39 @@ import {
 import { eq, is } from 'drizzle-orm';
 import { ref } from 'process';
 import { hashPassword } from '../lib/auth.js';
+import asyncHandler from '../middleware/asyncHandler.js';
+import { AppError } from '../lib/AppError.js';
 
 
-export const postUserRegister = async (req, res) => {
-  try {
-    const validatedData = await AuthRegSchema.parseAsync(req.body);
-    const { email, pass } = validatedData;
- 
+export const postUserRegister = asyncHandler(async (req, res) => {
+
+    const validatedData = await authRegSchema.parseAsync({
+      email: req.body.email,
+      pass: req.body.pass,
+      passConfirm: req.body.passConfirm,
+    });
+
+    if (!validatedData) {
+      throw new APPError({message:'Validation failed'});
+    }
+
     // check if user and email already exists
-    const isUserEmail = await db.select().from(usersTable).where(eq(usersTable.email, email));
-  
+    const isUserEmail = await db.select().from(usersTable).where(eq(usersTable.email, validatedData.email));
+
     // if email exists, throw error
     if (isUserEmail && isUserEmail.length > 0) {
-      throw new Error('Email already exists.');
+      throw new AppError({message:'Email already exists.'});
     }
 
-    const hashedPass = await hashPassword(pass);
+    const hashedPass = await hashPassword(validatedData.pass);
 
     if (!hashedPass) {
-      throw new Error('Error hashing password.');
+      throw new AppError({message:'Error with registration ', cause: 'Error hashing password.', isOperational: false});
     }
 
-      const formData = {
+    const formData = {
       pass: hashedPass,
-      email,
+      email: validatedData.email,
       slug: nanoid(10),
     };
 
@@ -49,59 +58,43 @@ export const postUserRegister = async (req, res) => {
     res.status(200).json({
       msg: 'User registered successfully.',
     });
-  } catch (err) {
-    if (err instanceof ZodError) {
-      const errorMessage = err.errors.map((e) => e.message).join(' ');
-      throw new Error(`Validation Error: ${errorMessage}`);
-    }
-    console.error('Error registering user:', err);
-    throw new Error('Error registering user.');
-  }
-};
 
-export const postUserLogin = async (req, res) => {
+}, 401);
 
-  try {
-    const credentials = await AuthLoginSchema.parseAsync({
-      email: req.body.email,
-      pass: req.body.pass,
-    });
-  
+export const postUserLogin = asyncHandler(async (req, res) => {
+  const credentials = await authLoginSchema.parseAsync({
+    email: req.body.email,
+    pass: req.body.pass,
+  });
+
+
   const user = await authenticateUser(credentials.email, credentials.pass);
-  
+
   if (!user) {
-    throw new Error('Invalid email or password.');
+    throw new AppError({message:'Invalid email or password.'});
   }
-  
+
   const tokenData = genAuthToken(user.id);
   const refreshToken = genRefreshToken(user.id);
-  
+
   const isRefreshTokenStored = await storeRefreshToken(user.id, refreshToken);
+
   if (!isRefreshTokenStored) {
-    throw new Error('Error storing refresh token.');
+    throw new AppError({message:'Error storing refresh token.'});
   }
 
   // set refresh token cookie
   setRefreshTokenCookie(res, refreshToken);
-  
-    res.status(200).json({
-      msg: 'User logged in successfully.',
-      token: tokenData.token,
-      refreshToken,
-    });
-  } catch (error) {
- 
-    if (error instanceof ZodError) {
-        const errorMessage = error.errors.map((e) => e.message).join(' ');
-        throw new Error(`Validation Error: ${errorMessage}`);
-    } else {
-      const errorMsg = error instanceof Error ? error.message : "Login Error";
-      throw new Error(errorMsg);
-    }
-  }
-};
 
-export const postUserLogout = async (req, res) => {
+  res.status(200).json({
+    msg: 'User logged in successfully.',
+    token: tokenData.token,
+    refreshToken,
+  });
+
+}, 401);
+
+export const postUserLogout = asyncHandler(async (req, res) => {
   const token = jwt.verify(
     req.cookies.flashLearn_refreshToken,
     process.env.REFRESH_TOKEN_SECRET
@@ -121,9 +114,9 @@ export const postUserLogout = async (req, res) => {
   } else {
     throw new Error('Error logging out: refresh token not found.');
   }
-};
+}, 400);
 
-export const postRefresh = async (req, res) => {
+export const postRefresh = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies.flashLearn_refreshToken;
 
   if (!refreshToken) {
@@ -146,4 +139,4 @@ export const postRefresh = async (req, res) => {
   }
   const tokenData = genAuthToken(verifiedUser.id);
   res.status(200).json({ token: tokenData.token });
-};
+}, 400);

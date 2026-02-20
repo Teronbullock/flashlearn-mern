@@ -3,19 +3,19 @@ import { Btn } from "@components/btn";
 
 interface CTASplitFormProps {
   children: React.ReactNode;
-  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   ctaBtnSize?: "full" | "md" | undefined;
   cta: string;
 }
 
 export const CTASplitForm = ({
   children,
-  handleFormSubmit,
+  onSubmit,
   cta,
   ctaBtnSize = "full",
 }: CTASplitFormProps) => {
   return (
-    <FormLayout onSubmit={handleFormSubmit} className={{ container: "mb-7" }}>
+    <FormLayout onSubmit={onSubmit} className={{ container: "mb-7" }}>
       {children}
       <Btn
         type="submit"
