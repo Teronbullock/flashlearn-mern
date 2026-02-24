@@ -1,3 +1,5 @@
+// card routes /:setId/cards/...
+
 import { Router } from 'express';
 import {
   getCardsAllCards,

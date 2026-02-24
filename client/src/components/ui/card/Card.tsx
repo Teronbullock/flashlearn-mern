@@ -5,6 +5,7 @@ export interface CardProps {
   className?: string;
   spacing?: boolean;
   border?: boolean;
+  keyDataType?: number;
 }
 
 /**
@@ -16,6 +17,7 @@ export const Card = ({
   className,
   spacing = true,
   border = true,
+  keyDataType,
   ...props
 }: CardProps) => {
   const cardClass = classNames(
@@ -28,7 +30,12 @@ export const Card = ({
   );
 
   return (
-    <div className={cardClass} {...props} data-name="card">
+    <div
+      className={cardClass}
+      {...props}
+      data-name="card"
+      data-key={`${keyDataType}`}
+    >
       {children}
     </div>
   );

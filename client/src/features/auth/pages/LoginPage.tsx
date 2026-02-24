@@ -41,6 +41,7 @@ const LoginPage = () => {
               {...register("pass")}
             />
             <FormInputError errors={errors} name="pass" />
+            <FormInputError message={errors.root?.message} />
           </FormGroup>
           {/* <div className="mb-6 flex justify-end">
             <BtnLink to="/" className="text-primary text-xs">
@@ -49,7 +50,6 @@ const LoginPage = () => {
             </div> */}
         </CTASplitForm>
 
-        <FormInputError messages={errors.root?.message} />
         <div>
           <div className="mb-15 relative flex items-center justify-center">
             <div className="border-secondary absolute w-full border px-5"></div>

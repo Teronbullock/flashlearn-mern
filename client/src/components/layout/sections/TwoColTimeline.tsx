@@ -1,5 +1,5 @@
 import { SectionTwoCol } from "@components/layout/sections/SectionTwoCol";
-import { TimelineCard, TimelineCardProps } from "@components/TimelineCard";
+import { TimelineCard, TimelineCardProps } from "@components/timeline-dard";
 
 interface TwoColTimelineProps {
   title: string;

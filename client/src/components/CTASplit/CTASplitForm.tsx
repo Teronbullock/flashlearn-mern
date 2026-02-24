@@ -1,4 +1,4 @@
-import { FormLayout } from "@components/forms";
+import { Form } from "@components/forms";
 import { Btn } from "@components/btn";
 
 interface CTASplitFormProps {
@@ -15,7 +15,7 @@ export const CTASplitForm = ({
   ctaBtnSize = "full",
 }: CTASplitFormProps) => {
   return (
-    <FormLayout onSubmit={onSubmit} className={{ container: "mb-7" }}>
+    <Form onSubmit={onSubmit} className={{ container: "mb-7" }}>
       {children}
       <Btn
         type="submit"
@@ -27,6 +27,6 @@ export const CTASplitForm = ({
       >
         {cta}
       </Btn>
-    </FormLayout>
+    </Form>
   );
 };

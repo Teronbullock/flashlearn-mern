@@ -2,7 +2,7 @@ import { asc, eq } from 'drizzle-orm';
 import { ZodError, flattenError } from 'zod';
 import { checkResourceOwnership } from '../services/permission-service.js';
 import { db } from '../db/database.js';
-import { setsTable, cardsTable , cardFormSchema } from '@flashlearn/schema-db';
+import { setsTable, cardsTable , CardFormSchema } from '@flashlearn/schema-db';
 import asyncHandler from '../middleware/asyncHandler.js';
 
 
@@ -52,9 +52,9 @@ export const getEditCard = asyncHandler(async (req, res) => {
     throw err;
   }
 
-  const card = await db.select().from(cardsTable).where(eq(
+  const [card] = await db.select().from(cardsTable).where(eq(
     cardsTable.id, cardRes.id
-  ));
+  )).limit(1);
 
   res.status(200).json({
     setId,
@@ -98,7 +98,7 @@ export const postAddCard = asyncHandler(async (req, res) => {
   const {setId } = req.params;
   
 
-  const validCardInfo = await cardFormSchema.parseAsync({
+  const validCardInfo = await CardFormSchema.parseAsync({
     term: req.body.term,
     definition: req.body.definition,
   });
@@ -139,21 +139,20 @@ export const putEditCard = asyncHandler(async (req, res) => {
   const { setId, cardId } = req.params;
   const userId = req.userId;
 
-  const validCardInfo = await cardFormSchema.parseAsync({
-    term: req.body.term,
-    definition: req.body.definition,
-  });
-
-  const { term, definition } = validCardInfo;
   const card = await checkResourceOwnership(cardsTable, cardId, userId);
 
   if (!card) {
     throw new Error('user is not authorized to edit this card');
   }
 
+  const validCardInfo = await CardFormSchema.parseAsync({
+    term: req.body.term,
+    definition: req.body.definition,
+  });
+
   const cardUpdate = await db.update(cardsTable).set({
-    term: card.term,
-    definition: card.definition
+    term: validCardInfo.term,
+    definition: validCardInfo.definition
   }).where(eq(
       cardsTable.id, card.id
     )).returning();
@@ -177,14 +176,14 @@ export const deleteCard = asyncHandler(async (req, res) => {
   const userId = req.userId;
   let isCardDeleted = false;
 
-  const card = await checkResourceOwnership(cards, cardId, userId);
+  const card = await checkResourceOwnership(cardsTable, cardId, userId);
 
   if (!card) {
     const err = new Error('You do not have the correct permission to delete this card');
     err.status = 400;
   }
 
-  isCardDeleted = await cards.destroy({ where: { id: card.id } });
+  isCardDeleted = await db.delete(cardsTable).where( eq(cardsTable.id, card.id ));
 
     console.log('card deleted');
     res.status(200).json({

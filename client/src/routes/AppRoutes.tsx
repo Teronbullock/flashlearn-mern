@@ -1,29 +1,8 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import { PUBLIC_ROUTES, PROTECTED_ROUTES, ERROR_ROUTES } from "./config";
 
-// main pages
-const HomePage = lazy(() => import("@pages/Home/HomePage"));
-const ProfilePage = lazy(() => import("@feats/profile/pages/ProfilePage"));
-const DashboardPage = lazy(
-  () => import("@feats/dashboard/pages/DashboardPage"),
-);
-const PageNotFound = lazy(() => import("@pages/PageNotFound"));
-
-// auth pages
-const LoginPage = lazy(() => import("@feats/auth/pages/LoginPage"));
-const RegisterPage = lazy(() => import("@feats/auth/pages/RegisterPage"));
-
-// set pages
-const AddSetPage = lazy(() => import("@feats/sets/pages/AddSetPage"));
-const EditSetPage = lazy(() => import("@feats/sets/pages/EditSetPage"));
-const SetPage = lazy(() => import("@feats/sets/pages/SetPage"));
-
-// card pages
-const AddCardPage = lazy(() => import("@feats/cards/pages/AddCardPage"));
-const EditCardPage = lazy(() => import("@feats/cards/pages/EditCardPage"));
-const ViewCardsPage = lazy(() => import("@feats/cards/pages/ViewCardsPage"));
-
-import { ProtectedOutlet } from "@components/ProtectedOutlet";
+import { ProtectedOutlet } from "@components/protected-outlet";
 import { RouteAuthCheck } from "@components/check-auth-outlet";
 
 const ScrollToTop = () => {
@@ -43,27 +22,20 @@ export const AppRoutes = () => {
       <Routes>
         {/* Public */}
         <Route element={<RouteAuthCheck />}>
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<HomePage />} />
+          {PUBLIC_ROUTES.map(({ path, element: Element }) => (
+            <Route key={path} path={path} element={<Element />} />
+          ))}
         </Route>
         {/* Protected  */}
         <Route element={<ProtectedOutlet />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/set/add" element={<AddSetPage />} />
-          <Route path="/set/:setId" element={<SetPage />} />
-          <Route path="/set/:setId/edit" element={<EditSetPage />} />
-          <Route path="/set/:setId/card/add" element={<AddCardPage />} />
-          <Route
-            path="/set/:setId/card/:cardId/edit"
-            element={<EditCardPage />}
-          />
-          <Route path="/set/:setId/cards" element={<ViewCardsPage />} />
-          <Route path="/profile/" element={<ProfilePage />} />
+          {PROTECTED_ROUTES.map(({ path, element: Element }) => (
+            <Route key={path} path={path} element={<Element />} />
+          ))}
         </Route>
         {/* Errors */}
-        <Route path="/unauthorized" element={<PageNotFound />} />
-        <Route path="*" element={<PageNotFound />} />
+        {ERROR_ROUTES.map(({ path, element: Element }) => (
+          <Route key={path} path={path} element={<Element />} />
+        ))}
       </Routes>
     </Suspense>
   );

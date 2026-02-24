@@ -1,4 +1,4 @@
-import { FormLayout, FormGroup, FormInput } from "@components/forms";
+import { Form, FormGroup, FormInput } from "@components/forms";
 import { BasicHeader, BasicHeaderProps } from "@components/ui/header";
 
 interface PageHeaderFormProps {
@@ -17,7 +17,7 @@ export const PageHeaderForm = ({
   return (
     <div>
       <BasicHeader {...header} />
-      <FormLayout className={{ container: "w-[568px]" }} onSubmit={onSubmit}>
+      <Form className={{ container: "w-[568px]" }} onSubmit={onSubmit}>
         <FormGroup name="search-bar" className={{ group: "relative" }}>
           <img
             src="/assets/img/Vector-finder.png"
@@ -34,7 +34,7 @@ export const PageHeaderForm = ({
             placeholder="Search for set"
           />
         </FormGroup>
-      </FormLayout>
+      </Form>
     </div>
   );
 };

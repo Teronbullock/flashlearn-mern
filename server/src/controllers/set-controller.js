@@ -1,8 +1,9 @@
 import { checkResourceOwnership } from '../services/permission-service.js';
 import { db } from '../db/database.js';
 import { setsTable, cardsTable } from '@flashlearn/schema-db';
-import { eq, desc, count, and } from 'drizzle-orm';
+import { eq, desc, count, and, sql } from 'drizzle-orm';
 import asyncHandler from '../middleware/asyncHandler.js';
+import { set } from 'zod';
 // import { set } from 'zod';
 
 
@@ -13,54 +14,35 @@ import asyncHandler from '../middleware/asyncHandler.js';
  */
 export const getAllSets = asyncHandler(async (req, res, next) => {
   const userId = req.userId;
-  let setsRes = [];
-
 
   // check for userId
   if (!userId) {
     throw new Error('User Not Authenticated');
   }
 
-  
-  try {
-    // fetch all sets for the authenticated user
-    setsRes = await db.select()
-      .from(setsTable)
-      .where(eq(setsTable.userId, userId))
-      .orderBy(desc(setsTable.id));
+  const setsRes = await db.execute(sql`
+    SELECT 
+    fc_sets.*,
+    COUNT(fc_cards.id) AS "cardCount"
+    FROM fc_sets
+    LEFT JOIN fc_cards ON fc_cards.set_id = fc_sets.id
+    WHERE fc_sets.user_id = ${userId}
+    GROUP BY fc_sets.id
+    ORDER BY fc_sets.id DESC
+    `);
 
-    if (!setsRes || setsRes.length === 0) {
-      res.status(200).json({
-        msg: 'success, no sets found',
-        sets: [],
-      });
-      return;
-    }
-
-    // get card count for each set
-    for (const [index, set] of setsRes.entries()) {
-      const result = await db.select()
-        .from(cardsTable)
-        .where(
-          and(
-            eq(cardsTable.userId, userId),
-            eq(cardsTable.setId, set.id)
-          )
-        );
-      const count = result[0]?.count || 0;
-
-      // add card count to each set
-      setsRes[index].cardCount = count;
-    }
-
+  if (!setsRes.length) {
     res.status(200).json({
-      msg: 'success',
-      sets: setsRes,
+      msg: 'success, no sets found',
+      sets: [],
     });
-  } catch (err) {
-    console.error(err);
-    throw new Error('Error retrieving sets');
+    return;
   }
+
+  res.status(200).json({
+    msg: 'success',
+    sets: setsRes,
+  });
 });
 
 /**
@@ -96,15 +78,15 @@ export const postCreateSet = asyncHandler(async (req, res) => {
 
   // check if set exists in DB
   const existingSet = await db.select()
-  .from(setsTable)
-  .where(
-    and(
-      eq(setsTable.userId, userId),
-      eq(setsTable.title, title)
+    .from(setsTable)
+    .where(
+      and(
+        eq(setsTable.userId, userId),
+        eq(setsTable.title, title)
+      )
     )
-  )
-  .limit(1);
-  
+    .limit(1);
+
 
   // return if set exists
   if (existingSet.length > 0) {
@@ -119,7 +101,7 @@ export const postCreateSet = asyncHandler(async (req, res) => {
         userId,
       })
       .returning();
-      
+
     res.status(200).json({
       msg: 'Set created!',
       set: newSet,
@@ -174,7 +156,7 @@ export const putEditSet = asyncHandler(async (req, res) => {
       })
       .where(eq(setsTable.id, setId))
       .returning();
-      
+
     res.status(200).json({
       msg: 'Set updated!',
       set: updatedSet,
@@ -201,56 +183,47 @@ export const deleteSet = asyncHandler(async (req, res) => {
   let newCards = null;
 
   // delete cards
-  try {
-    await db.delete(cardsTable)
-      .where(
-        and(
-          eq(cardsTable.userId, set.userId),
-          eq(cardsTable.setId, set.id)
-        )
-      );
-    console.log(`All cards were deleted for set ${set.id}`);
-  } catch (err) {
-    console.error(set);
-    throw new Error(`Error deleting cards for set ${set.id}: `);
-  }
+  await db.delete(cardsTable)
+    .where(
+      and(
+        eq(cardsTable.userId, set.userId),
+        eq(cardsTable.setId, set.id)
+      )
+    );
+  console.log(`All cards were deleted for set ${set.id}`);
 
   // delete set
-  try {
-    // Check if there are any remaining cards
-    const remainingCards = await db.select()
-      .from(cardsTable)
-      .where(
-        and(
-          eq(cardsTable.userId, set.userId),
-          eq(cardsTable.setId, set.id)
-        )
-      );
 
-    if (remainingCards.length !== 0) {
-      const err = new Error('Cannot delete set with cards');
-      err.status = 400;
-      throw err;
-    }
+  // Check if there are any remaining cards
+  const remainingCards = await db.select()
+    .from(cardsTable)
+    .where(
+      and(
+        eq(cardsTable.userId, set.userId),
+        eq(cardsTable.setId, set.id)
+      )
+    );
 
-    const result = await db.delete(setsTable)
-      .where(
-        and(
-          eq(setsTable.id, set.id),
-          eq(setsTable.userId, set.userId)
-        )
-      );
-
-    isSetDeleted = true; // The operation succeeded if no error was thrown
-
-    console.log('Set ' + setId + ' is deleted');
-
-    res.status(200).json({
-      msg: 'Your set and all of its cards have been deleted',
-      isSetDeleted,
-    });
-
-  } catch (err) {
-    throw new Error(`Error deleting set ${setId}: `);
+  if (remainingCards.length) {
+    const err = new Error('Cannot delete set with cards');
+    err.status = 400;
+    throw err;
   }
+
+  const result = await db.delete(setsTable)
+    .where(
+      and(
+        eq(setsTable.id, set.id),
+        eq(setsTable.userId, set.userId)
+      )
+    );
+
+  isSetDeleted = true;
+
+  console.log('Set ' + setId + ' is deleted');
+
+  res.status(200).json({
+    msg: 'Your set and all of its cards have been deleted',
+    isSetDeleted,
+  });
 }, 403);

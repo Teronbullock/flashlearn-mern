@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 /**
  * Checks if a user owns a specific resource.
  * 
- * @param {Model} model - The Sequelize model (e.g., CardsTable, SetsTable).
+ * @param {Model} model - The DB model (e.g., CardsTable, SetsTable).
  * @param {string|number} resourceId - The ID of the resource to check.
  * @param {string} userId - The ID of the user.
  * @returns {Promise<Object>} - The found resource.

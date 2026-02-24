@@ -1,5 +1,5 @@
 import { Card } from "@components/ui/card/Card";
-import { RatingStars } from "@components/RatingStars";
+import { RatingStars } from "@components/rating-stars";
 import { SectionHeader, BasicHeader } from "@components/ui/header";
 
 interface TestimonialProps {

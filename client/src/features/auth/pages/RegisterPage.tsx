@@ -51,7 +51,7 @@ const RegisterPage = () => {
             />
             <p className="mb-2 mt-2 text-xs">Re-enter your password</p>
             <FormInputError errors={errors} name="passConfirm" />
-            <FormInputError messages={errors.root?.message} />
+            <FormInputError message={errors.root?.message} />
           </FormGroup>
         </CTASplitForm>
         <div>

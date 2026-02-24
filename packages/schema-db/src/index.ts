@@ -6,5 +6,13 @@ export { refreshTokens, refreshTokensRelations } from './db/refresh-tokens-schem
 
 // Zod
 export {authRegSchema, authLoginSchema, type AuthRegType, type AuthLoginType, ProfileSchema, ProfileUpdateEmailSchema, ProfileUpdatePasswordSchema, ProfileDeleteAccountSchema, userInsertSchema, userSelectSchema, userUpdateSchema} from './zod/auth-schema';
-export {setSchema, type SetSchema} from './zod/set-schema';
-export {cardsInsertSchema, cardFormSchema, type CardFormType} from './zod/cards-schema';
+export {setSchema, SetInsertSchema, SetSelectSchema, SetUpdateSchema, type SetType, type SetInsertType, type SetUpdateType, type SetSelectType} from './zod/set-schema';
+export {
+  CardsInsertSchema,
+  CardSelectSchema,
+  CardFormSchema,
+  type CardInsertType,
+  type CardSelectType,
+  type CardFormType,
+  type CardType
+} from './zod/cards-schema';
