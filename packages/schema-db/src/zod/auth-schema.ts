@@ -1,14 +1,20 @@
-import { z } from 'zod';
-import { usersTable } from '../db/users-schema';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
+import { usersTable } from '../db/users-schema';
+import { z } from 'zod';
+
 
 // Create Zod schemas from the Drizzle users schema
-export const userInsertSchema = createInsertSchema(usersTable);
-export const userSelectSchema = createSelectSchema(usersTable);
-export const userUpdateSchema = createUpdateSchema(usersTable);
+export const UserInsertSchema = createInsertSchema(usersTable);
+export const UserSelectSchema = createSelectSchema(usersTable);
+
+export type userSelectType = z.infer<typeof UserSelectSchema>;
+export type userInsertType = z.infer<typeof UserInsertSchema>;
 
 
-export const authRegSchema = z.object({
+export const AuthRegSchema = UserSelectSchema.pick({ 
+  email: true, 
+  pass: true 
+}).extend({
   email: z.email("Invalid email address"),
   pass: z.string().min(8, "Password too short").max(125),
   passConfirm: z.string(),
@@ -23,25 +29,29 @@ export const authRegSchema = z.object({
   }
 });
 
+export type AuthRegType = z.infer<typeof AuthRegSchema>;
 
-export type  AuthRegType = z.infer<typeof authRegSchema>;
+export const AuthLoginSchema = UserSelectSchema.pick({
+  email: true,
+  pass: true,
+}).extend({
+  email: z.email("Invalid email address").min(1, "Email is required"),
+  pass: z.string().min(8, "Password too short").max(125),
+});
 
+export type AuthLoginType = z.infer<typeof AuthLoginSchema>;
 
-export const authLoginSchema = z.object({
-  email: z.email().nonempty("Email is required"),
+export const AuthPassSchema = UserSelectSchema.pick({
+  pass: true,
+}).extend({
   pass: z.string().min(8, "Password is required"),
 });
 
-export type AuthLoginType = z.infer<typeof authLoginSchema>;
+export type AuthLogoutType = z.infer<typeof AuthPassSchema>;
 
-export const AuthLogoutSchema = z.object({
-  pass: z.string().min(8, "Password is required"),
-});
-
-export type AuthLogoutType = z.infer<typeof AuthLogoutSchema>;
-
-
-export const ProfileSchema = z.object({
+export const ProfileSchema = UserSelectSchema.pick({
+  pass: true,
+}).extend({
   oldPass: z.string().min(8, "Password is required"),
   pass: z.string().min(8, "Password is required"),
   passConfirm: z.string(),
@@ -57,12 +67,6 @@ export const ProfileSchema = z.object({
 
 export type  ProfileType = z.infer<typeof ProfileSchema>;
 
-// Additional schemas for profile updates
-export const ProfileUpdateEmailSchema = z.object({
-  email: z.email("Invalid email address"),
-  pass: z.string().min(8, "Password is required"),
-});
-
 export const ProfileUpdatePasswordSchema = z.object({
   oldPass: z.string().min(8, "Current password is required"),
   pass: z.string().min(8, "New password is required"),
@@ -76,9 +80,4 @@ export const ProfileUpdatePasswordSchema = z.object({
     });
   }
 });
-
-export const ProfileDeleteAccountSchema = z.object({
-  pass: z.string().min(8, "Password is required"),
-});
-
 

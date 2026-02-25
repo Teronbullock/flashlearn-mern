@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { db } from '../db/database.js';
 import { ZodError } from 'zod';
-import { usersTable, authRegSchema, authLoginSchema } from '@flashlearn/schema-db';
+import { usersTable, AuthRegSchema, AuthLoginSchema } from '@flashlearn/schema-db';
 import { authenticateUser } from '../services/auth-service.js';
 import jwt from 'jsonwebtoken';
 import {
@@ -20,7 +20,7 @@ import { AppError } from '../lib/AppError.js';
 
 export const postUserRegister = asyncHandler(async (req, res) => {
 
-    const validatedData = await authRegSchema.parseAsync({
+    const validatedData = await AuthRegSchema.parseAsync({
       email: req.body.email,
       pass: req.body.pass,
       passConfirm: req.body.passConfirm,
@@ -62,7 +62,7 @@ export const postUserRegister = asyncHandler(async (req, res) => {
 }, 401);
 
 export const postUserLogin = asyncHandler(async (req, res) => {
-  const credentials = await authLoginSchema.parseAsync({
+  const credentials = await AuthLoginSchema.parseAsync({
     email: req.body.email,
     pass: req.body.pass,
   });

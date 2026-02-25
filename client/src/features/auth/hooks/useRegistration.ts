@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { apiRequest, type ApiErrorObject } from "@lib/api";
-import { authRegSchema, type AuthRegType } from "@flashlearn/schema-db";
+import { AuthRegSchema, type AuthRegType } from "@flashlearn/schema-db";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
@@ -16,12 +16,12 @@ export const useRegistration = () => {
     setError,
     formState: { errors },
   } = useForm<AuthRegType>({
-    resolver: zodResolver(authRegSchema),
+    resolver: zodResolver(AuthRegSchema),
   });
 
   const onSubmit: SubmitHandler<AuthRegType> = async (formData) => {
     try {
-      const validationData = authRegSchema.parse({
+      const validationData = AuthRegSchema.parse({
         email: formData.email,
         pass: formData.pass,
         passConfirm: formData.passConfirm,

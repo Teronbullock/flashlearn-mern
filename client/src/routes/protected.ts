@@ -8,7 +8,7 @@ export const PROTECTED_ROUTES: RouteConfig[] = [
   },
   {
     path: "/profile",
-    element: lazy(() => import("@/features/profile/pages/ProfilePage")),
+    element: lazy(() => import("@feats/auth/pages/ProfilePage")),
   },
   {
     path: "/set/add",

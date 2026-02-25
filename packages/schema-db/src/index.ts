@@ -5,9 +5,28 @@ export { usersTable, usersRelations } from './db/users-schema'
 export { refreshTokens, refreshTokensRelations } from './db/refresh-tokens-schema'
 
 // Zod
-export {authRegSchema, authLoginSchema, type AuthRegType, type AuthLoginType, ProfileSchema, ProfileUpdateEmailSchema, ProfileUpdatePasswordSchema, ProfileDeleteAccountSchema, userInsertSchema, userSelectSchema, userUpdateSchema} from './zod/auth-schema';
-export {setSchema, SetInsertSchema, SetSelectSchema, SetUpdateSchema, type SetType, type SetInsertType, type SetUpdateType, type SetSelectType} from './zod/set-schema';
 export {
+  AuthRegSchema,
+  AuthLoginSchema,
+  ProfileSchema, 
+  ProfileUpdatePasswordSchema, 
+  AuthPassSchema, 
+  UserInsertSchema, 
+  UserSelectSchema,  
+  type AuthRegType, 
+  type AuthLoginType
+} from './zod/auth-schema';
+
+export {
+  setSchema,
+  SetInsertSchema, 
+  SetSelectSchema, 
+  type SetType, 
+  type SetInsertType, 
+  type SetSelectType
+} from './zod/set-schema';
+
+  export {
   CardsInsertSchema,
   CardSelectSchema,
   CardFormSchema,

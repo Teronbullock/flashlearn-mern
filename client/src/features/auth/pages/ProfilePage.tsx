@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { CTASplitForm, CTASplitLayout } from "@components/CTASplit";
+import { CTASplitLayout } from "@components/CTASplit";
 import { Btn } from "@components/btn";
 import data from "@content/profilePage.json";
-import { useProfileForm } from "@feats/profile/hooks/index";
+import { useProfileForm, useGetProfile } from "../hooks/";
 import {
   ChangeEmailAddress,
   ChangePassword,
   RemoveAccount,
-} from "@feats/profile/components";
-import { useGetProfile } from "@feats/profile/hooks";
+} from "../components/index";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { Main } from "@layouts/Main";
 
@@ -71,7 +70,7 @@ const ProfilePage = () => {
           </Btn>
         </div>
 
-        <CTASplitForm
+        {/* <CTASplitForm
           onSubmit={
             activeTab === "email"
               ? handleEmailUpdateSubmit
@@ -87,15 +86,15 @@ const ProfilePage = () => {
                 ? "Update Password"
                 : "Remove Account"
           }
-        >
-          {activeTab === "email" ? (
-            <ChangeEmailAddress dispatch={dispatch} state={state} />
-          ) : activeTab === "password" ? (
-            <ChangePassword dispatch={dispatch} state={state} />
-          ) : (
-            <RemoveAccount dispatch={dispatch} state={state} />
-          )}
-        </CTASplitForm>
+        > */}
+        {activeTab === "email" ? (
+          <ChangeEmailAddress />
+        ) : activeTab === "password" ? (
+          <ChangePassword dispatch={dispatch} state={state} />
+        ) : (
+          <RemoveAccount dispatch={dispatch} state={state} />
+        )}
+        {/* </CTASplitForm> */}
       </CTASplitLayout>
     </Main>
   );

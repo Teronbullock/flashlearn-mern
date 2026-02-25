@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { usersTable, ProfileUpdateEmailSchema, ProfileUpdatePasswordSchema, ProfileDeleteAccountSchema } from '@flashlearn/schema-db';
+import { usersTable, AuthLoginSchema, ProfileUpdatePasswordSchema, AuthPassSchema } from '@flashlearn/schema-db';
 import { db } from '../db/database.js';
 import { eq } from 'drizzle-orm';
 import { ZodError } from 'zod';
@@ -36,7 +36,7 @@ export const putUpdateUserEmail = asyncHandler(async (req, res) => {
 
   try {
     // Validate input using Zod schema
-    ProfileUpdateEmailSchema.parse({ email, pass: userOldPass });
+    AuthLoginSchema.parse({ email, pass: userOldPass });
   } catch (err) {
     if (err instanceof ZodError) {
       const errorMessage = err.errors.map((e) => e.message).join(' ');
@@ -133,7 +133,7 @@ export const putRemoveUser = asyncHandler(async (req, res) => {
 
   try {
     // Validate input using Zod schema
-    ProfileDeleteAccountSchema.parse({ pass });
+    AuthPassSchema.parse({ pass });
   } catch (err) {
     if (err instanceof ZodError) {
       const errorMessage = err.errors.map((e) => e.message).join(' ');

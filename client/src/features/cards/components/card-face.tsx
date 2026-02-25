@@ -5,7 +5,7 @@ interface CardFaceProps {
   className?: string;
   bgColor?: string;
   textColor?: string;
-  cardText?: string;
+  cardText?: string | null;
   handFlipAction: () => void;
 }
 

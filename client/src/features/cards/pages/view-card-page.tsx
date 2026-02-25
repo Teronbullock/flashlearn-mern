@@ -61,15 +61,11 @@ const ViewCardPage = () => {
           <FlashCard isFlipped={isFlipped}>
             <CardFace
               className=""
-              // bgColor={card.bg_color}
-              // textColor={card.text_color}
               cardText={card.term}
               handFlipAction={handleFlip}
             />
             <CardFace
               className="rotate-y-180 z-50"
-              // bgColor={card.bg_color}
-              // textColor={card.text_color}
               cardText={card.definition}
               handFlipAction={handleFlip}
             />

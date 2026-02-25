@@ -3,7 +3,7 @@ import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { authApi } from "@feats/auth/service/auth.service";
 import { AUTH_CONFIG } from "@/config/auth.config";
 import { authStorage } from "@feats/auth/service/auth.storage";
-import { authLoginSchema, type AuthLoginType } from "@flashlearn/schema-db";
+import { AuthLoginSchema, type AuthLoginType } from "@flashlearn/schema-db";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ApiErrorObject } from "@lib/api";
@@ -18,7 +18,7 @@ export const useLogin = () => {
     setError,
     formState: { errors },
   } = useForm<AuthLoginType>({
-    resolver: zodResolver(authLoginSchema),
+    resolver: zodResolver(AuthLoginSchema),
   });
 
   const onSubmit: SubmitHandler<AuthLoginType> = async (formData) => {
@@ -27,7 +27,7 @@ export const useLogin = () => {
         throw new Error("Email and password are required");
       }
 
-      const validatedData = await authLoginSchema.parseAsync({
+      const validatedData = await AuthLoginSchema.parseAsync({
         email: formData.email,
         pass: formData.pass,
       });
