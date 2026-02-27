@@ -7,7 +7,7 @@ export const refreshTokens = pgTable('fc_refresh_tokens', {
   id: serial('id').primaryKey(),
   userId: uuid('user_id')
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
   token: varchar('token', { length: 255 }).notNull(),
 });
 

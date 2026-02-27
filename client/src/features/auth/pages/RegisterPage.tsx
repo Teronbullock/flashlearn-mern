@@ -35,22 +35,22 @@ const RegisterPage = () => {
               type="password"
               placeholder="Enter your password"
               required={true}
-              {...register("pass")}
+              {...register("password")}
             />
             <p className="mb-2 mt-2 text-xs">
               Password should consist of numbers and special characters
             </p>
-            <FormInputError errors={errors} name="pass" />
+            <FormInputError errors={errors} name="password" />
           </FormGroup>
           <FormGroup labelName="Confirm Password">
             <FormInput
               type="password"
               placeholder="Confirm your password"
               required={true}
-              {...register("passConfirm")}
+              {...register("passwordConfirm")}
             />
             <p className="mb-2 mt-2 text-xs">Re-enter your password</p>
-            <FormInputError errors={errors} name="passConfirm" />
+            <FormInputError errors={errors} name="passwordConfirm" />
             <FormInputError message={errors.root?.message} />
           </FormGroup>
         </CTASplitForm>

@@ -2,7 +2,7 @@ import classNames from "classnames";
 
 interface FormGroupProps {
   children: React.ReactNode;
-  name?: string;
+  htmlFor?: string;
   labelName?: string;
   className?: {
     group?: string;
@@ -11,7 +11,7 @@ interface FormGroupProps {
 }
 
 export const FormGroup = ({
-  name,
+  htmlFor,
   labelName,
   children,
   className,
@@ -25,9 +25,11 @@ export const FormGroup = ({
 
   return (
     <div className={containerClass}>
-      <label htmlFor={name} className={labelClass}>
-        {labelName}
-      </label>
+      {htmlFor && (
+        <label htmlFor={htmlFor} className={labelClass}>
+          {labelName}
+        </label>
+      )}
       {children}
     </div>
   );

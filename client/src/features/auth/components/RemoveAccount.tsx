@@ -1,14 +1,17 @@
-import { FormGroup, FormInput } from "@components/forms";
-import type { RemoveAccountFields, AuthAction } from "@/types/index";
+import { CTASplitForm } from "@components/CTASplit";
+import { FormGroup, FormInput, FormInputError } from "@components/forms";
+import { useDeleteAccount } from "@feats/auth/hooks/useDeleteAccount";
 
-interface RemoveAccountProps {
-  dispatch: (action: AuthAction<RemoveAccountFields>) => void;
-  state: RemoveAccountFields;
-}
+export const RemoveAccount = () => {
+  const { register, handleSubmit, onSubmit, errors } = useDeleteAccount();
 
-export const RemoveAccount = ({ dispatch, state }: RemoveAccountProps) => {
   return (
-    <div className="change-password-container">
+    <CTASplitForm
+      onSubmit={handleSubmit(onSubmit)}
+      ctaBtnSize="md"
+      cta="Remove Account"
+      className="change-password-container"
+    >
       <div
         className="mb-12 mt-12 rounded-lg border border-red-300 bg-red-100 p-4 text-red-800"
         role="alert"
@@ -29,18 +32,13 @@ export const RemoveAccount = ({ dispatch, state }: RemoveAccountProps) => {
       <FormGroup labelName="Enter Current Password">
         <FormInput
           type="password"
-          name="user_pass"
-          value={state.user_pass}
           placeholder="Enter current password"
           required={true}
-          onChange={(e) =>
-            dispatch({
-              type: "ON_CHANGE",
-              payload: { user_pass: e.target.value },
-            })
-          }
+          {...register("password")}
         />
+        <FormInputError errors={errors} name="password" />
+        <FormInputError message={errors.root?.message} />
       </FormGroup>
-    </div>
+    </CTASplitForm>
   );
 };

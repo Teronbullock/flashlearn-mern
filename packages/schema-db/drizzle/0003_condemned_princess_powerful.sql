@@ -1,0 +1,1 @@
+ALTER TABLE "fc_users" RENAME COLUMN "pass" TO "password";

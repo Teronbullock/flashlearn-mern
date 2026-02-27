@@ -1,25 +1,25 @@
-import { createInsertSchema, createSelectSchema, createUpdateSchema} from 'drizzle-zod';
-import {z} from 'zod';
-import {setsTable} from '../db/sets-schema'; 
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { z } from 'zod';
+import { setsTable } from '../db/sets-schema';
 
 
-export const SetInsertSchema = createInsertSchema(setsTable);
 export const SetSelectSchema = createSelectSchema(setsTable);
+export const SetInsertSchema = createInsertSchema(setsTable);
 
-export type SetInsertType = z.infer<typeof SetInsertSchema>
 export type SetSelectType = z.infer<typeof SetSelectSchema>
+export type SetInsertType = z.infer<typeof SetInsertSchema>
 
-export const setSchema = SetSelectSchema.pick({
+export const SetSchema = SetInsertSchema.pick({
   title: true,
   description: true,
 }).extend({
-  title: z.string()
-  .min(1, 'Please enter a title')
-  .max(120, 'Title must be less than 120 characters'),
-  description: z.string()
-  .max(256, 'Description must be less than 256 characters')
-  .nullable(),
+  title: SetInsertSchema.shape.title.pipe(z.string()
+    .min(1, 'Please enter a title')
+    .max(180, 'Title must be less than 180 characters')),
+  description: SetInsertSchema.shape.description.pipe(z.string()
+    .max(500, 'Description must be less than 500 characters')
+    .nullable()),
 });
 
-export type SetType = z.infer<typeof setSchema>;
+export type SetType = z.infer<typeof SetSchema>;
 

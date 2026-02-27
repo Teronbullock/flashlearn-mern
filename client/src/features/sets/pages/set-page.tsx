@@ -38,7 +38,7 @@ const SetPage = () => {
         <>
           <PageHeader data={{ title: "Set Page" }}>
             {/* <Form className={{ container: "w-[568px]" }} onSubmit={null}>
-              <FormGroup name="search-bar" className={{ group: "relative" }}>
+              <FormGroup htmlFor="search-bar" className={{ group: "relative" }}>
                 <img
                   src="/assets/img/Vector-finder.png"
                   alt="icon of a magnifying glass"

@@ -8,7 +8,7 @@ import {
   postAddCard,
   deleteCard,
   getViewCards,
-} from '../controllers/card-controller.js';
+} from '../controllers/card.controller.js';
 
 const router = Router({ mergeParams: true });
 
@@ -17,13 +17,13 @@ router.get('/view', getViewCards);
 
 // for single cards
 router.route('/:cardId')
-.get(getEditCard)
-.put(putEditCard)
-.delete(deleteCard);
+  .get(getEditCard)
+  .put(putEditCard)
+  .delete(deleteCard);
 
 // for card list
 router.route('/')
-.post(postAddCard)
-.get(getCardsAllCards);
+  .post(postAddCard)
+  .get(getCardsAllCards);
 
 export default router;

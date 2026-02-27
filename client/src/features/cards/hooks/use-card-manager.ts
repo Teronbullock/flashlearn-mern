@@ -30,7 +30,7 @@ export const useCardManager = ({
   card,
 }: CardManagerParams) => {
   const { token } = useAuthContext();
-  const setControllerRef = useRef<AbortController | null>(null);
+  const controllerRef = useRef<AbortController | null>(null);
   const tokenRef = useRef(token);
   const navigate = useNavigate();
 
@@ -71,12 +71,12 @@ export const useCardManager = ({
       setError("root", { message: "Set data missing" });
       return;
     }
-    if (setControllerRef.current) {
-      setControllerRef.current.abort();
+    if (controllerRef.current) {
+      controllerRef.current.abort();
     }
 
     const controller = new AbortController();
-    setControllerRef.current = controller;
+    controllerRef.current = controller;
     const signal = controller.signal;
 
     try {
@@ -102,29 +102,26 @@ export const useCardManager = ({
         reset();
       }
     } catch (err) {
+      console.error(err);
+
+      if (err instanceof Error && err.name === "AbortError") {
+        return;
+      }
+
       if (err && typeof err === "object") {
         const apiErr = err as ApiErrorObject;
 
         if (apiErr.code === "VALIDATION_ERROR") {
           setError("term", { message: apiErr.details?.term?.[0] });
           setError("definition", { message: apiErr.details?.definition?.[0] });
-        } else {
-          setError("root", { message: "Error creating card" });
-        }
-      }
-
-      if (err instanceof Error && err) {
-        if (err.name === "AbortError") {
           return;
-        } else {
-          setError("root", { message: "Error creating card" });
         }
       }
 
       setError("root", { message: "Error creating card" });
     } finally {
-      if (setControllerRef.current === controller) {
-        setControllerRef.current = null;
+      if (controllerRef.current === controller) {
+        controllerRef.current = null;
       }
     }
   };
@@ -139,12 +136,22 @@ export const useCardManager = ({
         throw new Error("Error: deleting card, data missing");
       }
 
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+      }
+
+      const controller = new AbortController();
+      controllerRef.current = controller;
+      const signal = controller.signal;
+
       try {
         const res = await apiRequest({
           method: "delete",
           url: `/sets/${setId}/cards/${cardId}`,
           token: tokenRef.current,
+          signal: signal,
         });
+
         if (!res.data) {
           throw new Error("Error: card not deleted");
         }
@@ -154,6 +161,10 @@ export const useCardManager = ({
       } catch (err) {
         console.error(err);
         alert("Error: card not deleted");
+      } finally {
+        if (controllerRef.current === controller) {
+          controllerRef.current = null;
+        }
       }
     },
     [setId, getAllSetCards],
@@ -170,8 +181,8 @@ export const useCardManager = ({
 
   useEffect(() => {
     return () => {
-      if (setControllerRef.current) {
-        setControllerRef.current.abort();
+      if (controllerRef.current) {
+        controllerRef.current.abort();
       }
     };
   }, []);

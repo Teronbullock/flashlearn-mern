@@ -50,5 +50,5 @@ export interface UseAutoLogoutConfig {
 export interface PostNewUserParams {
   email: string;
   pass: string;
-  passConfirm: string;
+  passwordConfirm: string;
 }

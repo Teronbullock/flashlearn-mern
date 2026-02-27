@@ -1,9 +1,9 @@
 import { FormGroup, FormInput, FormInputError } from "@components/forms";
 import { CTASplitForm } from "@components/CTASplit";
-import { useManageEmail } from "../hooks";
+import { useUpdateEmail } from "../hooks";
 
 export const ChangeEmailAddress = () => {
-  const { onSubmit, errors, handleSubmit, register } = useManageEmail();
+  const { onSubmit, errors, handleSubmit, register } = useUpdateEmail();
 
   return (
     <CTASplitForm
@@ -26,9 +26,9 @@ export const ChangeEmailAddress = () => {
             type="password"
             placeholder="Enter your current password"
             required={true}
-            {...register("pass")}
+            {...register("password")}
           />
-          <FormInputError errors={errors} name="pass" />
+          <FormInputError errors={errors} name="password" />
         </FormGroup>
       </div>
     </CTASplitForm>

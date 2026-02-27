@@ -10,11 +10,11 @@ export const setsTable = pgTable('fc_sets', {
   userId: uuid('user_id')
     .notNull()
     .references(() => usersTable.id),
-  title: varchar('title', { length: 500 }).notNull(),
+  title: varchar('title', { length: 180 }).notNull(),
   description: varchar('description', { length: 500 }).default('No description added'),
 });
 
-export const setsRelations = relations(setsTable, ({one, many}) => ({
+export const setsRelations = relations(setsTable, ({ one, many }) => ({
   users: one(usersTable, {
     fields: [setsTable.userId],
     references: [usersTable.id],

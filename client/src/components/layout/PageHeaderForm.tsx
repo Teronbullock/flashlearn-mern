@@ -18,7 +18,7 @@ export const PageHeaderForm = ({
     <div>
       <BasicHeader {...header} />
       <Form className={{ container: "w-[568px]" }} onSubmit={onSubmit}>
-        <FormGroup name="search-bar" className={{ group: "relative" }}>
+        <FormGroup htmlFor="search-bar" className={{ group: "relative" }}>
           <img
             src="/assets/img/Vector-finder.png"
             alt="icon of a magnifying glass"

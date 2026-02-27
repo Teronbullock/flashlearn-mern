@@ -22,7 +22,7 @@ const LoginPage = () => {
           cta={cta}
           ctaBtnSize="full"
         >
-          <FormGroup labelName="Email Address" name="email">
+          <FormGroup labelName="Email Address" htmlFor="email">
             <FormInput
               type="email"
               id="email"
@@ -33,14 +33,19 @@ const LoginPage = () => {
             />
             <FormInputError errors={errors} name="email" />
           </FormGroup>
-          <FormGroup labelName="Password" className={{ group: "mb-6!" }}>
+          <FormGroup
+            labelName="Password"
+            htmlFor="password"
+            className={{ group: "mb-6!" }}
+          >
             <FormInput
+              id="password"
               type="password"
               placeholder="Enter your password"
               required={true}
-              {...register("pass")}
+              {...register("password")}
             />
-            <FormInputError errors={errors} name="pass" />
+            <FormInputError errors={errors} name="password" />
             <FormInputError message={errors.root?.message} />
           </FormGroup>
           {/* <div className="mb-6 flex justify-end">

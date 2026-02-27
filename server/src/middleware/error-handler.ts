@@ -1,8 +1,8 @@
-import express from 'express';
+import {Request, Response, NextFunction} from 'express';
 import {z, ZodError } from 'zod';
 import { AppError } from '../lib/AppError';
 
-const errorHandler = (err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
   let status = 500;
   let code = 'INTERNAL_SERVER_ERROR';
   let message = 'An unexpected error occurred';

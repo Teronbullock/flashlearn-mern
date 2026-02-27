@@ -1,63 +1,52 @@
-import { FormGroup, FormInput } from "@components/forms";
-import type { ProfileFields, AuthAction } from "@/types/index";
+import { FormGroup, FormInput, FormInputError } from "@components/forms";
+import { CTASplitForm } from "@components/CTASplit";
+import { useUpdatePassword } from "@feats/auth/hooks";
 
-type ChangePasswordProps = {
-  dispatch: (action: AuthAction<ProfileFields>) => void;
-  state: ProfileFields;
-};
+export const ChangePassword = () => {
+  const { onSubmit, errors, handleSubmit, register } = useUpdatePassword();
 
-export const ChangePassword = ({ dispatch, state }: ChangePasswordProps) => {
   return (
-    <div className="change-password-container">
+    <CTASplitForm
+      onSubmit={handleSubmit(onSubmit)}
+      ctaBtnSize="md"
+      cta="Update Password"
+      className="change-password-container"
+    >
       <FormGroup labelName="Enter Old Password">
         <FormInput
+          id="oldPassword"
           type="password"
-          name="user_old_pass"
-          value={state.user_old_pass}
           placeholder="Enter Old password"
           required={true}
-          onChange={(e) =>
-            dispatch({
-              type: "ON_CHANGE",
-              payload: { user_old_pass: e.target.value },
-            })
-          }
+          {...register("oldPassword")}
         />
+        <FormInputError errors={errors} name="oldPassword" />
       </FormGroup>
       <FormGroup labelName="Change Password">
         <FormInput
+          id="pass"
           className="mb-2"
           type="password"
-          name="user_pass"
-          value={state.user_pass}
           placeholder="Enter New password"
-          onChange={(e) =>
-            dispatch({
-              type: "ON_CHANGE",
-              payload: { user_pass: e.target.value },
-            })
-          }
+          {...register("password")}
         />
-        <p className="mb-5 text-xs">
+        <p className="mb-2 text-xs">
           Use at least 8 characters, including a number, a letter, and a symbol.
         </p>
+        <FormInputError errors={errors} name="password" />
       </FormGroup>
       <FormGroup labelName="Confirm Password">
         <FormInput
+          id="passwordConfirm"
           className="mb-2"
           type="password"
-          name="user_pass_confirm"
-          value={state.user_pass_confirm}
           placeholder="Enter password"
-          onChange={(e) =>
-            dispatch({
-              type: "ON_CHANGE",
-              payload: { user_pass_confirm: e.target.value },
-            })
-          }
+          {...register("passwordConfirm")}
         />
-        <p className="mb-30 text-xs">Re-enter your password.</p>
+        <p className="mb-2 text-xs">Re-enter your password.</p>
+        <FormInputError errors={errors} name="passwordConfirm" />
+        <FormInputError message={errors.root?.message} />
       </FormGroup>
-    </div>
+    </CTASplitForm>
   );
 };

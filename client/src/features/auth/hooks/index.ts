@@ -6,4 +6,6 @@ export { useRegistration } from "./useRegistration";
 export { useManageAuth } from "./useManageAuth";
 export { useGetProfile } from "./useGetProfile";
 export { useProfileForm } from "./useProfileForm";
-export { useManageEmail } from "./use-manage-email";
+export { useUpdateEmail } from "./useUpdateEmail";
+export { useUpdatePassword } from "./useUpdatePassword";
+export { useDeleteAccount } from "./useDeleteAccount";

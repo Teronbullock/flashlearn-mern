@@ -31,7 +31,7 @@ const EditCardPage = () => {
             <FormGroup
               labelName="Enter Card Title"
               className={{ label: "font-medium" }}
-              name="term"
+              htmlFor="term"
             >
               <FormTextArea
                 id="term"
@@ -46,7 +46,7 @@ const EditCardPage = () => {
             <FormGroup
               labelName="Enter Definition"
               className={{ group: "mb-9", label: "font-medium" }}
-              name="definition"
+              htmlFor="definition"
             >
               <FormTextArea
                 id="definition"

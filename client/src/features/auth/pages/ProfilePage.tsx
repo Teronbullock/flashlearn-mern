@@ -17,13 +17,7 @@ const ProfilePage = () => {
   >("email");
 
   const { token } = useAuthContext();
-  const {
-    state,
-    dispatch,
-    handleEmailUpdateSubmit,
-    handlePasswordUpdateSubmit,
-    handleRemoveAccountSubmit,
-  } = useProfileForm({ token });
+  const { dispatch } = useProfileForm({ token });
 
   useGetProfile(dispatch, token);
 
@@ -69,30 +63,12 @@ const ProfilePage = () => {
             Remove Account
           </Btn>
         </div>
-
-        {/* <CTASplitForm
-          onSubmit={
-            activeTab === "email"
-              ? handleEmailUpdateSubmit
-              : activeTab === "password"
-                ? handlePasswordUpdateSubmit
-                : handleRemoveAccountSubmit
-          }
-          ctaBtnSize="md"
-          cta={
-            activeTab === "email"
-              ? "Update Email"
-              : activeTab === "password"
-                ? "Update Password"
-                : "Remove Account"
-          }
-        > */}
         {activeTab === "email" ? (
           <ChangeEmailAddress />
         ) : activeTab === "password" ? (
-          <ChangePassword dispatch={dispatch} state={state} />
+          <ChangePassword />
         ) : (
-          <RemoveAccount dispatch={dispatch} state={state} />
+          <RemoveAccount />
         )}
         {/* </CTASplitForm> */}
       </CTASplitLayout>

@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type SetType, setSchema } from "@flashlearn/schema-db";
+import { type SetType, SetSchema } from "@flashlearn/schema-db";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { apiRequest, type ApiErrorObject } from "@/lib/api/api-request";
 
@@ -35,7 +35,7 @@ export const useSetManager = ({ set, setId }: SetManagerParams) => {
     setError,
     formState: { errors },
   } = useForm<SetType>({
-    resolver: zodResolver(setSchema),
+    resolver: zodResolver(SetSchema),
     defaultValues: {
       title: "",
       description: "",

@@ -3,7 +3,7 @@ import { useAuthContext } from "@feats/auth/context/AuthContext";
 import { authApi } from "@feats/auth/service/auth.service";
 import { AUTH_CONFIG } from "@/config/auth.config";
 import { authStorage } from "@feats/auth/service/auth.storage";
-import { AuthLoginSchema, type AuthLoginType } from "@flashlearn/schema-db";
+import { LoginSchema, type LoginType } from "@flashlearn/schema-db";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ApiErrorObject } from "@lib/api";
@@ -17,29 +17,23 @@ export const useLogin = () => {
     reset,
     setError,
     formState: { errors },
-  } = useForm<AuthLoginType>({
-    resolver: zodResolver(AuthLoginSchema),
+  } = useForm<LoginType>({
+    resolver: zodResolver(LoginSchema),
   });
 
-  const onSubmit: SubmitHandler<AuthLoginType> = async (formData) => {
+  const onSubmit: SubmitHandler<LoginType> = async (formData) => {
     try {
-      if (!formData.email || !formData.pass) {
-        throw new Error("Email and password are required");
-      }
 
-      const validatedData = await AuthLoginSchema.parseAsync({
+      const validatedData = await LoginSchema.parseAsync({
         email: formData.email,
-        pass: formData.pass,
+        password: formData.password,
       });
 
       if (!validatedData) {
         throw new Error("Invalid data");
       }
 
-      const { userId, token, tokenExpTime } = await authApi.login(
-        validatedData.email,
-        validatedData.pass,
-      );
+      const { userId, token, tokenExpTime } = await authApi.login(validatedData);
 
       if (!userId || !token || !tokenExpTime || !dispatch) {
         throw new Error("Invalid auth data");
@@ -59,7 +53,7 @@ export const useLogin = () => {
         }
 
         if (apiError.details?.pass) {
-          setError("pass", { message: apiError.details.pass[0] });
+          setError("password", { message: apiError.details.password[0] });
         }
       } else {
         setError("root", {

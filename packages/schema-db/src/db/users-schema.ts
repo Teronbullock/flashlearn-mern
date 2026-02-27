@@ -9,7 +9,7 @@ import { refreshTokens } from './refresh-tokens-schema';
 export const usersTable = pgTable('fc_users', {
   id: uuid('id').defaultRandom().primaryKey(),
   email: varchar('email', { length: 125 }).notNull().unique(),
-  pass: varchar('pass', { length: 125 }).notNull(),
+  password: varchar('password', { length: 125 }).notNull(),
   slug: varchar('slug', { length: 125 }).notNull().unique(),
 });
 

@@ -66,7 +66,7 @@ export const useAuthPages = () => {
       const res = await authApi.postNewUser({
         userEmail: state.email,
         userPass: state.pass,
-        userPassConfirm: state.pass_confirm,
+        userpasswordConfirm: state.pass_confirm,
       });
 
       if (!login || res.status !== 200) {

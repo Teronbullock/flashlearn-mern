@@ -14,7 +14,7 @@ export const useGetProfile = (
         }
 
         const res = await apiRequest({
-          url: `/profile`,
+          url: `/auth/get-profile`,
           token: token,
         });
 

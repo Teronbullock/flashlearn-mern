@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import helmet from 'helmet';
@@ -7,7 +7,6 @@ import cors from 'cors';
 import authRoutes from './routes/auth-routes.js';
 import setRoutes from './routes/set-routes.js';
 import infoRoutes from './routes/info-route.js';
-import profileRoutes from './routes/profile-routes.js';
 import cookieParser from 'cookie-parser'; 
 import checkAuth from './middleware/check-auth.js';
 import errorHandler from './middleware/error-handler.js';
@@ -34,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/sets', checkAuth, setRoutes);
-app.use('/api/profile', checkAuth, profileRoutes);
 app.use('/api', infoRoutes);
 
 // disable favicon requests
@@ -44,7 +42,7 @@ app.use('/favicon.ico', (req, res, next) => {
 });
 
 // catch 404 and forward to error handler
-app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   const err = new Error('Not Found ');
   (err as any).status = 404;
   next(err);

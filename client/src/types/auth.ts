@@ -4,11 +4,11 @@ export interface BaseAuthFields {
 }
 
 export interface RegistrationDetails extends BaseAuthFields {
-  passConfirm?: string;
+  passwordConfirm?: string;
 }
 
 export interface ProfileFields extends RegistrationDetails {
-  oldPass?: string;
+  oldPassword?: string;
 }
 
 export interface ForgotPasswordFields {
