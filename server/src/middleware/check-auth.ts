@@ -1,43 +1,28 @@
 import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../types/request.type';
-import { TokenType } from '../types/token.type';
-import jwt from 'jsonwebtoken';
+import { verifyToken } from '../services/token-service';
+import { AppError } from '../lib/AppError';
+import { AuthRequest } from '../types';
 
 
 
-
-// check if the user is authenticated
-const checkAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
-
+export const checkAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
+
     const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith('Bearer ')) {
+      throw new AppError({ message: 'MISSING_HEADER', status: 401 });
+    }
 
-    if (!authHeader) { throw new Error('MISSING_HEADER'); }
     const token = authHeader.split(' ')[1];
+    if (!token) {
+      throw new AppError({ message: 'MISSING_TOKEN', status: 401 });
+    }
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET || '') as unknown as TokenType;
-
+    const decodedToken = verifyToken(token, process.env.JWT_SECRET || '');
     req.userId = decodedToken.userId;
+
     next();
   } catch (err) {
-    console.error('Unexpected Auth Error:', err);
-
-    if (err instanceof jwt.JsonWebTokenError) {
-      return res.status(401).json({
-        message: 'Invalid or expired token'
-      });
-    }
-
-    if (err instanceof Error && err.message === 'MISSING_HEADER') {
-      return res.status(400).json({
-        message: 'Authorization header required'
-      });
-    }
-
-    res.status(500).json({
-      message: 'Internal server error'
-    });
+    next(err);
   }
 };
-
-export default checkAuth;

@@ -1,63 +1,43 @@
-import {Request, Response, NextFunction} from 'express';
-import {z, ZodError } from 'zod';
-import { AppError } from '../lib/AppError';
+import { Request, Response, NextFunction, } from 'express';
+import { z, ZodError } from 'zod';
 
-const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  let status = 500;
-  let code = 'INTERNAL_SERVER_ERROR';
-  let message = 'An unexpected error occurred';
-  let details: Record<string, string[]> | null = null;
-  let isSafe = err.isOperational || false;
+export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+  const isProd = process.env.NODE_ENV === 'production';
 
-  console.error('last stop: ', err);
+  let status = err.status ?? 500;
+  let code = err.code ?? 'INTERNAL_SERVER_ERROR';
+  let message = err.message ?? 'An unexpected error occurred';
+  let isSafe = err.isOperational ?? false;
 
-  if (err instanceof AppError) {
-    status = err.status;
-    code = err.code;
-    message = err.message;
-    isSafe = err.isOperational;
-    
-  } else if (err instanceof ZodError) {
+  let details: ReturnType<typeof z.treeifyError> | null = null;
+
+  if (err instanceof ZodError) {
     status = 400;
-    message = 'Validation Error';
     code = 'VALIDATION_ERROR';
+    message = 'Validation Error';
     isSafe = true;
-    details = z.flattenError(err).fieldErrors;
+    details = z.treeifyError(err);
   }
 
-  // Log the error details
-  console.log("Server Error:",
-    {
-      timestamp: new Date().toUTCString(),
-      message,
-      ...(!isSafe && err.message && { rawMessage: err.message }),
-      ...(details && { details }),
-      ...(!isSafe && err.cause && { cause: err.cause }),
-      request: {
-        method: req.method,
-        url: req.url,
-        path: req.path,
-      },
-      error: {
-        name: err.name,
-        status,
-        code,
-        stack: err.stack,
-      },
-    });
+  console.log("Server Error:", {
+    timestamp: new Date().toUTCString(),
+    status,
+    code,
+    originalMessage: err.message,
+    cause: err.cause,
+    path: req.originalUrl,
+    stack: err.stack,
+    ...(details && { details }),
+  });
 
-  
-  // sends res to client
   res.status(status).json({
     success: false,
     error: {
       status,
       code,
-      message: isSafe ? message : 'An unexpected error occurred', 
-      ...(details && {details}),
+      message: (isSafe || !isProd) ? message : 'An unexpected error occurred',
+      ...(details && { details }),
+      ...(!isProd && { stack: err.stack }),
     },
   });
-
 };
-
-export default errorHandler;

@@ -1,11 +1,10 @@
-import { Response, Request } from "express";
+import { type Response, type Request } from "express";
 import { nanoid } from 'nanoid';
-import bcrypt from 'bcrypt';
-import { hashPassword } from '../lib/auth.js';
-import asyncHandler from '../middleware/asyncHandler.js';
-import { AppError } from '../lib/AppError.js';
-import { authenticateUser } from "../services/auth-service";
-import { type TokenType, type AuthRequest } from '../types';
+import { comparePassword, hashPassword } from './auth.utils.js';
+import { asyncHandler } from '../../middleware/asyncHandler.js';
+import { AppError } from '../../lib/AppError.js';
+import { authenticateUser } from "./auth.service.js";
+import { type TokenType, type AuthRequest } from '../../types/index.js';
 import {
   getUserByEmail,
   getUserById,
@@ -14,13 +13,13 @@ import {
   createUser,
   updateUser,
   deleteUser,
-} from '../dal/auth.dal.js';
+} from './auth.dal.js';
 
 import {
   storeRefreshToken,
   deleteRefreshToken,
 
-} from '../dal/token.dal.js';
+} from '../../dal/token.dal.js';
 
 import {
   RegisterSchema,
@@ -33,7 +32,7 @@ import {
   genAuthToken,
   genRefreshToken,
   verifyToken
-} from '../services/token-service';
+} from '../../services/token-service.js';
 
 
 export const register = asyncHandler(async (req, res) => {
@@ -212,11 +211,12 @@ export const deleteAccount = asyncHandler(async (req: AuthRequest, res: Response
   const credentials = PasswordSchema.parse({ password: req.body.password });
 
   const [user] = await getUserPasswordById(userId);
+
   if (!user) {
     throw new AppError({ message: 'User not found.' });
   }
 
-  const isOldPasswordMatch = await bcrypt.compare(credentials.password, user.password);
+  const isOldPasswordMatch = await comparePassword(credentials.password, user.password);
   if (!isOldPasswordMatch) {
     throw new AppError({ message: 'Invalid credentials.' });
   }
@@ -270,7 +270,7 @@ export const updateEmail = asyncHandler(async (req: AuthRequest, res: Response) 
     throw new AppError({ message: 'User not found.' });
   }
 
-  const isOldPasswordMatch = await bcrypt.compare(credentials.password, user.password);
+  const isOldPasswordMatch = await comparePassword(credentials.password, user.password);
   if (!isOldPasswordMatch) {
     throw new AppError({ message: 'invalid credentials.' });
   }
@@ -306,13 +306,12 @@ export const updatePassword = asyncHandler(async (req: AuthRequest, res: Respons
   }
 
   // check old password match
-  const isOldPasswordMatch = await bcrypt.compare(credentials.oldPassword, user.password);
+  const isOldPasswordMatch = await comparePassword(credentials.oldPassword, user.password);
   if (!isOldPasswordMatch) {
     throw new AppError({ message: 'Old password is incorrect.' });
   }
 
-  const saltRounds = 12;
-  const hashedPassword = await bcrypt.hash(credentials.password, saltRounds);
+  const hashedPassword = await hashPassword(credentials.password, 12);
 
   const result = await updateUser(userId, { password: hashedPassword });
 

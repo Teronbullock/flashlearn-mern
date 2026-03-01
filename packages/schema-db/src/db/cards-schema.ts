@@ -12,12 +12,12 @@ export const cardsTable = pgTable('fc_cards', {
     .references(() => usersTable.id),
   setId: integer('set_id')
     .notNull()
-    .references(() => setsTable.id),
+    .references(() => setsTable.id, { onDelete: 'cascade' }),
   term: varchar('term', { length: 1000 }).notNull(),
   definition: varchar('definition', { length: 1000 }).notNull(),
 });
 
-export const cardsRelations = relations(cardsTable, ({one}) => ({
+export const cardsRelations = relations(cardsTable, ({ one }) => ({
   users: one(usersTable, {
     fields: [cardsTable.userId],
     references: [usersTable.id],

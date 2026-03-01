@@ -1,4 +1,4 @@
-import { db } from '../db/database.js';
+import { db } from '../../db/database.js';
 import { eq } from 'drizzle-orm';
 import { usersTable } from '@flashlearn/schema-db';
 

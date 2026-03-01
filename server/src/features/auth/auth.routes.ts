@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import checkAuth from '../middleware/check-auth.js';
+import { checkAuth } from '../../middleware/check-auth.js';
 
 import {
   register,
@@ -10,7 +10,7 @@ import {
   updateEmail,
   updatePassword,
   deleteAccount,
-} from '../controllers/auth.controller.js';
+} from './auth.controller.js';
 
 
 const router = Router();

@@ -2,28 +2,28 @@
 
 import { Router } from 'express';
 import {
-  getCardsAllCards,
+  getCards,
   getEditCard,
   putEditCard,
-  postAddCard,
-  deleteCard,
-  getViewCards,
-} from '../controllers/card.controller.js';
+  addCard,
+  putDeleteCard,
+  viewCards,
+} from './card.controller.js';
 
 const router = Router({ mergeParams: true });
 
 //views cards
-router.get('/view', getViewCards);
+router.get('/view', viewCards);
 
 // for single cards
 router.route('/:cardId')
   .get(getEditCard)
   .put(putEditCard)
-  .delete(deleteCard);
+  .delete(putDeleteCard);
 
 // for card list
 router.route('/')
-  .post(postAddCard)
-  .get(getCardsAllCards);
+  .post(addCard)
+  .get(getCards);
 
 export default router;

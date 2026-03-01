@@ -1,4 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, RequestHandler } from "express";
+import { AuthRequest } from "../types";
+import { AppError } from "../lib/AppError";
 
 /**
  *  -- Async Handler --
@@ -14,22 +16,25 @@ import { Request, Response, NextFunction } from "express";
  * @returns
  */
 
-type Controller = (req: Request, res: Response, next: NextFunction) => Promise<unknown> | void;
+type Controller<T extends Request = Request> = (
+  req: T,
+  res: Response,
+  next: NextFunction
+) => Promise<unknown> | void;
 
-type AsyncHandlerArgs = (cb: Controller, errStatus?: number) => Controller;
-
-const asyncHandler: AsyncHandlerArgs = (cb, errStatus) => {
+export const asyncHandler = <T extends Request = Request>(
+  cb: Controller<T>,
+  errStatus: number = 500
+) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await cb(req, res, next);
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'status' in err) {
-        (err as { status: number | undefined }).status ??= errStatus;
+      await cb(req as T, res, next);
+    } catch (err) {
+      if (err instanceof Error) {
+        err.status ??= errStatus;
       }
 
       next(err);
     };
   };
 }
-
-export default asyncHandler;

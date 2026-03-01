@@ -2,22 +2,21 @@ interface AppErrorArgs {
   message: string;
   status?: number;
   code?: string;
-  cause?: any;
+  cause?: unknown;
   isOperational?: boolean;
 }
 
 export class AppError extends Error {
-  public status: number;
-  public code: string;
-  public isOperational: boolean;
-  public override cause: any;
+  public readonly status: number;
+  public readonly code: string;
+  public readonly isOperational: boolean;
 
-  constructor({message, status = 500, code = 'INTERNAL_ERROR', cause = null, isOperational = true} : AppErrorArgs) {
-    super(message);
-    this.status = status;
-    this.code = code;
-    this.cause = cause;
-    this.isOperational = isOperational;
+  constructor(args: AppErrorArgs) {
+    super(args.message);
+    this.status = args.status ?? 500;
+    this.code = args.code ?? 'INTERNAL_SERVER_ERROR';
+    this.isOperational = args.isOperational ?? true;
+    this.cause = args.cause;
 
     Object.setPrototypeOf(this, AppError.prototype);
     Error.captureStackTrace(this, this.constructor);

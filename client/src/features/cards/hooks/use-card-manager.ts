@@ -96,7 +96,6 @@ export const useCardManager = ({
       }
 
       if (requestConfig.mode === "edit") {
-        alert(res.data.msg);
         navigate(`/set/${setId}`);
       } else {
         reset();

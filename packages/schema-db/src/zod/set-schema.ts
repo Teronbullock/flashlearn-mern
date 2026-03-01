@@ -18,7 +18,7 @@ export const SetSchema = SetInsertSchema.pick({
     .max(180, 'Title must be less than 180 characters')),
   description: SetInsertSchema.shape.description.pipe(z.string()
     .max(500, 'Description must be less than 500 characters')
-    .nullable()),
+  ).nullable().optional()
 });
 
 export type SetType = z.infer<typeof SetSchema>;
