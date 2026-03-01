@@ -65,5 +65,5 @@ export const deleteSetById = async (id: string | number, userId: string) => {
         eq(setsTable.id, Number(id)),
         eq(setsTable.userId, userId)
       )
-    );
+    ).returning({ id: setsTable.id });
 }

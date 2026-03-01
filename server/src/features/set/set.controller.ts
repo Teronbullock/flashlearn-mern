@@ -107,21 +107,21 @@ export const putEditSet = asyncHandler(async (req: AuthRequest, res: Response) =
 });
 
 export const deleteSet = asyncHandler(async (req: AuthRequest, res: Response) => {
-  let { setId } = req.params;
+  const userId = req.userId;
+  const setId = req.params.setId as string;
 
-  if (!setId) {
-    throw new AppError({ message: 'Resources are required' });
+  if (!setId || !userId) {
+    throw new AppError({ message: 'Missing Credentials', status: 401 });
   }
 
-  if (Array.isArray(setId)) {
-    setId = setId[0];
-  }
+  const deletedRows = await deleteSetById(setId, userId);
 
-  const [set] = await getSetById(setId, req.userId);
-  const deleteSetRes = await deleteSetById(set.id, req.userId);
+  if (!deletedRows || deletedRows.length === 0) {
+    throw new AppError({ message: 'Set not found or already deleted', status: 404 });
+  }
 
   res.status(200).json({
     msg: 'Your set and all of its cards have been deleted',
-    isSetDeleted: deleteSetRes,
+    isSetDeleted: deletedRows[0],
   });
 }, 403);

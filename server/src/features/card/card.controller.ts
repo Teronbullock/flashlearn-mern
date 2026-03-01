@@ -1,6 +1,5 @@
 import { type Response, type Request } from 'express';
 import { type AuthRequest } from '../../types';
-import { verifyResourceOwnership } from '../../services/ownership.service';
 import { setsTable, cardsTable, CardFormSchema } from '@flashlearn/schema-db';
 import { asyncHandler } from '../../middleware/asyncHandler.js';
 import { getSetCardsBySetId, getCardBySetId, getCardsBySetIdWithPagination, updateCard, createCard, deleteCard } from './card.dal';
