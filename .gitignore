@@ -40,3 +40,6 @@
 
 # Local Netlify folder
 .netlify
+
+# Turborepo
+.turbo

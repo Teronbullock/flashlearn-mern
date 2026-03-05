@@ -5,15 +5,14 @@
   "type": "module",
   "scripts": {
     "build:sass": "sass src/assets/scss/global.scss:src/assets/scss/global.css",
-    "build:vite": "vite build",
-    "build": "pnpm run build:sass && pnpm run build:vite",
+    "build": "vite build",
     "ts-check": "tsc --noEmit",
-    "watch:sass": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
     "test": "vitest",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev:prod": "conc 'pnpm watch:sass' 'vite --mode production'",
-    "dev": "conc 'pnpm run watch:sass' 'vite'"
+    "watch:sass": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
+    "dev:prod-state": "vite --mode production",
+    "dev": "vite"
   },
   "dependencies": {
     "@flashlearn/schema-db": "workspace:*",

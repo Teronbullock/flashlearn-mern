@@ -2,6 +2,8 @@
   "name": "@flashlearn/schema-db",
   "private": true,
   "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -19,13 +21,16 @@
   "version": "2.0.3",
   "scripts": {
     "build": "tsc -b",
+    "ts-check": "tsc --noEmit",
     "db:generate": "npx drizzle-kit generate",
     "db:migrate": "npx drizzle-kit migrate",
     "db:migrate:undo": "npx drizzle-kit migrate:undo",
     "db:migrate:undo:all": "npx drizzle-kit migrate:undo:all",
     "db:pull": "npx drizzle-kit pull",
     "db:push": "npx drizzle-kit push",
-    "db:check": "npx drizzle-kit check"
+    "db:check": "npx drizzle-kit check",
+    "dev": "tsc -b --watch --noEmit",
+    "dev:prod-state": "tsc -b --watch --noEmit"
   },
   "license": "ISC",
   "dependencies": {

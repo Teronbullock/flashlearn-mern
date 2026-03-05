@@ -4,7 +4,7 @@
 [build]
   base = "." 
   publish = "client/dist" 
-  command = "pnpm install:all && pnpm run db:migrate && pnpm run build:client"
+  command = "pnpm run build && pnpm run db:migrate"
   functions = "server/netlify/functions"
 
 [functions]
@@ -31,7 +31,7 @@
 
 [dev]
   framework = "#custom"
-  command = "pnpm --filter client run dev"
+  command = "pnpm turbo run dev -F client"
   targetPort = 5173
   port = 8888
   publish = "client/dist"
