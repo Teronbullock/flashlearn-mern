@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { CTASplitLayout } from "@components/CTASplit";
-import { Btn } from "@components/btn";
+import { CTASplitLayout } from "@components/layout/cta-split";
+import { Button } from "@components/ui/button";
 import data from "@content/profilePage.json";
 import { useProfileForm, useGetProfile } from "../hooks/";
 import {
@@ -9,7 +9,7 @@ import {
   RemoveAccount,
 } from "../components/index";
 import { useAuthContext } from "@feats/auth/context/AuthContext";
-import { Main } from "@layouts/Main";
+import { Main } from "@components/layout/main/Main";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<
@@ -25,7 +25,7 @@ const ProfilePage = () => {
     <Main className="main main--profile-page min-h-screen">
       <CTASplitLayout {...data}>
         <div className="mb-10 flex md:mb-6">
-          <Btn
+          <Button
             className="mr-2"
             type="button"
             variants={{
@@ -36,8 +36,8 @@ const ProfilePage = () => {
             onClick={() => setActiveTab("email")}
           >
             Change Email
-          </Btn>
-          <Btn
+          </Button>
+          <Button
             className="ml-2"
             type="button"
             variants={{
@@ -48,8 +48,8 @@ const ProfilePage = () => {
             onClick={() => setActiveTab("password")}
           >
             Change Password
-          </Btn>
-          <Btn
+          </Button>
+          <Button
             className="ml-2"
             type="button"
             variants={{
@@ -61,7 +61,7 @@ const ProfilePage = () => {
             onClick={() => setActiveTab("removeAccount")}
           >
             Remove Account
-          </Btn>
+          </Button>
         </div>
         {activeTab === "email" ? (
           <ChangeEmailAddress />

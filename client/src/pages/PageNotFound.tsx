@@ -1,4 +1,4 @@
-import { Main } from "@layouts/Main";
+import { Main } from "@components/layout/main/Main";
 
 const PageNotFound = () => {
   return (

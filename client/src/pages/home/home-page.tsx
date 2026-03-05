@@ -1,16 +1,15 @@
+import { SectionOneCol } from "@components/layout/sections";
+import { IndexPageHero } from "@feats/home/components";
+import { CTASection } from "@components/composed/cta";
+import { ButtonLink } from "@components/ui/button";
+import { Main } from "@components/layout/main/Main";
+import { Container } from "@components/layout/container/Container";
+import { Testimonials } from "@components/display/testimonials/Testimonials";
 import {
-  SectionOneCol,
   TwoColImage,
   TwoColTimeline,
-  // Testimonials,
-} from "@components/layout/sections";
-import { IndexPageHero } from "@feats/home/components";
+} from "@components/display/two-col-section";
 import indexPageContext from "@content/indexPage.json";
-import { CTASection } from "@components/cta-section";
-import { BtnLink } from "@components/btn";
-import { Main } from "@layouts/Main";
-import { Container } from "@layouts/Container";
-import { Testimonials } from "@components/layout/sections/Testimonials";
 
 const HomePage = () => {
   const {
@@ -27,7 +26,7 @@ const HomePage = () => {
     <Main width="full" className="pt-0!">
       <>
         <IndexPageHero {...hero}>
-          <BtnLink
+          <ButtonLink
             variants={{
               color: "primary",
               style: "btn",
@@ -36,8 +35,8 @@ const HomePage = () => {
             className="mr-4"
           >
             Get Started for Free
-          </BtnLink>
-          <BtnLink
+          </ButtonLink>
+          <ButtonLink
             variants={{
               color: "outline-white",
               style: "btn",
@@ -46,7 +45,7 @@ const HomePage = () => {
             className="text-white"
           >
             Log in
-          </BtnLink>
+          </ButtonLink>
         </IndexPageHero>
         <Container as="div">
           <SectionOneCol

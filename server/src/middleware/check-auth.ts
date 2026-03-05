@@ -1,11 +1,11 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../services/token-service';
 import { AppError } from '../lib/AppError';
 import { AuthRequest } from '../types';
 
 
+export const checkAuth = (req: Request, res: Response, next: NextFunction) => {
 
-export const checkAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
 
     const authHeader = req.headers.authorization;

@@ -1,19 +1,19 @@
-import { PageHeader } from "@components/layout/PageHeader";
-import { BtnLink } from "@components/btn";
-import { InfoSection } from "@components/layout/sections/InfoSection";
-import { useFetchSet } from "@feats/sets/hooks/use-fetch-set";
-import { Main } from "@layouts/Main";
+import { PageHeader } from "@components/layout/page-header/PageHeader";
+import { ButtonLink } from "@components/ui/button";
+import { InfoSection } from "@components/display/info-section/InfoSection";
+import { useFetchSet } from "@feats/set/hooks/use-fetch-set";
+import { Main } from "@components/layout/main/Main";
 import data from "@content/dashboardPage.json";
-import { ResourceFeed } from "@components/resource-feed";
-import { EmptyPageState } from "@components/ui/EmptyPageState";
-import { Spinner } from "@components/ui/Spinner";
-import { useDeleteSet } from "@feats/sets/hooks/use-delete-set";
+import { ResourceFeed } from "@components/display/resource-feed/ResourceFeed";
+import { EmptyPageState } from "@components/ui/empty-page-state/EmptyPageState";
+import { Spinner } from "@components/ui/spinner/Spinner";
+import { useDeleteSet } from "@feats/set/hooks/use-delete-set";
 import {
   ListCard,
   ListCardContent,
   ListCardSetActions,
-} from "@components/list-card";
-import { Form } from "@components/forms";
+} from "@components/display/list-card";
+import { Form } from "@components/form";
 
 export const DashboardPage = () => {
   const { sets, isLoading, fetchSetResource } = useFetchSet({});
@@ -71,12 +71,12 @@ export const DashboardPage = () => {
           <InfoSection data={InfoData} />
           <section className="mb-8 flex flex-wrap justify-between">
             <h2 className="mb-3 md:mb-0">{setSection.title}</h2>
-            <BtnLink
+            <ButtonLink
               to={`/set/add`}
               variants={{ style: "btn", color: "primary", size: "lg" }}
             >
               {setSection.buttonText}
-            </BtnLink>
+            </ButtonLink>
           </section>
           <ResourceFeed
             resourceInfo={sets}

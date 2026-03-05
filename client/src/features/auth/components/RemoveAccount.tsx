@@ -1,5 +1,5 @@
-import { CTASplitForm } from "@components/CTASplit";
-import { FormGroup, FormInput, FormInputError } from "@components/forms";
+import { CTASplitForm } from "@components/layout/cta-split";
+import { FormGroup, FormInput, FormInputError } from "@components/form";
 import { useDeleteAccount } from "@feats/auth/hooks/useDeleteAccount";
 
 export const RemoveAccount = () => {

@@ -1,5 +1,5 @@
-import { FormGroup, FormInput, FormInputError } from "@components/forms";
-import { CTASplitForm } from "@components/CTASplit";
+import { FormGroup, FormInput, FormInputError } from "@components/form";
+import { CTASplitForm } from "@components/layout/cta-split";
 import { useUpdatePassword } from "@feats/auth/hooks";
 
 export const ChangePassword = () => {

@@ -1,6 +1,6 @@
-import { CTASplitLayout, CTASplitForm } from "@components/CTASplit";
-import { FormInput, FormGroup, FormInputError } from "@components/forms";
-import { BtnLink } from "@components/btn";
+import { CTASplitLayout, CTASplitForm } from "@components/layout/cta-split";
+import { FormInput, FormGroup, FormInputError } from "@components/form";
+import { ButtonLink } from "@components/ui/button";
 import data from "@content/registerPage.json";
 import { useRegistration } from "@feats/auth/hooks";
 
@@ -61,9 +61,9 @@ const RegisterPage = () => {
           </div>
           <p className="text-center">
             Are you an Existing User?{" "}
-            <BtnLink to="/login" className="text-red-500">
+            <ButtonLink to="/login" className="text-red-500">
               Login here
-            </BtnLink>
+            </ButtonLink>
           </p>
         </div>
       </CTASplitLayout>

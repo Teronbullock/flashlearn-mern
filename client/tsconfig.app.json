@@ -26,7 +26,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "references": [{ "path": "../packages/schema-zod" }],
+  "references": [{ "path": "../packages/schema-db" }],
   "include": [
     "src",
     "test",

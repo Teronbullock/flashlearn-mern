@@ -19,7 +19,7 @@ import {
   storeRefreshToken,
   deleteRefreshToken,
 
-} from '../../dal/token.dal.js';
+} from './token.dal.js';
 
 import {
   RegisterSchema,

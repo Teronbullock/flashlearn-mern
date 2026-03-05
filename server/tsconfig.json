@@ -4,9 +4,6 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "sourceMap": true,
-    
-    // "types": ["node"],
-    
     "allowJs": true,           
     "checkJs": false,
     "noImplicitAny": false,

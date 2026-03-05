@@ -1,6 +1,6 @@
-import { CTASplitLayout, CTASplitForm } from "@components/CTASplit";
-import { FormInput, FormGroup, FormInputError } from "@components/forms";
-import { BtnLink } from "@components/btn";
+import { CTASplitLayout, CTASplitForm } from "@components/layout/cta-split";
+import { FormInput, FormGroup, FormInputError } from "@components/form";
+import { ButtonLink } from "@components/ui/button";
 import { useLogin } from "@feats/auth/hooks";
 import data from "@content/loginPage.json";
 
@@ -49,9 +49,9 @@ const LoginPage = () => {
             <FormInputError message={errors.root?.message} />
           </FormGroup>
           {/* <div className="mb-6 flex justify-end">
-            <BtnLink to="/" className="text-primary text-xs">
+            <ButtonLink to="/" className="text-primary text-xs">
             Forgot Password?
-            </BtnLink>
+            </ButtonLink>
             </div> */}
         </CTASplitForm>
 
@@ -62,9 +62,9 @@ const LoginPage = () => {
           </div>
           <p className="text-center">
             Are you a new User?{" "}
-            <BtnLink to="/register" className="text-red-500">
+            <ButtonLink to="/register" className="text-red-500">
               Create an Account
-            </BtnLink>
+            </ButtonLink>
           </p>
         </div>
       </CTASplitLayout>
