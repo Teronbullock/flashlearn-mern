@@ -9,6 +9,7 @@
   "scripts": {
     "bump": "npm version $1 --no-git-tag-version && pnpm -r exec npm version $1 --no-git-tag-version",
     "build": "turbo build",
+    "build:client": "turbo client#build",
     "ts-check": "turbo ts-check",
     "db:generate": "turbo db:generate -F @flashlearn/schema-db",
     "db:migrate": "turbo db:migrate -F @flashlearn/schema-db",

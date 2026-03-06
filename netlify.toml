@@ -4,7 +4,7 @@
 [build]
   base = "." 
   publish = "client/dist" 
-  command = "pnpm run build && pnpm run db:migrate"
+  command = "pnpm run build:client"
   functions = "server/netlify/functions"
 
 [functions]
