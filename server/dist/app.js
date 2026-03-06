@@ -4,12 +4,13 @@ import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
-import authRoutes from './routes/auth-routes.js';
-import setRoutes from './routes/set-routes.js';
-import infoRoutes from './routes/info-route.js';
-import profileRoutes from './routes/profile-routes.js';
+import authRoutes from './features/auth/auth.routes.js';
+import setRoutes from './features/set/set.routes.js';
+import cardRoutes from './features/card/card.routes.js';
+import infoRoutes from './features/api-info/api-info.route.js';
 import cookieParser from 'cookie-parser';
-import checkAuth from './middleware/check-auth.js';
+import { checkAuth } from './middleware/check-auth.js';
+import { errorHandler } from './middleware/error-handler.js';
 const app = express();
 const corsOptions = {
     origin: process.env.CORS_ORIGIN,
@@ -27,8 +28,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/sets/:setId/cards', checkAuth, cardRoutes);
 app.use('/api/sets', checkAuth, setRoutes);
-app.use('/api/profile', checkAuth, profileRoutes);
 app.use('/api', infoRoutes);
 // disable favicon requests
 app.use('/favicon.ico', (req, res, next) => {
@@ -42,24 +43,6 @@ app.use((req, res, next) => {
     next(err);
 });
 // error handler
-app.use((err, req, res, next) => {
-    const status = err.status || 500;
-    const message = err.message || 'Internal Server Error';
-    const stack = err.stack;
-    const cause = err?.cause || "No cause available";
-    // Log the error details
-    if (process.env.NODE_ENV !== 'production') {
-        console.error(`${status} - Cause: ${cause}`);
-        console.error(stack);
-    }
-    else {
-        console.error(message);
-    }
-    // sends res to client
-    res.status(status).json({
-        error: message,
-        status,
-    });
-});
+app.use(errorHandler);
 export default app;
 //# sourceMappingURL=app.js.map

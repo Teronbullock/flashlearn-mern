@@ -1,21 +1,21 @@
 export interface BaseAuthFields {
-  user_email?: string;
-  user_pass?: string;
+  email?: string;
+  pass?: string;
 }
 
 export interface RegistrationDetails extends BaseAuthFields {
-  user_pass_confirm?: string;
+  passwordConfirm?: string;
 }
 
 export interface ProfileFields extends RegistrationDetails {
-  user_old_pass?: string;
+  oldPassword?: string;
 }
 
 export interface ForgotPasswordFields {
-  user_email?: string;
+  email?: string;
 }
 export interface RemoveAccountFields {
-  user_pass?: string;
+  pass?: string;
 }
 
 export interface AuthAction<T> {

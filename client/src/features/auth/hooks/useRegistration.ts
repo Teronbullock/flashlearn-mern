@@ -1,96 +1,80 @@
-import { useReducer, useState } from "react";
-import { ZodError } from "zod";
-import { apiRequest } from "@lib/api";
-import type { RegistrationAction } from "@feats/auth/types";
-import type { RegistrationDetails } from "@/types/index";
-import { AuthRegSchema } from "@flashlearn/schema-zod";
-
-const initialRegisterState = {
-  user_email: "",
-  user_pass: "",
-  user_pass_confirm: "",
-};
-
-const registerFormReducer = (
-  state: RegistrationDetails,
-  action: RegistrationAction,
-) => {
-  switch (action.type) {
-    case "ON_CHANGE":
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case "FORM_RESET":
-      return initialRegisterState;
-    default:
-      return state;
-  }
-};
+import { useNavigate } from "react-router";
+import { type ApiErrorObject } from "@lib/api";
+import { RegisterSchema, type RegisterType } from "@flashlearn/schema-db";
+import { AUTH_CONFIG } from "@/config/auth.config";
+import { authStorage } from "@feats/auth/service/auth.storage";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuthContext } from "@feats/auth/context/AuthContext";
+import { authApi } from "@feats/auth/service/auth.service";
 
 export const useRegistration = () => {
-  const [state, dispatch] = useReducer(
-    registerFormReducer,
-    initialRegisterState,
-  );
-
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
   const {
-    user_email: userEmail,
-    user_pass: userPass,
-    user_pass_confirm: userPassConfirm,
-  } = state;
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<RegisterType>({
+    resolver: zodResolver(RegisterSchema),
+  });
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors({});
-
+  const onSubmit: SubmitHandler<RegisterType> = async (formData) => {
     try {
-      if (!userEmail || !userPass || !userPassConfirm) {
-        throw new Error("All fields are required");
+      const validationData = RegisterSchema.parse({
+        email: formData.email,
+        password: formData.password,
+        passwordConfirm: formData.passwordConfirm,
+      });
+
+      if (!validationData) {
+        throw new Error("Invalid data");
       }
-      const results = AuthRegSchema.parse({
-        userEmail,
-        userPass,
-        userPassConfirm,
-      });
 
-      const res = await apiRequest({
-        method: "post",
-        url: "/auth/register",
-        data: results,
-      });
+      const { userId, token, tokenExpTime } = await authApi.register(validationData);
 
-      if (!res || res.status !== 200) {
+      if (!userId || !token || !tokenExpTime || !dispatch) {
         throw new Error("Registration Error");
       }
 
-      alert("Registration successful");
-      dispatch({ type: "FORM_RESET" });
+      dispatch({ type: "LOGIN", payload: { userId, token, tokenExpTime } });
+
+      authStorage.set({ token });
+
+      reset();
+      navigate(AUTH_CONFIG.ROUTES.DASHBOARD);
     } catch (error) {
-      if (error instanceof ZodError) {
-        const fieldErrors: Record<string, string[]> = {};
-        error.issues.forEach((issue) => {
-          const path = issue.path[0] as string;
-          if (!fieldErrors[path]) {
-            fieldErrors[path] = [];
-          }
-          fieldErrors[path].push(issue.message);
-        });
-        setErrors(fieldErrors);
+      const apiError = error as ApiErrorObject;
+
+      if (apiError?.code === "VALIDATION_ERROR") {
+        if (apiError.details?.email) {
+          setError("email", { message: apiError.details.email[0] });
+        }
+
+        if (apiError.details?.pass) {
+          setError("password", { message: apiError.details.pass[0] });
+        }
+
+        if (apiError.details?.passwordConfirm) {
+          setError("passwordConfirm", {
+            message: apiError.details.passwordConfirm[0],
+          });
+        }
       } else {
-        const msg =
-          error instanceof Error ? error.message : "Registration Error";
-        alert(msg);
+        setError("root", {
+          message: apiError?.message ?? "Something went wrong",
+        });
       }
     }
   };
 
   return {
-    submitHandler,
-    state,
-    dispatch,
+    register,
+    handleSubmit,
+    onSubmit,
     errors,
   };
 };

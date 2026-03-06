@@ -2,7 +2,7 @@ export interface CardData {
   term: string;
   definition: string;
   id: string;
-  set_id: string;
+  setId: string;
 }
 
 // export interface CardFaceProps {

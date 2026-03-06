@@ -46,7 +46,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   });
 
   const { userId, token, tokenExpTime, isAuthenticated, isLoading } = authState;
-
   const { logout } = useAuthHandlers(dispatch);
 
   useManageAuth({ token, logout, dispatch });

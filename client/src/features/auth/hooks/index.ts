@@ -1,6 +1,11 @@
-export * from "./useAuthHandlers";
-export * from "./useAuthPages";
-export * from "./useAutoLogout";
-export * from "./useLogin";
-export * from "./useRegistration";
-export * from "./useManageAuth";
+export { useAuthHandlers } from "./useAuthHandlers";
+export { useAuthPages } from "./useAuthPages";
+export { useAutoLogout } from "./useAutoLogout";
+export { useLogin } from "./useLogin";
+export { useRegistration } from "./useRegistration";
+export { useManageAuth } from "./useManageAuth";
+export { useGetProfile } from "./useGetProfile";
+export { useProfileForm } from "./useProfileForm";
+export { useUpdateEmail } from "./useUpdateEmail";
+export { useUpdatePassword } from "./useUpdatePassword";
+export { useDeleteAccount } from "./useDeleteAccount";

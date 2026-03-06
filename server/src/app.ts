@@ -1,15 +1,16 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
-import authRoutes from './routes/auth-routes.js';
-import setRoutes from './routes/set-routes.js';
-import infoRoutes from './routes/info-route.js';
-import profileRoutes from './routes/profile-routes.js';
-import cookieParser from 'cookie-parser'; 
-import checkAuth from './middleware/check-auth.js';
+import authRoutes from './features/auth/auth.routes.js';
+import setRoutes from './features/set/set.routes.js';
+import cardRoutes from './features/card/card.routes.js';
+import infoRoutes from './features/api-info/api-info.route.js';
+import cookieParser from 'cookie-parser';
+import { checkAuth } from './middleware/check-auth.js';
+import { errorHandler } from './middleware/error-handler.js';
 
 
 const app = express();
@@ -32,8 +33,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/sets/:setId/cards', checkAuth, cardRoutes);
 app.use('/api/sets', checkAuth, setRoutes);
-app.use('/api/profile', checkAuth, profileRoutes);
 app.use('/api', infoRoutes);
 
 // disable favicon requests
@@ -43,36 +44,13 @@ app.use('/favicon.ico', (req, res, next) => {
 });
 
 // catch 404 and forward to error handler
-app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   const err = new Error('Not Found ');
   (err as any).status = 404;
   next(err);
 });
 
-
 // error handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const status = err.status || 500;
-  const message = err.message || 'Internal Server Error';
-  const stack = err.stack;
-  const cause = err?.cause || "No cause available";
-
-  // Log the error details
-  if (process.env.NODE_ENV !== 'production') {
-    console.error(`${status} - Cause: ${cause}`);
-    console.error(stack);
-  } else {
-    console.error(message);
-  }
-
-  // sends res to client
-  res.status(status).json({
-    error: message,
-    status,
-  });
-
-});
-
-
+app.use(errorHandler);
 
 export default app;

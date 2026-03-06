@@ -4,12 +4,12 @@
 [build]
   base = "." 
   publish = "client/dist" 
-  command = "pnpm install:all && pnpm run db:migrate && pnpm run build:client"
+  command = "pnpm run build:client"
   functions = "server/netlify/functions"
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["node_modules/**"]
+  #included_files = ["node_modules/**"]
   
   directory = "server/netlify/functions"
 
@@ -31,7 +31,7 @@
 
 [dev]
   framework = "#custom"
-  command = "pnpm --filter client run dev"
+  command = "pnpm turbo run dev -F client"
   targetPort = 5173
   port = 8888
   publish = "client/dist"

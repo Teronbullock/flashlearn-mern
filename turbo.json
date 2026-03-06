@@ -1,0 +1,61 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "build:sass": {
+      "inputs": ["src/assets/scss/**"],
+      "outputs": ["src/assets/scss/*.css"]
+    },
+    "client#build": {
+      "dependsOn": ["^build", "build:sass"],
+      "outputs": ["dist/**"]
+    },
+    "server#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "@flashlearn/schema-db#build": {
+       "dependsOn": [],
+       "inputs": ["src/**/*.ts", "tsconfig.json"],
+      "outputs": ["dist/**"] 
+    },
+    "db:generate": {
+      "inputs": ["src/db/**", "drizzle.config.ts"],
+      "outputs": ["drizzle/**"],
+      "cache": true
+    },
+    "db:migrate": {"cache": false},
+    "db:migrate:undo": {"cache": false},
+    "db:migrate:undo:all": {"cache": false},
+    "db:push": {"cache": false},
+    "db:pull": {"cache": false},
+    "db:check": {"cache": false},
+    "ts-check": {
+      "dependsOn": ["^ts-check"],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"]
+    },
+    "watch:sass": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "inputs": ["$TURBO_DEFAULT$", ".env"]
+    },
+    "client#dev": {
+      "dependsOn": ["watch:sass", "^dev"]
+    },
+    "dev:prod-state": {
+      "cache": false,
+      "persistent": true,
+      "inputs": ["$TURBO_DEFAULT$", ".env"]
+    },
+    "client#dev:prod-state": {
+      "dependsOn": ["watch:sass", "^dev:prod-state"]
+    }
+  }
+}

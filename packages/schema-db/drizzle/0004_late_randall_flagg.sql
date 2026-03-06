@@ -1,0 +1,1 @@
+ALTER TABLE "fc_sets" ALTER COLUMN "title" SET DATA TYPE varchar(180);

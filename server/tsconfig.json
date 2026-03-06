@@ -4,14 +4,11 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "sourceMap": true,
-    
-    // "types": ["node"],
-    
     "allowJs": true,           
     "checkJs": false,
     "noImplicitAny": false,
     "isolatedModules": true
   },
-  "references": [{ "path": "../packages/schema-zod" }],
+  "references": [{ "path": "../packages/schema-db" }],
   "include": ["src/**/*.ts", "src/**/*.js"]
 }

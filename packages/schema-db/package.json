@@ -1,0 +1,46 @@
+{
+  "name": "@flashlearn/schema-db",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.js",
+      "import": "./dist/index.js"
+    },
+    "./db": {
+      "types": "./dist/db/index.d.js",
+      "import": "./dist/db/index.js"
+    },
+    "./zod": {
+      "types": "./dist/zod/index.d.js",
+      "import": "./dist/zod/index.js"
+    }
+  },
+  "version": "2.0.3",
+  "scripts": {
+    "build": "tsc -b",
+    "ts-check": "tsc --noEmit",
+    "db:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:migrate:undo": "npx drizzle-kit migrate:undo",
+    "db:migrate:undo:all": "npx drizzle-kit migrate:undo:all",
+    "db:pull": "npx drizzle-kit pull",
+    "db:push": "npx drizzle-kit push",
+    "db:check": "npx drizzle-kit check",
+    "dev": "tsc -b --watch --noEmit",
+    "dev:prod-state": "tsc -b --watch --noEmit"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "drizzle-kit": "^0.31.8",
+    "drizzle-orm": "^0.45.1",
+    "drizzle-zod": "^0.8.3",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7",
+    "typescript": "^5.9.3"
+  }
+}

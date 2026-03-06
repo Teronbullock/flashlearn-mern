@@ -1,6 +1,7 @@
 import "./App.css";
-import Header from "@layouts/Header";
-import Footer from "@layouts/Footer";
+
+import { Header } from "@components/layout/header";
+import { Footer } from "@components/layout/footer";
 import { AppRoutes } from "@/routes/AppRoutes";
 
 const App = () => {

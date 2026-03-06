@@ -1,15 +1,13 @@
 import { apiRequest } from "@lib/api/api-request";
-import { AuthStateBase, PostNewUserParams } from "@feats/auth/types";
+import { AuthStateBase } from "@feats/auth/types";
+import { type LoginType, type RegisterType, type UpdatePasswordType, type PasswordType } from "@flashlearn/schema-db";
 
 export const authApi = {
-  login: async (email: string, password: string): Promise<AuthStateBase> => {
+  login: async (data: LoginType): Promise<AuthStateBase> => {
     const res = await apiRequest({
       url: "/auth/login",
       method: "post",
-      data: {
-        user_email: email,
-        user_pass: password,
-      },
+      data
     });
 
     if (!res.data || !res.data.token) {
@@ -62,21 +60,53 @@ export const authApi = {
 
     return { userId, token, tokenExpTime: tokenExpTime };
   },
-  postNewUser: async ({
-    userEmail,
-    userPass,
-    userPassConfirm,
-  }: PostNewUserParams) => {
+  register: async (data: RegisterType) => {
     const res = await apiRequest({
       method: "post",
       url: "/auth/register",
-      data: {
-        user_email: userEmail,
-        user_pass: userPass,
-        user_pass_confirm: userPassConfirm,
-      },
+      data
     });
 
-    return res;
+    if (!res.data || !res.data.token) {
+      throw new Error("Login failed - no response data");
+    }
+
+    const { token } = res.data;
+    const { userId, exp } = JSON.parse(atob(token.split(".")[1]));
+    const tokenExpTime = new Date(exp * 1000);
+
+    if (isNaN(tokenExpTime.getTime())) {
+      throw new Error("Invalid token expiration time");
+    }
+
+    return { userId, token, tokenExpTime };
+
   },
+  updateEmail: async (data: LoginType, token: string, signal?: AbortSignal) => {
+    return await apiRequest({
+      method: "put",
+      url: `/auth/update-email`,
+      data,
+      token,
+      signal
+    });
+  },
+  updatePassword: async (data: UpdatePasswordType, token: string, signal?: AbortSignal) => {
+    return await apiRequest({
+      method: "put",
+      url: `/auth/update-password`,
+      data,
+      token,
+      signal
+    });
+  },
+  deleteAccount: async (data: PasswordType, token: string, signal?: AbortSignal) => {
+    return await apiRequest({
+      method: "put",
+      url: `/auth/delete-account`,
+      data,
+      token,
+      signal
+    });
+  }
 };

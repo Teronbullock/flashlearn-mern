@@ -9,6 +9,12 @@ interface ApiRequestProps {
   signal?: AbortSignal;
 }
 
+export interface ApiErrorObject {
+  code: string;
+  message: string;
+  details?: Record<string, string[]> | null;
+}
+
 /**
  * ## API Request Function
  *
@@ -48,28 +54,27 @@ export const apiRequest = async ({
       throw new Error("API: No data founded");
     }
     return res;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      if (error.code === "ERR_CANCELED") {
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      if (err.code === "ERR_CANCELED") {
         const abortError = new Error("Request was cancelled");
         abortError.name = "AbortError";
         throw abortError;
       }
 
-      if (
-        error.response?.status === 401 &&
-        error.response?.data?.message === "Not authorized"
-      ) {
-        throw new Error(error.response.data.error || "Unauthorized");
+      if (err.response?.data?.error) {
+        console.error("API Helper Response Error:", err.response.data.error);
+        throw err.response.data.error;
       }
 
-      throw new Error(error.response?.data?.error || error.message);
+      const fallbackMessage =
+        err.response?.data?.message || err.message || "Unknown Error";
+
+      console.error("API Helper Unknown Error:", fallbackMessage);
+      throw new Error(fallbackMessage);
     } else {
-      console.error(
-        "API Helper: Encountered unhandled or unknown error type:",
-        error,
-      );
-      throw error;
+      console.error("API Helper Error:", err);
+      throw err;
     }
   }
 };
