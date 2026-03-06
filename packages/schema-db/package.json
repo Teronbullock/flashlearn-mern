@@ -2,20 +2,20 @@
   "name": "@flashlearn/schema-db",
   "private": true,
   "type": "module",
-  "main": "./dist/index.ts",
-  "types": "./dist/index.ts",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.ts",
-      "import": "./dist/index.ts"
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
     },
     "./db": {
-      "types": "./dist/db/index.ts",
-      "import": "./dist/db/index.ts"
+      "types": "./src/db/index.ts",
+      "import": "./src/db/index.ts"
     },
     "./zod": {
-      "types": "./dist/zod/index.ts",
-      "import": "./dist/zod/index.ts"
+      "types": "./src/zod/index.ts",
+      "import": "./src/zod/index.ts"
     }
   },
   "version": "2.0.3",

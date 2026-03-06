@@ -1,15 +1,4 @@
 export {
-  cardsTable,
-  cardsRelations,
-  setsTable,
-  setsRelations,
-  usersTable,
-  usersRelations,
-  refreshTokens,
-  refreshTokensRelations
-} from './db';
-
-export {
   RegisterSchema,
   LoginSchema,
   PasswordSchema,
@@ -19,13 +8,19 @@ export {
   type RegisterType,
   type LoginType,
   type PasswordType,
-  type UpdatePasswordType,
+  type UpdatePasswordType
+} from './auth-schema';
+
+export {
   SetSchema,
   SetInsertSchema,
   SetSelectSchema,
   type SetType,
   type SetInsertType,
-  type SetSelectType,
+  type SetSelectType
+} from './set-schema';
+
+export {
   CardsInsertSchema,
   CardSelectSchema,
   CardFormSchema,
@@ -33,4 +28,4 @@ export {
   type CardSelectType,
   type CardFormType,
   type CardType
-} from './zod';
+} from './cards-schema';
