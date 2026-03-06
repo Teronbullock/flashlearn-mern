@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-import { cardsTable } from "../db/cards-schema";
+import { cardsTable } from "../db/card-schema";
 
 
 export const CardSelectSchema = createSelectSchema(cardsTable);

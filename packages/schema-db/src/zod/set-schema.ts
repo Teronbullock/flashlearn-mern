@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
-import { setsTable } from '../db/sets-schema';
+import { setsTable } from '../db/set-schema';
 
 
 export const SetSelectSchema = createSelectSchema(setsTable);

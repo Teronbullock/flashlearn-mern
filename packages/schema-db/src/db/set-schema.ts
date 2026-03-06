@@ -1,7 +1,7 @@
 import { pgTable, serial, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { usersTable } from './users-schema';
-import { cardsTable } from './cards-schema';
+import { cardsTable } from './card-schema';
 
 
 // Define the sets table using Drizzle ORM

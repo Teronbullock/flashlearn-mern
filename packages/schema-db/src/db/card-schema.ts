@@ -2,7 +2,7 @@ import { pgTable, serial, uuid, integer, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { usersTable } from './users-schema';
-import { setsTable } from './sets-schema';
+import { setsTable } from './set-schema';
 
 // Define the cards table using Drizzle ORM
 export const cardsTable = pgTable('fc_cards', {
