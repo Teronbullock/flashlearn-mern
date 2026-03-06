@@ -5,5 +5,4 @@ packages:
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
-  - bcrypt
   - esbuild
