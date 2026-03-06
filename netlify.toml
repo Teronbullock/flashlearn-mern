@@ -9,7 +9,7 @@
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["node_modules/**"]
+  #included_files = ["node_modules/**"]
   
   directory = "server/netlify/functions"
 
