@@ -47,7 +47,8 @@
       "inputs": ["$TURBO_DEFAULT$", ".env"]
     },
     "client#dev": {
-      "dependsOn": ["watch:sass", "^dev"]
+      "persistent": true,
+      "cache": false
     },
     "dev:prod-state": {
       "cache": false,

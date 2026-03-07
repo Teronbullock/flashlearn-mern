@@ -27,3 +27,24 @@ export type CardFormType = z.infer<typeof CardFormSchema>;
 export type CardType = CardFormType & {
   id: string;
 };
+
+export interface BaseCardDal {
+  setId: string;
+  userId: string;
+}
+
+export interface FetchCard extends BaseCardDal {
+  cardId: string;
+}
+
+export interface FetchCardWithPagination extends Omit<BaseCardDal, "setId"> {
+  page: number;
+  setId: string | string[];
+}
+
+export type UpdateCard = CardFormType & FetchCard;
+
+export interface DeleteCard {
+  cardId: string;
+  userId: string;
+}

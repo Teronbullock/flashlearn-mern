@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "watch:sass": "sass --watch src/assets/scss/global.scss:src/assets/scss/global.css",
     "dev:prod-state": "vite --mode production",
-    "dev": "vite"
+    "dev": "conc 'pnpm run watch:sass' 'vite'"
   },
   "dependencies": {
     "@flashlearn/schema-db": "workspace:*",

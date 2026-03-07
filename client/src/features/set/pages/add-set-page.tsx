@@ -45,6 +45,7 @@ const AddSetPage = () => {
                 {...register("description")}
               />
               <FormInputError errors={errors} name="description" />
+              <FormInputError name="root" message={errors.root?.message} />
             </FormGroup>
             <FormAction
               className="justify-center gap-4"

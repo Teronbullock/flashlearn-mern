@@ -99,6 +99,7 @@ export const useSetManager = ({ set, setId }: SetManagerParams) => {
 
         } if ("message" in err) {
           setError("root", { message: err.message as string });
+          console.log('set');
           return;
 
         } else {

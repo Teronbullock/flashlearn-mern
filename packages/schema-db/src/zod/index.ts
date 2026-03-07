@@ -17,7 +17,9 @@ export {
   SetSelectSchema,
   type SetType,
   type SetInsertType,
-  type SetSelectType
+  type SetSelectType,
+  type BaseSetDal,
+  type SetDal
 } from './set-schema';
 
 export {
@@ -27,5 +29,10 @@ export {
   type CardInsertType,
   type CardSelectType,
   type CardFormType,
-  type CardType
+  type CardType,
+  type BaseCardDal,
+  type FetchCard,
+  type FetchCardWithPagination,
+  type UpdateCard,
+  type DeleteCard
 } from './cards-schema';
