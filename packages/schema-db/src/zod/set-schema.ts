@@ -23,3 +23,13 @@ export const SetSchema = SetInsertSchema.pick({
 
 export type SetType = z.infer<typeof SetSchema>;
 
+export interface BaseSetDal {
+  id: string;
+  userId: string;
+}
+
+export interface SetDal extends Omit<BaseSetDal, "id"> {
+  title: string;
+  description?: string;
+}
+

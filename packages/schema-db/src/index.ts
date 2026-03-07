@@ -32,5 +32,12 @@ export {
   type CardInsertType,
   type CardSelectType,
   type CardFormType,
-  type CardType
+  type CardType,
+  type BaseSetDal,
+  type SetDal,
+  type FetchCard,
+  type FetchCardWithPagination,
+  type UpdateCard,
+  type DeleteCard,
+  type BaseCardDal
 } from './zod';

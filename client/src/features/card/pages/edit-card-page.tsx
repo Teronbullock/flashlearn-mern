@@ -7,13 +7,14 @@ import { PageHeader } from "@components/layout/page-header/PageHeader";
 
 import { useCardManager } from "@feats/card/hooks/use-card-manager";
 import { useFetchCards } from "@feats/card/hooks/use-fetch-card";
+import { Spinner } from "@components/ui/spinner";
 
 import data from "@content/editCardPage.json";
 
 const EditCardPage = () => {
   const { setId, cardId } = useParams();
 
-  const { card } = useFetchCards({ setId, cardId });
+  const { card, isLoading } = useFetchCards({ setId, cardId });
 
   const { onSubmit, errors, register, handleSubmit, isSubmitting } =
     useCardManager({ setId, cardId, card });
@@ -24,7 +25,9 @@ const EditCardPage = () => {
     <Main className="md:mt-35" width="content">
       <PageHeader data={EditCard.header} />
       <section className="w-full py-12">
-        {!card ? (
+        {isLoading ? (
+          <Spinner />
+        ) : card === null ? (
           <h2 className="text-center text-2xl">Card not found!</h2>
         ) : (
           <Form onSubmit={handleSubmit(onSubmit)}>

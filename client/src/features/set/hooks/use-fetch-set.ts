@@ -77,7 +77,6 @@ export const useFetchSet = ({ setId }: FetchSetParams) => {
     } catch (err) {
       setSets(null);
       setSet(null);
-      console.error(err);
 
       if (err instanceof Error && err.name !== "AbortError") {
         setError("Error fetching set resource");

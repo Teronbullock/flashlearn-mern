@@ -1,8 +1,10 @@
 import {
   setsTable,
-  type SetInsertType
+  type SetInsertType,
+  type BaseSetDal,
+  type SetDal
 } from '@flashlearn/schema-db';
-import { eq, desc, count, and, sql } from 'drizzle-orm';
+import { eq, and, sql } from 'drizzle-orm';
 import { db } from '../../db/database.js';
 
 
@@ -19,7 +21,7 @@ export const getSets = async (userId: string) => {
     `);
 }
 
-export const getSetByTitle = async (title: string, userId: string) => {
+export const getSetByTitle = async ({ title, userId }: SetDal) => {
   return await db.select().from(setsTable).where(
     and(
       eq(setsTable.userId, userId),
@@ -29,7 +31,7 @@ export const getSetByTitle = async (title: string, userId: string) => {
     .limit(1);
 }
 
-export const getSetById = async (id: string, userId: string) => {
+export const getSetById = async ({ id, userId }: BaseSetDal) => {
   return await db.select().from(setsTable).where(
     and(
       eq(setsTable.id, Number(id)),
@@ -58,7 +60,7 @@ export const updateSet = async ({ title, description, userId }: SetInsertType) =
     .returning();
 };
 
-export const deleteSetById = async (id: string | number, userId: string) => {
+export const deleteSetById = async ({ id, userId }: BaseSetDal) => {
   return await db.delete(setsTable)
     .where(
       and(

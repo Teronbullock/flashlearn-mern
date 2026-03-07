@@ -25,7 +25,7 @@ export const getEditSet = asyncHandler(async (req: AuthRequest, res: Response) =
     setId = setId[0];
   }
 
-  const set = await getSetById(setId, req.userId);
+  const set = await getSetById({ id: setId, userId: req.userId });
 
   res.status(200).json({
     set,
@@ -42,7 +42,7 @@ export const postCreateSet = asyncHandler(async (req: AuthRequest, res: Response
     throw new AppError({ message: 'Resources are required' });
   }
 
-  const existingSet = await getSetByTitle(title, req.userId);
+  const existingSet = await getSetByTitle({ title, userId: req.userId });
 
   if (existingSet.length > 0) {
     throw new AppError({ message: 'set name already taken' });
@@ -77,14 +77,14 @@ export const putEditSet = asyncHandler(async (req: AuthRequest, res: Response) =
     setId = setId[0];
   }
 
-  const existingSets = await getSetByTitle(title, req.userId);
+  const existingSets = await getSetByTitle({ title, userId: req.userId });
 
   const duplicateSet = existingSets.find(set => set.id !== Number(setId));
   if (duplicateSet) {
     throw new AppError({ message: 'set name already taken' });
   }
 
-  const set = await getSetById(setId, req.userId);
+  const set = await getSetById({ id: setId, userId: req.userId });
 
   if (!set) {
     throw new AppError({ message: 'User not authenticated' });
@@ -115,7 +115,7 @@ export const deleteSet = asyncHandler(async (req: AuthRequest, res: Response) =>
     throw new AppError({ message: 'Missing Credentials', status: 401 });
   }
 
-  const deletedRows = await deleteSetById(setId, userId);
+  const deletedRows = await deleteSetById({ id: setId, userId });
 
   if (!deletedRows || deletedRows.length === 0) {
     throw new AppError({ message: 'Set not found or already deleted', status: 404 });

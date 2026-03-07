@@ -1,8 +1,15 @@
 import { type Response, type Request } from 'express';
 import { type AuthRequest } from '../../types';
-import { setsTable, cardsTable, CardFormSchema } from '@flashlearn/schema-db';
+import { CardFormSchema } from '@flashlearn/schema-db';
 import { asyncHandler } from '../../middleware/asyncHandler.js';
-import { getSetCardsBySetId, getCardBySetId, getCardsBySetIdWithPagination, updateCard, createCard, deleteCard } from './card.dal';
+import {
+  getCardListBySetId,
+  getCardsBySetIdWithPagination,
+  updateCard,
+  createCard,
+  deleteCard,
+  getCardBySetIdAndCardId
+} from './card.dal';
 import { AppError } from '../../lib/AppError';
 
 
@@ -14,7 +21,7 @@ export const getCards = asyncHandler(async (req: AuthRequest, res: Response) => 
     throw new AppError({ message: 'please add card credentials', status: 400 });
   }
 
-  const cards = await getSetCardsBySetId(setId, userId);
+  const cards = await getCardListBySetId({ setId, userId });
   if (!cards) {
     throw new AppError({ message: 'user is not authorized to view this set', status: 400 });
   }
@@ -34,7 +41,7 @@ export const viewCards = asyncHandler(async (req: Request, res: Response) => {
     throw new AppError({ message: 'please add card credentials', status: 400 });
   }
 
-  const card = await getCardsBySetIdWithPagination(setId, page, userId as string);
+  const card = await getCardsBySetIdWithPagination({ setId, page, userId: userId as string });
 
   if (card) {
     throw new AppError({ message: 'user is not authorized to view this set', status: 400 });
@@ -86,7 +93,7 @@ export const getEditCard = asyncHandler(async (req: AuthRequest, res: Response) 
     throw new AppError({ message: 'please add card credentials', status: 400 });
   }
 
-  const [card] = await getCardBySetId(setId, userId)
+  const [card] = await getCardBySetIdAndCardId({ setId, userId, cardId })
 
   if (!card) {
     throw new AppError({ message: 'user is not authorized to edit this card', status: 400 });
@@ -108,15 +115,13 @@ export const putEditCard = asyncHandler(async (req: AuthRequest, res: Response) 
     definition: req.body.definition,
   });
 
-  const [card] = await updateCard(
-    {
-      term: credentials.term,
-      definition: credentials.definition
-    },
+  const [card] = await updateCard({
+    term: credentials.term,
+    definition: credentials.definition,
     setId,
     cardId,
     userId,
-  );
+  });
 
   if (!card) {
     throw new AppError({ message: 'Error updating card', status: 400 });
@@ -134,7 +139,7 @@ export const putDeleteCard = asyncHandler(async (req: AuthRequest, res: Response
   const userId = req.userId;
   const cardId = req.params.cardId as string;
 
-  const [card] = await deleteCard(cardId, userId);
+  const [card] = await deleteCard({ cardId, userId });
 
   if (!card) {
     throw new AppError({ message: 'Error deleting card', status: 400 });

@@ -34,6 +34,7 @@ export const useCardManager = ({
   const tokenRef = useRef(token);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     tokenRef.current = token;
   }, [token]);
@@ -192,6 +193,6 @@ export const useCardManager = ({
     register,
     handleSubmit,
     isSubmitting,
-    deleteHandler,
+    deleteHandler
   };
 };
