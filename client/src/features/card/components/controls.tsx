@@ -26,7 +26,7 @@ export const Controls = ({
         aria-label="Previous card"
         className="min-w-fit! justify-start"
       >
-        <img className="h-8 w-8" src="/public/assets/img/arrow-btn-file.svg" />
+        <img className="h-8 w-8" src="/assets/img/arrow-btn-file.svg" />
       </ButtonLink>
       <span className="text-center">
         {page} of {cardCount}
@@ -40,7 +40,7 @@ export const Controls = ({
       >
         <img
           className="rotate-y-180 h-8 w-8 text-red-600"
-          src="/public/assets/img/arrow-btn-file.svg"
+          src="/assets/img/arrow-btn-file.svg"
         />
       </ButtonLink>
     </div>

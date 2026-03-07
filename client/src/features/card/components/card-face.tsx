@@ -27,7 +27,7 @@ export const CardFace = ({
       <a className="right-6.5 top-7.25 absolute" onClick={handFlipAction}>
         <img
           className=""
-          src="/public/assets/img/vector-flip.png"
+          src="/assets/img/vector-flip.png"
           alt="ArrowsCounterClockwise"
           height="23px"
           width="23px"
