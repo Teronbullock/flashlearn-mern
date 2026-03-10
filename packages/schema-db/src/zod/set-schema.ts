@@ -33,3 +33,4 @@ export interface SetDal extends Omit<BaseSetDal, "id"> {
   description?: string;
 }
 
+export type UpdateSet = SetType & BaseSetDal;

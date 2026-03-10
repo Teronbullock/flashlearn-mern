@@ -78,24 +78,17 @@ export const putEditSet = asyncHandler(async (req: AuthRequest, res: Response) =
   }
 
   const existingSets = await getSetByTitle({ title, userId: req.userId });
-
   const duplicateSet = existingSets.find(set => set.id !== Number(setId));
   if (duplicateSet) {
     throw new AppError({ message: 'set name already taken' });
   }
 
-  const set = await getSetById({ id: setId, userId: req.userId });
-
-  if (!set) {
-    throw new AppError({ message: 'User not authenticated' });
-  }
-
-
   try {
     const [updatedSet] = await updateSet({
+      id: setId,
+      userId: userId,
       title,
       description,
-      userId,
     });
 
     res.status(200).json({

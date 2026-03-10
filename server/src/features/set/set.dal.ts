@@ -2,7 +2,8 @@ import {
   setsTable,
   type SetInsertType,
   type BaseSetDal,
-  type SetDal
+  type SetDal,
+  type UpdateSet
 } from '@flashlearn/schema-db';
 import { eq, and, sql } from 'drizzle-orm';
 import { db } from '../../db/database.js';
@@ -50,13 +51,16 @@ export const createSet = async ({ title, description, userId }: SetInsertType) =
     .returning();
 };
 
-export const updateSet = async ({ title, description, userId }: SetInsertType) => {
+export const updateSet = async ({ id, title, description, userId }: UpdateSet) => {
   return await db.update(setsTable)
     .set({
       title,
       description,
     })
-    .where(eq(setsTable.userId, userId))
+    .where(and(
+      eq(setsTable.id, Number(id)),
+      eq(setsTable.userId, userId)
+    ))
     .returning();
 };
 
