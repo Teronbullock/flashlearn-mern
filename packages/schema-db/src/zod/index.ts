@@ -19,7 +19,8 @@ export {
   type SetInsertType,
   type SetSelectType,
   type BaseSetDal,
-  type SetDal
+  type SetDal,
+  type UpdateSet
 } from './set-schema';
 
 export {

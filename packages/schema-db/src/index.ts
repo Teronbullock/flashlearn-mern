@@ -39,5 +39,6 @@ export {
   type FetchCardWithPagination,
   type UpdateCard,
   type DeleteCard,
-  type BaseCardDal
+  type BaseCardDal,
+  type UpdateSet
 } from './zod';
