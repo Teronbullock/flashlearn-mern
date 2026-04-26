@@ -43,3 +43,5 @@
 
 # Turborepo
 .turbo
+
+**/plan.md

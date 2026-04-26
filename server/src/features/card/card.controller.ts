@@ -1,6 +1,6 @@
 import { type Response, type Request } from 'express';
 import { type AuthRequest } from '../../types';
-import { CardFormSchema } from '@flashlearn/schema-db';
+import { CardFormSchema, CardRatingSchema } from '@flashlearn/schema-db';
 import { asyncHandler } from '../../middleware/asyncHandler.js';
 import {
   getCardListBySetId,
@@ -8,9 +8,11 @@ import {
   updateCard,
   createCard,
   deleteCard,
-  getCardBySetIdAndCardId
+  getCardBySetIdAndCardId,
+  updateCardAfterReview
 } from './card.dal';
 import { AppError } from '../../lib/AppError';
+import { calculateNextReview, getNextReviewDate } from './spaced-repetition.service.js';
 
 
 export const getCards = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -150,4 +152,56 @@ export const putDeleteCard = asyncHandler(async (req: AuthRequest, res: Response
     card,
   });
 
+});
+
+// Handle card review for spaced repetition
+export const reviewCard = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const userId = req.userId as string;
+  const setId = req.params.setId as string;
+  const cardId = req.params.cardId as string;
+  
+  // Validate rating input
+  const { rating } = await CardRatingSchema.parseAsync(req.body);
+  
+  // Get the current card data
+  const [card] = await getCardBySetIdAndCardId({ setId, userId, cardId });
+  
+  if (!card) {
+    throw new AppError({ message: 'Card not found', status: 404 });
+  }
+  
+  // Calculate next review date based on rating
+  const { nextInterval, nextEaseFactor } = calculateNextReview(
+    {
+      interval: card.interval ?? 1,
+      easeFactor: card.easeFactor ?? 2.5,
+      reviewCount: card.reviewCount ?? 0
+    },
+    rating
+  );
+  
+  const nextReviewDate = getNextReviewDate(nextInterval);
+  
+  // Update card with new spaced repetition data
+  const [updatedCard] = await updateCardAfterReview({
+    cardId: card.id,
+    userId,
+    rating,
+    nextReviewDate,
+    interval: nextInterval,
+    easeFactor: nextEaseFactor,
+    reviewCount: (card.reviewCount ?? 0) + 1,
+    lastReviewedAt: new Date()
+  });
+  
+  if (!updatedCard) {
+    throw new AppError({ message: 'Error updating card', status: 400 });
+  }
+  
+  res.status(200).json({
+    msg: 'Card reviewed successfully!',
+    card: updatedCard,
+    nextReviewDate,
+    interval: nextInterval
+  });
 });

@@ -1,4 +1,4 @@
-import { pgTable, foreignKey, serial, uuid, integer, varchar, unique } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, serial, uuid, integer, varchar, timestamp, numeric, unique } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
@@ -9,6 +9,12 @@ export const fcCards = pgTable("fc_cards", {
 	setId: integer("set_id").notNull(),
 	term: varchar({ length: 1000 }).notNull(),
 	definition: varchar({ length: 1000 }).notNull(),
+	nextReviewDate: timestamp("next_review_date").default(sql`now()`),
+	interval: integer("interval").default(1),
+	easeFactor: numeric("ease_factor", { precision: 3, scale: 2 }).default('2.50'),
+	reviewCount: integer("review_count").default(0),
+	lastReviewedAt: timestamp("last_reviewed_at"),
+	ratingHistory: varchar("rating_history", { length: 1000 }).default('[]'),
 }, (table) => [
 	foreignKey({
 			columns: [table.userId],

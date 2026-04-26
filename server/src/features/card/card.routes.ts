@@ -9,6 +9,9 @@ import {
   putDeleteCard,
   viewCards,
 } from './card.controller.js';
+import { asyncHandler } from '../../middleware/asyncHandler.js';
+import { authenticate } from '../../middleware/check-auth.js';
+import * as cardController from './card.controller.js';
 
 const router = Router({ mergeParams: true });
 
@@ -25,5 +28,12 @@ router.route('/:cardId')
 router.route('/')
   .post(addCard)
   .get(getCards);
+
+// Add spaced repetition review route
+router.post(
+  '/:cardId/review',
+  authenticate,
+  asyncHandler(cardController.reviewCard)
+);
 
 export default router;

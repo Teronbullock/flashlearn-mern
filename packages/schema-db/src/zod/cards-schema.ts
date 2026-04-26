@@ -28,6 +28,13 @@ export type CardType = CardFormType & {
   id: string;
 };
 
+// Schema for spaced repetition rating
+export const CardRatingSchema = z.object({
+  rating: z.enum(['again', 'hard', 'good', 'easy']),
+});
+
+export type CardRatingType = z.infer<typeof CardRatingSchema>;
+
 export interface BaseCardDal {
   setId: string;
   userId: string;

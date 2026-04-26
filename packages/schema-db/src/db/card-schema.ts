@@ -1,4 +1,4 @@
-import { pgTable, serial, uuid, integer, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, serial, uuid, integer, varchar, timestamp, numeric } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { usersTable } from './users-schema';
@@ -15,6 +15,12 @@ export const cardsTable = pgTable('fc_cards', {
     .references(() => setsTable.id, { onDelete: 'cascade' }),
   term: varchar('term', { length: 1000 }).notNull(),
   definition: varchar('definition', { length: 1000 }).notNull(),
+  nextReviewDate: timestamp('next_review_date').defaultNow(),
+  interval: integer('interval').default(1),
+  easeFactor: numeric('ease_factor', { precision: 3, scale: 2 }).default('2.50'),
+  reviewCount: integer('review_count').default(0),
+  lastReviewedAt: timestamp('last_reviewed_at'),
+  ratingHistory: varchar('rating_history', { length: 1000 }).default('[]'),
 });
 
 export const cardsRelations = relations(cardsTable, ({ one }) => ({
